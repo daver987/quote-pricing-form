@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npx nuxi build",
+    "build": "npx nuxi build && wrangler publish",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview"

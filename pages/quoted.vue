@@ -26,7 +26,7 @@ const { total_cost } = storeToRefs(quote)
 const { label: vehicleType, value: vehicleTypeValue } = vehicle_type.value
 const { label: serviceType, value: serviceTypeValue } = service_type.value
 
-const vehicleImage = {
+const vehicleImages = {
   'Standard Sedan':
     'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/8c7c6a8d-06ad-4278-1c70-9d497b1cb200/1024',
   'Standard SUV':
@@ -36,7 +36,7 @@ const vehicleImage = {
   'Premium SUV':
     'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d80107f-4800-45ae-8e20-c4adf2792f00/1024',
 }
-const vehicleImageToUse: string = vehicleImage[vehicle_type.value.label]
+const vehicleImage: string = vehicleImages[vehicleType]
 </script>
 
 <template>

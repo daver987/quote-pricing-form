@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { Loader, LoaderOptions } from '@googlemaps/js-api-loader'
 import { Rates, Surcharges } from '~/composables/useRateCalculator'
 import { Ref } from 'vue'
 import { useContactsStore } from '~/stores/useContactStore'
@@ -16,7 +15,6 @@ const loader = new Loader({
   version: 'weekly',
   region: 'ca',
 })
-
 const myMap = ref<HTMLElement>(null)
 
 function initMap(): void {
@@ -132,14 +130,78 @@ function initMap(): void {
   }
 }
 onMounted(() => {
-  initMap()
+  if (myMap.value) {
+    initMap()
+  }
 })
 
-// get the form options from the server
-const { data: formOptions } = await useFetch('/api/form-options')
-const passengerOptions = ref(formOptions.value[0])
-const serviceTypeOptions = ref(formOptions.value[1])
-const vehicleTypeOptions = ref(formOptions.value[2])
+const passengerOptions = [
+  {
+    label: '1 passenger',
+    value: 1,
+  },
+  {
+    label: '2 passengers',
+    value: 2,
+  },
+  {
+    label: '3 passengers',
+    value: 3,
+  },
+  {
+    label: '4 passengers',
+    value: 4,
+  },
+  {
+    label: '5 passengers',
+    value: 5,
+  },
+  {
+    label: '6 passengers',
+    value: 6,
+  },
+  {
+    label: '7 passengers',
+    value: 7,
+  },
+]
+
+const serviceTypeOptions = [
+  {
+    label: 'Point-to-Point',
+    value: 1,
+  },
+  {
+    label: 'To Airport',
+    value: 2,
+  },
+  {
+    label: 'From Airport',
+    value: 3,
+  },
+  {
+    label: 'Hourly/As Directed',
+    value: 4,
+  },
+]
+const vehicleTypeOptions = [
+  {
+    label: 'Standard Sedan',
+    value: 1,
+  },
+  {
+    label: 'Premium Sedan',
+    value: 2,
+  },
+  {
+    label: 'Luxury SUV',
+    value: 3,
+  },
+  {
+    label: 'Premium SUV',
+    value: 4,
+  },
+]
 
 //data for hubspot contacts from the contact store
 const contacts = useContactsStore()
@@ -214,7 +276,7 @@ const hsProps = {
   dealtype: 'newbusiness',
   hs_marketable_status: 'marketable',
 }
-
+const dealResponse = ref({}) as Ref
 //form submission logic
 const submitForm = async () => {
   loading.value = true
@@ -273,11 +335,16 @@ const submitForm = async () => {
   })
 
   //api call to hubspot to create a deal
-  const { data: deal } = await useFetch('/api/deals', {
+  const { data: createDealResponse, pending } = await useFetch('/api/deals', {
     method: 'POST',
     body: dealData.value,
   })
-  console.log(deal.value)
+  // if (!pending) {
+  //   dealResponse.value = createDealResponse.value
+  //   const { id, properties } = dealResponse.value
+  //   console.log(id, properties)
+  // }
+  //parse the deal id from the response
 
   //timeout before loading the quote page
   const router = useRouter()
@@ -287,6 +354,16 @@ const submitForm = async () => {
   }, 1000)
   loading.value = false
 }
+//todo: make the form properly responsive
+//todo: make the form reset without it having all of the inputs with errors
+//todo: figure out how to destructure the response from the fetch api call to use it for associating the deal with the contact
+//todo: integrate with stripe for payment
+//todo: add logic to check if the user picked an airport, if true add extra to the cost
+//todo: debounce the inputs so they dont continuously get error messages from the inputs
+//todo: add waypoints to the route for the quote
+//todo: add a better mask and the ability to enter worldwide phone numbers
+//todo: add popup to show images of the vehicles
+//todo: add popup to show the terms and conditions
 </script>
 
 <template>
@@ -312,7 +389,7 @@ const submitForm = async () => {
           placeholder="Enter Address, Point of Interest, or Airport Code"
           v-model="origin_location"
           ref="originLocation"
-          class="w-full px-3 py-2 text-gray-500 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+          class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
           required
         />
       </q-card-section>
@@ -324,7 +401,7 @@ const submitForm = async () => {
           placeholder="Enter Address, Point of Interest, or Airport Code"
           v-model="destination_location"
           ref="destinationLocation"
-          class="w-full px-3 py-2 text-gray-500 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+          class="w-full px-3 py-2 placeholder-gray-400 text-gray-500 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
           required
         />
       </q-card-section>
@@ -546,8 +623,8 @@ const submitForm = async () => {
         <div class="text-center text-subtitle2">Terms of Use</div>
       </q-card-section>
     </q-card>
-    <q-card class="w-full h-full">
-      <q-card-section>
+    <q-card class="w-full h-full" v-show="false">
+      <q-card-section flat>
         <div ref="myMap" id="my-map"></div>
       </q-card-section>
     </q-card>

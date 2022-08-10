@@ -1,5 +1,5 @@
 //options for the various form components
-export default defineEventHandler(async (_event) => {
+export default defineEventHandler((_event) => {
   return [
     [
       {

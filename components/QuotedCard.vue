@@ -26,6 +26,9 @@ defineProps({
     type: String,
   },
 })
+//todo make images dynamic by making the strings reactive, improve layout on final quote page, reroute to home if there is no quote
+//todo make the service type and vehicle type dynamic, make the vehicle image dynamic
+//todo nice to have:have a popup for the vehicle types with images and information, tooltips to the vehicle and service types,
 </script>
 
 <template>

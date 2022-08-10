@@ -5,10 +5,10 @@ export const useDealStore = defineStore('useDealStore', {
     return {
       pickup_date: '',
       pickup_time: '',
-      service_type: {} as FormOptions,
-      vehicle_type: {} as FormOptions,
+      service_type: undefined as FormOptions,
+      vehicle_type: undefined as FormOptions,
       num_hours: 0,
-      num_passengers: 1,
+      num_passengers: undefined,
       is_round_trip: false,
       getDealResponse: null,
     }
