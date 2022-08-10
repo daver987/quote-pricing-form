@@ -60,7 +60,7 @@ export default defineEventHandler((_event) => {
         value: 2,
       },
       {
-        label: 'Luxury SUV',
+        label: 'Standard SUV',
         value: 3,
       },
       {

@@ -194,7 +194,7 @@ const vehicleTypeOptions = [
     value: 2,
   },
   {
-    label: 'Luxury SUV',
+    label: 'Standard SUV',
     value: 3,
   },
   {
@@ -210,8 +210,9 @@ const {
   last_name,
   email_address,
   phone_number,
-  // getContactResponse,
+  full_name,
 } = storeToRefs(contacts)
+
 
 //data for hubspot deals from the deal store
 const deal = useDealStore()
@@ -222,6 +223,7 @@ const {
   vehicle_type,
   num_hours,
   num_passengers,
+  is_round_trip,
   // getDealResponse,
 } = storeToRefs(deal)
 
@@ -276,7 +278,8 @@ const hsProps = {
   dealtype: 'newbusiness',
   hs_marketable_status: 'marketable',
 }
-const dealResponse = ref({}) as Ref
+
+
 //form submission logic
 const submitForm = async () => {
   loading.value = true
@@ -312,21 +315,28 @@ const submitForm = async () => {
       lastname: last_name.value,
       email: email_address.value,
       phone: phone_number.value,
+      full_name: first_name.value + ' ' + last_name.value,
     },
   })
   console.log(contactData.value)
 
-  const { data: contacts } = await useFetch('/api/contacts', {
+  const { data: contact } = await useFetch('/api/contacts', {
     method: 'POST',
     body: contactData.value,
   })
-  console.log(contacts.value)
+  const createContactResponse = { ...contact.value.createContactResponse }
+
+  const { id: contactId, properties: contactProperties } = createContactResponse
+  console.log(contactId, contactProperties)
 
   //required deal data for hubspot
+  const deal_name = ref(
+    `${first_name.value} ${last_name.value} - New Deal`
+  )
   const dealData = ref({
     properties: {
       amount: total_cost.value,
-      dealname: 'Custom Test Deal 3',
+      dealname: deal_name.value,
       dealstage: hsProps.dealstage,
       pipeline: hsProps.pipeline,
       hubspot_owner_id: hsProps.hubspot_owner_id,
@@ -335,28 +345,34 @@ const submitForm = async () => {
   })
 
   //api call to hubspot to create a deal
-  const { data: createDealResponse, pending } = await useFetch('/api/deals', {
+  const { data: deals, pending } = await useFetch('/api/deals', {
     method: 'POST',
     body: dealData.value,
   })
-  // if (!pending) {
-  //   dealResponse.value = createDealResponse.value
-  //   const { id, properties } = dealResponse.value
-  //   console.log(id, properties)
-  // }
+
   //parse the deal id from the response
+  const { id: dealId, properties: dealProperties } = { ...deals.value.createDealResponse }
+  console.log(dealId, dealProperties)
+
+  const useUrl = `https://api.hubapi.com/crm/v3/objects/deals/${dealId}/associations/contact/${contactId}/deal_to_contact`
+  const { data: associations } = await useFetch('/api/associations', {
+    method: "PUT",
+    body: useUrl,
+  })
+
+  console.log(associations)
+
 
   //timeout before loading the quote page
   const router = useRouter()
   setTimeout(() => {
     router.push('/quoted')
     // reset()
-  }, 1000)
+  }, 750)
   loading.value = false
 }
 //todo: make the form properly responsive
 //todo: make the form reset without it having all of the inputs with errors
-//todo: figure out how to destructure the response from the fetch api call to use it for associating the deal with the contact
 //todo: integrate with stripe for payment
 //todo: add logic to check if the user picked an airport, if true add extra to the cost
 //todo: debounce the inputs so they dont continuously get error messages from the inputs
@@ -368,70 +384,23 @@ const submitForm = async () => {
 
 <template>
   <div>
-    <q-card
-      dark
-      bordered
-      rounded-borders
-      tag="form"
-      @submit.prevent="submitForm"
-      id="lead_form"
-      ref="myForm"
-      class="max-w-lg mx-auto"
-    >
+    <q-card dark bordered rounded-borders tag="form" @submit.prevent="submitForm" id="lead_form" ref="myForm" class="max-w-lg mx-auto">
       <q-card-section>
         <div class="text-center text-white text-h5">Instant Quote</div>
       </q-card-section>
       <q-card-section>
-        <input
-          type="text"
-          id="origin-input"
-          name="origin-input"
-          placeholder="Enter Address, Point of Interest, or Airport Code"
-          v-model="origin_location"
-          ref="originLocation"
-          class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
-          required
-        />
+        <input type="text" id="origin-input" name="origin-input" placeholder="Enter Address, Point of Interest, or Airport Code" v-model="origin_location" ref="originLocation" class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90" required />
       </q-card-section>
       <q-card-section v-if="showDestinationInput">
-        <input
-          type="text"
-          id="destination-input"
-          name="destination-input"
-          placeholder="Enter Address, Point of Interest, or Airport Code"
-          v-model="destination_location"
-          ref="destinationLocation"
-          class="w-full px-3 py-2 placeholder-gray-400 text-gray-500 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
-          required
-        />
+        <input type="text" id="destination-input" name="destination-input" placeholder="Enter Address, Point of Interest, or Airport Code" v-model="destination_location" ref="destinationLocation" class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90" required />
       </q-card-section>
       <q-card-section horizontal class="">
         <q-card-section class="col">
-          <q-input
-            hide-bottom-space
-            v-model="pickup_date"
-            mask="date"
-            :rules="['date']"
-            outlined
-            dense
-            square
-            stack-label
-            label="Pick Up Date:"
-            bg-color="white"
-          >
+          <q-input hide-bottom-space v-model="pickup_date" mask="date" :rules="['date']" outlined dense square stack-label label="Pick Up Date:" bg-color="white">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy
-                  cover
-                  transition-show="scale"
-                  transition-hide="scale"
-                  v-model="showDatePopup"
-                >
-                  <q-date
-                    name="pickup_date"
-                    id="pickup_date"
-                    v-model="pickup_date"
-                  >
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale" v-model="showDatePopup">
+                  <q-date name="pickup_date" id="pickup_date" v-model="pickup_date">
                     <div class="items-center justify-end row">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -442,31 +411,11 @@ const submitForm = async () => {
           </q-input>
         </q-card-section>
         <q-card-section class="col">
-          <q-input
-            hide-bottom-space
-            v-model="pickup_time"
-            mask="time"
-            :rules="['time']"
-            label="Pickup Time:"
-            dense
-            square
-            outlined
-            stack-label
-            bg-color="white"
-          >
+          <q-input hide-bottom-space v-model="pickup_time" mask="time" :rules="['time']" label="Pickup Time:" dense square outlined stack-label bg-color="white">
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy
-                  v-model="showTimePopup"
-                  cover
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <q-time
-                    v-model="pickup_time"
-                    name="pickup_date"
-                    id="pickup_date"
-                  >
+                <q-popup-proxy v-model="showTimePopup" cover transition-show="scale" transition-hide="scale">
+                  <q-time v-model="pickup_time" name="pickup_date" id="pickup_date">
                     <div class="items-center justify-end row">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -479,145 +428,39 @@ const submitForm = async () => {
       </q-card-section>
       <q-card-section horizontal>
         <q-card-section class="col">
-          <q-select
-            hide-bottom-space
-            v-model="service_type"
-            for="service-type"
-            id="service-type"
-            dense
-            label="Service Type:"
-            stack-label
-            outlined
-            square
-            :options="serviceTypeOptions"
-            :rules="[(val) => !!val || 'Please Select a Service Type']"
-            bg-color="white"
-          />
-        </q-card-section>
-        <q-card-section v-if="showHourlyInput" class="col">
-          <q-select
-            hide-bottom-space
-            name="num_hours"
-            id="num_hours"
-            label="Number Of Hours:"
-            v-model="num_hours"
-            :options="['2hr', '2hr 15']"
-            outlined
-            square
-            dense
-            bg-color="white"
-          />
+          <q-select hide-bottom-space v-model="service_type" for="service-type" id="service-type" dense label="Service Type:" stack-label outlined square :options="serviceTypeOptions" :rules="[(val) => !!val || 'Please Select a Service Type']" bg-color="white" />
         </q-card-section>
         <q-card-section class="col">
-          <q-select
-            hide-bottom-space
-            label="Passengers:"
-            name="num_passengers"
-            id="num_passengers"
-            dense
-            outlined
-            square
-            stack-label
-            v-model="num_passengers"
-            :options="passengerOptions"
-            bg-color="white"
-          />
+          <q-select hide-bottom-space label="Passengers:" name="num_passengers" id="num_passengers" dense outlined square stack-label v-model="num_passengers" :options="passengerOptions" bg-color="white" />
+        </q-card-section>
+      </q-card-section>
+      <q-card-section v-if="showHourlyInput" class="col">
+        <q-select hide-bottom-space name="num_hours" id="num_hours" label="Number Of Hours:" v-model="num_hours" :options="['2hr', '2hr 15']" outlined square dense bg-color="white" />
+      </q-card-section>
+      <q-card-section horizontal>
+        <q-card-section class="col">
+          <q-input hide-bottom-space type="text" name="first_name" id="first_name" v-model="first_name" label="First Name:" outlined square dense stack-label :rules="[(val) => !!val || 'First Name is required']" bg-color="white" />
+        </q-card-section>
+        <q-card-section class="col">
+          <q-input hide-bottom-space type="text" name="last_name" id="last_name" label="Last Name:" dense outlined square stack-label v-model="last_name" :rules="[(val) => !!val || 'Last Name is required']" bg-color="white" />
         </q-card-section>
       </q-card-section>
       <q-card-section horizontal>
         <q-card-section class="col">
-          <q-input
-            hide-bottom-space
-            type="text"
-            name="first_name"
-            id="first_name"
-            v-model="first_name"
-            label="First Name:"
-            outlined
-            square
-            dense
-            stack-label
-            :rules="[(val) => !!val || 'First Name is required']"
-            bg-color="white"
-          />
+          <q-input hide-bottom-space type="email" name="email" id="email" label="Email Address:" v-model="email_address" dense outlined square stack-label :rules="['email']" bg-color="white" :autocomplete="false" />
         </q-card-section>
         <q-card-section class="col">
-          <q-input
-            hide-bottom-space
-            type="text"
-            name="last_name"
-            id="last_name"
-            label="Last Name:"
-            dense
-            outlined
-            square
-            stack-label
-            v-model="last_name"
-            :rules="[(val) => !!val || 'Last Name is required']"
-            bg-color="white"
-          />
-        </q-card-section>
-      </q-card-section>
-      <q-card-section horizontal>
-        <q-card-section class="col">
-          <q-input
-            hide-bottom-space
-            type="email"
-            name="email"
-            id="email"
-            label="Email Address:"
-            v-model="email_address"
-            dense
-            outlined
-            square
-            stack-label
-            :rules="['email']"
-            bg-color="white"
-            :autocomplete="false"
-          />
-        </q-card-section>
-        <q-card-section class="col">
-          <q-input
-            type="text"
-            name="phone"
-            id="phone"
-            label="Phone Number:"
-            v-model="phone_number"
-            dense
-            outlined
-            square
-            stack-label
-            mask="phone"
-            bg-color="white"
-          />
+          <q-input type="text" name="phone" id="phone" label="Phone Number:" v-model="phone_number" dense outlined square stack-label mask="phone" bg-color="white" />
         </q-card-section>
       </q-card-section>
       <q-card-section>
-        <q-select
-          hide-bottom-space
-          v-model="vehicle_type"
-          class="text-gray-500"
-          label="Vehicle Type"
-          :options="vehicleTypeOptions"
-          dense
-          outlined
-          square
-          stack-label
-          :rules="[(val) => !!val || 'Please pick a Vehicle Type']"
-          bg-color="white"
-        />
+        <q-select hide-bottom-space v-model="vehicle_type" class="text-gray-500" label="Vehicle Type" :options="vehicleTypeOptions" dense outlined square stack-label :rules="[(val) => !!val || 'Please pick a Vehicle Type']" bg-color="white" />
       </q-card-section>
-      <!-- <q-card-section>
-        <q-checkbox name="round_trip" id="round_trip" label="Round Trip" v-model="is_round_trip" color="primary" />
-      </q-card-section> -->
+      <q-card-section>
+        <q-checkbox name="round_trip" id="round_trip" class="text=white" label="Round Trip" v-model="is_round_trip" color="primary" />
+      </q-card-section>
       <q-card-actions align="around" id="submit_button_wrapper">
-        <q-btn
-          id="submit_button"
-          type="submit"
-          label="Get Prices &amp; Availability"
-          color="red-8"
-          :loading="loading"
-        />
+        <q-btn id="submit_button" type="submit" label="Get Prices &amp; Availability" color="red-8" :loading="loading" />
       </q-card-actions>
       <q-card-section>
         <div class="text-center text-subtitle2">Terms of Use</div>
@@ -634,5 +477,9 @@ const submitForm = async () => {
 #my-map {
   height: 100% !important;
   max-width: 500px !important;
+}
+
+#round_trip>div.q-checkbox__inner.relative-position.non-selectable.q-checkbox__inner--falsy>div {
+  background-color: white;
 }
 </style>
