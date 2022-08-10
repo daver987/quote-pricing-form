@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es5",
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "extends": "./.nuxt/tsconfig.json",
+  "types": [
+    "@pinia/nuxt"
+  ]
+}
