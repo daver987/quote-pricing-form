@@ -94,7 +94,7 @@ defineProps({
         </q-card-section>
       </q-card-section>
       <q-separator />
-      <q-card-section class="py-2">
+      <q-card-section>
         <div class="font-bold text-md">Your All Inclusive Price</div>
         <div class="text-lg font-bold">Trip Total: ${{ totalCost }}</div>
         <div class="subheading2">Please Confirm Trip Details are Accurate</div>

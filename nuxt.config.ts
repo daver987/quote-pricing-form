@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     },
   },
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', 'nuxt-quasar-vite'],
+  css: ['vue-tel-input/dist/vue-tel-input.css'],
   quasar: {
     // Optional string | boolean
     sassVariables: 'assets/styles/quasar.variables.scss',

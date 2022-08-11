@@ -69,8 +69,8 @@ export interface CreateDealResponse {
 }
 
 // @ts-ignore
-const hsFetch = (hsEndPoint: string, hsBody: object, secret: string) => {
-  return $fetch(url + hsEndPoint, {
+const hsFetch = async (hsEndPoint: string, hsBody: object, secret: string) => {
+  return await $fetch(url + hsEndPoint, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
