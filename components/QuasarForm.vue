@@ -15,6 +15,7 @@ const loader = new Loader({
   version: 'weekly',
   region: 'ca',
 })
+
 const myMap = ref<HTMLElement>(null)
 
 function initMap(): void {
@@ -112,15 +113,16 @@ function initMap(): void {
           console.log(response)
           if (status === 'OK') {
             me.directionsRenderer.setDirections(response)
-            distance_traveled.value =
-              response.routes[0].legs[0].distance.value / 1000
-            duration_traveled.value =
-              response.routes[0].legs[0].duration.value / 60
+            distance_traveled.value = (response.routes[0].legs[0].distance
+              .value / 1000) as number
+            duration_traveled.value = (response.routes[0].legs[0].duration
+              .value / 60) as number
             origin_location.value = response.routes[0].legs[0].start_address
             destination_location.value = response.routes[0].legs[0].end_address
-            origin_location_type.value = response.geocoded_waypoints[0].types[0]
-            destination_location_type.value =
-              response.geocoded_waypoints[1].types[0]
+            origin_location_type.value = response.geocoded_waypoints[0]
+              .types[0] as string
+            destination_location_type.value = response.geocoded_waypoints[1]
+              .types[0] as string
           } else {
             window.alert('Directions request failed due to ' + status)
           }
@@ -129,6 +131,7 @@ function initMap(): void {
     }
   }
 }
+
 onMounted(() => {
   if (myMap.value) {
     initMap()
@@ -205,14 +208,8 @@ const vehicleTypeOptions = [
 
 //data for hubspot contacts from the contact store
 const contacts = useContactsStore()
-const {
-  first_name,
-  last_name,
-  email_address,
-  phone_number,
-  full_name,
-} = storeToRefs(contacts)
-
+const { first_name, last_name, email_address, phone_number, full_name } =
+  storeToRefs(contacts)
 
 //data for hubspot deals from the deal store
 const deal = useDealStore()
@@ -224,7 +221,6 @@ const {
   num_hours,
   num_passengers,
   is_round_trip,
-  // getDealResponse,
 } = storeToRefs(deal)
 
 //data for Google Maps autocomplete from the maps store
@@ -279,6 +275,52 @@ const hsProps = {
   hs_marketable_status: 'marketable',
 }
 
+async function hsAssociate(dealId: string, contactId: string) {
+  const useUrl = `https://api.hubapi.com/crm/v3/objects/deals/${dealId}/associations/contact/${contactId}/deal_to_contact`
+  const { data: associations } = await useFetch('/api/associations', {
+    method: 'PUT',
+    body: useUrl,
+  })
+  console.log(associations.value)
+}
+
+interface Deal {
+  dealData: Ref<{
+    properties: {
+      amount: number
+      dealname: string
+      dealstage: number
+      pipeline: number
+      hubspot_owner_id: number
+      dealtype: string
+    }
+  }>
+}
+
+async function createDeal({ dealData }: Deal) {
+  const { data: deals } = await useFetch('/api/deals', {
+    method: 'POST',
+    body: dealData.value,
+  })
+
+  //parse the deal id from the response
+  const { id: dealId, properties: dealProperties } = {
+    ...deals.value.createDealResponse,
+  }
+  console.log(dealId, dealProperties)
+  return dealId
+}
+
+async function createContact(contactData) {
+  const { data: contact } = await useFetch('/api/contacts', {
+    method: 'POST',
+    body: contactData.value,
+  })
+  const createContactResponse = { ...contact.value.createContactResponse }
+  const { id: contactId, properties: contactProperties } = createContactResponse
+  console.log(contactId, contactProperties)
+  return contactId
+}
 
 //form submission logic
 const submitForm = async () => {
@@ -292,7 +334,7 @@ const submitForm = async () => {
     isItHourly.value,
     num_hours.value,
     distance_traveled.value,
-    serviceRate
+    serviceRate as Rates
   ) as number
   console.log(baseRate)
   const { fuelSurcharge, gratuity, HST } = getSurchargeAmounts(
@@ -320,19 +362,10 @@ const submitForm = async () => {
   })
   console.log(contactData.value)
 
-  const { data: contact } = await useFetch('/api/contacts', {
-    method: 'POST',
-    body: contactData.value,
-  })
-  const createContactResponse = { ...contact.value.createContactResponse }
-
-  const { id: contactId, properties: contactProperties } = createContactResponse
-  console.log(contactId, contactProperties)
+  const contactId = await createContact(contactData)
 
   //required deal data for hubspot
-  const deal_name = ref(
-    `${first_name.value} ${last_name.value} - New Deal`
-  )
+  const deal_name = ref(`${first_name.value} ${last_name.value} - New Deal`)
   const dealData = ref({
     properties: {
       amount: total_cost.value,
@@ -345,23 +378,9 @@ const submitForm = async () => {
   })
 
   //api call to hubspot to create a deal
-  const { data: deals, pending } = await useFetch('/api/deals', {
-    method: 'POST',
-    body: dealData.value,
-  })
+  const dealId = await createDeal({ dealData: dealData })
 
-  //parse the deal id from the response
-  const { id: dealId, properties: dealProperties } = { ...deals.value.createDealResponse }
-  console.log(dealId, dealProperties)
-
-  const useUrl = `https://api.hubapi.com/crm/v3/objects/deals/${dealId}/associations/contact/${contactId}/deal_to_contact`
-  const { data: associations } = await useFetch('/api/associations', {
-    method: "PUT",
-    body: useUrl,
-  })
-
-  console.log(associations)
-
+  await hsAssociate(dealId, contactId)
 
   //timeout before loading the quote page
   const router = useRouter()
@@ -384,23 +403,70 @@ const submitForm = async () => {
 
 <template>
   <div>
-    <q-card dark bordered rounded-borders tag="form" @submit.prevent="submitForm" id="lead_form" ref="myForm" class="max-w-lg mx-auto">
+    <q-card
+      dark
+      bordered
+      rounded-borders
+      tag="form"
+      @submit.prevent="submitForm"
+      id="lead_form"
+      ref="myForm"
+      class="max-w-lg mx-auto"
+    >
       <q-card-section>
         <div class="text-center text-white text-h5">Instant Quote</div>
       </q-card-section>
       <q-card-section>
-        <input type="text" id="origin-input" name="origin-input" placeholder="Enter Address, Point of Interest, or Airport Code" v-model="origin_location" ref="originLocation" class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90" required />
+        <input
+          type="text"
+          id="origin-input"
+          name="origin-input"
+          placeholder="Enter Address, Point of Interest, or Airport Code"
+          v-model="origin_location"
+          ref="originLocation"
+          class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+          required
+        />
       </q-card-section>
       <q-card-section v-if="showDestinationInput">
-        <input type="text" id="destination-input" name="destination-input" placeholder="Enter Address, Point of Interest, or Airport Code" v-model="destination_location" ref="destinationLocation" class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90" required />
+        <input
+          type="text"
+          id="destination-input"
+          name="destination-input"
+          placeholder="Enter Address, Point of Interest, or Airport Code"
+          v-model="destination_location"
+          ref="destinationLocation"
+          class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+          required
+        />
       </q-card-section>
       <q-card-section horizontal class="">
         <q-card-section class="col">
-          <q-input hide-bottom-space v-model="pickup_date" mask="date" :rules="['date']" outlined dense square stack-label label="Pick Up Date:" bg-color="white">
+          <q-input
+            hide-bottom-space
+            v-model="pickup_date"
+            mask="date"
+            :rules="['date']"
+            outlined
+            dense
+            square
+            stack-label
+            label="Pick Up Date:"
+            bg-color="white"
+          >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale" v-model="showDatePopup">
-                  <q-date name="pickup_date" id="pickup_date" v-model="pickup_date">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                  v-model="showDatePopup"
+                >
+                  <q-date
+                    name="pickup_date"
+                    id="pickup_date"
+                    v-model="pickup_date"
+                  >
                     <div class="items-center justify-end row">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -411,11 +477,31 @@ const submitForm = async () => {
           </q-input>
         </q-card-section>
         <q-card-section class="col">
-          <q-input hide-bottom-space v-model="pickup_time" mask="time" :rules="['time']" label="Pickup Time:" dense square outlined stack-label bg-color="white">
+          <q-input
+            hide-bottom-space
+            v-model="pickup_time"
+            mask="time"
+            :rules="['time']"
+            label="Pickup Time:"
+            dense
+            square
+            outlined
+            stack-label
+            bg-color="white"
+          >
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy v-model="showTimePopup" cover transition-show="scale" transition-hide="scale">
-                  <q-time v-model="pickup_time" name="pickup_date" id="pickup_date">
+                <q-popup-proxy
+                  v-model="showTimePopup"
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time
+                    v-model="pickup_time"
+                    name="pickup_date"
+                    id="pickup_date"
+                  >
                     <div class="items-center justify-end row">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -428,39 +514,152 @@ const submitForm = async () => {
       </q-card-section>
       <q-card-section horizontal>
         <q-card-section class="col">
-          <q-select hide-bottom-space v-model="service_type" for="service-type" id="service-type" dense label="Service Type:" stack-label outlined square :options="serviceTypeOptions" :rules="[(val) => !!val || 'Please Select a Service Type']" bg-color="white" />
+          <q-select
+            hide-bottom-space
+            v-model="service_type"
+            for="service-type"
+            id="service-type"
+            dense
+            label="Service Type:"
+            stack-label
+            outlined
+            square
+            :options="serviceTypeOptions"
+            :rules="[(val) => !!val || 'Please Select a Service Type']"
+            bg-color="white"
+          />
         </q-card-section>
         <q-card-section class="col">
-          <q-select hide-bottom-space label="Passengers:" name="num_passengers" id="num_passengers" dense outlined square stack-label v-model="num_passengers" :options="passengerOptions" bg-color="white" />
+          <q-select
+            hide-bottom-space
+            label="Passengers:"
+            name="num_passengers"
+            id="num_passengers"
+            dense
+            outlined
+            square
+            stack-label
+            v-model="num_passengers"
+            :options="passengerOptions"
+            bg-color="white"
+          />
         </q-card-section>
       </q-card-section>
       <q-card-section v-if="showHourlyInput" class="col">
-        <q-select hide-bottom-space name="num_hours" id="num_hours" label="Number Of Hours:" v-model="num_hours" :options="['2hr', '2hr 15']" outlined square dense bg-color="white" />
+        <q-select
+          hide-bottom-space
+          name="num_hours"
+          id="num_hours"
+          label="Number Of Hours:"
+          v-model="num_hours"
+          :options="['2hr', '2hr 15']"
+          outlined
+          square
+          dense
+          bg-color="white"
+        />
       </q-card-section>
       <q-card-section horizontal>
         <q-card-section class="col">
-          <q-input hide-bottom-space type="text" name="first_name" id="first_name" v-model="first_name" label="First Name:" outlined square dense stack-label :rules="[(val) => !!val || 'First Name is required']" bg-color="white" />
+          <q-input
+            hide-bottom-space
+            type="text"
+            name="first_name"
+            id="first_name"
+            v-model="first_name"
+            label="First Name:"
+            outlined
+            square
+            dense
+            stack-label
+            :rules="[(val) => !!val || 'First Name is required']"
+            bg-color="white"
+          />
         </q-card-section>
         <q-card-section class="col">
-          <q-input hide-bottom-space type="text" name="last_name" id="last_name" label="Last Name:" dense outlined square stack-label v-model="last_name" :rules="[(val) => !!val || 'Last Name is required']" bg-color="white" />
+          <q-input
+            hide-bottom-space
+            type="text"
+            name="last_name"
+            id="last_name"
+            label="Last Name:"
+            dense
+            outlined
+            square
+            stack-label
+            v-model="last_name"
+            :rules="[(val) => !!val || 'Last Name is required']"
+            bg-color="white"
+          />
         </q-card-section>
       </q-card-section>
       <q-card-section horizontal>
         <q-card-section class="col">
-          <q-input hide-bottom-space type="email" name="email" id="email" label="Email Address:" v-model="email_address" dense outlined square stack-label :rules="['email']" bg-color="white" :autocomplete="false" />
+          <q-input
+            hide-bottom-space
+            type="email"
+            name="email"
+            id="email"
+            label="Email Address:"
+            v-model="email_address"
+            dense
+            outlined
+            square
+            stack-label
+            :rules="['email']"
+            bg-color="white"
+            :autocomplete="false"
+          />
         </q-card-section>
         <q-card-section class="col">
-          <q-input type="text" name="phone" id="phone" label="Phone Number:" v-model="phone_number" dense outlined square stack-label mask="phone" bg-color="white" />
+          <q-input
+            type="text"
+            name="phone"
+            id="phone"
+            label="Phone Number:"
+            v-model="phone_number"
+            dense
+            outlined
+            square
+            stack-label
+            mask="phone"
+            bg-color="white"
+          />
         </q-card-section>
       </q-card-section>
       <q-card-section>
-        <q-select hide-bottom-space v-model="vehicle_type" class="text-gray-500" label="Vehicle Type" :options="vehicleTypeOptions" dense outlined square stack-label :rules="[(val) => !!val || 'Please pick a Vehicle Type']" bg-color="white" />
+        <q-select
+          hide-bottom-space
+          v-model="vehicle_type"
+          class="text-gray-500"
+          label="Vehicle Type"
+          :options="vehicleTypeOptions"
+          dense
+          outlined
+          square
+          stack-label
+          :rules="[(val) => !!val || 'Please pick a Vehicle Type']"
+          bg-color="white"
+        />
       </q-card-section>
-      <q-card-section>
-        <q-checkbox name="round_trip" id="round_trip" class="text=white" label="Round Trip" v-model="is_round_trip" color="primary" />
+      <q-card-section v-show="false">
+        <q-checkbox
+          name="round_trip"
+          id="round_trip"
+          class="text=white"
+          label="Round Trip"
+          v-model="is_round_trip"
+          color="primary"
+        />
       </q-card-section>
       <q-card-actions align="around" id="submit_button_wrapper">
-        <q-btn id="submit_button" type="submit" label="Get Prices &amp; Availability" color="red-8" :loading="loading" />
+        <q-btn
+          id="submit_button"
+          type="submit"
+          label="Get Prices &amp; Availability"
+          color="red-8"
+          :loading="loading"
+        />
       </q-card-actions>
       <q-card-section>
         <div class="text-center text-subtitle2">Terms of Use</div>
@@ -473,13 +672,16 @@ const submitForm = async () => {
     </q-card>
   </div>
 </template>
+<!--suppress CssMissingComma -->
 <style>
 #my-map {
   height: 100% !important;
   max-width: 500px !important;
 }
 
-#round_trip>div.q-checkbox__inner.relative-position.non-selectable.q-checkbox__inner--falsy>div {
+#round_trip
+  > div.q-checkbox__inner.relative-position.non-selectable.q-checkbox__inner--falsy
+  > div {
   background-color: white;
 }
 </style>

@@ -5,6 +5,7 @@ export const useDealStore = defineStore('useDealStore', {
     return {
       pickup_date: '',
       pickup_time: '',
+      pickup_address: '',
       service_type: undefined as FormOptions,
       vehicle_type: undefined as FormOptions,
       num_hours: 0,

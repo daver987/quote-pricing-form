@@ -25,7 +25,7 @@ const rates = [
   {
     id: 3,
     name: 'Standard SUV',
-    per_km: 2.2,
+    per_km: 2.3,
     per_hour: 105,
     min_hours_hourly: 2,
     min_rate_distance: 105,
@@ -50,8 +50,6 @@ const surcharges = {
   HST: 0.13,
 } as Surcharges
 
-const isHourly = false
-
 // write a function that accepts an id returns the correct rate object from the array of rates objects
 const getRateFromId = (id: number, rates: Rates[]) => {
   return rates.find((rate) => rate.id === id)
@@ -63,7 +61,7 @@ describe('getRateFromId', () => {
     expect(getRateFromId(2, rates as Rates[])).toEqual({
       name: 'Premium Sedan',
       id: 2,
-      per_km: 1.9,
+      per_km: 1.95,
       per_hour: 90,
       min_hours_hourly: 2,
       min_rate_distance: 90,
