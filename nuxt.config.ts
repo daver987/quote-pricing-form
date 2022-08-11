@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     },
   },
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', 'nuxt-quasar-vite'],
+  css: ['vue-tel-input/dist/vue-tel-input.css'],
   quasar: {
     // Optional string | boolean
     sassVariables: 'assets/styles/quasar.variables.scss',
@@ -23,12 +24,12 @@ export default defineNuxtConfig({
     css: ['@quasar/extras/material-icons/material-icons.css'],
     // List of extra Quasar Plugins
     // auto-installed: [Platform, Body, Dark, Screen, History, Lang, IconSet]
-    // optional: [AddressbarColor, AppFullscreen, AppVisibility, BottomSheet, Dialog,
+    // optional: [AddressBarColor, AppFullscreen, AppVisibility, BottomSheet, Dialog,
     //            LoadingBar, Loading, Notify, LocalStorage, SessionStorage]
     /* Quasar UI config -- you'll notice in Quasar docs when you need it */
     config: {
       dark: false,
     },
   },
-  sourcemap: false,
+  // sourcemap: false,
 })

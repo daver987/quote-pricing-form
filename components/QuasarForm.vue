@@ -208,8 +208,14 @@ const vehicleTypeOptions = [
 
 //data for hubspot contacts from the contact store
 const contacts = useContactsStore()
-const { first_name, last_name, email_address, phone_number, full_name } =
-  storeToRefs(contacts)
+const {
+  first_name,
+  last_name,
+  email_address,
+  phone_number,
+  full_name,
+  vehicle_image,
+} = storeToRefs(contacts)
 
 //data for hubspot deals from the deal store
 const deal = useDealStore()
@@ -275,15 +281,6 @@ const hsProps = {
   hs_marketable_status: 'marketable',
 }
 
-async function hsAssociate(dealId: string, contactId: string) {
-  const useUrl = `https://api.hubapi.com/crm/v3/objects/deals/${dealId}/associations/contact/${contactId}/deal_to_contact`
-  const { data: associations } = await useFetch('/api/associations', {
-    method: 'PUT',
-    body: useUrl,
-  })
-  console.log(associations.value)
-}
-
 interface Deal {
   dealData: Ref<{
     properties: {
@@ -297,32 +294,7 @@ interface Deal {
   }>
 }
 
-async function createDeal({ dealData }: Deal) {
-  const { data: deals } = await useFetch('/api/deals', {
-    method: 'POST',
-    body: dealData.value,
-  })
-
-  //parse the deal id from the response
-  const { id: dealId, properties: dealProperties } = {
-    ...deals.value.createDealResponse,
-  }
-  console.log(dealId, dealProperties)
-  return dealId
-}
-
-async function createContact(contactData) {
-  const { data: contact } = await useFetch('/api/contacts', {
-    method: 'POST',
-    body: contactData.value,
-  })
-  const createContactResponse = { ...contact.value.createContactResponse }
-  const { id: contactId, properties: contactProperties } = createContactResponse
-  console.log(contactId, contactProperties)
-  return contactId
-}
-
-//form submission logic
+// const formattedDate = ref(qdate.formatDate(pickup_date.value, 'YYYY-MM-DD')) //form submission logic
 const submitForm = async () => {
   loading.value = true
   const rates = (await $fetch('/api/rates')) as Rates[]
@@ -357,10 +329,30 @@ const submitForm = async () => {
       lastname: last_name.value,
       email: email_address.value,
       phone: phone_number.value,
+      pick_up_date: pickup_date.value,
+      pick_up_time: pickup_time.value,
+      pickup_address: origin_location.value,
+      drop_off_location: destination_location.value,
+      vehicle_type: vehicle_type.value.label,
+      hubspot_owner_id: 191740050,
+      vehicle_image_url: vehicle_image.value,
+      deal_amount: total_cost.value,
       full_name: first_name.value + ' ' + last_name.value,
     },
   })
   console.log(contactData.value)
+
+  async function createContact(contactData) {
+    const { data: contact } = await useFetch('/api/contacts', {
+      method: 'POST',
+      body: contactData.value,
+    })
+    const createContactResponse = { ...contact.value.createContactResponse }
+    const { id: contactId, properties: contactProperties } =
+      createContactResponse
+    console.log(contactId, contactProperties)
+    return contactId
+  }
 
   const contactId = await createContact(contactData)
 
@@ -377,8 +369,31 @@ const submitForm = async () => {
     },
   })
 
+  async function createDeal({ dealData }: Deal) {
+    const { data: deals } = await useFetch('/api/deals', {
+      method: 'POST',
+      body: dealData.value,
+    })
+
+    //parse the deal id from the response
+    const { id: dealId, properties: dealProperties } = {
+      ...deals.value.createDealResponse,
+    }
+    console.log(dealId, dealProperties)
+    return dealId
+  }
+
   //api call to hubspot to create a deal
   const dealId = await createDeal({ dealData: dealData })
+
+  async function hsAssociate(dealId: string, contactId: string) {
+    const useUrl = `https://api.hubapi.com/crm/v3/objects/deals/${dealId}/associations/contact/${contactId}/deal_to_contact`
+    const { data: associations } = await useFetch('/api/associations', {
+      method: 'PUT',
+      body: useUrl,
+    })
+    console.log(associations.value)
+  }
 
   await hsAssociate(dealId, contactId)
 
@@ -390,6 +405,14 @@ const submitForm = async () => {
   }, 750)
   loading.value = false
 }
+
+const inputOptions = ref({
+  placeholder: 'Phone Number',
+  showDialCode: true,
+  required: true,
+  invalidMsg: 'Please enter a valid phone number',
+  mode: 'international',
+})
 //todo: make the form properly responsive
 //todo: make the form reset without it having all of the inputs with errors
 //todo: integrate with stripe for payment
@@ -612,19 +635,37 @@ const submitForm = async () => {
           />
         </q-card-section>
         <q-card-section class="col">
-          <q-input
-            type="text"
+          <q-field
             name="phone"
             id="phone"
-            label="Phone Number:"
             v-model="phone_number"
             dense
             outlined
             square
-            stack-label
-            mask="phone"
+            color="black"
             bg-color="white"
-          />
+          >
+            <vue-tel-input
+              v-model="phone_number"
+              mode="international"
+              :inputOptions="inputOptions"
+            />
+          </q-field>
+
+          <!--                    <q-input-->
+          <!--                      type='text'-->
+          <!--                      name='phone'-->
+          <!--                      id='phone'-->
+          <!--                      label='Phone Number:'-->
+          <!--                      v-model='phone_number'-->
+          <!--                      dense-->
+          <!--                      outlined-->
+          <!--                      square-->
+          <!--                      stack-label-->
+          <!--                      fill-mask-->
+          <!--                      mask='phone'-->
+          <!--                      bg-color='white'-->
+          <!--                    />-->
         </q-card-section>
       </q-card-section>
       <q-card-section>
@@ -683,5 +724,14 @@ const submitForm = async () => {
   > div.q-checkbox__inner.relative-position.non-selectable.q-checkbox__inner--falsy
   > div {
   background-color: white;
+}
+
+#phone > div > div {
+  padding: 0 !important;
+}
+
+#phone > div > div > div > div > div {
+  background-color: rgb(0, 0, 0, 0.1);
+  border: #333333;
 }
 </style>

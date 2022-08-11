@@ -9,10 +9,10 @@ import { useMapStore } from '~~/stores/useMapStore'
 const mapStore = useMapStore()
 const { origin_location, destination_location } = mapStore
 
-
 //import contact info from store
 const contacts = useContactsStore()
-const { first_name, last_name, full_name } = storeToRefs(contacts)
+const { first_name, last_name, full_name, vehicle_image } =
+  storeToRefs(contacts)
 
 full_name.value = first_name.value + ' ' + last_name.value
 
@@ -32,8 +32,6 @@ const { total_cost } = storeToRefs(quote)
 const { label: vehicleType, value: vehicleTypeValue } = vehicle_type.value
 const { label: serviceType, value: serviceTypeValue } = service_type.value
 
-
-
 const vehicleImages = () => {
   if (vehicle_type.value.label === 'Standard Sedan') {
     return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/8c7c6a8d-06ad-4278-1c70-9d497b1cb200/1024'
@@ -46,10 +44,20 @@ const vehicleImages = () => {
   }
 }
 const vehicleImage = ref(vehicleImages()) as unknown as string
+vehicle_image.value = vehicleImage
 </script>
 
 <template>
   <q-page padding>
-    <QuotedCard :totalCost="total_cost" :vehicleType="vehicleType" :serviceType="serviceType" :fullName="full_name" :vehicleImage="vehicleImage" :originLocation="origin_location" :destinationLocation="destination_location" :pickupDate="pickup_date" />
+    <QuotedCard
+      :totalCost="total_cost"
+      :vehicleType="vehicleType"
+      :serviceType="serviceType"
+      :fullName="full_name"
+      :vehicleImage="vehicleImage"
+      :originLocation="origin_location"
+      :destinationLocation="destination_location"
+      :pickupDate="pickup_date"
+    />
   </q-page>
 </template>

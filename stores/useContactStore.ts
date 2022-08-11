@@ -9,6 +9,7 @@ export const useContactsStore = defineStore('useContactsStore', {
       phone_number: '',
       getContactResponse: null,
       full_name: '',
+      vehicle_image: '',
     }
   },
 })
