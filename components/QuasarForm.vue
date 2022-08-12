@@ -323,80 +323,153 @@ const submitForm = async () => {
   hst.value = HST
 
   //required contact data for hubspot
-  const contactData = ref({
-    properties: {
-      firstname: first_name.value,
-      lastname: last_name.value,
-      email: email_address.value,
-      phone: phone_number.value,
-      pick_up_date: pickup_date.value,
-      pick_up_time: pickup_time.value,
-      pickup_address: origin_location.value,
-      drop_off_location: destination_location.value,
-      vehicle_type: vehicle_type.value.label,
-      hubspot_owner_id: 191740050,
-      vehicle_image_url: vehicle_image.value,
-      deal_amount: total_cost.value,
-      full_name: first_name.value + ' ' + last_name.value,
-    },
-  })
-  console.log(contactData.value)
+  // const contactData = ref({
+  //   properties: {
+  //     firstname: first_name.value,
+  //     lastname: last_name.value,
+  //     email: email_address.value,
+  //     phone: phone_number.value,
+  //     pick_up_date: pickup_date.value,
+  //     pick_up_time: pickup_time.value,
+  //     pickup_address: origin_location.value,
+  //     drop_off_location: destination_location.value,
+  //     vehicle_type: vehicle_type.value.label,
+  //     hubspot_owner_id: 191740050,
+  //     vehicle_image_url: vehicle_image.value,
+  //     deal_amount: total_cost.value,
+  //     full_name: first_name.value + ' ' + last_name.value,
+  //   },
+  // })
+  // console.log(contactData.value)
+  //
+  // async function createContact(contactData) {
+  //   const { data: contact } = await useFetch('/api/contacts', {
+  //     method: 'POST',
+  //     body: contactData.value,
+  //   })
+  //   const createContactResponse = { ...contact.value.createContactResponse }
+  //   const { id: contactId, properties: contactProperties } =
+  //     createContactResponse
+  //   console.log(contactId, contactProperties)
+  //   return contactId
+  // }
 
-  async function createContact(contactData) {
-    const { data: contact } = await useFetch('/api/contacts', {
-      method: 'POST',
-      body: contactData.value,
-    })
-    const createContactResponse = { ...contact.value.createContactResponse }
-    const { id: contactId, properties: contactProperties } =
-      createContactResponse
-    console.log(contactId, contactProperties)
-    return contactId
-  }
+  // const contactId = await createContact(contactData)
+  //
+  // //required deal data for hubspot
+  // const deal_name = ref(`${first_name.value} ${last_name.value} - New Deal`)
+  // const dealData = ref({
+  //   properties: {
+  //     amount: total_cost.value,
+  //     dealname: deal_name.value,
+  //     dealstage: hsProps.dealstage,
+  //     pipeline: hsProps.pipeline,
+  //     hubspot_owner_id: hsProps.hubspot_owner_id,
+  //     dealtype: hsProps.dealtype,
+  //   },
+  // })
 
-  const contactId = await createContact(contactData)
-
-  //required deal data for hubspot
-  const deal_name = ref(`${first_name.value} ${last_name.value} - New Deal`)
-  const dealData = ref({
-    properties: {
-      amount: total_cost.value,
-      dealname: deal_name.value,
-      dealstage: hsProps.dealstage,
-      pipeline: hsProps.pipeline,
-      hubspot_owner_id: hsProps.hubspot_owner_id,
-      dealtype: hsProps.dealtype,
-    },
-  })
-
-  async function createDeal({ dealData }: Deal) {
-    const { data: deals } = await useFetch('/api/deals', {
-      method: 'POST',
-      body: dealData.value,
-    })
-
-    //parse the deal id from the response
-    const { id: dealId, properties: dealProperties } = {
-      ...deals.value.createDealResponse,
-    }
-    console.log(dealId, dealProperties)
-    return dealId
-  }
+  // async function createDeal({ dealData }: Deal) {
+  //   const { data: deals } = await useFetch('/api/deals', {
+  //     method: 'POST',
+  //     body: dealData.value,
+  //   })
+  //
+  //   //parse the deal id from the response
+  //   const { id: dealId, properties: dealProperties } = {
+  //     ...deals.value.createDealResponse,
+  //   }
+  //   console.log(dealId, dealProperties)
+  //   return dealId
+  // }
 
   //api call to hubspot to create a deal
-  const dealId = await createDeal({ dealData: dealData })
+  // const dealId = await createDeal({ dealData: dealData })
+  //
+  // async function hsAssociate(dealId: string, contactId: string) {
+  //   const useUrl = `https://api.hubapi.com/crm/v3/objects/deals/${dealId}/associations/contact/${contactId}/deal_to_contact`
+  //   const { data: associations } = await useFetch('/api/associations', {
+  //     method: 'PUT',
+  //     body: useUrl,
+  //   })
+  //   console.log(associations.value)
+  // }
+  //
+  // await hsAssociate(dealId, contactId)
 
-  async function hsAssociate(dealId: string, contactId: string) {
-    const useUrl = `https://api.hubapi.com/crm/v3/objects/deals/${dealId}/associations/contact/${contactId}/deal_to_contact`
-    const { data: associations } = await useFetch('/api/associations', {
-      method: 'PUT',
-      body: useUrl,
+  const formSubmissionData = async () => {
+    const submissionInfo = {
+      fields: [
+        {
+          objectTypeId: '0-1',
+          name: 'pick_up_date',
+          value: pickup_date.value,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'pick_up_time',
+          value: pickup_time.value,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'vehicle_type',
+          value: vehicle_type.value.label,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'pick_up_location',
+          value: origin_location.value,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'drop_off_location',
+          value: destination_location.value,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'firstname',
+          value: first_name.value,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'lastname',
+          value: last_name.value,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'email',
+          value: email_address.value,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'phone',
+          value: phone_number.value,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'deal_amount',
+          value: total_cost.value,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'pax_amount',
+          value: num_passengers.value,
+        },
+        {
+          objectTypeId: '0-1',
+          name: 'hours',
+          value: num_hours.value,
+        },
+      ],
+    }
+    console.log(submissionInfo)
+    const { data: successMessage } = await useFetch('/api/formSubmit', {
+      method: 'POST',
+      body: submissionInfo,
     })
-    console.log(associations.value)
+    console.log(successMessage.value)
   }
-
-  await hsAssociate(dealId, contactId)
-
+  await formSubmissionData()
   //timeout before loading the quote page
   const router = useRouter()
   setTimeout(() => {
@@ -411,7 +484,6 @@ const inputOptions = ref({
   showDialCode: true,
   required: true,
   invalidMsg: 'Please enter a valid phone number',
-  mode: 'international',
 })
 //todo: make the form properly responsive
 //todo: make the form reset without it having all of the inputs with errors
@@ -419,7 +491,6 @@ const inputOptions = ref({
 //todo: add logic to check if the user picked an airport, if true add extra to the cost
 //todo: debounce the inputs so they dont continuously get error messages from the inputs
 //todo: add waypoints to the route for the quote
-//todo: add a better mask and the ability to enter worldwide phone numbers
 //todo: add popup to show images of the vehicles
 //todo: add popup to show the terms and conditions
 </script>

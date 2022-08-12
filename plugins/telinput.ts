@@ -2,7 +2,7 @@ import VueTelInput from 'vue-tel-input'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const globalOptions = {
-    mode: 'auto',
+    mode: 'international',
   }
   nuxtApp.vueApp.use(VueTelInput, globalOptions)
 })
