@@ -3,10 +3,10 @@
 </script>
 
 <template>
-  <q-layout within-iframe view="hHh lpR fFf">
+  <q-layout view="hHh lpR fFf">
     <q-page-container>
       <NuxtPage />
     </q-page-container>
-    <q-footer hidden> </q-footer>
+    <q-footer hidden></q-footer>
   </q-layout>
 </template>

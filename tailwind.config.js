@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
 
 module.exports = {
   content: [],
@@ -6,6 +6,9 @@ module.exports = {
     extend: {
       colors: {
         primary: '#BB880F',
+      },
+      screens: {
+        xs: '480px',
       },
     },
   },

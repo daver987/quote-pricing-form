@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Rates, Surcharges } from '~/composables/useRateCalculator'
 import { Ref } from 'vue'
 import { useContactsStore } from '~/stores/useContactStore'
@@ -273,26 +273,26 @@ watch(service_type, () => {
 
 const loading = ref(false) as Ref<boolean>
 
-const hsProps = {
-  dealstage: 26772045,
-  pipeline: 9388939,
-  hubspot_owner_id: 191740050,
-  dealtype: 'newbusiness',
-  hs_marketable_status: 'marketable',
-}
+// const hsProps = {
+//   dealstage: 26772045,
+//   pipeline: 9388939,
+//   hubspot_owner_id: 191740050,
+//   dealtype: 'newbusiness',
+//   hs_marketable_status: 'marketable',
+// }
 
-interface Deal {
-  dealData: Ref<{
-    properties: {
-      amount: number
-      dealname: string
-      dealstage: number
-      pipeline: number
-      hubspot_owner_id: number
-      dealtype: string
-    }
-  }>
-}
+// interface Deal {
+//   dealData: Ref<{
+//     properties: {
+//       amount: number
+//       dealname: string
+//       dealstage: number
+//       pipeline: number
+//       hubspot_owner_id: number
+//       dealtype: string
+//     }
+//   }>
+// }
 
 // const formattedDate = ref(qdate.formatDate(pickup_date.value, 'YYYY-MM-DD')) //form submission logic
 const submitForm = async () => {
@@ -397,79 +397,84 @@ const submitForm = async () => {
   //
   // await hsAssociate(dealId, contactId)
 
-  const formSubmissionData = async () => {
-    const submissionInfo = {
-      fields: [
-        {
-          objectTypeId: '0-1',
-          name: 'pick_up_date',
-          value: pickup_date.value,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'pick_up_time',
-          value: pickup_time.value,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'vehicle_type',
-          value: vehicle_type.value.label,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'pick_up_location',
-          value: origin_location.value,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'drop_off_location',
-          value: destination_location.value,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'firstname',
-          value: first_name.value,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'lastname',
-          value: last_name.value,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'email',
-          value: email_address.value,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'phone',
-          value: phone_number.value,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'deal_amount',
-          value: total_cost.value,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'pax_amount',
-          value: num_passengers.value,
-        },
-        {
-          objectTypeId: '0-1',
-          name: 'hours',
-          value: num_hours.value,
-        },
-      ],
-    }
-    console.log(submissionInfo)
-    const { data: successMessage } = await useFetch('/api/formSubmit', {
-      method: 'POST',
-      body: submissionInfo,
-    })
-    console.log(successMessage.value)
+  const submissionInfo = {
+    fields: [
+      {
+        objectTypeId: '0-1',
+        name: 'pick_up_date',
+        value: pickup_date.value,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'pick_up_time',
+        value: pickup_time.value,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'vehicle_type',
+        value: vehicle_type.value.label,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'pick_up_location',
+        value: origin_location.value,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'drop_off_location',
+        value: destination_location.value,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'firstname',
+        value: first_name.value,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'lastname',
+        value: last_name.value,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'email',
+        value: email_address.value,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'phone',
+        value: phone_number.value,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'deal_amount',
+        value: total_cost.value,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'pax_amount',
+        value: num_passengers.value.value,
+      },
+      {
+        objectTypeId: '0-1',
+        name: 'hours',
+        value: num_hours.value,
+      },
+    ],
   }
-  await formSubmissionData()
+  console.log(submissionInfo)
+  const { data: successMessage } = await useFetch('/api/formSubmit', {
+    method: 'POST',
+    body: submissionInfo,
+  })
+  console.log(successMessage.value)
+
+  const { data: zapData } = await useFetch('/api/capture', {
+    method: 'POST',
+    body: submissionInfo,
+  })
+
+  console.log(zapData.value)
+
   //timeout before loading the quote page
   const router = useRouter()
   setTimeout(() => {
@@ -485,7 +490,6 @@ const inputOptions = ref({
   required: true,
   invalidMsg: 'Please enter a valid phone number',
 })
-//todo: make the form properly responsive
 //todo: make the form reset without it having all of the inputs with errors
 //todo: integrate with stripe for payment
 //todo: add logic to check if the user picked an airport, if true add extra to the cost
@@ -496,293 +500,290 @@ const inputOptions = ref({
 </script>
 
 <template>
-  <div>
-    <q-card
-      dark
-      bordered
-      rounded-borders
-      tag="form"
-      @submit.prevent="submitForm"
-      id="lead_form"
-      ref="myForm"
-      class="max-w-lg mx-auto"
-    >
-      <q-card-section>
-        <div class="text-center text-white text-h5">Instant Quote</div>
-      </q-card-section>
-      <q-card-section>
-        <input
-          type="text"
-          id="origin-input"
-          name="origin-input"
-          placeholder="Enter Address, Point of Interest, or Airport Code"
-          v-model="origin_location"
-          ref="originLocation"
-          class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
-          required
-        />
-      </q-card-section>
-      <q-card-section v-if="showDestinationInput">
-        <input
-          type="text"
-          id="destination-input"
-          name="destination-input"
-          placeholder="Enter Address, Point of Interest, or Airport Code"
-          v-model="destination_location"
-          ref="destinationLocation"
-          class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
-          required
-        />
-      </q-card-section>
-      <q-card-section horizontal class="">
-        <q-card-section class="col">
-          <q-input
-            hide-bottom-space
-            v-model="pickup_date"
-            mask="date"
-            :rules="['date']"
-            outlined
-            dense
-            square
-            stack-label
-            label="Pick Up Date:"
-            bg-color="white"
-          >
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy
-                  cover
-                  transition-show="scale"
-                  transition-hide="scale"
-                  v-model="showDatePopup"
+  <q-card
+    dark
+    bordered
+    rounded-borders
+    tag="form"
+    @submit.prevent="submitForm"
+    id="lead_form"
+    ref="myForm"
+    class="max-w-xl mx-auto q-pt-sm q-pb-md"
+  >
+    <q-card-section>
+      <div class="text-center text-white text-h5">Instant Quote</div>
+    </q-card-section>
+    <q-card-section>
+      <input
+        type="text"
+        id="origin-input"
+        name="origin-input"
+        placeholder="Enter Pickup Address or Airport Code"
+        v-model="origin_location"
+        ref="originLocation"
+        class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+        required
+      />
+    </q-card-section>
+    <q-card-section v-if="showDestinationInput">
+      <input
+        type="text"
+        id="destination-input"
+        name="destination-input"
+        placeholder="Enter Pickup Address or Airport Code"
+        v-model="destination_location"
+        ref="destinationLocation"
+        class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+        required
+      />
+    </q-card-section>
+    <q-card-section class="flex flex-col xs:flex-row q-pa-none">
+      <q-card-section class="col">
+        <q-input
+          hide-bottom-space
+          v-model="pickup_date"
+          mask="date"
+          :rules="['date']"
+          outlined
+          dense
+          square
+          stack-label
+          label="Pick Up Date:"
+          bg-color="white"
+        >
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy
+                cover
+                transition-show="scale"
+                transition-hide="scale"
+                v-model="showDatePopup"
+              >
+                <q-date
+                  name="pickup_date"
+                  id="pickup_date"
+                  v-model="pickup_date"
                 >
-                  <q-date
-                    name="pickup_date"
-                    id="pickup_date"
-                    v-model="pickup_date"
-                  >
-                    <div class="items-center justify-end row">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </q-card-section>
-        <q-card-section class="col">
-          <q-input
-            hide-bottom-space
-            v-model="pickup_time"
-            mask="time"
-            :rules="['time']"
-            label="Pickup Time:"
-            dense
-            square
-            outlined
-            stack-label
-            bg-color="white"
-          >
-            <template v-slot:append>
-              <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy
-                  v-model="showTimePopup"
-                  cover
-                  transition-show="scale"
-                  transition-hide="scale"
+                  <div class="items-center justify-end row">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+      </q-card-section>
+      <q-card-section class="col">
+        <q-input
+          hide-bottom-space
+          v-model="pickup_time"
+          mask="time"
+          :rules="['time']"
+          label="Pickup Time:"
+          dense
+          square
+          outlined
+          stack-label
+          bg-color="white"
+        >
+          <template v-slot:append>
+            <q-icon name="access_time" class="cursor-pointer">
+              <q-popup-proxy
+                v-model="showTimePopup"
+                cover
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-time
+                  v-model="pickup_time"
+                  name="pickup_date"
+                  id="pickup_date"
                 >
-                  <q-time
-                    v-model="pickup_time"
-                    name="pickup_date"
-                    id="pickup_date"
-                  >
-                    <div class="items-center justify-end row">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                  </q-time>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </q-card-section>
+                  <div class="items-center justify-end row">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </q-time>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
       </q-card-section>
-      <q-card-section horizontal>
-        <q-card-section class="col">
-          <q-select
-            hide-bottom-space
-            v-model="service_type"
-            for="service-type"
-            id="service-type"
-            dense
-            label="Service Type:"
-            stack-label
-            outlined
-            square
-            :options="serviceTypeOptions"
-            :rules="[(val) => !!val || 'Please Select a Service Type']"
-            bg-color="white"
-          />
-        </q-card-section>
-        <q-card-section class="col">
-          <q-select
-            hide-bottom-space
-            label="Passengers:"
-            name="num_passengers"
-            id="num_passengers"
-            dense
-            outlined
-            square
-            stack-label
-            v-model="num_passengers"
-            :options="passengerOptions"
-            bg-color="white"
-          />
-        </q-card-section>
-      </q-card-section>
-      <q-card-section v-if="showHourlyInput" class="col">
+    </q-card-section>
+    <q-card-section class="flex flex-col xs:flex-row q-pa-none">
+      <q-card-section class="col">
         <q-select
           hide-bottom-space
-          name="num_hours"
-          id="num_hours"
-          label="Number Of Hours:"
-          v-model="num_hours"
-          :options="['2hr', '2hr 15']"
+          v-model="service_type"
+          for="service-type"
+          id="service-type"
+          dense
+          label="Service Type:"
+          stack-label
           outlined
           square
-          dense
+          :options="serviceTypeOptions"
+          :rules="[(val) => !!val || 'Please Select a Service Type']"
           bg-color="white"
         />
       </q-card-section>
-      <q-card-section horizontal>
-        <q-card-section class="col">
-          <q-input
-            hide-bottom-space
-            type="text"
-            name="first_name"
-            id="first_name"
-            v-model="first_name"
-            label="First Name:"
-            outlined
-            square
-            dense
-            stack-label
-            :rules="[(val) => !!val || 'First Name is required']"
-            bg-color="white"
-          />
-        </q-card-section>
-        <q-card-section class="col">
-          <q-input
-            hide-bottom-space
-            type="text"
-            name="last_name"
-            id="last_name"
-            label="Last Name:"
-            dense
-            outlined
-            square
-            stack-label
-            v-model="last_name"
-            :rules="[(val) => !!val || 'Last Name is required']"
-            bg-color="white"
-          />
-        </q-card-section>
-      </q-card-section>
-      <q-card-section horizontal>
-        <q-card-section class="col">
-          <q-input
-            hide-bottom-space
-            type="email"
-            name="email"
-            id="email"
-            label="Email Address:"
-            v-model="email_address"
-            dense
-            outlined
-            square
-            stack-label
-            :rules="['email']"
-            bg-color="white"
-            :autocomplete="false"
-          />
-        </q-card-section>
-        <q-card-section class="col">
-          <q-field
-            name="phone"
-            id="phone"
-            v-model="phone_number"
-            dense
-            outlined
-            square
-            color="black"
-            bg-color="white"
-          >
-            <vue-tel-input
-              v-model="phone_number"
-              mode="international"
-              :inputOptions="inputOptions"
-            />
-          </q-field>
-
-          <!--                    <q-input-->
-          <!--                      type='text'-->
-          <!--                      name='phone'-->
-          <!--                      id='phone'-->
-          <!--                      label='Phone Number:'-->
-          <!--                      v-model='phone_number'-->
-          <!--                      dense-->
-          <!--                      outlined-->
-          <!--                      square-->
-          <!--                      stack-label-->
-          <!--                      fill-mask-->
-          <!--                      mask='phone'-->
-          <!--                      bg-color='white'-->
-          <!--                    />-->
-        </q-card-section>
-      </q-card-section>
-      <q-card-section>
+      <q-card-section class="col">
         <q-select
           hide-bottom-space
-          v-model="vehicle_type"
-          class="text-gray-500"
-          label="Vehicle Type"
-          :options="vehicleTypeOptions"
+          label="Passengers:"
+          name="num_passengers"
+          id="num_passengers"
           dense
           outlined
           square
           stack-label
-          :rules="[(val) => !!val || 'Please pick a Vehicle Type']"
+          v-model="num_passengers"
+          :options="passengerOptions"
           bg-color="white"
         />
       </q-card-section>
-      <q-card-section v-show="false">
-        <q-checkbox
-          name="round_trip"
-          id="round_trip"
-          class="text=white"
-          label="Round Trip"
-          v-model="is_round_trip"
-          color="primary"
+    </q-card-section>
+    <q-card-section v-if="showHourlyInput" class="col">
+      <q-select
+        hide-bottom-space
+        name="num_hours"
+        id="num_hours"
+        label="Number Of Hours:"
+        v-model="num_hours"
+        :options="['2hr', '2hr 15']"
+        outlined
+        square
+        dense
+        bg-color="white"
+      />
+    </q-card-section>
+    <q-card-section class="flex flex-col xs:flex-row q-pa-none">
+      <q-card-section class="col">
+        <q-input
+          hide-bottom-space
+          type="text"
+          name="first_name"
+          id="first_name"
+          v-model="first_name"
+          label="First Name:"
+          outlined
+          square
+          dense
+          stack-label
+          :rules="[(val) => !!val || 'First Name is required']"
+          bg-color="white"
         />
       </q-card-section>
-      <q-card-actions align="around" id="submit_button_wrapper">
-        <q-btn
-          id="submit_button"
-          type="submit"
-          label="Get Prices &amp; Availability"
-          color="red-8"
-          :loading="loading"
+      <q-card-section class="col">
+        <q-input
+          hide-bottom-space
+          type="text"
+          name="last_name"
+          id="last_name"
+          label="Last Name:"
+          dense
+          outlined
+          square
+          stack-label
+          v-model="last_name"
+          :rules="[(val) => !!val || 'Last Name is required']"
+          bg-color="white"
         />
-      </q-card-actions>
-      <q-card-section>
-        <div class="text-center text-subtitle2">Terms of Use</div>
       </q-card-section>
-    </q-card>
-    <q-card class="w-full h-full" v-show="false">
-      <q-card-section flat>
-        <div ref="myMap" id="my-map"></div>
+    </q-card-section>
+    <q-card-section class="flex flex-col xs:flex-row q-pa-none">
+      <q-card-section class="col">
+        <q-input
+          hide-bottom-space
+          type="email"
+          name="email"
+          id="email"
+          label="Email Address:"
+          v-model="email_address"
+          dense
+          outlined
+          square
+          stack-label
+          :rules="['email']"
+          bg-color="white"
+          :autocomplete="false"
+        />
       </q-card-section>
-    </q-card>
-  </div>
+      <q-card-section class="col">
+        <q-field
+          name="phone"
+          id="phone"
+          v-model="phone_number"
+          dense
+          outlined
+          square
+          color="black"
+          bg-color="white"
+          class="w-full"
+        >
+          <vue-tel-input
+            v-model="phone_number"
+            mode="international"
+            :inputOptions="inputOptions"
+          />
+        </q-field>
+
+        <!--                    <q-input-->
+        <!--                      type='text'-->
+        <!--                      name='phone'-->
+        <!--                      id='phone'-->
+        <!--                      label='Phone Number:'-->
+        <!--                      v-model='phone_number'-->
+        <!--                      dense-->
+        <!--                      outlined-->
+        <!--                      square-->
+        <!--                      stack-label-->
+        <!--                      fill-mask-->
+        <!--                      mask='phone'-->
+        <!--                      bg-color='white'-->
+        <!--                    />-->
+      </q-card-section>
+    </q-card-section>
+    <q-card-section>
+      <q-select
+        hide-bottom-space
+        v-model="vehicle_type"
+        class="text-gray-500"
+        label="Vehicle Type"
+        :options="vehicleTypeOptions"
+        dense
+        outlined
+        square
+        stack-label
+        :rules="[(val) => !!val || 'Please pick a Vehicle Type']"
+        bg-color="white"
+      />
+    </q-card-section>
+    <q-card-section v-show="false">
+      <q-checkbox
+        name="round_trip"
+        id="round_trip"
+        class="text=white"
+        label="Round Trip"
+        v-model="is_round_trip"
+        color="primary"
+      />
+    </q-card-section>
+    <q-card-actions align="around" id="submit_button_wrapper">
+      <q-btn
+        id="submit_button"
+        type="submit"
+        label="Get Prices &amp; Availability"
+        color="red-8"
+        :loading="loading"
+      />
+    </q-card-actions>
+    <!--      <q-card-section>-->
+    <!--        <div class="text-center text-subtitle2">Terms of Use</div>-->
+    <!--      </q-card-section>-->
+    <q-card-section flat class="w-full h-full" v-show="false">
+      <div ref="myMap" id="my-map"></div>
+    </q-card-section>
+  </q-card>
 </template>
 <!--suppress CssMissingComma -->
 <style>

@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page>
     <QuasarForm />
   </q-page>
 </template>
