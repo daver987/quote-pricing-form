@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'cloudflare',
   },
+  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', 'nuxt-quasar-vite'],
   build: {
     transpile: ['quasar'],
   },
@@ -14,7 +15,6 @@ export default defineNuxtConfig({
       MAPS_API_KEY: process.env.MAPS_API_KEY,
     },
   },
-  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', 'nuxt-quasar-vite'],
   css: ['vue-tel-input/dist/vue-tel-input.css'],
   quasar: {
     // Optional string | boolean

@@ -213,8 +213,8 @@ const {
   last_name,
   email_address,
   phone_number,
-  full_name,
-  vehicle_image,
+  // full_name,
+  // vehicle_image,
 } = storeToRefs(contacts)
 
 //data for hubspot deals from the deal store
@@ -224,7 +224,7 @@ const {
   pickup_time,
   service_type,
   vehicle_type,
-  num_hours,
+  number_of_hours,
   num_passengers,
   is_round_trip,
 } = storeToRefs(deal)
@@ -304,7 +304,7 @@ const submitForm = async () => {
   console.log(serviceRate)
   const baseRate = getBaseRate(
     isItHourly.value,
-    num_hours.value,
+    number_of_hours.value.value,
     distance_traveled.value,
     serviceRate as Rates
   ) as number
@@ -321,81 +321,6 @@ const submitForm = async () => {
   fuel_surcharge.value = fuelSurcharge
   gratuity_rate.value = gratuity
   hst.value = HST
-
-  //required contact data for hubspot
-  // const contactData = ref({
-  //   properties: {
-  //     firstname: first_name.value,
-  //     lastname: last_name.value,
-  //     email: email_address.value,
-  //     phone: phone_number.value,
-  //     pick_up_date: pickup_date.value,
-  //     pick_up_time: pickup_time.value,
-  //     pickup_address: origin_location.value,
-  //     drop_off_location: destination_location.value,
-  //     vehicle_type: vehicle_type.value.label,
-  //     hubspot_owner_id: 191740050,
-  //     vehicle_image_url: vehicle_image.value,
-  //     deal_amount: total_cost.value,
-  //     full_name: first_name.value + ' ' + last_name.value,
-  //   },
-  // })
-  // console.log(contactData.value)
-  //
-  // async function createContact(contactData) {
-  //   const { data: contact } = await useFetch('/api/contacts', {
-  //     method: 'POST',
-  //     body: contactData.value,
-  //   })
-  //   const createContactResponse = { ...contact.value.createContactResponse }
-  //   const { id: contactId, properties: contactProperties } =
-  //     createContactResponse
-  //   console.log(contactId, contactProperties)
-  //   return contactId
-  // }
-
-  // const contactId = await createContact(contactData)
-  //
-  // //required deal data for hubspot
-  // const deal_name = ref(`${first_name.value} ${last_name.value} - New Deal`)
-  // const dealData = ref({
-  //   properties: {
-  //     amount: total_cost.value,
-  //     dealname: deal_name.value,
-  //     dealstage: hsProps.dealstage,
-  //     pipeline: hsProps.pipeline,
-  //     hubspot_owner_id: hsProps.hubspot_owner_id,
-  //     dealtype: hsProps.dealtype,
-  //   },
-  // })
-
-  // async function createDeal({ dealData }: Deal) {
-  //   const { data: deals } = await useFetch('/api/deals', {
-  //     method: 'POST',
-  //     body: dealData.value,
-  //   })
-  //
-  //   //parse the deal id from the response
-  //   const { id: dealId, properties: dealProperties } = {
-  //     ...deals.value.createDealResponse,
-  //   }
-  //   console.log(dealId, dealProperties)
-  //   return dealId
-  // }
-
-  //api call to hubspot to create a deal
-  // const dealId = await createDeal({ dealData: dealData })
-  //
-  // async function hsAssociate(dealId: string, contactId: string) {
-  //   const useUrl = `https://api.hubapi.com/crm/v3/objects/deals/${dealId}/associations/contact/${contactId}/deal_to_contact`
-  //   const { data: associations } = await useFetch('/api/associations', {
-  //     method: 'PUT',
-  //     body: useUrl,
-  //   })
-  //   console.log(associations.value)
-  // }
-  //
-  // await hsAssociate(dealId, contactId)
 
   const submissionInfo = {
     fields: [
@@ -446,6 +371,12 @@ const submitForm = async () => {
       },
       {
         objectTypeId: '0-1',
+        name: 'service_type',
+        value: service_type.value.label,
+      },
+
+      {
+        objectTypeId: '0-1',
         name: 'deal_amount',
         value: total_cost.value,
       },
@@ -457,7 +388,7 @@ const submitForm = async () => {
       {
         objectTypeId: '0-1',
         name: 'hours',
-        value: num_hours.value,
+        value: number_of_hours.value.value,
       },
     ],
   }
@@ -467,15 +398,6 @@ const submitForm = async () => {
     body: submissionInfo,
   })
   console.log(successMessage.value)
-
-  const { data: zapData } = await useFetch('/api/capture', {
-    method: 'POST',
-    body: submissionInfo,
-  })
-
-  console.log(zapData.value)
-
-  //timeout before loading the quote page
   const router = useRouter()
   setTimeout(() => {
     router.push('/quoted')
@@ -484,12 +406,147 @@ const submitForm = async () => {
   loading.value = false
 }
 
+// const { data: zapData } = await useFetch('/api/capture', {
+//   method: 'POST',
+//   body: submissionInfo,
+// })
+//
+// console.log(zapData.value)
+
+//timeout before loading the quote page
+
+interface HoursRequiredOptions {
+  value: number
+  label: string
+}
+
+const hoursRequiredOptions = [
+  {
+    label: '2 hrs',
+    value: 2,
+  },
+  {
+    label: '3 hrs',
+    value: 3,
+  },
+  {
+    label: '4 hrs',
+    value: 4,
+  },
+  {
+    label: '5 hrs',
+    value: 5,
+  },
+  {
+    label: '6 hrs',
+    value: 6,
+  },
+  {
+    label: '7 hrs',
+    value: 7,
+  },
+  {
+    label: '8 hrs',
+    value: 8,
+  },
+  {
+    label: '9 hrs',
+    value: 9,
+  },
+  {
+    label: '10 hrs',
+    value: 10,
+  },
+  {
+    label: '11 hrs',
+    value: 11,
+  },
+  {
+    label: '12 hrs',
+    value: 12,
+  },
+] as HoursRequiredOptions[]
 const inputOptions = ref({
   placeholder: 'Phone Number',
   showDialCode: true,
   required: true,
   invalidMsg: 'Please enter a valid phone number',
 })
+
+//required contact data for hubspot
+// const contactData = ref({
+//   properties: {
+//     firstname: first_name.value,
+//     lastname: last_name.value,
+//     email: email_address.value,
+//     phone: phone_number.value,
+//     pick_up_date: pickup_date.value,
+//     pick_up_time: pickup_time.value,
+//     pickup_address: origin_location.value,
+//     drop_off_location: destination_location.value,
+//     vehicle_type: vehicle_type.value.label,
+//     hubspot_owner_id: 191740050,
+//     vehicle_image_url: vehicle_image.value,
+//     deal_amount: total_cost.value,
+//     full_name: first_name.value + ' ' + last_name.value,
+//   },
+// })
+// console.log(contactData.value)
+//
+// async function createContact(contactData) {
+//   const { data: contact } = await useFetch('/api/contacts', {
+//     method: 'POST',
+//     body: contactData.value,
+//   })
+//   const createContactResponse = { ...contact.value.createContactResponse }
+//   const { id: contactId, properties: contactProperties } =
+//     createContactResponse
+//   console.log(contactId, contactProperties)
+//   return contactId
+// }
+
+// const contactId = await createContact(contactData)
+//
+// //required deal data for hubspot
+// const deal_name = ref(`${first_name.value} ${last_name.value} - New Deal`)
+// const dealData = ref({
+//   properties: {
+//     amount: total_cost.value,
+//     dealname: deal_name.value,
+//     dealstage: hsProps.dealstage,
+//     pipeline: hsProps.pipeline,
+//     hubspot_owner_id: hsProps.hubspot_owner_id,
+//     dealtype: hsProps.dealtype,
+//   },
+// })
+
+// async function createDeal({ dealData }: Deal) {
+//   const { data: deals } = await useFetch('/api/deals', {
+//     method: 'POST',
+//     body: dealData.value,
+//   })
+//
+//   //parse the deal id from the response
+//   const { id: dealId, properties: dealProperties } = {
+//     ...deals.value.createDealResponse,
+//   }
+//   console.log(dealId, dealProperties)
+//   return dealId
+// }
+
+//api call to hubspot to create a deal
+// const dealId = await createDeal({ dealData: dealData })
+//
+// async function hsAssociate(dealId: string, contactId: string) {
+//   const useUrl = `https://api.hubapi.com/crm/v3/objects/deals/${dealId}/associations/contact/${contactId}/deal_to_contact`
+//   const { data: associations } = await useFetch('/api/associations', {
+//     method: 'PUT',
+//     body: useUrl,
+//   })
+//   console.log(associations.value)
+// }
+//
+// await hsAssociate(dealId, contactId)
 //todo: make the form reset without it having all of the inputs with errors
 //todo: integrate with stripe for payment
 //todo: add logic to check if the user picked an airport, if true add extra to the cost
@@ -497,18 +554,21 @@ const inputOptions = ref({
 //todo: add waypoints to the route for the quote
 //todo: add popup to show images of the vehicles
 //todo: add popup to show the terms and conditions
+const onReset = () => ref(null)
 </script>
 
 <template>
-  <q-card
-    dark
+  <q-form
     bordered
     rounded-borders
+    no-error-focus
+    no-reset-focus
     tag="form"
     @submit.prevent="submitForm"
+    @reset="onReset"
     id="lead_form"
     ref="myForm"
-    class="max-w-xl mx-auto q-pt-sm q-pb-md"
+    class="max-w-xl mx-auto q-pt-sm q-pb-md bg-black"
   >
     <q-card-section>
       <div class="text-center text-white text-h5">Instant Quote</div>
@@ -523,6 +583,7 @@ const inputOptions = ref({
         ref="originLocation"
         class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
         required
+        :rules="[(val) => !!val || 'Please Enter a Destination']"
       />
     </q-card-section>
     <q-card-section v-if="showDestinationInput">
@@ -535,6 +596,7 @@ const inputOptions = ref({
         ref="destinationLocation"
         class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
         required
+        :rules="[(val) => !!val || 'Please Enter a Destination']"
       />
     </q-card-section>
     <q-card-section class="flex flex-col xs:flex-row q-pa-none">
@@ -550,6 +612,7 @@ const inputOptions = ref({
           stack-label
           label="Pick Up Date:"
           bg-color="white"
+          lazy-rules="ondemand"
         >
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
@@ -580,6 +643,7 @@ const inputOptions = ref({
           mask="time"
           :rules="['time']"
           label="Pickup Time:"
+          lazy-rules="ondemand"
           dense
           square
           outlined
@@ -624,6 +688,7 @@ const inputOptions = ref({
           :options="serviceTypeOptions"
           :rules="[(val) => !!val || 'Please Select a Service Type']"
           bg-color="white"
+          lazy-rules="ondemand"
         />
       </q-card-section>
       <q-card-section class="col">
@@ -639,6 +704,8 @@ const inputOptions = ref({
           v-model="num_passengers"
           :options="passengerOptions"
           bg-color="white"
+          lazy-rules="ondemand"
+          :rules="[(val) => !!val || 'Please Select the Number of Passengers']"
         />
       </q-card-section>
     </q-card-section>
@@ -648,12 +715,14 @@ const inputOptions = ref({
         name="num_hours"
         id="num_hours"
         label="Number Of Hours:"
-        v-model="num_hours"
-        :options="['2hr', '2hr 15']"
+        v-model="number_of_hours"
+        :options="hoursRequiredOptions"
         outlined
         square
         dense
         bg-color="white"
+        lazy-rules="ondemand"
+        :rules="[(val) => !!val || 'Please Select the Hours Required']"
       />
     </q-card-section>
     <q-card-section class="flex flex-col xs:flex-row q-pa-none">
@@ -670,6 +739,7 @@ const inputOptions = ref({
           dense
           stack-label
           :rules="[(val) => !!val || 'First Name is required']"
+          lazy-rules="ondemand"
           bg-color="white"
         />
       </q-card-section>
@@ -686,6 +756,7 @@ const inputOptions = ref({
           stack-label
           v-model="last_name"
           :rules="[(val) => !!val || 'Last Name is required']"
+          lazy-rules="ondemand"
           bg-color="white"
         />
       </q-card-section>
@@ -703,6 +774,7 @@ const inputOptions = ref({
           outlined
           square
           stack-label
+          lazy-rules="ondemand"
           :rules="['email']"
           bg-color="white"
           :autocomplete="false"
@@ -724,23 +796,10 @@ const inputOptions = ref({
             v-model="phone_number"
             mode="international"
             :inputOptions="inputOptions"
+            class="w-full"
+            lazy-rules="ondemand"
           />
         </q-field>
-
-        <!--                    <q-input-->
-        <!--                      type='text'-->
-        <!--                      name='phone'-->
-        <!--                      id='phone'-->
-        <!--                      label='Phone Number:'-->
-        <!--                      v-model='phone_number'-->
-        <!--                      dense-->
-        <!--                      outlined-->
-        <!--                      square-->
-        <!--                      stack-label-->
-        <!--                      fill-mask-->
-        <!--                      mask='phone'-->
-        <!--                      bg-color='white'-->
-        <!--                    />-->
       </q-card-section>
     </q-card-section>
     <q-card-section>
@@ -756,6 +815,7 @@ const inputOptions = ref({
         stack-label
         :rules="[(val) => !!val || 'Please pick a Vehicle Type']"
         bg-color="white"
+        lazy-rules="ondemand"
       />
     </q-card-section>
     <q-card-section v-show="false">
@@ -783,7 +843,7 @@ const inputOptions = ref({
     <q-card-section flat class="w-full h-full" v-show="false">
       <div ref="myMap" id="my-map"></div>
     </q-card-section>
-  </q-card>
+  </q-form>
 </template>
 <!--suppress CssMissingComma -->
 <style>
@@ -805,5 +865,13 @@ const inputOptions = ref({
 #phone > div > div > div > div > div {
   background-color: rgb(0, 0, 0, 0.1);
   border: #333333;
+}
+
+#lead_form > div:nth-child(7) > div:nth-child(2) > label > div > div {
+  padding: 0 !important;
+}
+
+#phone {
+  padding: 0 !important;
 }
 </style>

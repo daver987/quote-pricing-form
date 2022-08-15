@@ -56,7 +56,7 @@ defineProps({
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label class="text-h6">Luxury Ride Service Inc. </q-item-label>
+          <q-item-label class="text-h6">Luxury Ride Service Inc.</q-item-label>
         </q-item-section>
       </q-item>
     </q-card-section>
@@ -97,7 +97,12 @@ defineProps({
       <div class="subheading2">Please Confirm Trip Details are Accurate</div>
     </q-card-section>
     <q-card-actions>
-      <q-btn color="primary" label="Start Over" @click="navigateHome" />
+      <q-btn
+        color="primary"
+        label="Book Now"
+        @click="navigateHome"
+        href="https://luxuryrideservice.com/reservations"
+      />
     </q-card-actions>
   </q-card>
 </template>
