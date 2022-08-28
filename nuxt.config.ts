@@ -5,7 +5,12 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'cloudflare',
   },
-  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', 'nuxt-quasar-vite'],
+  modules: [
+    '@pinia/nuxt',
+    '@nuxtjs/tailwindcss',
+    'nuxt-quasar-vite',
+    '@vueuse/nuxt',
+  ],
   build: {
     transpile: ['quasar'],
   },
@@ -31,5 +36,4 @@ export default defineNuxtConfig({
       dark: false,
     },
   },
-  // sourcemap: false,
 })
