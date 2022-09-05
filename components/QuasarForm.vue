@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import { useMapStore } from '~~/stores/useMapStore'
 import { Loader } from '@googlemaps/js-api-loader'
 // import { UAParser } from 'ua-parser-js'
-import { VueTelInput } from 'vue-tel-input'
+import Vue3QTelInput from 'vue3-q-tel-input'
 
 // const parser = ref(new UAParser())
 // const result = parser.value.getResult()
@@ -809,19 +809,19 @@ const onReset = () => ref(null)
         />
       </QCardSection>
       <QCardSection class="col">
-        <vue-tel-input
-          v-model="phone_number"
-          mode="international"
-          :inputOptions="{
-            placeholder: 'Phone Number',
-            showDialCode: true,
-            required: true,
-            invalidMsg: 'Please enter a valid phone number',
-            name: 'phone_number',
-          }"
-          class="w-full"
-          required
+        <vue3-q-tel-input
+          v-model:tel="phone_number"
+          dense
+          outlined
+          square
+          stack-label
+          lazy-rules
+          bg-color="white"
+          label="Phone Number:"
           name="phone_number"
+          id="phone_number"
+          input-mask="phone"
+          :required="false"
         />
       </QCardSection>
     </QCardSection>
@@ -875,5 +875,20 @@ div.q-card__section:nth-child(3) > label:nth-child(1) {
 .bg-dark > div:nth-child(1) {
   padding-left: 0;
   padding-right: 0;
+}
+
+#lead_form
+  > div:nth-child(8)
+  > div:nth-child(2)
+  > label
+  > div
+  > div.q-field__control.relative-position.row.no-wrap.bg-white
+  > div.q-field__prepend.q-field__marginal.row.no-wrap.items-center
+  > label
+  > div
+  > div
+  > div
+  > div {
+  padding-top: 5px !important;
 }
 </style>

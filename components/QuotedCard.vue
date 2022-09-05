@@ -17,7 +17,7 @@ defineProps({
     type: Number,
   },
   fullName: {
-    default: '',
+    default: 'Customer',
     type: String,
   },
   vehicleImage: {

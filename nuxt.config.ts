@@ -2,11 +2,8 @@ import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  // nitro: {
-  //   preset: 'cloudflare',
-  // },
   nitro: {
-    preset: 'vercel',
+    preset: 'cloudflare',
   },
 
   modules: [
@@ -16,7 +13,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
   ],
   build: {
-    transpile: ['quasar'],
+    transpile: ['quasar', 'vue3-tel-input'],
   },
   runtimeConfig: {
     apiSecret: process.env.HUBSPOT_ACCESS_TOKEN,
@@ -24,7 +21,7 @@ export default defineNuxtConfig({
       MAPS_API_KEY: process.env.MAPS_API_KEY,
     },
   },
-  css: ['vue-tel-input/dist/vue-tel-input.css'],
+  css: ['vue3-q-tel-input/dist/vue3-q-tel-input.esm.css'],
   quasar: {
     // Optional string | boolean
     sassVariables: 'assets/styles/quasar.variables.scss',
