@@ -6,9 +6,9 @@ export default defineNuxtConfig({
   //   preset: 'cloudflare',
   // },
   nitro: {
-    preset: 'cloudflare_pages',
+    preset: 'vercel',
   },
-  target: 'static',
+
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
