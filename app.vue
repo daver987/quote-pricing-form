@@ -1,12 +1,15 @@
 <script setup lang="ts">
-// scripts here
+import { UAParser } from 'ua-parser-js'
+
+const parser = ref(new UAParser())
+console.log(parser.value, parser.value.getResult())
 </script>
 
 <template>
-  <q-layout view="hHh lpR fFf">
-    <q-page-container>
+  <QLayout view="hHh lpR fFf">
+    <QPageContainer>
       <NuxtPage />
-    </q-page-container>
-    <q-footer hidden></q-footer>
-  </q-layout>
+    </QPageContainer>
+    <QFooter hidden></QFooter>
+  </QLayout>
 </template>

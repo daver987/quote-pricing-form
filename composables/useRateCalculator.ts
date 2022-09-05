@@ -22,12 +22,12 @@ const getRateFromId = (id: number, rates: Rates[]) => {
 
 //Function that takes the rate object checks to see if the pricing in hourly or by distance then calculates the base
 // rate
-const getBaseRate = (
+function getBaseRate(
   isHourly: boolean,
   numHours: number,
   numKms: number,
   rate: Rates
-) => {
+) {
   if (isHourly) {
     if (numHours < rate.min_hours_hourly) {
       return rate.min_rate_hourly

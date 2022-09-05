@@ -4,7 +4,7 @@
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="10">
+          <list size="13">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -15,6 +15,9 @@
             <item index="7" class="java.lang.String" itemvalue="nuxtlayout" />
             <item index="8" class="java.lang.String" itemvalue="quotedcard" />
             <item index="9" class="java.lang.String" itemvalue="vue-tel-input" />
+            <item index="10" class="java.lang.String" itemvalue="qpagecontainerr" />
+            <item index="11" class="java.lang.String" itemvalue="vuetelinput" />
+            <item index="12" class="java.lang.String" itemvalue="testform" />
           </list>
         </value>
       </option>

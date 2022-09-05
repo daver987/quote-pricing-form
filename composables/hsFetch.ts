@@ -94,3 +94,63 @@ const hsFetch = async (hsEndPoint: string, hsBody: object, secret: string) => {
 // }
 
 export { hsFetch }
+// const myForm = ref(null)
+// onMounted(() => {
+//   console.dir(myForm)
+// })
+//
+// const rules = {
+//   origin_input: {
+//     required,
+//     minLength: minLength(3),
+//   },
+//   destination_input: {
+//     required,
+//     minLength: minLength(3),
+//   },
+//   pickup_date: {
+//     required,
+//   },
+//   pickup_time: {
+//     required,
+//   },
+//   service_type: {
+//     required,
+//   },
+//   num_passengers: {
+//     required,
+//   },
+//   vehicle_type: {
+//     required,
+//   },
+//   first_name: {
+//     required,
+//     minLength: minLength(3),
+//   },
+//   last_name: {
+//     required,
+//     minLength: minLength(3),
+//   },
+//   email_address: {
+//     required,
+//     email,
+//   },
+//   phone_number: {
+//     required,
+//   },
+// }
+// const state = reactive({
+//   origin_input: origin_location.value,
+//   destination_input: destination_location.value,
+//   pickup_date: pickup_date.value,
+//   pickup_time: pickup_time.value,
+//   service_type: service_type.value,
+//   num_passengers: num_passengers.value,
+//   vehicle_type: vehicle_type.value,
+//   first_name: first_name.value,
+//   last_name: last_name.value,
+//   email_address: email_address.value,
+//   phone_number: phone_number.value,
+// })
+// const v$ = useVuelidate(rules, state)
+// console.log(v$)

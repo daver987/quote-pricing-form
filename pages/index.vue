@@ -1,7 +1,7 @@
 <template>
-  <q-page>
+  <QPage padding>
     <QuasarForm />
-  </q-page>
+  </QPage>
 </template>
 
 <script setup lang="ts">

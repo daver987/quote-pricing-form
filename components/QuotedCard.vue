@@ -38,7 +38,6 @@ defineProps({
     type: String,
   },
 })
-//todo reroute to home if there is no quote
 //todo nice to have:have a popup for the vehicle types with images and information, tooltips to the vehicle and service types,
 //todo add a name of the quote and a quote number, for when the email gets automatically sent
 </script>

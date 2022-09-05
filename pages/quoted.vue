@@ -19,7 +19,7 @@ const vehicleImage = ref(vehicle_image.value)
 </script>
 
 <template>
-  <q-page padding>
+  <QPage padding>
     <QuotedCard
       :totalCost="total_cost"
       :vehicleType="vehicleType"
@@ -29,5 +29,5 @@ const vehicleImage = ref(vehicle_image.value)
       :destinationLocation="destination_formatted_address"
       :pickupDate="pickup_date"
     />
-  </q-page>
+  </QPage>
 </template>

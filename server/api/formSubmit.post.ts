@@ -1,13 +1,20 @@
+import ip from 'ip'
+
 export default defineEventHandler(async (event) => {
-  const formSubmitResponse = await $fetch(
-    'https://api.hsforms.com/submissions/v3/integration/submit/22137357/4ed8687b-6f59-41ec-aa5a-2cb340725209',
+  const ipAddress = ip.address()
+  const body = await useBody(event)
+  const cookies = parseCookies(event)
+  const { hubspotutk: hutk } = cookies
+  body.context = { hutk, ipAddress }
+  const response = await $fetch(
+    'https://api.hsforms.com/submissions/v3/integration/submit/22137357/8fd8c57a-7df7-42ac-bf35-3025acaf1e10',
     {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: await useBody(event),
+      body: JSON.stringify(body),
     }
   )
-  return { formSubmitResponse }
+  return { response, cookies, body }
 })
