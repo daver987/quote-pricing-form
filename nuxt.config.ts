@@ -6,11 +6,6 @@ export default defineNuxtConfig({
   //   preset: 'cloudflare',
   // },
   nitro: {
-    output: {
-      dir: 'output',
-      serverDir: 'output/server',
-      publicDir: 'output/public',
-    },
     preset: 'cloudflare_pages',
   },
   target: 'static',
