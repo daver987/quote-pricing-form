@@ -4,11 +4,11 @@ import { Ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMapStore } from '~~/stores/useMapStore'
 import { Loader } from '@googlemaps/js-api-loader'
-import { UAParser } from 'ua-parser-js'
+// import { UAParser } from 'ua-parser-js'
 import { VueTelInput } from 'vue-tel-input'
 
-const parser = ref(new UAParser())
-const result = parser.value.getResult()
+// const parser = ref(new UAParser())
+// const result = parser.value.getResult()
 // const { ua, browser, device, os, cpu, engine } = result
 // console.log(ua, browser, device, os, cpu, engine)
 
@@ -557,301 +557,297 @@ const onReset = () => ref(null)
 </script>
 
 <template>
-  <div class="q-pa-sm">
-    <QForm
-      rounded-borders
-      no-error-focus
-      no-reset-focus
-      @submit.prevent="onSubmit"
-      @reset="onReset"
-      id="lead_form"
-      ref="myForm"
-      class="max-w-xl mx-auto q-px-sm q-pt-md q-pb-lg bg-black overflow-hidden"
-      autocomplete="off"
-    >
-      <QCardSection>
-        <div class="text-center text-white uppercase text-h5">
-          Instant Quote
-        </div>
-      </QCardSection>
-      <QCardSection>
-        <input
-          type="text"
-          id="origin-input"
-          name="origin_input"
-          placeholder="Enter Pickup Address or Airport Code"
-          v-model="origin_location"
-          ref="originLocation"
-          class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+  <QForm
+    rounded-borders
+    no-error-focus
+    no-reset-focus
+    @submit.prevent="onSubmit"
+    @reset="onReset"
+    id="lead_form"
+    ref="myForm"
+    class="max-w-xl mx-auto q-px-sm q-pt-md q-pb-lg bg-black overflow-hidden"
+    autocomplete="off"
+  >
+    <QCardSection>
+      <div class="text-center text-white uppercase text-h5">Instant Quote</div>
+    </QCardSection>
+    <QCardSection>
+      <input
+        type="text"
+        id="origin-input"
+        name="origin_input"
+        placeholder="Enter Pickup Address or Airport Code"
+        v-model="origin_location"
+        ref="originLocation"
+        class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+        required
+      />
+    </QCardSection>
+    <QCardSection>
+      <input
+        type="text"
+        required
+        id="destination-input"
+        name="destination_input"
+        placeholder="Enter Pickup Address or Airport Code"
+        v-model="destination_location"
+        ref="destinationLocation"
+        class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+      />
+    </QCardSection>
+    <QCardSection class="flex flex-col xs:flex-row q-pa-none">
+      <QCardSection class="col">
+        <QInput
+          hide-bottom-space
+          v-model="pickup_date"
+          mask="date"
+          :rules="['date']"
+          outlined
+          dense
+          square
+          stack-label
+          label="Pick Up Date:"
+          bg-color="white"
+          lazy-rules="ondemand"
+          name="pickup_date"
           required
+        >
+          <template v-slot:append>
+            <QIcon name="event" class="cursor-pointer">
+              <QPopupProxy
+                cover
+                transition-show="scale"
+                transition-hide="scale"
+                v-model="showDatePopup"
+              >
+                <QDate
+                  name="pickup_date"
+                  id="pickup_date"
+                  v-model="pickup_date"
+                  required
+                  :rules="['date']"
+                >
+                  <div class="items-center justify-end row">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </QDate>
+              </QPopupProxy>
+            </QIcon>
+          </template>
+        </QInput>
+      </QCardSection>
+      <QCardSection class="col">
+        <QInput
+          hide-bottom-space
+          v-model="pickup_time"
+          mask="time"
+          :rules="['time']"
+          label="Pickup Time:"
+          lazy-rules="ondemand"
+          dense
+          square
+          outlined
+          name="pickup_time"
+          stack-label
+          bg-color="white"
+        >
+          <template v-slot:append>
+            <QIcon name="access_time" class="cursor-pointer">
+              <QPopupProxy
+                v-model="showTimePopup"
+                cover
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <QTime
+                  v-model="pickup_time"
+                  name="pickup_date"
+                  id="pickup_date"
+                  required
+                  :rules="['time']"
+                >
+                  <div class="items-center justify-end row">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </QTime>
+              </QPopupProxy>
+            </QIcon>
+          </template>
+        </QInput>
+      </QCardSection>
+    </QCardSection>
+    <QCardSection class="flex flex-col xs:flex-row q-pa-none">
+      <QCardSection class="col">
+        <QSelect
+          hide-bottom-space
+          v-model="service_type"
+          for="service-type"
+          id="service-type"
+          name="service_type"
+          dense
+          label="Service Type:"
+          stack-label
+          outlined
+          square
+          :options="serviceTypeOptions"
+          bg-color="white"
+          lazy-rules
+          :rules="[(val) => !!val || '* Required']"
         />
       </QCardSection>
-      <QCardSection>
-        <input
+      <QCardSection class="col">
+        <QSelect
+          hide-bottom-space
+          label="Passengers:"
+          name="num_passengers"
+          id="num_passengers"
+          dense
+          outlined
+          square
+          stack-label
+          v-model="num_passengers"
+          :options="passengerOptions"
+          bg-color="white"
+          lazy-rules
+          emit-value
+          :rules="[(val) => !!val || '* Required']"
+        />
+      </QCardSection>
+    </QCardSection>
+    <QCardSection class="flex flex-col xs:flex-row q-pa-none">
+      <QCardSection class="col">
+        <QSelect
+          hide-bottom-space
+          v-model="vehicleType"
+          class="text-gray-500"
+          label="Vehicle Type"
+          :options="vehicleTypeOptions"
+          dense
+          name="vehicle_type"
+          outlined
+          square
+          stack-label
+          bg-color="white"
+          lazy-rules="ondemand"
+          :rules="[(val) => !!val || '* Required']"
+        />
+      </QCardSection>
+      <QCardSection class="col">
+        <QSelect
+          hide-bottom-space
+          name="number_of_hours"
+          id="num_hours"
+          label="Number Of Hours:"
+          v-model="numberOfHours"
+          :options="hoursRequiredOptions"
+          outlined
+          square
+          dense
+          stack-label
+          :disable="!isItHourly"
+          bg-color="white"
+          lazy-rules="ondemand"
+          emit-value
+          :rules="[(val) => !!val || '* Required']"
+        />
+      </QCardSection>
+    </QCardSection>
+    <QCardSection class="flex flex-col xs:flex-row q-pa-none">
+      <QCardSection class="col">
+        <QInput
+          hide-bottom-space
           type="text"
+          name="first_name"
+          id="first_name"
+          v-model="first_name"
+          label="First Name:"
+          outlined
+          square
+          dense
+          stack-label
+          lazy-rules
+          bg-color="white"
+          :rules="[(val) => !!val || '* Required']"
+        />
+      </QCardSection>
+      <QCardSection class="col">
+        <QInput
+          hide-bottom-space
+          type="text"
+          name="last_name"
+          id="last_name"
+          label="Last Name:"
+          dense
+          outlined
+          square
+          stack-label
+          v-model="last_name"
+          lazy-rules
+          :rules="[(val) => !!val || '* Required']"
+          bg-color="white"
+        />
+      </QCardSection>
+    </QCardSection>
+    <QCardSection class="flex flex-col xs:flex-row q-pa-none">
+      <QCardSection class="col">
+        <QInput
+          hide-bottom-space
+          type="email"
+          name="email_address"
+          id="email"
+          label="Email Address:"
+          v-model="email_address"
+          dense
+          outlined
+          square
+          stack-label
+          lazy-rules
+          :rules="['email']"
+          bg-color="white"
           required
-          id="destination-input"
-          name="destination_input"
-          placeholder="Enter Pickup Address or Airport Code"
-          v-model="destination_location"
-          ref="destinationLocation"
-          class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+          :autocomplete="false"
         />
       </QCardSection>
-      <QCardSection class="flex flex-col xs:flex-row q-pa-none">
-        <QCardSection class="col">
-          <QInput
-            hide-bottom-space
-            v-model="pickup_date"
-            mask="date"
-            :rules="['date']"
-            outlined
-            dense
-            square
-            stack-label
-            label="Pick Up Date:"
-            bg-color="white"
-            lazy-rules="ondemand"
-            name="pickup_date"
-            required
-          >
-            <template v-slot:append>
-              <QIcon name="event" class="cursor-pointer">
-                <QPopupProxy
-                  cover
-                  transition-show="scale"
-                  transition-hide="scale"
-                  v-model="showDatePopup"
-                >
-                  <QDate
-                    name="pickup_date"
-                    id="pickup_date"
-                    v-model="pickup_date"
-                    required
-                    :rules="['date']"
-                  >
-                    <div class="items-center justify-end row">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                  </QDate>
-                </QPopupProxy>
-              </QIcon>
-            </template>
-          </QInput>
-        </QCardSection>
-        <QCardSection class="col">
-          <QInput
-            hide-bottom-space
-            v-model="pickup_time"
-            mask="time"
-            :rules="['time']"
-            label="Pickup Time:"
-            lazy-rules="ondemand"
-            dense
-            square
-            outlined
-            name="pickup_time"
-            stack-label
-            bg-color="white"
-          >
-            <template v-slot:append>
-              <QIcon name="access_time" class="cursor-pointer">
-                <QPopupProxy
-                  v-model="showTimePopup"
-                  cover
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <QTime
-                    v-model="pickup_time"
-                    name="pickup_date"
-                    id="pickup_date"
-                    required
-                    :rules="['time']"
-                  >
-                    <div class="items-center justify-end row">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                  </QTime>
-                </QPopupProxy>
-              </QIcon>
-            </template>
-          </QInput>
-        </QCardSection>
-      </QCardSection>
-      <QCardSection class="flex flex-col xs:flex-row q-pa-none">
-        <QCardSection class="col">
-          <QSelect
-            hide-bottom-space
-            v-model="service_type"
-            for="service-type"
-            id="service-type"
-            name="service_type"
-            dense
-            label="Service Type:"
-            stack-label
-            outlined
-            square
-            :options="serviceTypeOptions"
-            bg-color="white"
-            lazy-rules
-            :rules="[(val) => !!val || '* Required']"
-          />
-        </QCardSection>
-        <QCardSection class="col">
-          <QSelect
-            hide-bottom-space
-            label="Passengers:"
-            name="num_passengers"
-            id="num_passengers"
-            dense
-            outlined
-            square
-            stack-label
-            v-model="num_passengers"
-            :options="passengerOptions"
-            bg-color="white"
-            lazy-rules
-            emit-value
-            :rules="[(val) => !!val || '* Required']"
-          />
-        </QCardSection>
-      </QCardSection>
-      <QCardSection class="flex flex-col xs:flex-row q-pa-none">
-        <QCardSection class="col">
-          <QSelect
-            hide-bottom-space
-            v-model="vehicleType"
-            class="text-gray-500"
-            label="Vehicle Type"
-            :options="vehicleTypeOptions"
-            dense
-            name="vehicle_type"
-            outlined
-            square
-            stack-label
-            bg-color="white"
-            lazy-rules="ondemand"
-            :rules="[(val) => !!val || '* Required']"
-          />
-        </QCardSection>
-        <QCardSection class="col">
-          <QSelect
-            hide-bottom-space
-            name="number_of_hours"
-            id="num_hours"
-            label="Number Of Hours:"
-            v-model="numberOfHours"
-            :options="hoursRequiredOptions"
-            outlined
-            square
-            dense
-            stack-label
-            :disable="!isItHourly"
-            bg-color="white"
-            lazy-rules="ondemand"
-            emit-value
-            :rules="[(val) => !!val || '* Required']"
-          />
-        </QCardSection>
-      </QCardSection>
-      <QCardSection class="flex flex-col xs:flex-row q-pa-none">
-        <QCardSection class="col">
-          <QInput
-            hide-bottom-space
-            type="text"
-            name="first_name"
-            id="first_name"
-            v-model="first_name"
-            label="First Name:"
-            outlined
-            square
-            dense
-            stack-label
-            lazy-rules
-            bg-color="white"
-            :rules="[(val) => !!val || '* Required']"
-          />
-        </QCardSection>
-        <QCardSection class="col">
-          <QInput
-            hide-bottom-space
-            type="text"
-            name="last_name"
-            id="last_name"
-            label="Last Name:"
-            dense
-            outlined
-            square
-            stack-label
-            v-model="last_name"
-            lazy-rules
-            :rules="[(val) => !!val || '* Required']"
-            bg-color="white"
-          />
-        </QCardSection>
-      </QCardSection>
-      <QCardSection class="flex flex-col xs:flex-row q-pa-none">
-        <QCardSection class="col">
-          <QInput
-            hide-bottom-space
-            type="email"
-            name="email_address"
-            id="email"
-            label="Email Address:"
-            v-model="email_address"
-            dense
-            outlined
-            square
-            stack-label
-            lazy-rules
-            :rules="['email']"
-            bg-color="white"
-            required
-            :autocomplete="false"
-          />
-        </QCardSection>
-        <QCardSection class="col">
-          <vue-tel-input
-            v-model="phone_number"
-            mode="international"
-            :inputOptions="{
-              placeholder: 'Phone Number',
-              showDialCode: true,
-              required: true,
-              invalidMsg: 'Please enter a valid phone number',
-              name: 'phone_number',
-            }"
-            class="w-full"
-            required
-            name="phone_number"
-          />
-        </QCardSection>
-      </QCardSection>
-      <QCardSection v-show="false">
-        <QCheckbox
-          name="round_trip"
-          id="round_trip"
-          class="text=white"
-          label="Round Trip"
-          v-model="is_round_trip"
-          color="primary"
+      <QCardSection class="col">
+        <vue-tel-input
+          v-model="phone_number"
+          mode="international"
+          :inputOptions="{
+            placeholder: 'Phone Number',
+            showDialCode: true,
+            required: true,
+            invalidMsg: 'Please enter a valid phone number',
+            name: 'phone_number',
+          }"
+          class="w-full"
+          required
+          name="phone_number"
         />
       </QCardSection>
-      <QCardActions align="around" id="submit_button_wrapper">
-        <QBtn
-          id="submit_button"
-          type="submit"
-          label="Get Prices &amp; Availability"
-          color="red-8"
-          :loading="loading"
-        />
-      </QCardActions>
-      <QCardSection flat class="w-full h-full" v-show="false">
-        <div ref="myMap" id="my-map"></div>
-      </QCardSection>
-    </QForm>
-  </div>
+    </QCardSection>
+    <QCardSection v-show="false">
+      <QCheckbox
+        name="round_trip"
+        id="round_trip"
+        class="text=white"
+        label="Round Trip"
+        v-model="is_round_trip"
+        color="primary"
+      />
+    </QCardSection>
+    <QCardActions align="around" id="submit_button_wrapper">
+      <QBtn
+        id="submit_button"
+        type="submit"
+        label="Get Prices &amp; Availability"
+        color="red-8"
+        :loading="loading"
+      />
+    </QCardActions>
+    <QCardSection flat class="w-full h-full" v-show="false">
+      <div ref="myMap" id="my-map"></div>
+    </QCardSection>
+  </QForm>
 </template>
 
 <!--suppress CssMissingComma -->

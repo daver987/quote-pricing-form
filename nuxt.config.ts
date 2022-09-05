@@ -2,9 +2,18 @@ import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  // nitro: {
+  //   preset: 'cloudflare',
+  // },
   nitro: {
-    preset: 'cloudflare',
+    output: {
+      dir: 'output',
+      serverDir: 'output/server',
+      publicDir: 'output/public',
+    },
+    preset: 'cloudflare_pages',
   },
+  target: 'static',
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
