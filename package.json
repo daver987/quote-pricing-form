@@ -1,9 +1,9 @@
 {
-  "name": "quote-pricing-form",
+  "name": "quote-pricing-form-1",
   "version": "1.1.0",
   "private": true,
   "scripts": {
-    "build": "NITRO_PRESET=cloudflare_pages npx nuxi build",
+    "build": "npx nuxi build && npx wrangler publish",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -13,27 +13,23 @@
     "@googlemaps/js-api-loader": "^1.14.3",
     "@gtm-support/vue-gtm": "^1.6.0",
     "@nuxtjs/tailwindcss": "^5.3.2",
-    "@pinia/nuxt": "^0.4.1",
+    "@pinia/nuxt": "^0.4.2",
     "@quasar/extras": "^1.15.2",
     "@tailwindcss/forms": "^0.5.3",
     "@types/google.maps": "^3.50.0",
     "@types/ip": "^1.1.0",
-    "@types/request-ip": "^0.0.37",
-    "@types/ua-parser-js": "^0.7.36",
     "@types/vue-tel-input": "^2.1.2",
-    "@vueuse/math": "^9.1.1",
-    "@vueuse/nuxt": "^9.1.1",
+    "@vueuse/math": "^9.2.0",
+    "@vueuse/nuxt": "^9.2.0",
     "ip": "^1.1.8",
-    "nuxt": "npm:nuxt3@latest",
-    "nuxt-quasar-vite": "^1.0.6",
+    "nuxt": "^3.0.0-rc.9",
+    "nuxt3-quasar": "^1.1.0",
     "postcss": "^8.4.16",
     "prettier": "^2.7.1",
     "quasar": "^2.7.7",
-    "sass": "1.32.13",
-    "ua-parser-js": "^1.0.2",
-    "vitest": "^0.23.0",
+    "sass": "1.32.0",
+    "vitest": "^0.23.1",
     "vue3-q-tel-input": "^1.0.21"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

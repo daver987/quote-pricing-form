@@ -4,8 +4,9 @@ import { Ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMapStore } from '~~/stores/useMapStore'
 import { Loader } from '@googlemaps/js-api-loader'
-// import { UAParser } from 'ua-parser-js'
 import Vue3QTelInput from 'vue3-q-tel-input'
+
+// import { UAParser } from 'ua-parser-js'
 
 // const parser = ref(new UAParser())
 // const result = parser.value.getResult()
@@ -387,7 +388,10 @@ const onSubmit = async (evt: Event) => {
     surcharges
   )
   const sumOfSurcharges = ref(baseRate + fuelSurcharge + gratuity + HST)
-  total_cost.value = usePrecision(sumOfSurcharges, 2) as unknown as number
+  total_cost.value = usePrecision(
+    sumOfSurcharges as unknown as number,
+    2
+  ) as unknown as number
 
   console.log(total_cost.value)
   //make total cost have 2 decimal places
@@ -417,7 +421,7 @@ const onSubmit = async (evt: Event) => {
     destination_input,
     pickup_date,
     pickup_time,
-    service_type,
+    // service_type,
     num_passengers,
     first_name,
     last_name,
@@ -425,6 +429,8 @@ const onSubmit = async (evt: Event) => {
     phone_number,
     /* @ts-ignore */
   } = Object.fromEntries(new FormData(evt.target as HTMLFormElement))
+
+  const service_type_id = ref(service_type.value.value) as Ref<number>
 
   const formBody = {
     fields: [
@@ -476,9 +482,13 @@ const onSubmit = async (evt: Event) => {
       {
         objectTypeId: '0-1',
         name: 'service_type',
-        value: service_type,
+        value: service_type.value.label,
       },
-
+      {
+        objectTypeId: '0-1',
+        name: 'service_type_id',
+        value: service_type_id.value,
+      },
       {
         objectTypeId: '0-1',
         name: 'deal_amount',
@@ -565,7 +575,7 @@ const onReset = () => ref(null)
     @reset="onReset"
     id="lead_form"
     ref="myForm"
-    class="max-w-xl mx-auto q-px-sm q-pt-md q-pb-lg bg-black overflow-hidden"
+    class="max-w-xl mx-auto overflow-hidden bg-black q-px-sm q-pt-md q-pb-lg"
     autocomplete="off"
   >
     <QCardSection>

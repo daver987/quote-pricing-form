@@ -16,7 +16,7 @@ defineProps({
     default: 0,
     type: Number,
   },
-  fullName: {
+  firstName: {
     default: 'Customer',
     type: String,
   },
@@ -63,13 +63,13 @@ defineProps({
     <q-card-section>
       <div class="text-h6">
         Custom Quote For:
-        <span class="font-bold text-h5">{{ fullName }}</span>
+        <span class="font-bold text-h5">{{ firstName }}</span>
       </div>
     </q-card-section>
     <q-card-section horizontal>
       <q-card-section class="col">
         <q-timeline color="primary">
-          <q-timeline-entry heading> Trip Details</q-timeline-entry>
+          <q-timeline-entry heading>Trip Details</q-timeline-entry>
           <q-timeline-entry
             title="Pickup"
             :subtitle="pickupDate"
