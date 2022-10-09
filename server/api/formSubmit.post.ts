@@ -1,5 +1,5 @@
 import ip from 'ip'
-
+// noinspection JSUnusedGlobalSymbols
 export default defineEventHandler(async (event) => {
   const ipAddress = ip.address()
   const body = await useBody(event)
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
-    }
+    },
   )
   return { response, cookies, body }
 })

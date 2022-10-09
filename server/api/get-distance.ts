@@ -1,3 +1,4 @@
+// noinspection JSUnusedGlobalSymbols
 export default defineEventHandler(async (event) => {
   const query = useQuery(event)
   const { origin, destination } = query
