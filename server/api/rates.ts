@@ -42,5 +42,5 @@ export default defineEventHandler(async (_event) => {
       min_distance: 25,
       min_rate_hourly: 256,
     },
-  ] as Rates[]
+  ] as unknown as Rates[]
 })

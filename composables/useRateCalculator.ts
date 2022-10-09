@@ -26,7 +26,7 @@ function getBaseRate(
   isHourly: boolean,
   numHours: number,
   numKms: number,
-  rate: Rates
+  rate: Rates,
 ) {
   if (isHourly) {
     if (numHours < rate.min_hours_hourly) {
@@ -39,7 +39,7 @@ function getBaseRate(
       return rate.min_rate_distance
     } else {
       return round(
-        rate.min_rate_distance + (numKms - rate.min_distance) * rate.per_km
+        rate.min_rate_distance + (numKms - rate.min_distance) * rate.per_km,
       )
     }
   }

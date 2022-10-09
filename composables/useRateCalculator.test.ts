@@ -107,7 +107,7 @@ const getBaseRate = (
   isHourly: boolean,
   num_hours: number,
   num_km: number,
-  rate: Rates
+  rate: Rates,
 ) => {
   if (isHourly) {
     if (num_hours < rate.min_hours_hourly) {

@@ -1,23 +1,23 @@
-import { defineNuxtConfig } from 'nuxt'
+import { defineNuxtConfig } from 'nuxt/config'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  typescript: {
-    shim: false,
-  },
+  // typescript: {
+  //   shim: false,
+  // },
   ssr: false,
   nitro: {
     preset: 'cloudflare',
   },
-
+  target: 'static',
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
-    ['nuxt3-quasar'],
+    'nuxt-quasar-vite',
     '@vueuse/nuxt',
   ],
   build: {
-    transpile: ['quasar', 'vue3-q-tel-input', '@googlemaps/js-api-loader'],
+    transpile: ['quasar', 'vue3-q-tel-input'],
   },
   runtimeConfig: {
     apiSecret: process.env.HUBSPOT_ACCESS_TOKEN,
