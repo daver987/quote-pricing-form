@@ -15,9 +15,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     HUBSPOT_ACCESS_TOKEN: process.env.HUBSPOT_ACCESS_TOKEN,
-    public: {
-      MAPS_API_KEY: process.env.MAPS_API_KEY,
-    },
+    MAPS_API_KEY: process.env.MAPS_API_KEY,
   },
   css: [
     'vue-tel-input/dist/vue-tel-input.css',

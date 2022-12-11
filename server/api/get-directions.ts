@@ -1,11 +1,11 @@
-import { Directions } from "~/types/Directions"
+import { Directions } from '~/types/Directions'
 
 export default defineEventHandler(async (event) => {
+  const mapKey = useRuntimeConfig().MAPS_API_KEY
   const query = getQuery(event)
   const { origin, destination } = query
   const response = await $fetch<Directions>(
-    `https://maps.googleapis.com/maps/api/directions/json?origin=place_id:${origin}&destination=place_id:${destination}&key=AIzaSyCgb1DR_gI8p0nt9YAAXhKGEAKePCfpoTw
-      `,
+    `https://maps.googleapis.com/maps/api/directions/json?origin=place_id:${origin}&destination=place_id:${destination}&key=${mapKey}`,
     {
       method: 'POST',
     }
