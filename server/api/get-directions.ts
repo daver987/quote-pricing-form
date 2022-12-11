@@ -1,7 +1,7 @@
 import { Directions } from '~/types/Directions'
 
 export default defineEventHandler(async (event) => {
-  const mapKey = useRuntimeConfig().MAPS_API_KEY
+  const mapKey = useRuntimeConfig().public.GOOGLE_MAPS_API_KEY
   const query = getQuery(event)
   const { origin, destination } = query
   const response = await $fetch<Directions>(

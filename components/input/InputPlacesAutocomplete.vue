@@ -46,7 +46,7 @@ const formattedId = computed(() => {
   return 'pac-' + Math.random().toString(36).substring(2, 9)
 })
 
-const mapsApiKey = useRuntimeConfig().public.MAPS_API_KEY
+const mapsApiKey = useRuntimeConfig().public.GOOGLE_MAPS_API_KEY
 const autocomplete = ref(null) as Ref<google.maps.places.Autocomplete>
 const inputField = ref(null) as Ref<HTMLInputElement>
 const place = ref(null) as Ref<google.maps.places.PlaceResult>

@@ -116,12 +116,6 @@ const { handleSubmit, errors, isSubmitting } = useForm({
   },
 })
 
-function onInvalidSubmit({ values, errors, results }) {
-  console.log(values) // current form values
-  console.log(errors) // a map of field names and their first error message
-  console.log(results) // a detailed map of field names and their validation results
-}
-
 const onSubmit = handleSubmit(async (values) => {
   try {
     const { data, error } = await useFetch('/api/form-submit', {
@@ -134,19 +128,25 @@ const onSubmit = handleSubmit(async (values) => {
   }
 })
 
-const placeChangedOrigin = (e) => {
-  console.log(e)
-  return e
+const placeChangedOrigin = (evt) => {
+  console.log(evt)
+  return { origin: evt }
 }
-const placeChangedDestination = (e) => {
-  console.log(e)
-  return e
+const placeChangedDestination = (evt) => {
+  console.log(evt)
+  return { destination: evt }
 }
 
-const getDirections = () => {
+const getDirections = async () => {
+  const { data } = await useFetch('/api/get-directions', {
+    method: 'POST',
+    body: {
+      origin: '123 Main St, New York, NY 10001',
+      destination: '456 Main St, New York, NY 10001',
+    },
+  })
   console.log('get directions')
 }
-
 
 const inputOptions = ref({
   id: 'phone_number',
@@ -183,14 +183,6 @@ const getHoursAndMinutes = (): MinTime => {
   }
   return minTime.value as MinTime
 }
-// const date = ref(new Date())
-// // In case of a range picker, you'll receive [Date, Date]
-// const format = (date) => {
-//   const day = date.getDate()
-//   const month = date.getMonth() + 1
-//   const year = date.getFullYear()
-//   return `Selected date is ${day}/${month}/${year}`
-// }
 
 interface MinTime {
   hours?: number | string
@@ -199,7 +191,6 @@ interface MinTime {
 }
 
 const minTime = ref<MinTime | null>(null)
-//todo add validation, add icon to datepicker, add logic to submit the form
 </script>
 
 <template>
