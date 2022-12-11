@@ -1,9 +1,13 @@
 <template>
-  <q-page>
-    <QuasarForm />
-  </q-page>
+  <div>
+    <QuoteForm />
+  </div>
 </template>
 
 <script setup lang="ts">
-// scripts
+// const myForm = ref(null)
+// setTimeout(() => {
+//   console.dir(myForm)
+// }, 4000)
+// // scripts
 </script>

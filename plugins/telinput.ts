@@ -1,8 +1,8 @@
-import VueTelInput from 'vue-tel-input'
+import VueTelInput from 'vue-tel-input/dist/vue-tel-input.es'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const globalOptions = {
-    mode: 'international',
+    mode: 'auto',
   }
   nuxtApp.vueApp.use(VueTelInput, globalOptions)
 })

@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    scroll-behavior: smooth; /* set scroll-behaviour to smooth here */
+}
+
+:root .dp__theme_dark {
+    --dp-background-color: #212121;
+    --dp-text-color: #ffffff;
+    --dp-hover-color: theme('colors.brand.600');
+    --dp-hover-text-color: #ffffff;
+    --dp-hover-icon-color: #959595;
+    --dp-primary-color: theme('colors.brand.DEFAULT');
+    --dp-primary-text-color: #ffffff;
+    --dp-secondary-color: #a9a9a9;
+    --dp-border-color: #2d2d2d;
+    --dp-menu-border-color: #2d2d2d;
+    --dp-border-color-hover: #aaaeb7;
+    --dp-disabled-color: #737373;
+    --dp-scroll-bar-background: #212121;
+    --dp-scroll-bar-color: #484848;
+    --dp-success-color: theme('colors.brand.DEFAULT');
+    --dp-success-color-disabled: #428f59;
+    --dp-icon-color: #959595;
+    --dp-danger-color: #e53935;
+    --dp-highlight-color: rgba(0, 92, 178, 0.2);
+}
+
+:root .dp__theme_light {
+    --dp-background-color: #ffffff;
+    --dp-text-color: theme('colors.gray.400');
+    --dp-hover-color: #f3f3f3;
+    --dp-hover-text-color: #212121;
+    --dp-hover-icon-color: #959595;
+    --dp-primary-color: theme('colors.brand.DEFAULT');
+    --dp-primary-text-color: theme('colors.body.DEFAULT');
+    --dp-secondary-color: theme('colors.secondary.DEFAULT');
+    --dp-border-color: #ddd;
+    --dp-menu-border-color: #ddd;
+    --dp-border-color-hover: #aaaeb7;
+    --dp-disabled-color: #f6f6f6;
+    --dp-scroll-bar-background: #f3f3f3;
+    --dp-scroll-bar-color: #959595;
+    --dp-success-color: theme('colors.brand.DEFAULT');
+    --dp-success-color-disabled: #a3d9b1;
+    --dp-icon-color: #959595;
+    --dp-danger-color: #ff6f60;
+    --dp-highlight-color: rgba(25, 118, 210, 0.1);
+}
+
+#pick_up_date > div:nth-child(1) > div:nth-child(1) > input:nth-child(1) {
+    font-family: theme('fontFamily.sans'), sans-serif;
+    border-radius: theme('borderRadius.md');
+}
+
+#pick_up_time > div:nth-child(1) > div:nth-child(1) > input:nth-child(1) {
+    font-family: theme('fontFamily.sans'), sans-serif;
+    color: theme('colors.gray.500');
+    border-radius: theme('borderRadius.md');
+}
+
+:root .vti__dropdown {
+    background-color: theme('colors.body.100');
+    padding: theme('spacing.1');
+}
+
+:root .vue-tel-input {
+    border-radius: theme('borderRadius.md');
+}
+
+@layer base {
+    input[type="text"] {
+        @apply block w-full rounded-md shadow-sm focus:border-brand focus:ring-brand sm:text-sm;
+    }
+
+    label {
+        @apply block text-sm font-medium text-gray-700;
+    }
+}
+
+
+/*@layer components {*/
+/*    input[type="text"] {*/
+/*        border-radius: theme('borderRadius.md');*/
+/*        border-color: theme('borderColor.gray.300');*/
+/*        box-shadow: theme('boxShadow.sm');*/
+/*        width: 100%;*/
+/*    }*/
+/*}*/

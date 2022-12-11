@@ -1,9 +1,12 @@
 export default defineEventHandler(async (event) => {
-  return await $fetch(
-    'https://hooks.zapier.com/hooks/catch/11745690/blogmvj/',
+  const body = await useBody(event);
+  const useZap = await $fetch(
+    "https://hooks.zapier.com/hooks/catch/11745690/blbiy52/",
     {
-      method: 'POST',
-      body: await useBody(event),
+      method: "POST",
+      body: { body }
     }
-  )
-})
+  );
+  console.log(useZap);
+  return useZap;
+});
