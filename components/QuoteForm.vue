@@ -19,14 +19,16 @@ useHead({
 })
 
 const vehicleTypeOptions = [
+  { name: 'Select Vehicle Type...', value: 0 },
   { name: 'Standard Sedan', value: 1 },
   { name: 'Premium Sedan', value: 2 },
   { name: 'Standard SUV', value: 3 },
   { name: 'Premium SUV', value: 4 },
 ] as ValidationSchema['vehicle_type'][]
-const selectedVehicleType = ref({})
+const selectedVehicleType = ref(vehicleTypeOptions[0])
 
 const passengerCountOptions = [
+  { name: 'Passengers', value: 0 },
   { name: '1 Passenger', value: 1 },
   { name: '2 Passengers', value: 2 },
   { name: '3 Passengers', value: 3 },
@@ -35,7 +37,7 @@ const passengerCountOptions = [
   { name: '6 Passengers', value: 6 },
   { name: '7 Passengers', value: 7 },
 ] as ValidationSchema['passenger_count'][]
-
+const selectedPassengerCount = ref(passengerCountOptions[0])
 // const passengerCountOptionsSedan = [
 //   { name: '1 Passenger', value: 1 },
 //   { name: '2 Passengers', value: 2 },
@@ -50,7 +52,7 @@ const passengerCountOptions = [
 //   { name: '5 Passengers', value: 5 },
 //   { name: '6 Passengers', value: 6 },
 // ] as ValidationSchema['passenger_count'][]
-const selectedPassengerCount = ref(null)
+
 // const selectedPassengerCount2 = ref(null)
 // const selectedPassengerCount3 = ref(null)
 //
@@ -76,14 +78,30 @@ const selectedPassengerCount = ref(null)
 // })
 
 const serviceTypeOptions = [
+  { name: 'Select Service Type...', value: 0 },
   { name: 'Point-To-Point', value: 1 },
   { name: 'To-Airport', value: 2 },
   { name: 'From-Airport', value: 3 },
   { name: 'Hourly/As-Directed', value: 4 },
 ] as ValidationSchema['service_type'][]
-const selectedServiceType = ref(null)
+const selectedServiceType = ref(serviceTypeOptions[0])
+
+const isDisabled = ref(true)
+watch(selectedServiceType, (value) => {
+  if (value.name === 'Hourly/As-Directed') {
+    isDisabled.value = false
+  } else {
+    isDisabled.value = true
+    selectedHours.value = hoursRequiredOptions[0]
+  }
+  console.log('selectedServiceType', value.name)
+  console.log('isDisabled', isDisabled.value)
+})
 
 const hoursRequiredOptions = [
+  {
+    name: 'Hours For Hourly',
+  },
   {
     name: '2 hrs',
     value: 2,
@@ -129,7 +147,7 @@ const hoursRequiredOptions = [
     value: 12,
   },
 ] as ValidationSchema['hours_required'][]
-const selectedHours = ref(null)
+const selectedHours = ref(hoursRequiredOptions[0])
 
 const { handleSubmit, errors, isSubmitting } = useForm({
   validationSchema,
@@ -329,7 +347,6 @@ const minTime = ref<MinTime | null>(null)
         name="service_type"
         key-prop="name"
         label-prop="name"
-        label="Select Service Type..."
       ></InputListbox>
       <!--vehicle type-->
       <InputListbox
@@ -339,7 +356,6 @@ const minTime = ref<MinTime | null>(null)
         name="vehicle_type"
         key-prop="name"
         label-prop="name"
-        label="Pick Vehicle Type..."
       ></InputListbox>
     </div>
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
@@ -355,13 +371,13 @@ const minTime = ref<MinTime | null>(null)
       ></InputListbox>
       <!--      Selected hours-->
       <InputListbox
+        :disabled="isDisabled"
         class="md:col-span-1"
         v-model="selectedHours"
         :options="hoursRequiredOptions"
         name="hours_required"
         key-prop="name"
         label-prop="name"
-        label="Hours Required"
       ></InputListbox>
     </div>
 

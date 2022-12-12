@@ -108,7 +108,7 @@ onMounted(() => {
         @change="emit('change', place)"
         @input="handleChange"
         @blur="handleBlur"
-        class="w-full placeholder-gray-500 rounded-none shadow-md focus:outline-none focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-1 focus-visible:ring-offset-primary sm:text-sm"
+        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
       />
     </div>
   </div>

@@ -70,15 +70,15 @@ html {
     border-radius: theme('borderRadius.md');
 }
 
-@layer base {
-    input[type="text"] {
-        @apply block w-full rounded-md shadow-sm focus:border-brand focus:ring-brand sm:text-sm;
-    }
+/*@layer base {*/
+/*    input[type="text"] {*/
+/*        @apply block w-full rounded-md shadow-sm focus:border-brand focus:ring-brand sm:text-sm;*/
+/*    }*/
 
-    label {
-        @apply block text-sm font-medium text-gray-700;
-    }
-}
+/*    label {*/
+/*        @apply block text-sm font-medium text-gray-700;*/
+/*    }*/
+/*}*/
 
 
 /*@layer components {*/
