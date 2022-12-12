@@ -5,8 +5,7 @@ const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
   const cookies = parseCookies(event)
-  const body = (await readBody(event)) as ValidationSchema
-
+  const body = await readBody(event)
   const {
     email_address,
     first_name,
@@ -20,7 +19,9 @@ export default defineEventHandler(async (event) => {
     hours_required,
     service_type,
     vehicle_type,
-  } = body
+  } = body.values as ValidationSchema
+  const origin = body.origin
+  const destination = body.destination
   const userData = { email_address, first_name, last_name, phone }
   const { hours, minutes } = pick_up_time
   const pickUpTime = `${hours}:${minutes}`
@@ -37,6 +38,8 @@ export default defineEventHandler(async (event) => {
     passenger_count_label: passenger_count.label,
     hours_required_value: hours_required.value,
     hours_required_label: hours_required.label,
+    origin_place_id: origin.place_id,
+    destination_place_id: destination.place_id,
   }
   const createUser = await prisma.user.create({
     data: {

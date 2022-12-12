@@ -1,6 +1,7 @@
 import * as zod from 'zod'
+import { toFormValidator } from '@vee-validate/zod'
 
-export const validationSchema = zod.object({
+const formSchema = zod.object({
   pick_up_location: zod.string().min(1, 'Pick up location is required'),
   drop_off_location: zod.string().min(1, 'Drop off location is required'),
   pick_up_date: zod.date(),
@@ -10,19 +11,19 @@ export const validationSchema = zod.object({
     minutes: zod.number().min(1, 'Pick up time is required'),
   }),
   service_type: zod.object({
-    label: zod.string().min(1, 'Service type is required'),
+    name: zod.string().min(1, 'Service type is required'),
     value: zod.number().min(1, 'Service type is required'),
   }),
   vehicle_type: zod.object({
-    label: zod.string().min(1, 'Vehicle type is required'),
+    name: zod.string().min(1, 'Vehicle type is required'),
     value: zod.number().min(1, 'Vehicle type is required'),
   }),
   passenger_count: zod.object({
-    label: zod.string().min(1, 'Passenger count is required'),
+    name: zod.string().min(1, 'Passenger count is required'),
     value: zod.number().min(1, 'Passenger count is required'),
   }),
   hours_required: zod.object({
-    label: zod.string().min(1, 'Hours required is required'),
+    name: zod.string().min(1, 'Hours required is required'),
     value: zod.number().min(1, 'Hours required is required'),
   }),
   first_name: zod.string().min(1, 'First name is required'),
@@ -37,4 +38,16 @@ export const validationSchema = zod.object({
     .min(8, { message: 'Too short' }),
 })
 
-export type ValidationSchema = zod.infer<typeof validationSchema>
+export const placeAutocompleteSchema = zod.object({
+  origin: zod.object({
+    place_id: zod.string().min(1, 'Origin place id is required'),
+  }),
+  destination: zod.object({
+    place_id: zod.string().min(1, 'Origin place id is required'),
+  }),
+})
+
+export const validationSchema = toFormValidator(formSchema)
+
+export type ValidationSchema = zod.infer<typeof formSchema>
+export type PlaceAutocompleteSchema = zod.infer<typeof placeAutocompleteSchema>

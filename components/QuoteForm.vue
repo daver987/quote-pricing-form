@@ -3,8 +3,11 @@ import Datepicker from '@vuepic/vue-datepicker'
 import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
 import { useForm, Field } from 'vee-validate'
-import { toFormValidator } from '@vee-validate/zod'
-import { ValidationSchema, validationSchema } from '~/schema/quoteFormValues'
+import {
+  ValidationSchema,
+  validationSchema,
+  placeAutocompleteSchema,
+} from '~/schema/quoteFormValues'
 
 useHead({
   link: [
@@ -15,100 +18,133 @@ useHead({
   ],
 })
 
-const schema = toFormValidator(validationSchema)
+const vehicleTypeOptions = [
+  { name: 'Standard Sedan', value: 1 },
+  { name: 'Premium Sedan', value: 2 },
+  { name: 'Standard SUV', value: 3 },
+  { name: 'Premium SUV', value: 4 },
+] as ValidationSchema['vehicle_type'][]
+const selectedVehicleType = ref({})
 
 const passengerCountOptions = [
-  { label: 'Select Passengers', value: 0 },
-  { label: '1 Passenger', value: 1 },
-  { label: '2 Passengers', value: 2 },
-  { label: '3 Passengers', value: 3 },
-  { label: '4 Passengers', value: 4 },
-  { label: '5 Passengers', value: 5 },
-  { label: '6 Passengers', value: 6 },
-  { label: '7 Passengers', value: 7 },
+  { name: '1 Passenger', value: 1 },
+  { name: '2 Passengers', value: 2 },
+  { name: '3 Passengers', value: 3 },
+  { name: '4 Passengers', value: 4 },
+  { name: '5 Passengers', value: 5 },
+  { name: '6 Passengers', value: 6 },
+  { name: '7 Passengers', value: 7 },
 ] as ValidationSchema['passenger_count'][]
-const selectedPassengerCount = ref(passengerCountOptions[0])
+
+// const passengerCountOptionsSedan = [
+//   { name: '1 Passenger', value: 1 },
+//   { name: '2 Passengers', value: 2 },
+//   { name: '3 Passengers', value: 3 },
+// ] as ValidationSchema['passenger_count'][]
+//
+// const passengerCountOptionsPremiumSUV = [
+//   { name: '1 Passenger', value: 1 },
+//   { name: '2 Passengers', value: 2 },
+//   { name: '3 Passengers', value: 3 },
+//   { name: '4 Passengers', value: 4 },
+//   { name: '5 Passengers', value: 5 },
+//   { name: '6 Passengers', value: 6 },
+// ] as ValidationSchema['passenger_count'][]
+const selectedPassengerCount = ref(null)
+// const selectedPassengerCount2 = ref(null)
+// const selectedPassengerCount3 = ref(null)
+//
+// const defaultPassengerOptions = ref(true)
+// const sedanPassengerOptions = ref(false)
+// const premiumSUVPassengerOptions = ref(false)
+
+// watch(selectedVehicleType, (value) => {
+//   console.log('selectedVehicleType', value.name)
+//   if (value.name === 'Standard Sedan' || 'Premium Sedan') {
+//     defaultPassengerOptions.value = false
+//     sedanPassengerOptions.value = true
+//     premiumSUVPassengerOptions.value = false
+//   } else if (value.name === 'Premium SUV') {
+//     defaultPassengerOptions.value = false
+//     sedanPassengerOptions.value = false
+//     premiumSUVPassengerOptions.value = true
+//   } else {
+//     defaultPassengerOptions.value = true
+//     sedanPassengerOptions.value = false
+//     premiumSUVPassengerOptions.value = false
+//   }
+// })
 
 const serviceTypeOptions = [
-  { label: 'Pick A Service Type..', value: 0 },
-  { label: 'Point-To-Point', value: 1 },
-  { label: 'To-Airport', value: 2 },
-  { label: 'From-Airport', value: 3 },
-  { label: 'Hourly/As-Directed', value: 4 },
+  { name: 'Point-To-Point', value: 1 },
+  { name: 'To-Airport', value: 2 },
+  { name: 'From-Airport', value: 3 },
+  { name: 'Hourly/As-Directed', value: 4 },
 ] as ValidationSchema['service_type'][]
-const selectedServiceType = ref(serviceTypeOptions[0])
-
-const vehicleTypeOptions = [
-  { label: 'Select Vehicle Type..', value: 0 },
-  { label: 'Standard Sedan', value: 1 },
-  { label: 'Premium Sedan', value: 2 },
-  { label: 'Standard SUV', value: 3 },
-  { label: 'Premium SUV', value: 4 },
-] as ValidationSchema['vehicle_type'][]
-const selectedVehicleType = ref(vehicleTypeOptions[0])
+const selectedServiceType = ref(null)
 
 const hoursRequiredOptions = [
   {
-    label: 'Select Hours',
-    value: 0,
-  },
-  {
-    label: '2 hrs',
+    name: '2 hrs',
     value: 2,
   },
   {
-    label: '3 hrs',
+    name: '3 hrs',
     value: 3,
   },
   {
-    label: '4 hrs',
+    name: '4 hrs',
     value: 4,
   },
   {
-    label: '5 hrs',
+    name: '5 hrs',
     value: 5,
   },
   {
-    label: '6 hrs',
+    name: '6 hrs',
     value: 6,
   },
   {
-    label: '7 hrs',
+    name: '7 hrs',
     value: 7,
   },
   {
-    label: '8 hrs',
+    name: '8 hrs',
     value: 8,
   },
   {
-    label: '9 hrs',
+    name: '9 hrs',
     value: 9,
   },
   {
-    label: '10 hrs',
+    name: '10 hrs',
     value: 10,
   },
   {
-    label: '11 hrs',
+    name: '11 hrs',
     value: 11,
   },
   {
-    label: '12 hrs',
+    name: '12 hrs',
     value: 12,
   },
-] as ValidationSchema['hours_required']
-const selectedHours = ref(hoursRequiredOptions[0])
+] as ValidationSchema['hours_required'][]
+const selectedHours = ref(null)
 
 const { handleSubmit, errors, isSubmitting } = useForm({
+  validationSchema,
   initialValues: {
     pick_up_location: '',
     drop_off_location: '',
     pick_up_date: null,
     pick_up_time: null,
     service_type: { label: '', value: 0 },
-    vehicle_type: { label: '', value: 0 },
+    vehicle_type: { label: 'Select Vehicle Type..', value: 0 },
     passenger_count: { label: '', value: 0 },
-    hours_required: { label: '', value: 0 },
+    hours_required: {
+      label: 'Select Hours',
+      value: 0,
+    },
     first_name: '',
     last_name: '',
     email_address: '',
@@ -116,37 +152,41 @@ const { handleSubmit, errors, isSubmitting } = useForm({
   },
 })
 
+const origin = ref(null)
+
+const placeChangedOrigin = (evt) => {
+  console.log(evt)
+  origin.value = evt
+  return origin.value
+}
+const destination = ref(null)
+const placeChangedDestination = (evt) => {
+  destination.value = evt
+  console.log(evt)
+  return destination.value
+}
+
 const onSubmit = handleSubmit(async (values) => {
   try {
-    const { data, error } = await useFetch('/api/form-submit', {
+    const places = placeAutocompleteSchema.safeParse({
+      origin: origin.value,
+      destination: destination.value,
+    })
+    console.log(places)
+    if (places.success) {
+      console.log('success')
+    } else {
+      console.log('error')
+    }
+    const { data } = await useFetch('/api/form-submit', {
       method: 'POST',
-      body: values,
+      body: { values, origin: origin.value, destination: destination.value },
     })
     return data.value
   } catch (err) {
     console.log(err)
   }
 })
-
-const placeChangedOrigin = (evt) => {
-  console.log(evt)
-  return { origin: evt }
-}
-const placeChangedDestination = (evt) => {
-  console.log(evt)
-  return { destination: evt }
-}
-
-const getDirections = async () => {
-  const { data } = await useFetch('/api/get-directions', {
-    method: 'POST',
-    body: {
-      origin: '123 Main St, New York, NY 10001',
-      destination: '456 Main St, New York, NY 10001',
-    },
-  })
-  console.log('get directions')
-}
 
 const inputOptions = ref({
   id: 'phone_number',
@@ -195,7 +235,7 @@ const minTime = ref<MinTime | null>(null)
 
 <template>
   <form
-    :validation-schema="schema"
+    :validation-schema="validationSchema"
     @submit="onSubmit"
     class="max-w-xl px-6 pt-6 pb-10 space-y-3 bg-black border border-white rounded-lg shadow-lg border-1"
   >
@@ -287,6 +327,9 @@ const minTime = ref<MinTime | null>(null)
         v-model="selectedServiceType"
         :options="serviceTypeOptions"
         name="service_type"
+        key-prop="name"
+        label-prop="name"
+        label="Select Service Type..."
       ></InputListbox>
       <!--vehicle type-->
       <InputListbox
@@ -294,6 +337,9 @@ const minTime = ref<MinTime | null>(null)
         v-model="selectedVehicleType"
         :options="vehicleTypeOptions"
         name="vehicle_type"
+        key-prop="name"
+        label-prop="name"
+        label="Pick Vehicle Type..."
       ></InputListbox>
     </div>
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
@@ -303,6 +349,9 @@ const minTime = ref<MinTime | null>(null)
         v-model="selectedPassengerCount"
         :options="passengerCountOptions"
         name="passenger_count"
+        key-prop="name"
+        label-prop="name"
+        label="Passengers"
       ></InputListbox>
       <!--      Selected hours-->
       <InputListbox
@@ -310,6 +359,9 @@ const minTime = ref<MinTime | null>(null)
         v-model="selectedHours"
         :options="hoursRequiredOptions"
         name="hours_required"
+        key-prop="name"
+        label-prop="name"
+        label="Hours Required"
       ></InputListbox>
     </div>
 
