@@ -8,6 +8,7 @@ import {
   validationSchema,
   placeAutocompleteSchema,
 } from '~/schema/quoteFormValues'
+import { useHead } from '#app'
 
 useHead({
   link: [
@@ -101,6 +102,7 @@ watch(selectedServiceType, (value) => {
 const hoursRequiredOptions = [
   {
     name: 'Hours For Hourly',
+    value: 0,
   },
   {
     name: '2 hrs',
@@ -156,12 +158,11 @@ const { handleSubmit, errors, isSubmitting } = useForm({
     drop_off_location: '',
     pick_up_date: null,
     pick_up_time: null,
-    service_type: { label: '', value: 0 },
-    vehicle_type: { label: 'Select Vehicle Type..', value: 0 },
-    passenger_count: { label: '', value: 0 },
+    service_type: '',
+    vehicle_type: '',
+    passenger_count: '',
     hours_required: {
-      label: 'Select Hours',
-      value: 0,
+      name: 'Hours For Hourly',
     },
     first_name: '',
     last_name: '',
@@ -196,7 +197,7 @@ const onSubmit = handleSubmit(async (values) => {
     } else {
       console.log('error')
     }
-    const { data } = await useFetch('/api/form-submit', {
+    const { data } = await useLazyFetch('/api/form-submit', {
       method: 'POST',
       body: { values, origin: origin.value, destination: destination.value },
     })
@@ -229,6 +230,7 @@ const setTimeTwoHoursAhead = () => {
   const currentTime = new Date()
   return currentTime.setHours(currentTime.getHours() + 2)
 }
+
 //destructure the setTimeTwoHoursAhead function to return the hours and minutes
 const getHoursAndMinutes = (): MinTime => {
   const [hours, minutes] = new Date(setTimeTwoHoursAhead())
@@ -265,16 +267,18 @@ const minTime = ref<MinTime | null>(null)
 
     <!--    Pickup Location Autocomplete-->
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-      <InputPlacesAutocomplete
-        class="w-full md:col-span-2"
-        id="origin"
-        placeholder="Enter a Pick Up Location"
-        :error-message="errors.pick_up_location"
-        name="pick_up_location"
-        type="text"
-        label="Pick Up Location"
-        @change="placeChangedOrigin"
-      />
+      <Field name="origin" v-slot="{ field }">
+        <InputPlacesAutocomplete
+          class="w-full md:col-span-2"
+          id="origin"
+          placeholder="Enter a Pick Up Location"
+          :error-message="errors.pick_up_location"
+          name="pick_up_location"
+          type="text"
+          label="Pick Up Location"
+          @change="placeChangedOrigin"
+        />
+      </Field>
     </div>
 
     <!--    Drop Off Location Autocomplete-->
@@ -291,8 +295,9 @@ const minTime = ref<MinTime | null>(null)
         @change="placeChangedDestination"
       />
     </div>
+
+    <!--      Pickup Date-->
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-      <!--      Pickup Date-->
       <Field name="pick_up_date" v-slot="{ field }">
         <Datepicker
           v-bind="field"
@@ -338,8 +343,9 @@ const minTime = ref<MinTime | null>(null)
         </Datepicker>
       </Field>
     </div>
+
+    <!--      Service Type-->
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-      <!--      Service Type-->
       <InputListbox
         class="md:col-span-1"
         v-model="selectedServiceType"
@@ -348,6 +354,7 @@ const minTime = ref<MinTime | null>(null)
         key-prop="name"
         label-prop="name"
       ></InputListbox>
+
       <!--vehicle type-->
       <InputListbox
         class="md:col-span-1"
@@ -358,8 +365,9 @@ const minTime = ref<MinTime | null>(null)
         label-prop="name"
       ></InputListbox>
     </div>
+
+    <!--      Service Type-->
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-      <!--      Service Type-->
       <InputListbox
         class="md:col-span-1"
         v-model="selectedPassengerCount"
@@ -369,6 +377,7 @@ const minTime = ref<MinTime | null>(null)
         label-prop="name"
         label="Passengers"
       ></InputListbox>
+
       <!--      Selected hours-->
       <InputListbox
         :disabled="isDisabled"
@@ -381,8 +390,8 @@ const minTime = ref<MinTime | null>(null)
       ></InputListbox>
     </div>
 
+    <!--      First Name-->
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-      <!--      First Name-->
       <InputText
         class="md:col-span-1"
         type="text"
@@ -406,8 +415,9 @@ const minTime = ref<MinTime | null>(null)
         success-message="Success"
       />
     </div>
+
+    <!--      Email-->
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-      <!--      Email-->
       <InputText
         class="md:col-span-1"
         name="email_address"

@@ -4,28 +4,30 @@
       <HeadlessListboxButton
         :class="[isDisabled ? disabledClasses : enabledClasses]"
       >
-        <span class="block truncate">{{ value?.[labelProp] || label }}</span>
+        <span class="block truncate">{{
+          value?.[labelProp] || 'Select an Option'
+        }}</span>
         <span
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+          class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
         >
-          <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+          <ChevronUpDownIcon class="w-5 h-5 text-gray-400" aria-hidden="true" />
         </span>
       </HeadlessListboxButton>
 
       <transition
-        leave-active-class="transition ease-in duration-100"
+        leave-active-class="transition duration-100 ease-in"
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
         <HeadlessListboxOptions
-          class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+          class="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         >
           <HeadlessListboxOption
             v-slot="{ active, selected, disabled }"
             v-for="option in options"
             :key="option[keyProp]"
             :value="option"
-            class="ui-selected:font-semibold ui-not-selected:font-normal block truncate relative cursor-default select-none py-2 pl-8 pr-4 ui-active:bg-brand-600 ui-active:text-white relative cursor-default select-none py-2 pl-8 pr-4 ui-not-active:text-gray-900"
+            class="relative block py-2 pl-8 pr-4 truncate cursor-default select-none ui-selected:font-semibold ui-not-selected:font-normal ui-active:bg-brand-600 ui-active:text-white ui-not-active:text-gray-900"
           >
             {{ option[labelProp] }}
             <CheckIcon
@@ -37,11 +39,12 @@
       </transition>
     </div>
 
-    <span class="text-red-500">{{ errorMessage }}</span>
+    <span class="text-sm text-red-500">{{ errorMessage }}</span>
   </HeadlessListbox>
 </template>
 
 <script setup lang="ts">
+import '~/assets/css/tailwind.css'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import { useField } from 'vee-validate'
 
@@ -64,14 +67,11 @@ const props = defineProps({
   name: {
     type: String,
     required: true,
+    Default: 'Select an option',
   },
   rules: {
     type: null,
     default: null,
-  },
-  label: {
-    type: String,
-    default: 'Select an option',
   },
   isDisabled: {
     type: Boolean,

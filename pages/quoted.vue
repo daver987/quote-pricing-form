@@ -42,6 +42,8 @@
 </script>
 
 <template>
+  <DatePicker />
+
   <!--  <q-page padding>-->
   <!--    <QuotedCard-->
   <!--      :totalCost="total_cost"-->

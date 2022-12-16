@@ -8,23 +8,23 @@ const formSchema = zod.object({
   pick_up_time: zod.object({
     seconds: zod.number().min(0, 'Pick up time is required'),
     hours: zod.number().min(1, 'Pick up time is required'),
-    minutes: zod.number().min(1, 'Pick up time is required'),
+    minutes: zod.number(),
   }),
   service_type: zod.object({
     name: zod.string().min(1, 'Service type is required'),
-    value: zod.number().min(1, 'Service type is required'),
+    value: zod.number(),
   }),
   vehicle_type: zod.object({
     name: zod.string().min(1, 'Vehicle type is required'),
-    value: zod.number().min(1, 'Vehicle type is required'),
+    value: zod.number(),
   }),
   passenger_count: zod.object({
-    name: zod.string().min(1, 'Passenger count is required'),
-    value: zod.number().min(1, 'Passenger count is required'),
+    name: zod.string().min(1, 'Passengers is required'),
+    value: zod.number(),
   }),
   hours_required: zod.object({
     name: zod.string().min(1, 'Hours required is required'),
-    value: zod.number().min(1, 'Hours required is required'),
+    value: zod.number(),
   }),
   first_name: zod.string().min(1, 'First name is required'),
   last_name: zod.string().min(1, 'Last name is required'),

@@ -1,0 +1,423 @@
+<template>
+  <div class="formkit-wrapper datepicker">
+    <div class="formkit-inner">
+      <input
+        type="text"
+        ref="inputRef"
+        :readonly="!typeable"
+        v-model="input"
+        v-bind="$attrs"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :tabindex="disabled ? -1 : 0"
+        @keyup="keyUp"
+        @blur="blur"
+        @focus="focus"
+        @click="click"
+        class="formkit-input"
+      />
+      <div class="v3dp__clearable" v-show="clearable && modelValue">
+        <slot name="clear" :onClear="clearModelValue">
+          <i @click="clearModelValue()">x</i>
+        </slot>
+      </div>
+    </div>
+    <DatePickerYear
+      v-show="viewShown === 'year'"
+      v-model:pageDate="pageDate"
+      :selected="modelValue"
+      :lowerLimit="lowerLimit"
+      :upperLimit="upperLimit"
+      @select="selectYear"
+    />
+    <DatePickerMonth
+      v-show="viewShown === 'month'"
+      v-model:pageDate="pageDate"
+      :selected="modelValue"
+      @select="selectMonth"
+      :lowerLimit="lowerLimit"
+      :upperLimit="upperLimit"
+      :format="monthListFormat"
+      :headingFormat="dayPickerHeadingFormat"
+      :locale="locale"
+      @back="viewShown = 'year'"
+    />
+    <DatePickerDay
+      v-show="viewShown === 'day'"
+      v-model:pageDate="pageDate"
+      :selected="modelValue"
+      :weekStartsOn="weekStartsOn"
+      :lowerLimit="lowerLimit"
+      :upperLimit="upperLimit"
+      :disabledDates="disabledDates"
+      :locale="locale"
+      :weekdayFormat="weekdayFormat"
+      @select="selectDay"
+      @back="viewShown = 'month'"
+    />
+    <DatePickerTime
+      v-show="viewShown === 'time'"
+      v-model:pageDate="pageDate"
+      :visible="viewShown === 'time'"
+      :selected="modelValue"
+      :disabledTime="disabledTime"
+      @select="selectTime"
+      @back="goBackFromTimepicker"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, computed, watchEffect, PropType } from 'vue'
+import { parse, isValid, format, max, min } from 'date-fns'
+import DatePickerYear from './DatePickerYear.vue'
+import DatePickerMonth from './DatePickerMonth.vue'
+import DatePickerDay from './DatePickerDay.vue'
+import DatePickerTime from './DatePickerTime.vue'
+
+const TIME_RESOLUTIONS = ['time', 'day', 'month', 'year']
+
+const boundedDate = (
+  lower: Date | undefined,
+  upper: Date | undefined,
+  target: Date | undefined = undefined
+) => {
+  let date = target || new Date()
+
+  if (lower) date = max([lower, date])
+  if (upper) return min([upper, date])
+
+  return date
+}
+
+export default defineComponent({
+  components: {
+    DatePickerYear: DatePickerYear,
+    DatePickerMonth: DatePickerMonth,
+    DatePickerDay: DatePickerDay,
+    DatePickerTime: DatePickerTime,
+  },
+  inheritAttrs: false,
+  props: {
+    placeholder: {
+      type: String,
+      default: '',
+    },
+    /**
+     * `v-model` for selected date
+     */
+    modelValue: {
+      type: Date as PropType<Date>,
+      required: false,
+    },
+    /**
+     * Dates not available for picking
+     */
+    disabledDates: {
+      type: Object as PropType<{
+        dates?: Date[]
+        predicate?: (currentDate: Date) => boolean
+      }>,
+      required: false,
+    },
+    /**
+     * Time not available for picking
+     */
+    disabledTime: {
+      type: Object as PropType<{
+        dates?: Date[]
+        predicate?: (currentDate: Date) => boolean
+      }>,
+      required: false,
+    },
+    /**
+     * Upper limit for available dates for picking
+     */
+    upperLimit: {
+      type: Date as PropType<Date>,
+      required: false,
+    },
+    /**
+     * Lower limit for available dates for picking
+     */
+    lowerLimit: {
+      type: Date as PropType<Date>,
+      required: false,
+    },
+    /**
+     * View on which the date picker should open. Can be either `year`, `month`, `day` or `time`
+     */
+    startingView: {
+      type: String as PropType<'year' | 'month' | 'day' | 'time'>,
+      required: false,
+      default: 'day',
+      validate: (v: unknown) =>
+        typeof v === 'string' && TIME_RESOLUTIONS.includes(v),
+    },
+    /**
+     * `date-fns`-type formatting for a month view heading
+     */
+    dayPickerHeadingFormat: {
+      type: String,
+      required: false,
+      default: 'LLLL yyyy',
+    },
+    /**
+     * `date-fns`-type formatting for the month picker view
+     */
+    monthListFormat: {
+      type: String,
+      required: false,
+      default: 'LLL',
+    },
+    /**
+     * `date-fns`-type formatting for a line of weekdays on day view
+     */
+    weekdayFormat: {
+      type: String,
+      required: false,
+      default: 'EE',
+    },
+    /**
+     * `date-fns`-type format in which the string in the input should be both
+     * parsed and displayed
+     */
+    inputFormat: {
+      type: String,
+      required: false,
+      default: 'yyyy-MM-dd',
+    },
+    /**
+     * [`date-fns` locale object](https://date-fns.org/v2.16.1/docs/I18n#usage).
+     * Used in string formatting (see default `dayPickerHeadingFormat`)
+     */
+    locale: {
+      type: Object as PropType<Locale>,
+      required: false,
+    },
+    /**
+     * Day on which the week should start.
+     *
+     * Number from 0 to 6, where 0 is Sunday and 6 is Saturday.
+     * Week starts with a Monday (1) by default
+     */
+    weekStartsOn: {
+      type: Number as PropType<0 | 1 | 2 | 3 | 4 | 5 | 6>,
+      required: false,
+      default: 1,
+      validator: (value: any) => [0, 1, 2, 3, 4, 5, 6].includes(value),
+    },
+    /**
+     * Disables datepicker and prevents it's opening
+     */
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    /**
+     * Clears selected date
+     */
+    clearable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    /*
+     * Allows user to input date manually
+     */
+    typeable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    /**
+     * If set, lower-level views won't show
+     */
+    minimumView: {
+      type: String as PropType<'year' | 'month' | 'day' | 'time'>,
+      required: false,
+      default: 'day',
+      validate: (v: unknown) =>
+        typeof v === 'string' && TIME_RESOLUTIONS.includes(v),
+    },
+  },
+  emits: {
+    'update:modelValue': (value: Date | null | undefined) =>
+      value == null || isValid(value),
+    opened: null,
+    closed: null,
+  },
+  setup(props, { emit, attrs }) {
+    const viewShown = ref('none' as 'year' | 'month' | 'day' | 'time' | 'none')
+    const pageDate = ref<Date>(new Date())
+    const inputRef = ref(null as HTMLInputElement | null)
+    const isFocused = ref(false)
+
+    const input = ref('')
+    watchEffect(() => {
+      const parsed = parse(input.value, props.inputFormat, new Date())
+      if (isValid(parsed)) {
+        pageDate.value = parsed
+      }
+    })
+
+    watchEffect(
+      () =>
+        (input.value =
+          props.modelValue && isValid(props.modelValue)
+            ? format(props.modelValue, props.inputFormat, {
+                locale: props.locale,
+              })
+            : '')
+    )
+
+    const renderView = (view: typeof viewShown.value = 'none') => {
+      if (props.disabled) {
+        return
+      }
+      if (view !== 'none' && viewShown.value === 'none')
+        pageDate.value =
+          props.modelValue || boundedDate(props.lowerLimit, props.upperLimit)
+      viewShown.value = view
+
+      if (view === 'none') {
+        emit('closed')
+      } else {
+        emit('opened')
+      }
+    }
+
+    watchEffect(() => {
+      if (props.disabled) viewShown.value = 'none'
+    })
+    const selectYear = (date: Date) => {
+      pageDate.value = date
+
+      if (props.minimumView === 'year') {
+        renderView('none')
+        emit('update:modelValue', date)
+      } else {
+        viewShown.value = 'month'
+      }
+    }
+    const selectMonth = (date: Date) => {
+      pageDate.value = date
+
+      if (props.minimumView === 'month') {
+        renderView('none')
+        emit('update:modelValue', date)
+      } else {
+        viewShown.value = 'day'
+      }
+    }
+    const selectDay = (date: Date) => {
+      pageDate.value = date
+
+      if (props.minimumView === 'day') {
+        renderView('none')
+        emit('update:modelValue', date)
+      } else {
+        viewShown.value = 'time'
+      }
+    }
+
+    const selectTime = (date: Date) => {
+      renderView('none')
+      emit('update:modelValue', date)
+    }
+
+    const clearModelValue = () => {
+      if (props.clearable) {
+        emit('update:modelValue', null)
+      }
+    }
+
+    const click = () => (isFocused.value = true)
+
+    const focus = () => renderView(initialView.value)
+
+    const blur = () => {
+      isFocused.value = false
+      renderView()
+    }
+
+    const keyUp = (event: KeyboardEvent) => {
+      const code = event.keyCode ? event.keyCode : event.which
+      // close calendar if escape or enter are pressed
+      const closeButton = [
+        27, // escape
+        13, // enter
+      ].includes(code)
+
+      if (closeButton) {
+        inputRef.value!.blur()
+      }
+      if (props.typeable) {
+        const parsedDate = parse(
+          inputRef.value!.value,
+          props.inputFormat,
+          new Date(),
+          { locale: props.locale }
+        )
+        if (
+          isValid(parsedDate) &&
+          input.value.length === props.inputFormat.length
+        ) {
+          input.value = inputRef.value!.value
+          emit('update:modelValue', parsedDate)
+        }
+      }
+    }
+
+    const initialView = computed(() => {
+      const startingViewOrder = TIME_RESOLUTIONS.indexOf(props.startingView)
+      const minimumViewOrder = TIME_RESOLUTIONS.indexOf(props.minimumView)
+
+      return startingViewOrder < minimumViewOrder
+        ? props.minimumView
+        : props.startingView
+    })
+
+    const variables = (object: Record<string, string> | undefined) =>
+      Object.fromEntries(
+        Object.entries(object ?? {}).filter(([key, _]) => key.startsWith('--'))
+      )
+
+    const goBackFromTimepicker = () =>
+      props.startingView === 'time' && props.minimumView === 'time'
+        ? null
+        : (viewShown.value = 'day')
+
+    return {
+      blur,
+      focus,
+      click,
+      input,
+      inputRef,
+      pageDate,
+      renderView,
+      selectYear,
+      selectMonth,
+      selectDay,
+      selectTime,
+      keyUp,
+      viewShown,
+      goBackFromTimepicker,
+      clearModelValue,
+      initialView,
+      log: (e: any) => console.log(e),
+      variables,
+    }
+  },
+})
+</script>
+
+<style>
+.v3dp__clearable {
+  display: inline;
+  position: relative;
+  left: -15px;
+  cursor: pointer;
+}
+</style>

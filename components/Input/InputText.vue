@@ -1,9 +1,12 @@
 <template>
-  <div :class="{ 'has-error': !!errorMessage, success: meta.valid }">
-    <label :for="name" class="input-label hidden"
+  <div
+    class="formkit-wrapper"
+    :class="{ 'has-error': !!errorMessage, success: meta.valid }"
+  >
+    <label :for="name" class="formkit-label hidden"
       ><span>{{ label }}</span></label
     >
-    <div class="mt-1">
+    <div class="formkit-inner">
       <input
         :name="name"
         :id="name"
@@ -12,7 +15,7 @@
         :placeholder="placeholder"
         @input="handleChange"
         @blur="handleBlur"
-        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
+        class="formkit-input"
       />
     </div>
   </div>
