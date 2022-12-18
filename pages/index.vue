@@ -1,6 +1,8 @@
 <template>
   <QPage padding>
+  <ClientOnly>
     <QuasarForm />
+  </ClientOnly>
   </QPage>
 </template>
 

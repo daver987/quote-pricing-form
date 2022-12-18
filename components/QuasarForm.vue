@@ -1,9 +1,9 @@
-<script lang="ts" setup>
+<script lang='ts' setup>
 import { Rates, Surcharges } from '~/composables/useRateCalculator'
 import { Ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMapStore } from '~~/stores/useMapStore'
-import { Loader } from '@googlemaps/js-api-loader'
+// import { Loader } from '@googlemaps/js-api-loader'
 import Vue3QTelInput from 'vue3-q-tel-input'
 
 // import { UAParser } from 'ua-parser-js'
@@ -13,171 +13,172 @@ import Vue3QTelInput from 'vue3-q-tel-input'
 // const { ua, browser, device, os, cpu, engine } = result
 // console.log(ua, browser, device, os, cpu, engine)
 
-const config = useRuntimeConfig()
+// const config = useRuntimeConfig().public.GOOGLE_MAPS_API_KEY
 
-const loader = new Loader({
-  apiKey: config.public.MAPS_API_KEY as string,
-  libraries: ['places'],
-  version: 'weekly',
-  region: 'ca',
-})
+// const loader = new Loader({
+//   apiKey: config as string,
+//   libraries: ['places'],
+//   version: 'weekly',
+//   region: 'ca',
+// })
 
-const myMap = ref<HTMLElement>(null)
 
-function initMap(): void {
-  loader.load().then(() => {
-    const map = new google.maps.Map(myMap.value, {
-      mapTypeControl: false,
-      fullscreenControl: false,
-      center: { lat: 43.65107, lng: -79.347015 },
-      zoom: 9,
-    })
-    new AutocompleteDirectionsHandler(map)
-  })
+// async function initMap() {
+//   await loader.load().then(() => {
+//     const map = new google.maps.Map(myMap.value as HTMLInputElement, {
+//       mapTypeControl: false,
+//       fullscreenControl: false,
+//       center: { lat: 43.65107, lng: -79.347015 },
+//       zoom: 9,
+//     })
+//     new AutocompleteDirectionsHandler(map)
+//   })
 
-  class AutocompleteDirectionsHandler {
-    map: google.maps.Map
-    originPlaceId: string
-    destinationPlaceId: string
-    travelMode: google.maps.TravelMode
-    directionsService: google.maps.DirectionsService
-    directionsRenderer: google.maps.DirectionsRenderer
+//   class AutocompleteDirectionsHandler {
+//     map: google.maps.Map
+//     originPlaceId: string
+//     destinationPlaceId: string
+//     travelMode: google.maps.TravelMode
+//     directionsService: google.maps.DirectionsService
+//     directionsRenderer: google.maps.DirectionsRenderer
 
-    constructor(map: google.maps.Map) {
-      this.map = map
-      this.originPlaceId = ''
-      this.destinationPlaceId = ''
-      this.travelMode = google.maps.TravelMode.DRIVING
-      this.directionsService = new google.maps.DirectionsService()
-      this.directionsRenderer = new google.maps.DirectionsRenderer()
-      this.directionsRenderer.setMap(map)
+//     constructor(map: google.maps.Map) {
+//       this.map = map
+//       this.originPlaceId = ''
+//       this.destinationPlaceId = ''
+//       this.travelMode = google.maps.TravelMode.DRIVING
+//       this.directionsService = new google.maps.DirectionsService()
+//       this.directionsRenderer = new google.maps.DirectionsRenderer()
+//       this.directionsRenderer.setMap(map)
+//       const originInputOne = ref(null)
 
-      const originInputOne = ref('origin-input')
-      const destinationInputOne = ref('destination-input')
-      const originInput = document.getElementById(
-        originInputOne.value as string
-      ) as HTMLInputElement
-      const destinationInput = document.getElementById(
-        destinationInputOne.value as string
-      ) as HTMLInputElement
+//       const destinationInputOne = ref('destination-input')
+//       const originInput = originInputOne.value.getNativeElement() as unknown as HTMLInputElement
+//       const destinationInput = document.getElementById(
+//         destinationInputOne.value as string,
+//       ) as HTMLInputElement
 
-      // Specify just the place data fields that you need.
-      const originAutocomplete = new google.maps.places.Autocomplete(
-        originInput,
-        {
-          fields: ['all'],
-        }
-      )
+//       // Specify just the place data fields that you need.
+//       const originAutocomplete = new google.maps.places.Autocomplete(
+//         originInput,
+//         {
+//           fields: ['all'],
+//         },
+//       )
 
-      // Specify just the place data fields that you need.
-      const destinationAutocomplete = new google.maps.places.Autocomplete(
-        destinationInput,
-        {
-          fields: ['all'],
-        }
-      )
-      console.log(originAutocomplete)
-      console.log(destinationAutocomplete)
+//       // Specify just the place data fields that you need.
+//       const destinationAutocomplete = new google.maps.places.Autocomplete(
+//         destinationInput,
+//         {
+//           fields: ['all'],
+//         },
+//       )
+//       console.log(originAutocomplete)
+//       console.log(destinationAutocomplete)
 
-      this.setupPlaceChangedListener(originAutocomplete, 'ORIG')
-      this.setupPlaceChangedListener(destinationAutocomplete, 'DEST')
-    }
+//       this.setupPlaceChangedListener(originAutocomplete, 'ORIG')
+//       this.setupPlaceChangedListener(destinationAutocomplete, 'DEST')
+//     }
 
-    setupPlaceChangedListener(
-      autocomplete: google.maps.places.Autocomplete,
-      mode: string
-    ) {
-      autocomplete.bindTo('bounds', this.map)
+//     setupPlaceChangedListener(
+//       autocomplete: google.maps.places.Autocomplete,
+//       mode: string,
+//     ) {
+//       autocomplete.bindTo('bounds', this.map)
 
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace()
-        const { address_components, formatted_address, name, geometry } = place
-        const addressComponents =
-          address_components as google.maps.GeocoderAddressComponent[]
-        const lat = geometry.location.lat() as number
-        const lng = geometry.location.lng() as number
-        const formattedAddress = formatted_address as string
-        const placeName = name as string
-        const address = addressComponents.map(({ long_name, short_name }) => ({
-          longName: long_name as string,
-          shortName: short_name as string,
-        }))
-        console.log(address)
-        console.log(formattedAddress)
-        console.log(placeName)
-        console.log(lat)
-        console.log(lng)
-        if (mode === 'ORIG') {
-          origin_address_components.value = addressComponents
-          origin_formatted_address.value = formattedAddress
-          origin_place_name.value = placeName
-          origin_lat.value = lat
-          origin_lng.value = lng
-        } else {
-          destination_address_components.value = addressComponents
-          destination_formatted_address.value = formattedAddress
-          destination_place_name.value = placeName
-          destination_lat.value = lat
-          destination_lng.value = lng
-        }
+//       autocomplete.addListener('place_changed', () => {
+//         const place = autocomplete.getPlace()
+//         const { address_components, formatted_address, name, geometry } = place
+//         const addressComponents =
+//           address_components as google.maps.GeocoderAddressComponent[]
+//         const lat = geometry.location.lat() as number
+//         const lng = geometry.location.lng() as number
+//         const formattedAddress = formatted_address as string
+//         const placeName = name as string
+//         const address = addressComponents.map(({ long_name, short_name }) => ({
+//           longName: long_name as string,
+//           shortName: short_name as string,
+//         }))
+//         console.log(address)
+//         console.log(formattedAddress)
+//         console.log(placeName)
+//         console.log(lat)
+//         console.log(lng)
+//         if (mode === 'ORIG') {
+//           origin_address_components.value = addressComponents
+//           origin_formatted_address.value = formattedAddress
+//           origin_place_name.value = placeName
+//           origin_lat.value = lat
+//           origin_lng.value = lng
+//         } else {
+//           destination_address_components.value = addressComponents
+//           destination_formatted_address.value = formattedAddress
+//           destination_place_name.value = placeName
+//           destination_lat.value = lat
+//           destination_lng.value = lng
+//         }
 
-        if (!place.place_id) {
-          window.alert('Please select an option from the dropdown list.')
-          return
-        }
+//         if (!place.place_id) {
+//           window.alert('Please select an option from the dropdown list.')
+//           return
+//         }
 
-        if (mode === 'ORIG') {
-          this.originPlaceId = place.place_id
-        } else {
-          this.destinationPlaceId = place.place_id
-        }
-        this.route()
-        if (destination_lat.value && origin_lat.value) {
-        }
-      })
-    }
+//         if (mode === 'ORIG') {
+//           this.originPlaceId = place.place_id
+//         } else {
+//           this.destinationPlaceId = place.place_id
+//         }
+//         this.route()
+//         if (destination_lat.value && origin_lat.value) {
+//         }
+//       })
+//     }
 
-    route() {
-      if (!this.originPlaceId || !this.destinationPlaceId) {
-        return
-      }
+//     route() {
+//       if (!this.originPlaceId || !this.destinationPlaceId) {
+//         return
+//       }
 
-      const me = this
+//       const me = this
 
-      this.directionsService.route(
-        {
-          origin: { placeId: this.originPlaceId },
-          destination: { placeId: this.destinationPlaceId },
-          travelMode: this.travelMode,
-        },
-        (response, status) => {
-          console.log(response)
-          if (status === 'OK') {
-            me.directionsRenderer.setDirections(response)
-            distance_traveled.value = (response.routes[0].legs[0].distance
-              .value / 1000) as number
-            duration_traveled.value = (response.routes[0].legs[0].duration
-              .value / 60) as number
-            origin_location.value = response.routes[0].legs[0].start_address
-            destination_location.value = response.routes[0].legs[0].end_address
-            origin_location_type.value = response.geocoded_waypoints[0]
-              .types[0] as string
-            destination_location_type.value = response.geocoded_waypoints[1]
-              .types[0] as string
-          } else {
-            window.alert('Directions request failed due to ' + status)
-          }
-        }
-      )
-    }
-  }
-}
+//       this.directionsService.route(
+//         {
+//           origin: { placeId: this.originPlaceId },
+//           destination: { placeId: this.destinationPlaceId },
+//           travelMode: this.travelMode,
+//         },
+//         (response, status) => {
+//           console.log(response)
+//           if (status === 'OK') {
+//             me.directionsRenderer.setDirections(response)
+//             distance_traveled.value = (response.routes[0].legs[0].distance
+//               .value / 1000) as number
+//             duration_traveled.value = (response.routes[0].legs[0].duration
+//               .value / 60) as number
+//             origin_location.value = response.routes[0].legs[0].start_address
+//             destination_location.value = response.routes[0].legs[0].end_address
+//             origin_location_type.value = response.geocoded_waypoints[0]
+//               .types[0] as string
+//             destination_location_type.value = response.geocoded_waypoints[1]
+//               .types[0] as string
+//           } else {
+//             window.alert('Directions request failed due to ' + status)
+//           }
+//         },
+//       )
+//     }
+//   }
 
-onMounted(() => {
-  if (myMap.value) {
-    initMap()
-  }
-})
+// }
+
+// onMounted(async () => {
+//   try {
+//     await initMap()
+//   }
+//   catch (err) {
+//     console.log(err)
+//   }
+// })
 
 interface FormOptions {
   label: string
@@ -213,7 +214,9 @@ const passengerOptions = [
     label: '7 passengers',
     value: 7,
   },
-] as FormOptions[]
+]
+const selectedPassengers = ref<{ label: string, value: number } | null>(null)
+
 
 const serviceTypeOptions = [
   {
@@ -232,7 +235,9 @@ const serviceTypeOptions = [
     label: 'Hourly/As Directed',
     value: 4,
   },
-] as FormOptions[]
+]
+const selectedServiceType = ref<{ label: string, value: number } | null>(null)
+
 
 const vehicleTypeOptions = [
   {
@@ -251,54 +256,56 @@ const vehicleTypeOptions = [
     label: 'Premium SUV',
     value: 4,
   },
-] as FormOptions[]
+]
+const selectedVehicleType = ref<{ label: string, value: string } | null>(null)
 
 const hoursRequiredOptions = [
   {
     label: '2 hrs',
-    value: 2,
+    value: '2',
   },
   {
     label: '3 hrs',
-    value: 3,
+    value: '3',
   },
   {
     label: '4 hrs',
-    value: 4,
+    value: '4',
   },
   {
     label: '5 hrs',
-    value: 5,
+    value: '5',
   },
   {
     label: '6 hrs',
-    value: 6,
+    value: '6',
   },
   {
     label: '7 hrs',
-    value: 7,
+    value: '7',
   },
   {
     label: '8 hrs',
-    value: 8,
+    value: '8',
   },
   {
     label: '9 hrs',
-    value: 9,
+    value: '9',
   },
   {
     label: '10 hrs',
-    value: 10,
+    value: '10',
   },
   {
     label: '11 hrs',
-    value: 11,
+    value: '11',
   },
   {
     label: '12 hrs',
-    value: 12,
+    value: '12',
   },
-] as FormOptions[]
+]
+const selectedNumberOfHours = ref<{label:string, value:string }| null>( null )
 
 //data for Google Maps autocomplete from the maps store
 const mapStore = useMapStore()
@@ -338,8 +345,8 @@ const {
   total_cost,
 } = storeToRefs(mapStore)
 
-const vehicleType = ref(null) as Ref<FormOptions>
-const numberOfHours = ref(1) as Ref<number>
+
+
 
 //variables to show or hide the date and time popups
 const showTimePopup = ref(false)
@@ -348,20 +355,19 @@ const showDatePopup = ref(false)
 //logic to determine if it's an hourly based or distance based quote
 const isItHourly = ref(false) as Ref<boolean>
 
-watch(service_type, () => {
-  if (service_type.value.value === 4) {
+watch(selectedServiceType, () => {
+  if (selectedServiceType.value.value === 4) {
     isItHourly.value = true
-    // ts@ignore
-    number_of_hours.value = 2 as unknown as FormOptions
+    selectedNumberOfHours.value = {label: '2 hrs', value: '2'}
   } else {
     isItHourly.value = false
-    number_of_hours.value = null
+    selectedNumberOfHours.value = null
   }
   console.log(
-    service_type.value.label,
-    service_type.value.value,
-    number_of_hours.value,
-    isItHourly.value
+    selectedServiceType.value.label,
+    selectedServiceType.value.value,
+    selectedNumberOfHours.value,
+    isItHourly.value,
   )
 })
 
@@ -370,27 +376,27 @@ const onSubmit = async (evt: Event) => {
   loading.value = true
   const rates = (await $fetch('/api/rates')) as Rates[]
   const surcharges = (await $fetch('/api/surcharges')) as Surcharges
-  console.log(vehicleType.value)
-  vehicle_type.value = vehicleType.value
-  number_of_hours.value = numberOfHours.value as unknown as FormOptions
+  console.log(selectedVehicleType.value)
+  vehicle_type.value = selectedVehicleType.value
+  number_of_hours.value = selectedNumberOfHours.value as unknown as FormOptions
   console.log(isItHourly.value)
-  const serviceRate = getRateFromId(vehicleType.value.value, rates)
+  const serviceRate = getRateFromId(selectedVehicleType.value.value, rates)
   console.log(serviceRate)
   const baseRate = getBaseRate(
     isItHourly.value,
-    numberOfHours.value,
+    selectedNumberOfHours.value,
     distance_traveled.value,
-    serviceRate as Rates
+    serviceRate as Rates,
   ) as number
   console.log(baseRate)
   const { fuelSurcharge, gratuity, HST } = getSurchargeAmounts(
     baseRate,
-    surcharges
+    surcharges,
   )
   const sumOfSurcharges = ref(baseRate + fuelSurcharge + gratuity + HST)
   total_cost.value = usePrecision(
     sumOfSurcharges as unknown as number,
-    2
+    2,
   ) as unknown as number
 
   console.log(total_cost.value)
@@ -403,11 +409,11 @@ const onSubmit = async (evt: Event) => {
   hst.value = HST
 
   const vehicleImages = () => {
-    if (vehicleType.value.label === 'Standard Sedan') {
+    if (selectedVehicleType.value.label === 'Standard Sedan') {
       return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/8c7c6a8d-06ad-4278-1c70-9d497b1cb200/1024'
-    } else if (vehicleType.value.label === 'Premium Sedan') {
+    } else if (selectedVehicleType.value.label === 'Premium Sedan') {
       return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d171f30-de2f-447c-a602-95ccf248c600/1024'
-    } else if (vehicleType.value.label === 'Standard SUV') {
+    } else if (selectedVehicleType.value.label === 'Standard SUV') {
       return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/b4bf6461-ba55-48bd-e0ba-d613ae383000/1024'
     } else {
       return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d80107f-4800-45ae-8e20-c4adf2792f00/1024'
@@ -421,7 +427,6 @@ const onSubmit = async (evt: Event) => {
     destination_input,
     pickup_date,
     pickup_time,
-    // service_type,
     num_passengers,
     first_name,
     last_name,
@@ -447,7 +452,7 @@ const onSubmit = async (evt: Event) => {
       {
         objectTypeId: '0-1',
         name: 'vehicle_type',
-        value: vehicleType.value.label,
+        value: selectedVehicleType.value.label,
       },
       {
         objectTypeId: '0-1',
@@ -502,7 +507,7 @@ const onSubmit = async (evt: Event) => {
       {
         objectTypeId: '0-1',
         name: 'hours',
-        value: numberOfHours.value,
+        value: selectedNumberOfHours.value,
       },
       {
         objectTypeId: '0-1',
@@ -557,6 +562,15 @@ const onSubmit = async (evt: Event) => {
   }
 }
 
+const originLocation = ref<string | undefined>(undefined)
+const destinationLocation = ref<string | undefined>(undefined)
+console.log(originLocation.value)
+
+
+const onBlur = (e: Event) => {
+  console.log(e)
+}
+
 //todo: make the form reset without it having all of the inputs with errors
 //todo: integrate with stripe for payment
 //todo: add logic to check if the user picked an airport, if true add extra to the cost
@@ -564,6 +578,7 @@ const onSubmit = async (evt: Event) => {
 //todo: add popup to show images of the vehicles
 //todo: add popup to show the terms and conditions
 const onReset = () => ref(null)
+
 </script>
 
 <template>
@@ -571,74 +586,65 @@ const onReset = () => ref(null)
     rounded-borders
     no-error-focus
     no-reset-focus
-    @submit.prevent="onSubmit"
-    @reset="onReset"
-    id="lead_form"
-    ref="myForm"
-    class="max-w-xl mx-auto overflow-hidden bg-black q-px-sm q-pt-md q-pb-lg"
-    autocomplete="off"
+    @submit.prevent='onSubmit'
+    @reset='onReset'
+    id='lead_form'
+    ref='myForm'
+    class='mx-auto overflow-hidden bg-black quasar-form q-pa-sm'
+    autocomplete='off'
   >
     <QCardSection>
-      <div class="text-center text-white uppercase text-h5">Instant Quote</div>
+      <div class='text-center text-white text-uppercase text-h5'>Instant Quote</div>
     </QCardSection>
-    <QCardSection>
-      <input
-        type="text"
-        id="origin-input"
-        name="origin_input"
-        placeholder="Enter Pickup Address or Airport Code"
-        v-model="origin_location"
-        ref="originLocation"
-        class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
-        required
+    <QCardSection horizontal class='q-pa-sm'>
+      <InputPlacesAutocomplete
+        name='origin_input_1'
+        v-model='originLocation'
+        label='Pick Up Location:'
+        class='full-width'
       />
     </QCardSection>
-    <QCardSection>
-      <input
-        type="text"
-        required
-        id="destination-input"
-        name="destination_input"
-        placeholder="Enter Pickup Address or Airport Code"
-        v-model="destination_location"
-        ref="destinationLocation"
-        class="w-full px-3 py-2 text-gray-500 placeholder-gray-400 bg-white focus:border-primary focus:outline-primary focus:ring-primary/90"
+    <QCardSection horizontal class='q-pa-sm'>
+      <InputPlacesAutocomplete
+        name='origin_input_1'
+        v-model='destinationLocation'
+        label='Drop Off Location:'
+        class='full-width'
       />
     </QCardSection>
-    <QCardSection class="flex flex-col xs:flex-row q-pa-none">
-      <QCardSection class="col">
+    <QCardSection horizontal class='row q-pa-sm q-gutter-sm'>
+      <QCardSection horizontal class='col'>
         <QInput
           hide-bottom-space
-          v-model="pickup_date"
-          mask="date"
+          v-model='pickup_date'
           :rules="['date']"
           outlined
           dense
-          square
           stack-label
-          label="Pick Up Date:"
-          bg-color="white"
-          lazy-rules="ondemand"
-          name="pickup_date"
+          label='Pick Up Date:'
+          bg-color='white'
+          lazy-rules='ondemand'
+          name='pickup_date'
           required
+          class='full-width'
         >
           <template v-slot:append>
-            <QIcon name="event" class="cursor-pointer">
+            <QIcon name='event' class='cursor-pointer'>
               <QPopupProxy
                 cover
-                transition-show="scale"
-                transition-hide="scale"
-                v-model="showDatePopup"
+                transition-show='scale'
+                transition-hide='scale'
+                v-model='showDatePopup'
               >
                 <QDate
-                  name="pickup_date"
-                  id="pickup_date"
-                  v-model="pickup_date"
+                  name='pickup_date'
+                  id='pickup_date'
+                  v-model='pickup_date'
                   required
                   :rules="['date']"
                 >
-                  <div class="items-center justify-end row">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  <div class='items-center justify-end row'>
+                    <q-btn v-close-popup label='Close' color='brand' flat />
                   </div>
                 </QDate>
               </QPopupProxy>
@@ -646,38 +652,38 @@ const onReset = () => ref(null)
           </template>
         </QInput>
       </QCardSection>
-      <QCardSection class="col">
+      <QCardSection horizontal class='col'>
         <QInput
           hide-bottom-space
-          v-model="pickup_time"
-          mask="time"
+          v-model='pickup_time'
+          mask='time'
           :rules="['time']"
-          label="Pickup Time:"
-          lazy-rules="ondemand"
+          label='Pickup Time:'
+          lazy-rules='ondemand'
           dense
-          square
           outlined
-          name="pickup_time"
+          name='pickup_time'
           stack-label
-          bg-color="white"
+          bg-color='white'
+          class='full-width'
         >
           <template v-slot:append>
-            <QIcon name="access_time" class="cursor-pointer">
+            <QIcon name='access_time' class='cursor-pointer'>
               <QPopupProxy
-                v-model="showTimePopup"
+                v-model='showTimePopup'
                 cover
-                transition-show="scale"
-                transition-hide="scale"
+                transition-show='scale'
+                transition-hide='scale'
               >
                 <QTime
-                  v-model="pickup_time"
-                  name="pickup_date"
-                  id="pickup_date"
+                  v-model='pickup_time'
+                  name='pickup_date'
+                  id='pickup_date'
                   required
                   :rules="['time']"
                 >
-                  <div class="items-center justify-end row">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  <div class='items-center justify-end row'>
+                    <q-btn v-close-popup label='Close' color='brand' flat />
                   </div>
                 </QTime>
               </QPopupProxy>
@@ -686,219 +692,218 @@ const onReset = () => ref(null)
         </QInput>
       </QCardSection>
     </QCardSection>
-    <QCardSection class="flex flex-col xs:flex-row q-pa-none">
-      <QCardSection class="col">
+    <QCardSection horizontal class='row q-pa-sm q-gutter-sm'>
+      <QCardSection horizontal class='col'>
         <QSelect
           hide-bottom-space
-          v-model="service_type"
-          for="service-type"
-          id="service-type"
-          name="service_type"
+          v-model='selectedServiceType'
+          for='service-type'
+          id='service-type'
+          name='service_type'
           dense
-          label="Service Type:"
+          label='Service Type:'
           stack-label
           outlined
-          square
-          :options="serviceTypeOptions"
-          bg-color="white"
+          :options='serviceTypeOptions'
+          bg-color='white'
           lazy-rules
           :rules="[(val) => !!val || '* Required']"
+          class='full-width'
+          transition-duration='150'
         />
       </QCardSection>
-      <QCardSection class="col">
+      <QCardSection horizontal class='col'>
         <QSelect
           hide-bottom-space
-          label="Passengers:"
-          name="num_passengers"
-          id="num_passengers"
+          label='Passengers:'
+          name='num_passengers'
+          id='num_passengers'
           dense
           outlined
-          square
           stack-label
-          v-model="num_passengers"
-          :options="passengerOptions"
-          bg-color="white"
+          v-model='selectedPassengers'
+          :options='passengerOptions'
+          bg-color='white'
           lazy-rules
-          emit-value
-          :rules="[(val) => !!val || '* Required']"
+          :rules="[(val: any) => !!val || '* Required']"
+          class='full-width'
+          transition-duration='150'
         />
       </QCardSection>
     </QCardSection>
-    <QCardSection class="flex flex-col xs:flex-row q-pa-none">
-      <QCardSection class="col">
+    <QCardSection horizontal class='row q-pa-sm q-gutter-sm'>
+      <QCardSection horizontal class='col'>
         <QSelect
           hide-bottom-space
-          v-model="vehicleType"
-          class="text-gray-500"
-          label="Vehicle Type"
-          :options="vehicleTypeOptions"
+          v-model='selectedVehicleType'
+          label='Vehicle Type'
+          :options='vehicleTypeOptions'
           dense
-          name="vehicle_type"
+          name='vehicle_type'
           outlined
-          square
           stack-label
-          bg-color="white"
-          lazy-rules="ondemand"
-          :rules="[(val) => !!val || '* Required']"
+          bg-color='white'
+          lazy-rules='ondemand'
+          :rules="[(val: any) => !!val || '* Required']"
+          class='full-width'
+          transition-duration='150'
         />
       </QCardSection>
-      <QCardSection class="col">
+      <QCardSection horizontal class='col'>
         <QSelect
           hide-bottom-space
-          name="number_of_hours"
-          id="num_hours"
-          label="Number Of Hours:"
-          v-model="numberOfHours"
-          :options="hoursRequiredOptions"
+          name='number_of_hours'
+          id='num_hours'
+          label='Number Of Hours:'
+          v-model='selectedNumberOfHours'
+          :options='hoursRequiredOptions'
           outlined
-          square
           dense
           stack-label
-          :disable="!isItHourly"
-          bg-color="white"
-          lazy-rules="ondemand"
-          emit-value
+          :disable='!isItHourly'
+          bg-color='white'
+          lazy-rules='ondemand'
           :rules="[(val) => !!val || '* Required']"
+          class='full-width'
+          transition-duration='150'
         />
       </QCardSection>
     </QCardSection>
-    <QCardSection class="flex flex-col xs:flex-row q-pa-none">
-      <QCardSection class="col">
+    <QCardSection horizontal class='row q-pa-sm q-gutter-sm'>
+      <QCardSection horizontal class='col'>
         <QInput
           hide-bottom-space
-          type="text"
-          name="first_name"
-          id="first_name"
-          v-model="first_name"
-          label="First Name:"
+          type='text'
+          name='first_name'
+          id='first_name'
+          v-model='first_name'
+          label='First Name:'
           outlined
-          square
           dense
           stack-label
           lazy-rules
-          bg-color="white"
+          bg-color='white'
           :rules="[(val) => !!val || '* Required']"
+          class='full-width'
         />
       </QCardSection>
-      <QCardSection class="col">
+      <QCardSection horizontal class='col'>
         <QInput
           hide-bottom-space
-          type="text"
-          name="last_name"
-          id="last_name"
-          label="Last Name:"
+          type='text'
+          name='last_name'
+          id='last_name'
+          label='Last Name:'
           dense
           outlined
-          square
           stack-label
-          v-model="last_name"
+          v-model='last_name'
           lazy-rules
-          :rules="[(val) => !!val || '* Required']"
-          bg-color="white"
+          :rules="[(val: any) => !!val || '* Required']"
+          bg-color='white'
+          class='full-width'
         />
       </QCardSection>
     </QCardSection>
-    <QCardSection class="flex flex-col xs:flex-row q-pa-none">
-      <QCardSection class="col">
+    <QCardSection horizontal class='row q-pt-sm q-px-sm q-gutter-sm'>
+      <QCardSection horizontal class='col'>
         <QInput
           hide-bottom-space
-          type="email"
-          name="email_address"
-          id="email"
-          label="Email Address:"
-          v-model="email_address"
+          type='email'
+          name='email_address'
+          id='email'
+          label='Email Address:'
+          v-model='email_address'
           dense
           outlined
-          square
           stack-label
           lazy-rules
           :rules="['email']"
-          bg-color="white"
+          bg-color='white'
           required
-          :autocomplete="false"
+          :autocomplete='false'
+          class='full-width'
         />
       </QCardSection>
-      <QCardSection class="col">
-        <vue3-q-tel-input
-          v-model:tel="phone_number"
+      <QCardSection horizontal class='col'>
+        <Vue3QTelInput
+          v-model:tel='phone_number'
           dense
           outlined
-          square
           stack-label
           lazy-rules
-          bg-color="white"
-          label="Phone Number:"
-          name="phone_number"
-          id="phone_number"
-          input-mask="phone"
-          :required="false"
+          bg-color='white'
+          label='Phone Number:'
+          name='phone_number'
+          id='phone_number'
+          input-mask='phone'
+          :required='false'
+          class='full-width'
         />
       </QCardSection>
     </QCardSection>
-    <QCardSection v-show="false">
+    <QCardSection horizontal class='row q-pb-sm q-px-sm'>
       <QCheckbox
-        name="round_trip"
-        id="round_trip"
-        class="text=white"
-        label="Round Trip"
-        v-model="is_round_trip"
-        color="primary"
+        name='round_trip'
+        id='round_trip'
+        label='Round Trip'
+        v-model='is_round_trip'
+        color='brand'
+        dense
+        class='text-white'
       />
+      <QBtn v-show='false' label='reset' color='primary'></QBtn>
     </QCardSection>
-    <QCardActions align="around" id="submit_button_wrapper">
+    <QCardSection horizontal class='row q-pl-sm q-pr-sm q-pb-md q-pt-sm'>
       <QBtn
-        id="submit_button"
-        type="submit"
-        label="Get Prices &amp; Availability"
-        color="red-8"
-        :loading="loading"
+        id='submit_button'
+        type='submit'
+        label='Get Prices &amp; Availability'
+        color='red-8'
+        :loading='loading'
+        class='full-width'
       />
-    </QCardActions>
-    <QCardSection flat class="w-full h-full" v-show="false">
-      <div ref="myMap" id="my-map"></div>
     </QCardSection>
   </QForm>
 </template>
 
 <!--suppress CssMissingComma -->
 <style>
-#my-map {
-  height: 100% !important;
-  max-width: 500px !important;
-}
-
-#round_trip
-  > div.q-checkbox__inner.relative-position.non-selectable.q-checkbox__inner--falsy
-  > div {
+#round_trip > div.q-checkbox__inner.relative-position.non-selectable.q-checkbox__inner--falsy > div {
   background-color: white;
 }
 
-#lead_form > div:nth-child(8) > div:nth-child(2) > div > div {
+/* #lead_form>div:nth-child(8)>div:nth-child(2)>div>div {
   background-color: #cecece;
-}
+} */
 
-div.q-card__section:nth-child(3) > label:nth-child(1) {
+/* div.q-card__section:nth-child(3)>label:nth-child(1) {
   padding-top: 0;
   padding-bottom: 0;
-}
+} */
 
-.bg-dark > div:nth-child(1) {
+/* .bg-dark>div:nth-child(1) {
   padding-left: 0;
   padding-right: 0;
+} */
+
+#lead_form > div:nth-child(8) > div:nth-child(2) > label > div > div.q-field__control.relative-position.row.no-wrap.bg-white > div.q-field__prepend.q-field__marginal.row.no-wrap.items-center > label > div > div > div > div {
+  padding-top: 5px !important;
 }
 
-#lead_form
-  > div:nth-child(8)
-  > div:nth-child(2)
-  > label
-  > div
-  > div.q-field__control.relative-position.row.no-wrap.bg-white
-  > div.q-field__prepend.q-field__marginal.row.no-wrap.items-center
-  > label
-  > div
-  > div
-  > div
-  > div {
-  padding-top: 5px !important;
+#lead_form > div:nth-child(8) > div:nth-child(2) > label > div > div.q-field__control.relative-position.row.no-wrap.bg-white {
+  padding: 0;
+}
+
+#lead_form > div:nth-child(8) > div:nth-child(2) > label > div > div.q-field__control.relative-position.row.no-wrap.bg-white > div.q-field__prepend.q-field__marginal.row.no-wrap.items-center > label > div > div > div > div {
+  padding-left: 8px;
+  padding-right: 6px;
+  background: gray;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.quasar-form {
+  max-width: 600px;
 }
 </style>
