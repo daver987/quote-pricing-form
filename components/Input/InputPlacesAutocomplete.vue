@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { Loader } from '@googlemaps/js-api-loader'
 import { Ref } from 'vue'
 
@@ -73,24 +73,17 @@ const initAutocomplete = async () => {
     autocomplete.value.addListener('place_changed', getAutocompleteComponents)
   })
 }
-// @change="emit('change', place)"
-//
+
 const getAutocompleteComponents = () => {
   place.value = autocomplete.value.getPlace()
   const { place_id } = place.value
   console.log(place_id)
+  emit('change', place.value)
   return place_id
 }
-//
-// watch(place, (newVal) => {
-//   emit('change', newVal)
-// })
+
 const emit = defineEmits(['change'])
-const emitChange = (evt: Event) => {
-  const place = evt.target
-  emit('change', place)
-  console.log(evt.target)
-}
+
 
 onMounted(() => {
   initAutocomplete()
@@ -99,83 +92,28 @@ const modelValue = ref('')
 </script>
 
 <template>
+  <label
+    :for='name'
+    class='items-start iq-field row no-wrap q-field--outlined q-input q-field--float q-field--labeled q-field--dense q-field--error'
+  >
+    <div class='self-stretch q-field__inner relative-position col'>
+      <div class='bg-white q-field__control relative-position row no-wrap'>
 
-     <label
-       :for="name"
-       class="items-start iq-field row no-wrap q-field--outlined q-input q-field--float q-field--labeled q-field--dense q-field--error"
-       >
-       <div class='self-stretch q-field__inner relative-position col'>
-         <div class='bg-white q-field__control relative-position row no-wrap'>
-
-           <div class='q-field__control-container col relative-position row no-wrap q-anchor--skip'>
-             <input
-             class='q-field__native q-placeholder'
-             :id="name"
-             :name='name'
-             type='text'
-             :value='modelValue'
-             @input='event => modelValue = $event.target.value'
-             :placeholder='placeholder'
-             ref="inputField"
-           /><div class='absolute q-field__label no-pointer-events ellipsis'>{{ label }}</div></div>
-         </div>
-       </div>
-     </label
-     >
+        <div class='q-field__control-container col relative-position row no-wrap q-anchor--skip'>
+          <input
+            class='q-field__native q-placeholder'
+            :id='name'
+            :name='name'
+            type='text'
+            :value='modelValue'
+            @input='event => modelValue = event.target.value'
+            :placeholder='placeholder'
+            ref='inputField'
+          />
+          <div class='absolute q-field__label no-pointer-events ellipsis'>{{ label }}</div>
+        </div>
+      </div>
+    </div>
+  </label>
 </template>
 
-<style>
-.label-class {
-  display: flex;
-  flex-wrap: nowrap;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.25rem;
-}
-
-.outer-wrapper {
-  align-self: stretch;
-  display: block;
-  position: relative;
-}
-
-.inner-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  height: 40px;
-  position: relative;
-}
-
-.wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  position: relative;
-  max-width: 100%;
-  min-width: 0;
-}
-
-.autocomplete-input {
-  border: 0px;
-  background: white;
-  color: rgba(0, 0, 0, 0.87);
-  display: block;
-  padding-bottom: 2px;
-  padding-top: 14px;
-  width: 100%;
-  outline: none;
-}
-
-.outer-label {
-  backface-visibility: hidden;
-  display: block;
-  font-size: 14px;
-  position: absolute;
-  top: 10px;
-  color: rgba(0, 0, 0, 0.54);
-  font-weight: 400;
-  text-overflow: ellipsis;
-  transform: matrix(0.75, 0, 0, 0.75, 0 -6);
-  transform-origin: 0 0;
-  white-space: nowrap;
-}
-</style>

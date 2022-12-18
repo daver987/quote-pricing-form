@@ -564,11 +564,77 @@ const onSubmit = async (evt: Event) => {
 
 const originLocation = ref<string | undefined>(undefined)
 const destinationLocation = ref<string | undefined>(undefined)
-console.log(originLocation.value)
+const origin = ref(null)
+const destination = ref(null)
+const originPlaceId = ref<string | undefined>(undefined)
+const destinationPlaceId = ref<string | undefined>(undefined)
 
+const onOriginChange = async(e: any) => {
+  origin.value = e
+  if(origin.value && destination.value){
+    console.log('origin and destination are both set')
+    const { place_id, formatted_address,name } = origin.value
+    const { data } = await useFetch('/api/get-distance', {
+      query: {
+        origin: originPlaceId.value,
+        destination: place_id,
+      },
+    })
+    console.log('data is', data.value)
+    const { distanceText, distanceValue, durationText, durationValue, endLat, endLng, startLat, startLng } = data.value
+    return {
+      distanceText,
+      distanceValue,
+      durationText,
+      durationValue,
+      endLat,
+      endLng,
+      startLat,
+      startLng,
+      place_id,
+      formatted_address,
+      name
+    }
+  }
+  else {
+    const { place_id } = origin.value
+    console.log('only origin is set')
+    console.log('place id is', place_id)
+    return originPlaceId.value = place_id
+  }
+}
 
-const onBlur = (e: Event) => {
-  console.log(e)
+const onDestinationChange = async(e: any) => {
+  destination.value = e
+  if (origin.value && destination.value) {
+    console.log('origin and destination are both set')
+    const { place_id, formatted_address,name } = destination.value
+    const { data } = await useFetch('/api/get-distance', {
+      query: {
+        origin: originPlaceId.value,
+        destination: place_id,
+      },
+    })
+    console.log('data is', data.value)
+    const { distanceText, distanceValue, durationText, durationValue, endLat, endLng, startLat, startLng } = data.value
+    return {
+      distanceText,
+      distanceValue,
+      durationText,
+      durationValue,
+      endLat,
+      endLng,
+      startLat,
+      startLng,
+      place_id,
+      formatted_address,
+      name
+    }
+  } else {
+    console.log('only destination is set')
+    console.log('destination place id is', place_id)
+    return destinationPlaceId.value = place_id
+  }
 }
 
 //todo: make the form reset without it having all of the inputs with errors
@@ -602,6 +668,7 @@ const onReset = () => ref(null)
         v-model='originLocation'
         label='Pick Up Location:'
         class='full-width'
+        @change='onOriginChange'
       />
     </QCardSection>
     <QCardSection horizontal class='q-pa-sm'>
@@ -610,6 +677,7 @@ const onReset = () => ref(null)
         v-model='destinationLocation'
         label='Drop Off Location:'
         class='full-width'
+        @change='onDestinationChange'
       />
     </QCardSection>
     <QCardSection horizontal class='row q-pa-sm q-gutter-sm'>
@@ -725,7 +793,7 @@ const onReset = () => ref(null)
           :options='passengerOptions'
           bg-color='white'
           lazy-rules
-          :rules="[(val: any) => !!val || '* Required']"
+          :rules="[(val) => !!val || '* Required']"
           class='full-width'
           transition-duration='150'
         />
@@ -744,7 +812,7 @@ const onReset = () => ref(null)
           stack-label
           bg-color='white'
           lazy-rules='ondemand'
-          :rules="[(val: any) => !!val || '* Required']"
+          :rules="[(val) => !!val || '* Required']"
           class='full-width'
           transition-duration='150'
         />
@@ -799,7 +867,7 @@ const onReset = () => ref(null)
           stack-label
           v-model='last_name'
           lazy-rules
-          :rules="[(val: any) => !!val || '* Required']"
+          :rules="[(val) => !!val || '* Required']"
           bg-color='white'
           class='full-width'
         />
@@ -872,20 +940,6 @@ const onReset = () => ref(null)
 #round_trip > div.q-checkbox__inner.relative-position.non-selectable.q-checkbox__inner--falsy > div {
   background-color: white;
 }
-
-/* #lead_form>div:nth-child(8)>div:nth-child(2)>div>div {
-  background-color: #cecece;
-} */
-
-/* div.q-card__section:nth-child(3)>label:nth-child(1) {
-  padding-top: 0;
-  padding-bottom: 0;
-} */
-
-/* .bg-dark>div:nth-child(1) {
-  padding-left: 0;
-  padding-right: 0;
-} */
 
 #lead_form > div:nth-child(8) > div:nth-child(2) > label > div > div.q-field__control.relative-position.row.no-wrap.bg-white > div.q-field__prepend.q-field__marginal.row.no-wrap.items-center > label > div > div > div > div {
   padding-top: 5px !important;
