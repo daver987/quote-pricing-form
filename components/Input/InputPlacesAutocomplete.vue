@@ -34,21 +34,6 @@ const props = defineProps({
   },
 })
 
-// const name = toRef(props, 'name')
-
-// const {
-//   value: inputValue,
-//   errorMessage,
-//   handleBlur,
-//   handleChange,
-//   meta,
-// } = useField(name, undefined, {
-//   initialValue: props.value,
-// })
-
-// const formattedId = computed(() => {
-//   return `pac-${Math.random().toString(36).substring(2, 9)}`
-// })
 
 const mapsApiKey = useRuntimeConfig().public.GOOGLE_MAPS_API_KEY
 const autocomplete = ref(null) as unknown as Ref<google.maps.places.Autocomplete>
@@ -66,8 +51,6 @@ const initAutocomplete = async () => {
     autocomplete.value = new google.maps.places.Autocomplete(inputField.value, {
       componentRestrictions: { country: ['us', 'ca'] },
       fields: ['place_id', 'formatted_address', 'name'],
-      // fields: ['place_id', 'formatted_address', 'geometry', 'name'],
-      // fields: ['place_id'],
     })
     autocomplete.value.setFields(['place_id'])
     autocomplete.value.addListener('place_changed', getAutocompleteComponents)
@@ -84,7 +67,6 @@ const getAutocompleteComponents = () => {
 
 const emit = defineEmits(['change'])
 
-
 onMounted(() => {
   initAutocomplete()
 })
@@ -98,7 +80,6 @@ const modelValue = ref('')
   >
     <div class='self-stretch q-field__inner relative-position col'>
       <div class='bg-white q-field__control relative-position row no-wrap'>
-
         <div class='q-field__control-container col relative-position row no-wrap q-anchor--skip'>
           <input
             class='q-field__native q-placeholder'
