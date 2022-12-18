@@ -2,7 +2,7 @@ import ip from 'ip'
 
 export default defineEventHandler(async (event) => {
   const ipAddress = ip.address()
-  const body = await useBody(event)
+  const body = await readBody(event)
   const cookies = parseCookies(event)
   const { hubspotutk: hutk } = cookies
   body.context = { hutk, ipAddress }
