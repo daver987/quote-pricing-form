@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     preset: 'cloudflare',
   },
 
-  modules: ['@pinia/nuxt', 'nuxt-quasar-vite', '@vueuse/nuxt'],
+  modules: ['@pinia/nuxt', 'nuxt-quasar-vite', '@unocss/nuxt', '@vueuse/nuxt'],
   build: {
     transpile: ['quasar', 'vue3-q-tel-input', '@googlemaps/js-api-loader'],
   },

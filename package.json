@@ -10,6 +10,8 @@
     "webstorm-integration": "vitest --watch --reporter=dot --reporter=json --outputFile=.vitest-result.json"
   },
   "devDependencies": {
+    "@anatine/zod-mock": "^3.8.0",
+    "@faker-js/faker": "^7.6.0",
     "@googlemaps/js-api-loader": "^1.15.1",
     "@gtm-support/vue-gtm": "^2.0.0",
     "@pinia/nuxt": "^0.4.6",
@@ -17,23 +19,22 @@
     "@types/google.maps": "^3.51.0",
     "@types/ip": "^1.1.0",
     "@types/vue-tel-input": "^2.1.2",
+    "@unocss/nuxt": "^0.47.6",
     "@vueuse/math": "^9.7.0",
     "@vueuse/nuxt": "^9.7.0",
+    "h3-zod": "^0.3.10",
     "ip": "^1.1.8",
     "nuxt": "^3.0.0",
     "nuxt-quasar-vite": "^1.0.10",
     "postcss": "^8.4.20",
     "prettier": "^2.8.1",
-    "quasar": "^2.11.0",
+    "prisma": "^4.7.1",
+    "quasar": "^2.11.1",
     "sass": "~1.32.13",
     "vitest": "^0.25.8",
     "vue3-q-tel-input": "^1.0.47",
     "zod": "^3.20.2",
-    "zod-validation-error": "^0.2.2",
-    "prisma": "^4.7.1",
-    "vee-validate": "^4.7.3",
-    "@vee-validate/zod": "^4.7.3",
-    "@faker-js/faker": "^7.6.0"
+    "zod-validation-error": "^0.2.2"
   },
   "dependencies": {}
 }
