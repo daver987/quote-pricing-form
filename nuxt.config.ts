@@ -3,7 +3,7 @@ export default defineNuxtConfig({
     shim: false,
   },
   nitro: {
-    preset: 'cloudflare',
+    preset: 'vercel',
   },
 
   modules: ['@pinia/nuxt', 'nuxt-quasar-vite', '@unocss/nuxt', '@vueuse/nuxt'],
