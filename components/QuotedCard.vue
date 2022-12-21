@@ -13,8 +13,8 @@ defineProps({
     type: String,
   },
   totalCost: {
-    default: 0,
-    type: Number,
+    default: '0',
+    type: String,
   },
   firstName: {
     default: 'Customer',
@@ -47,15 +47,15 @@ defineProps({
     <q-card-section>
       <q-item>
         <q-item-section avatar>
-          <q-avatar size="4rem">
+          <q-avatar size="5rem">
             <img
-              src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/041ea32d-630c-4f0c-a2ba-0c0c8f7d5f00/640"
-              alt="Luxury Ride Service"
+              src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/ec6dca30-3187-4694-7605-de32caf23100/1024"
+              alt="High Park Livery"
             />
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label class="text-h6">Luxury Ride Service Inc.</q-item-label>
+          <q-item-label class="text-h6">High Park Livery.</q-item-label>
         </q-item-section>
       </q-item>
     </q-card-section>
@@ -100,7 +100,7 @@ defineProps({
         color="primary"
         label="Book Now"
         @click="navigateHome"
-        href="https://luxuryrideservice.com/reservations"
+        href="https://highparklivery.com/reservations"
       />
     </q-card-actions>
   </q-card>

@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
-import { Rates, Surcharges } from './useRateCalculator'
+import { Rates, Surcharges } from '~/types/Rates'
 
-const rates = [
+const rates = <Rates[]>[
   {
     id: 1,
     name: 'Standard Sedan',
@@ -42,13 +42,13 @@ const rates = [
     min_distance: 25,
     min_rate_hourly: 256,
   },
-] as Rates[]
+]
 
-const surcharges = {
+const surcharges = <Surcharges>{
   fuelSurcharge: 0.08,
   gratuity: 0.2,
   HST: 0.13,
-} as Surcharges
+}
 
 // write a function that accepts an id returns the correct rate object from the array of rates objects
 const getRateFromId = (id: number, rates: Rates[]) => {
@@ -139,7 +139,7 @@ describe('getBaseRate', () => {
 })
 
 //write a function that returns the surcharge amounts for the base rate
-const getSurchargeAmounts = (baseRate, surcharges) => {
+const getSurchargeAmounts = (baseRate: number, surcharges: Surcharges) => {
   return {
     fuelSurcharge: baseRate * surcharges.fuelSurcharge,
     gratuity: baseRate * surcharges.gratuity,

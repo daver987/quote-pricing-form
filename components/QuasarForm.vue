@@ -1,24 +1,14 @@
 <script lang="ts" setup>
-import { Rates, Surcharges } from '~/composables/useRateCalculator'
-import { DirectionsResponse } from '~~/types/DirectionsResponse'
+import { DirectionsResponse } from '~/types/DirectionsResponse'
 import { Ref } from 'vue'
 import Vue3QTelInput from 'vue3-q-tel-input'
 import { formSchema, ValidationSchema } from '~/schema/quoteFormValues'
 import { generateMock } from '@anatine/zod-mock'
-import { date } from 'quasar'
+import { useQuoteStore } from '~/stores/useQuoteStore'
+import { storeToRefs } from 'pinia'
 
-//write a function that returns a date and time that is 2 hours from now and it formatted to a string
-const getTwoHoursFromNow = () => {
-  const now = new Date()
-  const twoHoursFromNow = new Date(now.getTime() + 2 * 60 * 60 * 1000)
-  return date.formatDate(twoHoursFromNow, 'YYYY-MM-DDTHH:mm')
-}
-
-//write a function that returns todays date formatted to a string YYYY-MM-DD
-const getTodaysDate = () => {
-  const now = new Date()
-  return date.formatDate(now, 'YYYY-MM-DD')
-}
+const quoteStore = useQuoteStore()
+const { quoteFormValues } = storeToRefs(quoteStore)
 
 const mockData = generateMock(formSchema)
 console.log(mockData)
@@ -166,31 +156,12 @@ const selectedNumberOfHours = ref<SelectFormData>({
 })
 console.log(selectedNumberOfHours.value)
 
-//data for Google Maps autocomplete from the maps store
-// const mapStore = useMapStore()
-// const {
-//   distance_traveled,
-//   duration_traveled,
-//   origin_place_name,
-//   destination_place_name,
-//   vehicle_image,
-//   service_type,
-//   vehicle_type,
-//   number_of_hours,
-//   base_rate,
-//   fuel_surcharge,
-//   gratuity_rate,
-//   hst,
-//   total_cost,
-// } = storeToRefs(mapStore)
-
 //variables to show or hide the date and time popups
 const showTimePopup = ref(false)
 const showDatePopup = ref(false)
 
 //logic to determine if it's an hourly based or distance based quote
 
-// const loading = ref(false) as Ref<boolean>
 // const onSubmit = async (evt: Event) => {
 //   loading.value = true
 //   const rates = (await $fetch('/api/rates')) as Rates[]
@@ -360,9 +331,6 @@ const showDatePopup = ref(false)
 //   ],
 // }
 
-// console.log(formBody)
-// console.log(evt)
-
 // const { data, error } = await useFetch('/api/formSubmit', {
 //   body: formBody,
 // })
@@ -397,6 +365,8 @@ const originPlaceId = ref<string>('')
 const destinationPlaceId = ref<string>('')
 const pickupDate = ref<string>('')
 const pickupTime = ref<string>('')
+const returnPickupDate = ref<string>('')
+const returnPickupTime = ref<string>('')
 const firstName = ref<string>('')
 const lastName = ref<string>('')
 const emailAddress = ref<string>('')
@@ -406,8 +376,7 @@ const placeDataOrigin = ref<Place | null>(null)
 const placeDataDestination = ref<Place | null>(null)
 const isItHourly = ref(false) as Ref<boolean>
 const tripData = ref<DirectionsResponse | null>(null)
-const returnPickupDate = ref<string>('')
-const returnPickupTime = ref<string>('')
+const calculatedDistance = ref<number>(0)
 
 const checkValues = () => {
   console.log('Pickup Date:', pickupDate.value)
@@ -420,7 +389,7 @@ const checkValues = () => {
   console.log('Last Name:', lastName.value)
   console.log('Email Address:', emailAddress.value)
   console.log('Phone Number:', phoneNumber.value)
-  console.log('Is it a Roundtrip?', isRoundTrip.value)
+  console.log('Is it a Round-trip?', isRoundTrip.value)
   console.log('Is it hourly?', isItHourly.value)
   console.log('Trip Data:', tripData.value)
   console.log('Origin Data:', placeDataOrigin.value)
@@ -491,6 +460,8 @@ const onOriginChange = async (e: Place) => {
       formatted_address: destinationFormattedAddress,
       name: destinationName,
     } = placeDataDestination.value as Place
+    calculatedDistance.value = distanceValue / 1000
+    console.log('calculated distance is:', calculatedDistance.value)
     return {
       distanceText,
       distanceValue,
@@ -506,6 +477,7 @@ const onOriginChange = async (e: Place) => {
       destinationPlaceId,
       destinationFormattedAddress,
       destinationName,
+      calculatedDistance,
     }
   } else {
     const { place_id } = origin.value
@@ -553,6 +525,8 @@ const onDestinationChange = async (e: Place) => {
       formatted_address: destinationFormattedAddress,
       name: destinationName,
     } = placeDataDestination.value as Place
+    calculatedDistance.value = distanceValue / 1000
+    console.log('calculated distance is:', calculatedDistance.value)
     return {
       distanceText,
       distanceValue,
@@ -569,6 +543,7 @@ const onDestinationChange = async (e: Place) => {
       destinationFormattedAddress,
       destinationName,
       tripData,
+      calculatedDistance,
     }
   } else {
     console.log('only destination is set')
@@ -583,9 +558,11 @@ const onDestinationChange = async (e: Place) => {
 //todo: add waypoints to the route for the quote
 //todo: add popup to show images of the vehicles
 //todo: add popup to show the terms and conditions
-const onReset = () => ref(null)
+
 const quoteForm = ref(null)
 const submitting = ref(false)
+const router = useRouter()
+
 const submitForm = async () => {
   submitting.value = true
   const formData = reactive<ValidationSchema>({
@@ -604,6 +581,7 @@ const submitForm = async () => {
     tripData: tripData.value as unknown as DirectionsResponse,
     originData: placeDataOrigin.value as unknown as Place,
     destinationData: placeDataDestination.value as unknown as Place,
+    calculatedDistance: calculatedDistance.value,
   })
   console.log('form data is:', formData)
   const form = formSchema.safeParse(formData)
@@ -612,14 +590,19 @@ const submitForm = async () => {
     return (submitting.value = false)
   } else {
     console.log('success', form.data)
+    quoteFormValues.value = form.data
+    console.log('quote form values are:', quoteFormValues.value)
     const { data, error } = await useFetch('/api/submission', {
       method: 'POST',
       body: form.data,
     })
-    ;(submitting.value = false), console.log('data is', data.value)
+    setTimeout(() => {
+      router.push('/quoted')
+    }, 1550)
+    submitting.value = false
     return {
-      data,
-      error,
+      data: data.value,
+      error: error.value,
     }
   }
 }
@@ -1056,11 +1039,5 @@ const submitForm = async () => {
   background: gray;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-}
-
-.quasar-form {
-  max-width: 600px;
-  background: black;
-  border-radius: 4px;
 }
 </style>

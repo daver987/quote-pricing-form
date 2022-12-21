@@ -11,30 +11,43 @@ datasource db {
 }
 
 model User {
-  id            Int     @id @default(autoincrement())
-  email_address String  @unique
-  first_name    String?
-  last_name     String?
-  phone         String?
-  quotes        Quote[]
+  id           Int     @id @default(autoincrement())
+  emailAddress String  @unique
+  firstName    String?
+  lastName     String?
+  phoneNumber  String?
+  quotes       Quote[]
 }
 
 model Quote {
-  id                    Int       @id @unique @default(autoincrement())
-  pick_up_date          DateTime?
-  pick_up_time          String?
-  pick_up_location      String
-  origin_place_id       String
-  drop_off_location     String
-  destination_place_id  String
-  service_type_label    String
-  service_type_value    Int
-  vehicle_type_label    String
-  vehicle_type_value    Int
-  passenger_count_label String
-  passenger_count_value Int
-  hours_required_label  String?
-  hours_required_value  Int?
-  User                  User?     @relation(fields: [userId], references: [id])
-  userId                Int?
+  id                          Int       @id @unique @default(autoincrement())
+  pickupDate                  DateTime?
+  pickupTime                  String?
+  isRoundTrip                 Boolean?
+  returnPickupDate            String?
+  returnPickupTime            String?
+  originName                  String
+  originFormattedAddress      String
+  originPlaceId               String
+  startLat                    Float
+  startLng                    Float
+  endLat                      Float
+  endLng                      Float
+  durationText                String
+  durationValue               Int
+  distanceText                String
+  distanceValue               Int
+  destinationName             String
+  destinationPlaceId          String
+  destinationFormattedAddress String
+  serviceType                 String
+  serviceTypeValue            Int
+  vehicleType                 String
+  vehicleTypeValue            Int
+  passengers                  Int
+  passengersLabel             String
+  hoursLabel                  String?
+  hours                       Int?
+  User                        User?     @relation(fields: [userId], references: [id])
+  userId                      Int?
 }
