@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
   } = body
   const { distanceValue } = tripData
   const { value: hours } = numberOfHours
-  const rate = getRateFromId(vehicleType.value, rates())
+  const rate = getRateFromId(vehicleType.value, rates)
   const baseRate = getBaseRate(isHourly, hours, distanceValue, rate as Rates)
   const computedSurcharges = getSurchargeAmounts(
     baseRate,
