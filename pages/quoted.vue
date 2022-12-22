@@ -45,16 +45,17 @@ const vehicleImage = ref<string>(
 </script>
 
 <template>
-  <QPage padding>
-    <QuotedCard
-      :totalCost="formattedTotal"
-      :vehicleType="vehicleTypeLabel"
-      :serviceType="serviceTypeLabel"
-      :vehicleImage="vehicleImage"
-      :originLocation="originAddress"
-      :destinationLocation="destinationAddress"
-      :pickupDate="pickupDate"
-      :firstName="firstName"
-    />
-  </QPage>
+  <div>
+    <!--    <QuotedCard-->
+    <!--      :totalCost="formattedTotal"-->
+    <!--      :vehicleType="vehicleTypeLabel"-->
+    <!--      :serviceType="serviceTypeLabel"-->
+    <!--      :vehicleImage="vehicleImage"-->
+    <!--      :originLocation="originAddress"-->
+    <!--      :destinationLocation="destinationAddress"-->
+    <!--      :pickupDate="pickupDate"-->
+    <!--      :firstName="firstName"-->
+    <!--    />-->
+    <ShoppingCart />
+  </div>
 </template>

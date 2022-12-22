@@ -617,7 +617,7 @@ const submitForm = async () => {
     <QCardSection>
       <div class="text-white text-center uppercase text-3xl">Instant Quote</div>
     </QCardSection>
-    <QCardSection horizontal class="grid grid-cols-1 gap-3">
+    <div class="grid w-full grid-cols-1 gap-3">
       <InputPlacesAutocomplete
         name="originLocation"
         v-model="originLocation"
@@ -626,8 +626,8 @@ const submitForm = async () => {
         @change="onOriginChange"
         placeholder="Enter pick up location"
       />
-    </QCardSection>
-    <QCardSection horizontal class="grid grid-cols-1 gap-3">
+    </div>
+    <div class="grid w-full grid-cols-1 gap-3">
       <InputPlacesAutocomplete
         name="destinationLocation"
         v-model="destinationLocation"
@@ -636,9 +636,9 @@ const submitForm = async () => {
         @change="onDestinationChange"
         placeholder="Enter drop off location"
       />
-    </QCardSection>
-    <QCardSection horizontal class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <QCardSection horizontal class="col-span-1">
+    </div>
+    <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+      <div class="col-span-1">
         <QInput
           hide-bottom-space
           v-model="pickupDate"
@@ -675,8 +675,8 @@ const submitForm = async () => {
             </QIcon>
           </template>
         </QInput>
-      </QCardSection>
-      <QCardSection horizontal class="col-span-1">
+      </div>
+      <div class="md:col-span-1">
         <QInput
           hide-bottom-space
           v-model="pickupTime"
@@ -716,14 +716,10 @@ const submitForm = async () => {
             </QIcon>
           </template>
         </QInput>
-      </QCardSection>
-    </QCardSection>
-    <QCardSection
-      v-if="isRoundTrip"
-      horizontal
-      class="grid grid-cols-1 md:grid-cols-2 gap-3"
-    >
-      <QCardSection horizontal class="col-span-1">
+      </div>
+    </div>
+    <div v-if="isRoundTrip" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="col-span-1">
         <QInput
           hide-bottom-space
           v-model="returnPickupDate"
@@ -760,8 +756,8 @@ const submitForm = async () => {
             </QIcon>
           </template>
         </QInput>
-      </QCardSection>
-      <QCardSection horizontal class="col-span-1">
+      </div>
+      <div class="col-span-1">
         <QInput
           hide-bottom-space
           v-model="returnPickupTime"
@@ -801,10 +797,10 @@ const submitForm = async () => {
             </QIcon>
           </template>
         </QInput>
-      </QCardSection>
-    </QCardSection>
-    <QCardSection horizontal class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <QCardSection horizontal class="col-span-1">
+      </div>
+    </div>
+    <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+      <div class="col-span-1">
         <QSelect
           hide-bottom-space
           v-model="selectedServiceType"
@@ -822,9 +818,9 @@ const submitForm = async () => {
           class="fit"
           transition-duration="150"
         />
-      </QCardSection>
+      </div>
 
-      <QCardSection horizontal class="col-span-1">
+      <div class="col-span-1">
         <QSelect
           hide-bottom-space
           label="Passengers:"
@@ -841,10 +837,10 @@ const submitForm = async () => {
           class="fit"
           transition-duration="150"
         />
-      </QCardSection>
-    </QCardSection>
-    <QCardSection horizontal class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <QCardSection horizontal class="col-span-1">
+      </div>
+    </div>
+    <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+      <div class="col-span-1">
         <QSelect
           hide-bottom-space
           v-model="selectedVehicleType"
@@ -860,9 +856,9 @@ const submitForm = async () => {
           class="fit"
           transition-duration="150"
         />
-      </QCardSection>
+      </div>
 
-      <QCardSection horizontal class="col-span-1">
+      <div class="col-span-1">
         <QSelect
           hide-bottom-space
           name="selectedNumberOfHours"
@@ -880,10 +876,10 @@ const submitForm = async () => {
           class="fit"
           transition-duration="150"
         />
-      </QCardSection>
-    </QCardSection>
-    <QCardSection horizontal class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <QCardSection horizontal class="col-span-1">
+      </div>
+    </div>
+    <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+      <div class="col-span-1">
         <QInput
           hide-bottom-space
           type="text"
@@ -900,9 +896,9 @@ const submitForm = async () => {
           class="fit"
           placeholder="Enter first name"
         />
-      </QCardSection>
+      </div>
 
-      <QCardSection horizontal class="col-span-1">
+      <div class="col-span-1">
         <QInput
           hide-bottom-space
           type="text"
@@ -919,10 +915,10 @@ const submitForm = async () => {
           class="fit"
           placeholder="Enter last name"
         />
-      </QCardSection>
-    </QCardSection>
-    <QCardSection horizontal class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <QCardSection horizontal class="col-span-1">
+      </div>
+    </div>
+    <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+      <div class="col-span-1">
         <QInput
           hide-bottom-space
           type="email"
@@ -941,9 +937,9 @@ const submitForm = async () => {
           class="fit"
           placeholder="Enter email address"
         />
-      </QCardSection>
+      </div>
 
-      <QCardSection horizontal class="col-span-1">
+      <div class="col-span-1">
         <ClientOnly>
           <Vue3QTelInput
             v-model:tel="phoneNumber"
@@ -962,8 +958,8 @@ const submitForm = async () => {
             hide-bottom-space
           />
         </ClientOnly>
-      </QCardSection>
-    </QCardSection>
+      </div>
+    </div>
     <QCardSection horizontal class="row">
       <QCheckbox
         name="isRoundTrip"

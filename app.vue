@@ -6,10 +6,9 @@
 </script>
 
 <template>
-  <QLayout view="hHh lpR fFf">
-    <QPageContainer>
+  <div>
+    <NuxtLayout>
       <NuxtPage />
-    </QPageContainer>
-    <QFooter hidden></QFooter>
-  </QLayout>
+    </NuxtLayout>
+  </div>
 </template>

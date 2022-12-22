@@ -6,9 +6,24 @@ export default defineNuxtConfig({
     preset: 'vercel',
   },
 
-  modules: ['@pinia/nuxt', 'nuxt-quasar-vite', '@unocss/nuxt', '@vueuse/nuxt'],
+  modules: [
+    '@pinia/nuxt',
+    'nuxt-quasar-vite',
+    '@vueuse/nuxt',
+    'nuxt-headlessui',
+    '@nuxtjs/tailwindcss',
+  ],
   build: {
-    transpile: ['quasar', 'vue3-q-tel-input', '@googlemaps/js-api-loader'],
+    transpile: [
+      'quasar',
+      'vue3-q-tel-input',
+      '@googlemaps/js-api-loader',
+      '@heroicons/vue',
+      '@headlessui/vue',
+    ],
+  },
+  headlessui: {
+    prefix: 'Headless',
   },
   runtimeConfig: {
     HUBSPOT_ACCESS_TOKEN: process.env.HUBSPOT_ACCESS_TOKEN,
@@ -16,13 +31,15 @@ export default defineNuxtConfig({
       GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
     },
   },
-  css: ['vue3-q-tel-input/dist/vue3-q-tel-input.esm.css'],
+  css: [
+    'vue3-q-tel-input/dist/vue3-q-tel-input.esm.css',
+    'quasar/dist/quasar.css',
+    '@quasar/extras/material-icons/material-icons.css',
+  ],
   quasar: {
     // Optional string | boolean
-    sassVariables: 'assets/styles/quasar.variables.scss',
     // Optional string[]
     // If you use animations, add Quasar Extra CSS animation URL here.
-    css: ['@quasar/extras/material-icons/material-icons.css'],
     // List of extra Quasar Plugins
     // auto-installed: [Platform, Body, Dark, Screen, History, Lang, IconSet]
     // optional: [AddressBarColor, AppFullscreen, AppVisibility, BottomSheet, Dialog,
