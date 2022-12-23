@@ -3,7 +3,12 @@
     <div class="py-5 px-4 sm:p-6">
       <div class="sm:flex">
         <div class="flex-shrink-0 mb-4 sm:mr-4 sm:mb-0">
-          <img :alt="altText" :src="`icons/${image}.svg`" class="w-20" />
+          <nuxt-img
+            :alt="altText"
+            :src="`icons/${image}.svg`"
+            width="5rem"
+            class="w-20"
+          />
         </div>
         <div>
           <h3

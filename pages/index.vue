@@ -12,10 +12,14 @@
             </h1>
             <p class="text-brand text-xl">In Toronto</p>
           </div>
-          <img
+          <nuxt-img
             src="/images/lincoln-continental-1.png"
             alt="Lincoln Continental"
             class="transform rotate"
+            format="avif"
+            quality="80"
+            width="1011"
+            height="506"
           />
         </div>
         <div class="col-span-1 p-0">
@@ -95,7 +99,11 @@
           </p>
         </div>
         <div class="col-span-2 p-6">
-          <img class="w-80" src="/icons/24-hours.svg" alt="24 hours icon" />
+          <nuxt-img
+            class="w-80"
+            src="/icons/24-hours.svg"
+            alt="24 hours icon"
+          />
         </div>
       </BaseContainer>
     </BaseSection>
@@ -137,12 +145,14 @@
       </BaseContainer>
     </BaseSection>
     <BaseSection class="pb-0">
-      <img
+      <nuxt-img
         alt="Toronto Skyline"
         class="object-cover object-center lg:mx-auto lg:max-w-6xl"
         src="/images/toronto-3.jpg"
         width="1364"
         height="459"
+        format="avif"
+        quality="80"
       />
     </BaseSection>
     <BaseSection class="pt-0 px-4 sm:px-6 lg:px-8">
