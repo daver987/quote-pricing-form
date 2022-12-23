@@ -3,7 +3,7 @@ export default defineNuxtConfig({
     shim: false,
   },
   nitro: {
-    preset: 'vercel',
+    preset: 'cloudflare-pages',
   },
 
   experimental: {
