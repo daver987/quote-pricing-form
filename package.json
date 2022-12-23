@@ -10,14 +10,11 @@
     "webstorm-integration": "vitest --watch --reporter=dot --reporter=json --outputFile=.vitest-result.json"
   },
   "devDependencies": {
-    "@anatine/zod-mock": "^3.8.0",
-    "@faker-js/faker": "^7.6.0",
     "@googlemaps/js-api-loader": "^1.15.1",
     "@gtm-support/vue-gtm": "^2.0.0",
     "@headlessui/tailwindcss": "^0.1.2",
     "@headlessui/vue": "^1.7.7",
     "@heroicons/vue": "^2.0.13",
-    "@julr/unocss-preset-forms": "^0.0.2",
     "@nuxt/image-edge": "^1.0.0-27840416.dc1ed65",
     "@nuxtjs/tailwindcss": "^6.2.0",
     "@pinia/nuxt": "^0.4.6",

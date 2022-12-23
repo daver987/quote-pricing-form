@@ -3,15 +3,11 @@ import { DirectionsResponse } from '~/types/DirectionsResponse'
 import { Ref } from 'vue'
 import Vue3QTelInput from 'vue3-q-tel-input'
 import { formSchema, ValidationSchema } from '~/schema/quoteFormValues'
-import { generateMock } from '@anatine/zod-mock'
 import { useQuoteStore } from '~/stores/useQuoteStore'
 import { storeToRefs } from 'pinia'
 
 const quoteStore = useQuoteStore()
 const { quoteFormValues } = storeToRefs(quoteStore)
-
-const mockData = generateMock(formSchema)
-console.log(mockData)
 
 // import { UAParser } from 'ua-parser-js'
 
