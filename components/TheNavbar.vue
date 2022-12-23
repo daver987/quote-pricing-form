@@ -9,13 +9,13 @@ const toggleMenu = () => {
 
 <template>
   <nav
-    class="w-full px-6 lg:px-10 z-30 row-start-1 self-start justify-self-stretch relative md:col-span-2"
+    class="w-full px-6 lg:px-10 z-30 py-4 row-start-1 self-start justify-self-stretch relative md:col-span-2"
   >
     <div class="relative grid grid-cols-2 mx-auto max-w-7xl">
       <div class="col-span-1 col-start-1">
         <NuxtLink
           to="/"
-          class="max-w-[100px] md:max-w-[125px] block cursor-pointer"
+          class="max-w-[100px] md:max-w-[115px] block cursor-pointer"
         >
           <img
             src="/images/hpl-logo-3.png"

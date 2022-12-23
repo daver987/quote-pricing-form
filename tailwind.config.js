@@ -1,6 +1,7 @@
 /** @type {import("tailwindcss").Config} */
 
 module.exports = {
+  important: true,
   darkMode: 'class',
   content: [
     `components/**/*.{vue,js}`,
@@ -84,5 +85,6 @@ module.exports = {
     require('@headlessui/tailwindcss'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/container-queries'),
   ],
 }

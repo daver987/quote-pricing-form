@@ -610,7 +610,7 @@ const submitForm = async () => {
 
 <template>
   <QForm
-    class="max-w-2xl rounded-md shadow-xl bg-black p-5 space-y-3"
+    class="max-w-xl rounded-lg shadow-xl bg-black p-5 space-y-3 border border-white"
     ref="quoteForm"
     id="lead_form"
   >
@@ -966,7 +966,7 @@ const submitForm = async () => {
         id="round_trip"
         label="Round Trip"
         v-model="isRoundTrip"
-        color="brand"
+        color="#AC8053"
         dense
         class="text-white"
         hide-bottom-space

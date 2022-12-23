@@ -6,12 +6,20 @@ export default defineNuxtConfig({
     preset: 'vercel',
   },
 
+  experimental: {
+    writeEarlyHints: true,
+  },
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+  },
+
   modules: [
     '@pinia/nuxt',
     'nuxt-quasar-vite',
     '@vueuse/nuxt',
     'nuxt-headlessui',
     '@nuxtjs/tailwindcss',
+    '@nuxt/image-edge',
   ],
   build: {
     transpile: [

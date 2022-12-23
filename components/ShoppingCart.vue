@@ -58,7 +58,6 @@ const currentDate = getCurrentDate()
 <template>
   <div class="bg-white">
     <!-- Mobile menu -->
-    <AppHeader />
     <main
       class="mx-auto max-w-2xl px-4 pt-8 pb-24 sm:px-6 lg:max-w-7xl lg:px-8"
     >

@@ -56,6 +56,7 @@ const vehicleImage = ref<string>(
     <!--      :pickupDate="pickupDate"-->
     <!--      :firstName="firstName"-->
     <!--    />-->
+    <AppHeader />
     <ShoppingCart />
   </div>
 </template>
