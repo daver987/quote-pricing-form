@@ -10,12 +10,14 @@
             <h1 class="text-5xl text-gray-50 font-heading">
               Experience Luxury Rides & Tours
             </h1>
-            <p class="text-brand text-xl">In Toronto</p>
+            <p class="text-brand text-xl uppercase font-medium tracking-wider">
+              In Toronto
+            </p>
           </div>
           <nuxt-img
             src="/images/lincoln-continental-1.png"
             alt="Lincoln Continental"
-            class="transform rotate"
+            class="max-w-lg"
             format="avif"
             quality="80"
             width="1011"
@@ -26,6 +28,89 @@
           <ClientOnly>
             <QuasarForm />
           </ClientOnly>
+        </div>
+      </BaseContainer>
+    </BaseSection>
+    <BaseSection>
+      <BaseContainer>
+        <TransitionRoot as="template" :show="open">
+          <Dialog as="div" class="relative z-10" @close="open = false">
+            <TransitionChild
+              as="template"
+              enter="ease-out duration-300"
+              enter-from="opacity-0"
+              enter-to="opacity-100"
+              leave="ease-in duration-200"
+              leave-from="opacity-100"
+              leave-to="opacity-0"
+            >
+              <div
+                class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+              />
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-10 overflow-y-auto">
+              <div
+                class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
+              >
+                <TransitionChild
+                  as="template"
+                  enter="ease-out duration-300"
+                  enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enter-to="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leave-from="opacity-100 translate-y-0 sm:scale-100"
+                  leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <DialogPanel
+                    class="relative transform overflow-hidden rounded-lg bg-white pt-6 pb-3 px-2 shadow-xl transition-all sm:my-8 sm:w-full max-w-sm"
+                  >
+                    <div
+                      class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block"
+                    >
+                      <button
+                        type="button"
+                        class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                        @click="open = false"
+                      >
+                        <span class="sr-only">Close</span>
+                        Close
+                      </button>
+                    </div>
+                    <Calendar class="mx-auto" />
+                    <button
+                      class="bg-brand-400 px-12 mt-3 rounded-md py-2"
+                      @click="toggleCalendar"
+                    >
+                      Close
+                    </button>
+                  </DialogPanel>
+                </TransitionChild>
+              </div>
+            </div>
+          </Dialog>
+        </TransitionRoot>
+        <CalendarIcon
+          @click="toggleCalendar"
+          class="h-5 w-5 text-black cursor-pointer"
+        >
+          <button></button
+        ></CalendarIcon>
+        <div
+          class="relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600"
+        >
+          <label
+            for="name"
+            class="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900"
+            >Name</label
+          >
+          <input
+            type="text"
+            name="name"
+            id="name"
+            class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+            placeholder="Jane Smith"
+          />
         </div>
       </BaseContainer>
     </BaseSection>
@@ -188,6 +273,17 @@
 <script setup lang="ts">
 import { services } from '~/data/services'
 import { features } from '~/data/features'
+import {
+  Dialog,
+  DialogPanel,
+  TransitionChild,
+  TransitionRoot,
+} from '@headlessui/vue'
+import { CalendarIcon } from '@heroicons/vue/20/solid'
 
+const open = ref(false)
+const toggleCalendar = () => {
+  open.value = !open.value
+}
 const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
 </script>

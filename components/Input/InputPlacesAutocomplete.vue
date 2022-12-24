@@ -1,7 +1,6 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { Loader } from '@googlemaps/js-api-loader'
 import { Ref } from 'vue'
-
 
 const props = defineProps({
   type: {
@@ -20,9 +19,9 @@ const props = defineProps({
     type: String,
     required: false,
   },
-  successMessage: {
+  errorMessage: {
     type: String,
-    default: '',
+    default: 'Required -*',
   },
   placeholder: {
     type: String,
@@ -32,11 +31,17 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  showError: {
+    required: false,
+    type: Boolean,
+    default: false,
+  },
 })
 
-
 const mapsApiKey = useRuntimeConfig().public.GOOGLE_MAPS_API_KEY
-const autocomplete = ref(null) as unknown as Ref<google.maps.places.Autocomplete>
+const autocomplete = ref(
+  null
+) as unknown as Ref<google.maps.places.Autocomplete>
 const inputField = ref(null) as unknown as Ref<HTMLInputElement>
 const place = ref(null) as unknown as Ref<google.maps.places.PlaceResult>
 
@@ -74,27 +79,36 @@ const modelValue = ref('')
 </script>
 
 <template>
-  <label
-    :for='name'
-    class='items-start iq-field row no-wrap q-field--outlined q-input q-field--float q-field--labeled q-field--dense q-field--error'
-  >
-    <div class='self-stretch q-field__inner relative-position col'>
-      <div class='bg-white q-field__control relative-position row no-wrap'>
-        <div class='q-field__control-container col relative-position row no-wrap q-anchor--skip'>
+  <label class="flex no-wrap text-sm h-10 leading-5" :for="name">
+    <div
+      class="relative min-w-0 max-w-full text-left self-stretch block basis-0 grow shrink-1"
+    >
+      <div
+        class="rounded flex no-wrap relative w-full focus:ring focus:ring-1 focus:border-brand"
+      >
+        <div class="max-w-full min-w-0 outline-0 relative w-full">
           <input
-            class='q-field__native q-placeholder'
-            :id='name'
-            :name='name'
-            type='text'
-            :value='modelValue'
-            @input='event => modelValue = event.target.value'
-            :placeholder='placeholder'
-            ref='inputField'
+            class="outline-0 rounded-md block text-base pt-3 px-3 pb-0.5 leading-6 w-full placeholder-gray-400 outline-0"
+            :id="name"
+            :name="name"
+            type="text"
+            :value="modelValue"
+            @input="(event) => (modelValue = event.target.value)"
+            :placeholder="placeholder"
+            ref="inputField"
           />
-          <div class='absolute q-field__label no-pointer-events ellipsis'>{{ label }}</div>
+          <div
+            class="block text-xs h-5 px-3 absolute text-left overflow-hidden left-0 text-ellipsis top-0.5 font-extralight text-gray-800"
+          >
+            {{ label }}
+          </div>
+        </div>
+      </div>
+      <div v-if="showError" class="flex">
+        <div class="block text-red-700 text-xs">
+          <div role="alert">{{ errorMessage }}</div>
         </div>
       </div>
     </div>
   </label>
 </template>
-

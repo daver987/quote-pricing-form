@@ -21,6 +21,9 @@ module.exports = {
         heading: ['campton-thin'],
         body: ['campton-light'],
       },
+      fontSize: {
+        xs: '0.825rem',
+      },
       colors: {
         brand: {
           50: '#F7F2EE',

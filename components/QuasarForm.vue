@@ -605,14 +605,14 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <QForm
+  <form
     class="max-w-xl rounded-lg shadow-xl bg-black p-5 space-y-3 border border-white"
     ref="quoteForm"
     id="lead_form"
   >
-    <QCardSection>
+    <div>
       <div class="text-white text-center uppercase text-3xl">Instant Quote</div>
-    </QCardSection>
+    </div>
     <div class="grid w-full grid-cols-1 gap-3">
       <InputPlacesAutocomplete
         name="originLocation"
@@ -876,61 +876,35 @@ const submitForm = async () => {
     </div>
     <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
       <div class="col-span-1">
-        <QInput
-          hide-bottom-space
+        <InputText
           type="text"
           name="firstName"
           id="first_name"
           v-model="firstName"
           label="First Name:"
-          outlined
-          dense
-          stack-label
-          lazy-rules
-          bg-color="white"
-          :rules="[(val: any) => !!val || '* Required']"
-          class="fit"
           placeholder="Enter first name"
         />
       </div>
 
       <div class="col-span-1">
-        <QInput
-          hide-bottom-space
+        <InputText
           type="text"
           name="lastName"
           id="last_name"
           label="Last Name:"
-          dense
-          outlined
-          stack-label
           v-model="lastName"
-          lazy-rules
-          :rules="[(val: any) => !!val || '* Required']"
-          bg-color="white"
-          class="fit"
           placeholder="Enter last name"
         />
       </div>
     </div>
     <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
       <div class="col-span-1">
-        <QInput
-          hide-bottom-space
+        <InputText
           type="email"
           name="emailAddress"
           id="email"
           label="Email Address:"
           v-model="emailAddress"
-          dense
-          outlined
-          stack-label
-          lazy-rules
-          :rules="['email']"
-          bg-color="white"
-          required
-          :autocomplete="false"
-          class="fit"
           placeholder="Enter email address"
         />
       </div>
@@ -956,7 +930,7 @@ const submitForm = async () => {
         </ClientOnly>
       </div>
     </div>
-    <QCardSection horizontal class="row">
+    <div class="flex flex-row">
       <QCheckbox
         name="isRoundTrip"
         id="round_trip"
@@ -968,8 +942,8 @@ const submitForm = async () => {
         hide-bottom-space
       />
       <QBtn v-show="false" label="reset" color="primary"></QBtn>
-    </QCardSection>
-    <QCardSection horizontal class="row">
+    </div>
+    <div class="flex flex-row">
       <QBtn
         id="submit_button"
         label="Get Prices &amp; Availability"
@@ -978,8 +952,8 @@ const submitForm = async () => {
         @click="submitForm"
         :loading="submitting"
       />
-    </QCardSection>
-  </QForm>
+    </div>
+  </form>
 </template>
 
 <!--suppress CssMissingComma -->
