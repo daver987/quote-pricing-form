@@ -17,138 +17,172 @@ const { quoteFormValues } = storeToRefs(quoteStore)
 
 const passengerOptions = <SelectFormData[]>[
   {
+    label: 'Select Passengers',
+    value: 0,
+    isDisabled: false,
+  },
+  {
     label: '1 passenger',
     value: 1,
+    isDisabled: false,
   },
   {
     label: '2 passengers',
     value: 2,
+    isDisabled: false,
   },
   {
     label: '3 passengers',
     value: 3,
+    isDisabled: false,
   },
   {
     label: '4 passengers',
     value: 4,
+    isDisabled: false,
   },
   {
     label: '5 passengers',
     value: 5,
+    isDisabled: false,
   },
   {
     label: '6 passengers',
     value: 6,
+    isDisabled: false,
   },
   {
     label: '7 passengers',
     value: 7,
+    isDisabled: false,
   },
 ]
-const selectedPassengers = ref<SelectFormData>({
-  label: 'Select Passengers',
-  value: 0,
-})
+const selectedPassengers = ref<SelectFormData>(passengerOptions[0])
 console.log(selectedPassengers.value)
 
 const serviceTypeOptions = <SelectFormData[]>[
   {
+    label: 'Select Service Type',
+    value: 0,
+    isDisabled: false,
+  },
+  {
     label: 'Point-to-Point',
     value: 1,
+    isDisabled: false,
   },
   {
     label: 'To Airport',
     value: 2,
+    isDisabled: false,
   },
   {
     label: 'From Airport',
     value: 3,
+    isDisabled: false,
   },
   {
-    label: 'Hourly/As Directed',
+    label: 'Hourly / As Directed',
     value: 4,
+    isDisabled: false,
   },
 ]
-const selectedServiceType = ref<SelectFormData>({
-  label: 'Select Service Type',
-  value: 0,
-})
+const selectedServiceType = ref<SelectFormData>(serviceTypeOptions[0])
 console.log(selectedServiceType.value)
 
 const vehicleTypeOptions = <SelectFormData[]>[
   {
+    label: 'Select Vehicle Type',
+    value: 0,
+    isDisabled: false,
+  },
+  {
     label: 'Standard Sedan',
     value: 1,
+    isDisabled: false,
   },
   {
     label: 'Premium Sedan',
     value: 2,
+    isDisabled: false,
   },
   {
     label: 'Standard SUV',
     value: 3,
+    isDisabled: false,
   },
   {
     label: 'Premium SUV',
     value: 4,
+    isDisabled: false,
   },
 ]
-const selectedVehicleType = ref<SelectFormData>({
-  label: 'Select Vehicle Type',
-  value: 0,
-})
+const selectedVehicleType = ref<SelectFormData>(vehicleTypeOptions[0])
 console.log(selectedVehicleType.value)
 
 const hoursRequiredOptions = <SelectFormData[]>[
   {
+    label: 'For Hourly Service',
+    value: 0,
+    isDisabled: false,
+  },
+  {
     label: '2 hrs',
     value: 2,
+    isDisabled: false,
   },
   {
     label: '3 hrs',
     value: 3,
+    isDisabled: false,
   },
   {
     label: '4 hrs',
     value: 4,
+    isDisabled: false,
   },
   {
     label: '5 hrs',
     value: 5,
+    isDisabled: false,
   },
   {
     label: '6 hrs',
     value: 6,
+    isDisabled: false,
   },
   {
     label: '7 hrs',
     value: 7,
+    isDisabled: false,
   },
   {
     label: '8 hrs',
     value: 8,
+    isDisabled: false,
   },
   {
     label: '9 hrs',
     value: 9,
+    isDisabled: false,
   },
   {
     label: '10 hrs',
     value: 10,
+    isDisabled: false,
   },
   {
     label: '11 hrs',
     value: 11,
+    isDisabled: false,
   },
   {
     label: '12 hrs',
     value: 12,
+    isDisabled: false,
   },
 ]
-const selectedNumberOfHours = ref<SelectFormData>({
-  label: 'For Hourly Service',
-  value: 0,
-})
+const selectedNumberOfHours = ref<SelectFormData>(hoursRequiredOptions[0])
 console.log(selectedNumberOfHours.value)
 
 //logic to determine if it's an hourly based or distance based quote
@@ -604,6 +638,7 @@ const submitForm = async () => {
     class="max-w-2xl rounded-lg shadow-xl bg-black p-5 space-y-3 border border-white"
     ref="quoteForm"
     id="lead_form"
+    @submit.prevent="submitForm"
   >
     <div>
       <div class="text-white text-center uppercase text-3xl">Instant Quote</div>
@@ -613,7 +648,6 @@ const submitForm = async () => {
         name="originLocation"
         v-model="originLocation"
         label="Pick Up Location:"
-        class="fit"
         @change="onOriginChange"
         placeholder="Enter pick up location"
       />
@@ -623,70 +657,88 @@ const submitForm = async () => {
         name="destinationLocation"
         v-model="destinationLocation"
         label="Drop Off Location:"
-        class="fit"
         @change="onDestinationChange"
         placeholder="Enter drop off location"
       />
     </div>
     <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
       <div class="col-span-1">
-        <InputDate placeholder="Enter A Pickup Date" />
+        <InputDate
+          placeholder="Enter A Pickup Date"
+          name="pickupDate"
+          v-model="pickupDate"
+        />
       </div>
       <div class="md:col-span-1">
-        <InputDate placeholder="Enter A Pickup Time" />
+        <InputDate
+          placeholder="Enter A Pickup Time"
+          name="pickupTime"
+          v-model="pickupTime"
+        />
       </div>
     </div>
     <div v-if="isRoundTrip" class="grid grid-cols-1 md:grid-cols-2 gap-3">
       <div class="col-span-1">
-        <InputDate placeholder="Enter A Return Date" />
+        <InputDate
+          placeholder="Enter A Return Date"
+          name="returnDate"
+          v-model="returnPickupDate"
+        />
       </div>
       <div class="col-span-1">
-        <InputDate placeholder="Enter A Return Date" />
+        <InputDate
+          placeholder="Enter A Return Date"
+          name="returnTime"
+          v-model="returnPickupTime"
+        />
       </div>
     </div>
     <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
       <div class="col-span-1">
-        <InputSelect
+        <InputListbox
           v-model="selectedServiceType"
           label="Service Type:"
           id="service-type"
           name="selectedServiceType"
           :options="serviceTypeOptions"
           :disable="isDisabled"
+          placeholder="Select Service Type"
         />
       </div>
 
       <div class="col-span-1">
-        <InputSelect
+        <InputListbox
           label="Passengers:"
           name="selectedPassengers"
           id="num_passengers"
           v-model="selectedPassengers"
           :options="passengerOptions"
           :disable="isDisabled"
+          placeholder="Select Number Of Passengers"
         />
       </div>
     </div>
     <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
       <div class="col-span-1">
-        <InputSelect
+        <InputListbox
           name="selectedVehicleType"
           id="selectedVehicleType"
           v-model="selectedVehicleType"
           label="Vehicle Type"
           :options="vehicleTypeOptions"
-          :disable="isDisabled"
+          :disabled="isDisabled"
+          placeholder="Select Vehicle Type"
         />
       </div>
 
       <div class="col-span-1">
-        <InputSelect
+        <InputListbox
           name="selectedNumberOfHours"
           id="num_hours"
           label="Number Of Hours:"
           v-model="selectedNumberOfHours"
           :options="hoursRequiredOptions"
-          :disable="isDisabled"
+          :placeholder="'Select Number Of Hours'"
         />
       </div>
     </div>

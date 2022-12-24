@@ -114,6 +114,40 @@
         </div>
       </BaseContainer>
     </BaseSection>
+    <section
+      aria-labelledby="policies-heading"
+      class="mt-24 border-t border-gray-200 bg-gray-50"
+    >
+      <h2 id="policies-heading" class="sr-only">Our policies</h2>
+
+      <div class="mx-auto max-w-7xl py-24 px-4 sm:px-6 sm:py-32 lg:px-8">
+        <div
+          class="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-0"
+        >
+          <div
+            v-for="policy in policies"
+            :key="policy.name"
+            class="text-center md:flex md:items-start md:text-left lg:block lg:text-center"
+          >
+            <div class="md:flex-shrink-0">
+              <div class="flow-root">
+                <img
+                  class="-my-1 mx-auto h-24 w-auto"
+                  :src="policy.imageSrc"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="mt-6 md:mt-0 md:ml-4 lg:mt-6 lg:ml-0">
+              <h3 class="text-base font-medium text-gray-900">
+                {{ policy.name }}
+              </h3>
+              <p class="mt-3 text-sm text-gray-500">{{ policy.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <BaseSection class="">
       <BaseContainer
         class="flex flex-col mx-auto mb-8 max-w-4xl md:flex-none md:mb-4 md:grid md:grid-cols-2 md:grid-rows-1 md:items-stretch lg:max-w-7xl"
@@ -208,4 +242,34 @@ const toggleCalendar = () => {
   open.value = !open.value
 }
 const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
+const policies = [
+  {
+    name: 'All Inclusive Pricing',
+    imageSrc:
+      'https://tailwindui.com/img/ecommerce/icons/icon-returns-light.svg',
+    description:
+      'Not what you expected? Place it back in the parcel and attach the pre-paid postage stamp.',
+  },
+  {
+    name: 'Online Booking',
+    imageSrc:
+      'https://tailwindui.com/img/ecommerce/icons/icon-calendar-light.svg',
+    description:
+      'We offer a delivery service that has never been done before. Checkout today and receive your products within hours.',
+  },
+  {
+    name: 'All year discount',
+    imageSrc:
+      'https://tailwindui.com/img/ecommerce/icons/icon-gift-card-light.svg',
+    description:
+      'Looking for a deal? You can use the code "ALLYEAR" at checkout and get money off all year round.',
+  },
+  {
+    name: 'For the planet',
+    imageSrc:
+      'https://tailwindui.com/img/ecommerce/icons/icon-planet-light.svg',
+    description:
+      'We’ve pledged 1% of sales to the preservation and restoration of the natural environment.',
+  },
+]
 </script>
