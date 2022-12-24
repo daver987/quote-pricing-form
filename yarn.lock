@@ -664,7 +664,7 @@
   optionalDependencies:
     ipx "1.0.0-2"
 
-"@nuxt/kit@^3.0.0", "@nuxt/kit@^3.0.0-rc.14", "@nuxt/kit@^3.0.0-rc.2":
+"@nuxt/kit@^3.0.0", "@nuxt/kit@^3.0.0-rc.14":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.0.0.tgz#ae49b4e27b15285556cb88f35a56309c5ca0dd79"
   integrity sha512-7ZsOLt5s9a0ZleAIzmoD70JwkZf5ti6bDdxl6f8ew7Huxz+ni/oRfTPTX9TrORXsgW5CvDt6Q9M7IJNPkAN/Iw==
@@ -864,11 +864,6 @@
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-4.8.0.tgz#5123c67dc0d2caa008268fc63081ca2d68b2ed7e"
   integrity sha512-A1Asn2rxZMlLAj1HTyfaCv0VQrLUv034jVay05QlqZg1qiHPeA3/pGTfNMijbsMYCsGVxfWEJuaZZuNxXGMCrA==
-
-"@quasar/extras@^1.15.8":
-  version "1.15.8"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.15.8.tgz#948e35a7bc6006d97eb16273d1f05c99997fe126"
-  integrity sha512-UR6Snu7DSYdDOGqcNjUr0FJtKNfPn2Jc2hKTC+y/Y7Gf+vWu0RYUl49cguD33nn+wpbgs28+cvmjx7u3NNogoQ==
 
 "@rollup/plugin-alias@^4.0.2":
   version "4.0.2"
@@ -1713,7 +1708,7 @@ check-error@^1.0.2:
   resolved "https://registry.yarnpkg.com/check-error/-/check-error-1.0.2.tgz#574d312edd88bb5dd8912e9286dd6c0aed4aac82"
   integrity sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==
 
-"chokidar@>=3.0.0 <4.0.0", chokidar@^3.5.1, chokidar@^3.5.3:
+chokidar@^3.5.1, chokidar@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
   integrity sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==
@@ -2783,11 +2778,6 @@ globby@^13.1.2, globby@^13.1.3:
     ignore "^5.2.0"
     merge2 "^1.4.1"
     slash "^4.0.0"
-
-google-libphonenumber@^3.2.21:
-  version "3.2.31"
-  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.31.tgz#d2c4d4c8d7385be70b515086e4d28dd20da50600"
-  integrity sha512-l3bzAkfN4ITICKvuqEiY7JN06RxDAviOoKMtD2KfGYjGK3btPO8Xav7k0fgmf1Ud/pEm523yBh1/s/xDtKEvnw==
 
 graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4, graceful-fs@^4.2.9:
   version "4.2.10"
@@ -3876,13 +3866,6 @@ nuxt-headlessui@^1.0.4:
     "@nuxt/kit" "^3.0.0"
     pathe "^1.0.0"
 
-nuxt-quasar-vite@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/nuxt-quasar-vite/-/nuxt-quasar-vite-1.0.10.tgz#8ce621ceef26710c5703fb4856c0312e461d1666"
-  integrity sha512-jt0fduvDdS4Skm7ybmQgDPEyEZ9B7X4Inlc//R1LYwx3ZrNFWrkB3hjycpypbhyWv0tQic9b0n7CIdXptT/M7w==
-  dependencies:
-    "@nuxt/kit" "^3.0.0-rc.2"
-
 "nuxt@npm:nuxt3@latest":
   version "3.0.1-rc.0-27857531.faf2607"
   resolved "https://registry.yarnpkg.com/nuxt3/-/nuxt3-3.0.1-rc.0-27857531.faf2607.tgz#dca83b8d9fc720f1e09207b82298b0d593dbb076"
@@ -4577,11 +4560,6 @@ punycode@^2.1.0:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-quasar@^2.11.1:
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-2.11.1.tgz#061190368fe1d71b67e8fdbd6c485819247a031d"
-  integrity sha512-3whiJaOXbectd2R6Vfjr/vHKeY92zdDpx41zfZ5vrG+Yx16Q76euUQsdKlYr1PD7q33yvHvjegxuILgKJg5GqA==
-
 queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
@@ -4798,13 +4776,6 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
-
-sass@~1.32.13:
-  version "1.32.13"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.32.13.tgz#8d29c849e625a415bce71609c7cf95e15f74ed00"
-  integrity sha512-dEgI9nShraqP7cXQH+lEXVf73WOPCse0QlFzSD8k+1TcOxCMwVXfQlr0jtoluZysQOyJGnfr21dLvYKDJq8HkA==
-  dependencies:
-    chokidar ">=3.0.0 <4.0.0"
 
 schema-utils@^3.0.0:
   version "3.1.1"
@@ -5622,13 +5593,6 @@ vue-router@^4.1.0, vue-router@^4.1.6:
   integrity sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==
   dependencies:
     "@vue/devtools-api" "^6.4.5"
-
-vue3-q-tel-input@^1.0.50:
-  version "1.0.50"
-  resolved "https://registry.yarnpkg.com/vue3-q-tel-input/-/vue3-q-tel-input-1.0.50.tgz#fcbcef2b39eb3b94f332ae039df8e6784e540185"
-  integrity sha512-xpsfzQTP55er1W+a62QhNQNiHX+abPeu5gMyHRb+VFa5Oz5OL0656fPgninaUtNsMG9xX2Wy2lSqpXTctYGDUA==
-  dependencies:
-    google-libphonenumber "^3.2.21"
 
 vue@^2.0.0:
   version "2.7.14"

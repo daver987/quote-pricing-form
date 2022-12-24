@@ -18,7 +18,6 @@
     "@nuxt/image-edge": "^1.0.0-27840416.dc1ed65",
     "@nuxtjs/tailwindcss": "^6.2.0",
     "@pinia/nuxt": "^0.4.6",
-    "@quasar/extras": "^1.15.8",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/container-queries": "^0.1.0",
     "@tailwindcss/forms": "^0.5.3",
@@ -31,14 +30,10 @@
     "ip": "^1.1.8",
     "nuxt": "npm:nuxt3@latest",
     "nuxt-headlessui": "^1.0.4",
-    "nuxt-quasar-vite": "^1.0.10",
     "postcss": "^8.4.20",
     "prettier": "^2.8.1",
     "prisma": "^4.8.0",
-    "quasar": "^2.11.1",
-    "sass": "~1.32.13",
     "vitest": "^0.26.2",
-    "vue3-q-tel-input": "^1.0.50",
     "zod": "^3.20.2"
   },
   "dependencies": {}

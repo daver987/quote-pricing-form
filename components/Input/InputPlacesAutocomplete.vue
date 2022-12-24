@@ -79,36 +79,27 @@ const modelValue = ref('')
 </script>
 
 <template>
-  <label class="flex no-wrap text-sm h-10 leading-5" :for="name">
-    <div
-      class="relative min-w-0 max-w-full text-left self-stretch block basis-0 grow shrink-1"
-    >
-      <div
-        class="rounded flex no-wrap relative w-full focus:ring focus:ring-1 focus:border-brand"
-      >
-        <div class="max-w-full min-w-0 outline-0 relative w-full">
-          <input
-            class="outline-0 rounded-md block text-base pt-3 px-3 pb-0.5 leading-6 w-full placeholder-gray-400 outline-0"
-            :id="name"
-            :name="name"
-            type="text"
-            :value="modelValue"
-            @input="(event) => (modelValue = event.target.value)"
-            :placeholder="placeholder"
-            ref="inputField"
-          />
-          <div
-            class="block text-xs h-5 px-3 absolute text-left overflow-hidden left-0 text-ellipsis top-0.5 font-extralight text-gray-800"
-          >
-            {{ label }}
-          </div>
-        </div>
-      </div>
-      <div v-if="showError" class="flex">
-        <div class="block text-red-700 text-xs">
-          <div role="alert">{{ errorMessage }}</div>
-        </div>
+  <div
+    class="rounded border border-gray-300 px-3 bg-white shadow-sm focus-within:border-brand-600 focus-within:ring-1 focus-within:ring-brand-600"
+  >
+    <label :for="name" class="block text-xxs font-regular text-gray-700">{{
+      label
+    }}</label>
+    <input
+      ref="inputField"
+      :aria-label="label"
+      :name="name"
+      :id="name"
+      :placeholder="placeholder"
+      :type="type"
+      :value="modelValue"
+      @input="(event) => (modelValue = event.target.value)"
+      class="block w-full border-0 p-0 text-gray-900 placeholder-gray-400 focus:ring-0 sm:text-sm pb-0.5 -mt-1"
+    />
+    <div v-if="showError" class="flex">
+      <div class="block text-red-700 text-xs">
+        <div role="alert">{{ errorMessage }}</div>
       </div>
     </div>
-  </label>
+  </div>
 </template>

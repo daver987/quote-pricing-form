@@ -22,7 +22,7 @@ module.exports = {
         body: ['campton-light'],
       },
       fontSize: {
-        xs: '0.825rem',
+        xxs: '0.675rem',
       },
       colors: {
         brand: {

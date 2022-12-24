@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { DirectionsResponse } from '~/types/DirectionsResponse'
 import { Ref } from 'vue'
-import Vue3QTelInput from 'vue3-q-tel-input'
 import { formSchema, ValidationSchema } from '~/schema/quoteFormValues'
 import { useQuoteStore } from '~/stores/useQuoteStore'
 import { storeToRefs } from 'pinia'
@@ -151,10 +150,6 @@ const selectedNumberOfHours = ref<SelectFormData>({
   value: 0,
 })
 console.log(selectedNumberOfHours.value)
-
-//variables to show or hide the date and time popups
-const showTimePopup = ref(false)
-const showDatePopup = ref(false)
 
 //logic to determine if it's an hourly based or distance based quote
 
@@ -606,7 +601,7 @@ const submitForm = async () => {
 
 <template>
   <form
-    class="max-w-xl rounded-lg shadow-xl bg-black p-5 space-y-3 border border-white"
+    class="max-w-2xl rounded-lg shadow-xl bg-black p-5 space-y-3 border border-white"
     ref="quoteForm"
     id="lead_form"
   >
@@ -635,242 +630,63 @@ const submitForm = async () => {
     </div>
     <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
       <div class="col-span-1">
-        <QInput
-          hide-bottom-space
-          v-model="pickupDate"
-          outlined
-          dense
-          stack-label
-          label="Pick Up Date:"
-          bg-color="white"
-          lazy-rules="ondemand"
-          name="pickupDate"
-          placeholder="Enter pick up date"
-          class="fit"
-        >
-          <template v-slot:append>
-            <QIcon name="event" class="cursor-pointer">
-              <QPopupProxy
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-                v-model="showDatePopup"
-              >
-                <QDate
-                  name="pickup_date"
-                  id="pickup_date"
-                  v-model="pickupDate"
-                  mask="YYYY-MM-DD"
-                  ref="datePicker"
-                >
-                  <div class="items-center justify-end row">
-                    <q-btn v-close-popup label="Close" color="brand" flat />
-                  </div>
-                </QDate>
-              </QPopupProxy>
-            </QIcon>
-          </template>
-        </QInput>
+        <InputDate placeholder="Enter A Pickup Date" />
       </div>
       <div class="md:col-span-1">
-        <QInput
-          hide-bottom-space
-          v-model="pickupTime"
-          mask="time"
-          :rules="['time']"
-          label="Pickup Time:"
-          lazy-rules="ondemand"
-          dense
-          outlined
-          name="pickupTime"
-          stack-label
-          bg-color="white"
-          class="fit"
-          placeholder="Enter pick up time"
-        >
-          <template v-slot:append>
-            <QIcon name="access_time" class="cursor-pointer">
-              <QPopupProxy
-                v-model="showTimePopup"
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-              >
-                <QTime
-                  v-model="pickupTime"
-                  name="pickupTime"
-                  id="pickup_date"
-                  required
-                  :rules="['time']"
-                  mask="HH:mm"
-                >
-                  <div class="items-center justify-end row">
-                    <q-btn v-close-popup label="Close" color="brand" flat />
-                  </div>
-                </QTime>
-              </QPopupProxy>
-            </QIcon>
-          </template>
-        </QInput>
+        <InputDate placeholder="Enter A Pickup Time" />
       </div>
     </div>
     <div v-if="isRoundTrip" class="grid grid-cols-1 md:grid-cols-2 gap-3">
       <div class="col-span-1">
-        <QInput
-          hide-bottom-space
-          v-model="returnPickupDate"
-          outlined
-          dense
-          stack-label
-          label="Return Pick Up Date:"
-          bg-color="white"
-          lazy-rules="ondemand"
-          name="pickupDate"
-          placeholder="Return pick up date"
-          class="fit"
-        >
-          <template v-slot:append>
-            <QIcon name="event" class="cursor-pointer">
-              <QPopupProxy
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-                v-model="showDatePopup"
-              >
-                <QDate
-                  name="pickup_date"
-                  id="pickup_date"
-                  v-model="returnPickupDate"
-                  mask="YYYY-MM-DD"
-                  ref="datePicker"
-                >
-                  <div class="items-center justify-end row">
-                    <q-btn v-close-popup label="Close" color="brand" flat />
-                  </div>
-                </QDate>
-              </QPopupProxy>
-            </QIcon>
-          </template>
-        </QInput>
+        <InputDate placeholder="Enter A Return Date" />
       </div>
       <div class="col-span-1">
-        <QInput
-          hide-bottom-space
-          v-model="returnPickupTime"
-          mask="time"
-          :rules="['time']"
-          label="Return Pickup Time:"
-          lazy-rules="ondemand"
-          dense
-          outlined
-          name="pickupTime"
-          stack-label
-          bg-color="white"
-          class="fit"
-          placeholder="Return pick up time"
-        >
-          <template v-slot:append>
-            <QIcon name="access_time" class="cursor-pointer">
-              <QPopupProxy
-                v-model="showTimePopup"
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-              >
-                <QTime
-                  v-model="returnPickupTime"
-                  name="pickupTime"
-                  id="pickup_date"
-                  required
-                  :rules="['time']"
-                  mask="HH:mm"
-                >
-                  <div class="items-center justify-end row">
-                    <q-btn v-close-popup label="Close" color="brand" flat />
-                  </div>
-                </QTime>
-              </QPopupProxy>
-            </QIcon>
-          </template>
-        </QInput>
+        <InputDate placeholder="Enter A Return Date" />
       </div>
     </div>
     <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
       <div class="col-span-1">
-        <QSelect
-          hide-bottom-space
+        <InputSelect
           v-model="selectedServiceType"
-          for="service-type"
+          label="Service Type:"
           id="service-type"
           name="selectedServiceType"
-          dense
-          label="Service Type:"
-          stack-label
-          outlined
           :options="serviceTypeOptions"
-          bg-color="white"
-          lazy-rules
-          :rules="[(val: any) => !!val || '* Required']"
-          class="fit"
-          transition-duration="150"
+          :disable="isDisabled"
         />
       </div>
 
       <div class="col-span-1">
-        <QSelect
-          hide-bottom-space
+        <InputSelect
           label="Passengers:"
           name="selectedPassengers"
           id="num_passengers"
-          dense
-          outlined
-          stack-label
           v-model="selectedPassengers"
           :options="passengerOptions"
-          bg-color="white"
-          lazy-rules
-          :rules="[(val: any) => !!val || '* Required']"
-          class="fit"
-          transition-duration="150"
+          :disable="isDisabled"
         />
       </div>
     </div>
     <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
       <div class="col-span-1">
-        <QSelect
-          hide-bottom-space
+        <InputSelect
+          name="selectedVehicleType"
+          id="selectedVehicleType"
           v-model="selectedVehicleType"
           label="Vehicle Type"
           :options="vehicleTypeOptions"
-          dense
-          name="selectedVehicleType"
-          outlined
-          stack-label
-          bg-color="white"
-          lazy-rules="ondemand"
-          :rules="[(val: any) => !!val || '* Required']"
-          class="fit"
-          transition-duration="150"
+          :disable="isDisabled"
         />
       </div>
 
       <div class="col-span-1">
-        <QSelect
-          hide-bottom-space
+        <InputSelect
           name="selectedNumberOfHours"
           id="num_hours"
           label="Number Of Hours:"
           v-model="selectedNumberOfHours"
           :options="hoursRequiredOptions"
-          outlined
-          dense
-          stack-label
           :disable="isDisabled"
-          bg-color="white"
-          lazy-rules="ondemand"
-          :rules="[(val: any) => !!val || '* Required']"
-          class="fit"
-          transition-duration="150"
         />
       </div>
     </div>
@@ -905,105 +721,38 @@ const submitForm = async () => {
           id="email"
           label="Email Address:"
           v-model="emailAddress"
-          placeholder="Enter email address"
+          placeholder="Enter Email Address"
         />
       </div>
 
       <div class="col-span-1">
-        <ClientOnly>
-          <Vue3QTelInput
-            v-model:tel="phoneNumber"
-            dense
-            outlined
-            stack-label
-            lazy-rules
-            bg-color="white"
-            label="Phone Number:"
-            name="phoneNumber"
-            id="phoneNumber"
-            input-mask="phone"
-            :required="false"
-            class="fit"
-            placeholder="Enter phone number"
-            hide-bottom-space
-          />
-        </ClientOnly>
+        <InputText
+          type="tel"
+          name="phoneNumber"
+          id="phone"
+          label="Phone Number:"
+          v-model="phoneNumber"
+          placeholder="Enter Phone Number"
+        />
       </div>
     </div>
     <div class="flex flex-row">
-      <QCheckbox
+      <InputCheckbox
         name="isRoundTrip"
         id="round_trip"
         label="Round Trip"
         v-model="isRoundTrip"
-        color="#AC8053"
-        dense
-        class="text-white"
-        hide-bottom-space
       />
-      <QBtn v-show="false" label="reset" color="primary"></QBtn>
     </div>
     <div class="flex flex-row">
-      <QBtn
-        id="submit_button"
-        label="Get Prices &amp; Availability"
-        color="red-8"
-        class="full-width"
+      <button
         @click="submitForm"
-        :loading="submitting"
-      />
+        id="submit_button"
+        type="submit"
+        class="inline-flex w-full uppercase items-center rounded border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+      >
+        <span class="self-center mx-auto">Get Prices & Availability</span>
+      </button>
     </div>
   </form>
 </template>
-
-<!--suppress CssMissingComma -->
-<style>
-#round_trip
-  > div.q-checkbox__inner.relative-position.non-selectable.q-checkbox__inner--falsy
-  > div {
-  background-color: white;
-}
-
-#lead_form
-  > div:nth-child(8)
-  > div:nth-child(2)
-  > label
-  > div
-  > div.q-field__control.relative-position.row.no-wrap.bg-white
-  > div.q-field__prepend.q-field__marginal.row.no-wrap.items-center
-  > label
-  > div
-  > div
-  > div
-  > div {
-  padding-top: 5px !important;
-}
-
-#lead_form
-  > div:nth-child(8)
-  > div:nth-child(2)
-  > label
-  > div
-  > div.q-field__control.relative-position.row.no-wrap.bg-white {
-  padding: 0;
-}
-
-#lead_form
-  > div:nth-child(8)
-  > div:nth-child(2)
-  > label
-  > div
-  > div.q-field__control.relative-position.row.no-wrap.bg-white
-  > div.q-field__prepend.q-field__marginal.row.no-wrap.items-center
-  > label
-  > div
-  > div
-  > div
-  > div {
-  padding-left: 8px;
-  padding-right: 6px;
-  background: gray;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-</style>

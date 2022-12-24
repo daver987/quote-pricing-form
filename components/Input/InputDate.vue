@@ -29,7 +29,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-white pt-6 pb-3 px-2 shadow-xl transition-all sm:my-8 sm:w-full max-w-sm"
+              class="relative transform overflow-hidden rounded-lg bg-white pt-6 pb-8 px-2 shadow-xl transition-all sm:my-8 sm:w-full max-w-sm"
             >
               <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
                 <button
@@ -38,16 +38,10 @@
                   @click="open = false"
                 >
                   <span class="sr-only">Close</span>
-                  Close
+                  <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                 </button>
               </div>
-              <Calendar class="mx-auto" @date="updateDate" />
-              <button
-                class="bg-brand-400 px-12 mt-3 rounded-md py-2"
-                @click="toggleCalendar"
-              >
-                Close
-              </button>
+              <Calendar class="mx-auto mt-4" @date="updateDate" />
             </DialogPanel>
           </TransitionChild>
         </div>
@@ -58,11 +52,11 @@
     <label :for="name" class="block text-xs font-medium text-gray-700">{{
       label
     }}</label>
-    <div class="relative mt-1 rounded-md shadow-sm">
+    <div class="relative mt-1 rounded shadow-sm">
       <div class="absolute inset-y-0 left-0 flex items-center pl-3">
         <CalendarIcon
           @click="toggleCalendar"
-          class="h-5 w-5 text-gray-400"
+          class="h-5 w-5 text-gray-400 cursor-pointer"
           aria-hidden="true"
           role="button"
         />
@@ -74,7 +68,7 @@
         :id="id"
         :placeholder="placeholder"
         v-model="inputValue"
-        class="block w-full rounded-md border-gray-300 pl-10 focus:border-brand focus:ring-brand sm:text-sm"
+        class="block w-full rounded border-gray-300 pl-10 focus:border-brand focus:ring-brand sm:text-sm placeholder-gray-400"
       />
     </div>
     <div v-if="showError" class="flex">
@@ -86,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import { CalendarIcon } from '@heroicons/vue/20/solid'
+import { CalendarIcon, XMarkIcon } from '@heroicons/vue/20/solid'
 import {
   DialogPanel,
   TransitionChild,

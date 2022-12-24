@@ -10,10 +10,10 @@
       />
     </div>
     <div class="ml-3 text-sm">
-      <label for="comments" class="font-medium text-gray-700">Comments</label>
-      <p id="comments-description" class="text-gray-500">
-        Get notified when someones posts a comment on a posting.
-      </p>
+      <label for="comments" class="font-medium text-gray-100">Round Trip</label>
+      <!--      <p id="comments-description" class="text-gray-500">-->
+      <!--        Get notified when someones posts a comment on a posting.-->
+      <!--      </p>-->
     </div>
   </div>
 </template>
