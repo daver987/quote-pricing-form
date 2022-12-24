@@ -35,7 +35,8 @@
         v-for="(day, dayIdx) in calendarDates"
         :key="day.date"
         type="button"
-        ref="dayValue"
+        ref="component"
+        @click="onDayClick(day)"
         :class="[
           'py-1.5 hover:bg-gray-100 focus:z-10',
           day.isCurrentMonth ? 'bg-white' : 'bg-gray-50',
@@ -74,7 +75,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { useDateGenerator, DateObject } from '~/composables/useDateGenerator'
 
-const dayValue = ref(null)
+const dayValue = ref<string | null>(null)
 const calendarDates = ref<DateObject[]>([])
 const currentDate = new Date()
 const currentYear = ref<number>(0)
@@ -135,5 +136,20 @@ function onLeftArrowClick() {
     // Decrement the current year if the month was reset to 11
   }
   updateCalendar()
+}
+
+const component = ref(null)
+const onDayClick = (day: DateObject) => {
+  dayValue.value = day.date
+  console.log(dayValue.value)
+  emitDate()
+  calendarDates.value.forEach((day) => {
+    day.isSelected = false
+  })
+  day.isSelected = true
+}
+const emit = defineEmits(['date'])
+const emitDate = () => {
+  emit('date', dayValue.value)
 }
 </script>
