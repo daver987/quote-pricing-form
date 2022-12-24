@@ -77,7 +77,6 @@
         class="block w-full rounded-md border-gray-300 pl-10 focus:border-brand focus:ring-brand sm:text-sm"
       />
     </div>
-    <pre>input value: {{ inputValue }}</pre>
     <div v-if="showError" class="flex">
       <div class="block text-red-700 text-xs">
         <div role="alert">{{ errorMessage }}</div>
