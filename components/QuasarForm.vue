@@ -4,6 +4,7 @@ import { Ref } from 'vue'
 import { formSchema, ValidationSchema } from '~/schema/quoteFormValues'
 import { useQuoteStore } from '~/stores/useQuoteStore'
 import { storeToRefs } from 'pinia'
+import { Vue3ReactiveTelInput } from 'vue3-reactive-tel-input'
 
 const quoteStore = useQuoteStore()
 const { quoteFormValues } = storeToRefs(quoteStore)
@@ -184,6 +185,20 @@ const hoursRequiredOptions = <SelectFormData[]>[
 ]
 const selectedNumberOfHours = ref<SelectFormData>(hoursRequiredOptions[0])
 console.log(selectedNumberOfHours.value)
+
+const inputOptions = ref({
+  id: 'phoneNumber',
+  required: true,
+  styleClasses:
+    'block w-full focus:border-brand focus:ring-brand focus:ring-opacity-5 text-sm',
+  showDialCode: true,
+})
+
+const dropdownOptions = ref({
+  showDialCodeInSelection: false,
+  showFlags: true,
+  showDialCodeInList: true,
+})
 
 //logic to determine if it's an hourly based or distance based quote
 
@@ -776,16 +791,13 @@ const submitForm = async () => {
           placeholder="Enter Email Address"
         />
       </div>
-
       <div class="col-span-1">
-        <InputText
-          type="tel"
-          name="phoneNumber"
-          id="phone"
-          label="Phone Number:"
-          v-model="phoneNumber"
-          placeholder="Enter Phone Number"
-        />
+        <vue3-reactive-tel-input
+          :dropdownOptions="dropdownOptions"
+          :inputOptions="inputOptions"
+          invalidMsg="Please enter a valid phone number"
+          v-model:value="phoneNumber"
+        ></vue3-reactive-tel-input>
       </div>
     </div>
     <div class="flex flex-row">

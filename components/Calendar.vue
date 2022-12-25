@@ -4,7 +4,7 @@
       <button
         @click="onLeftArrowClick"
         type="button"
-        class="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+        class="-m-1.5 flex flex-none items-center cursor-pointer justify-center p-1.5 text-gray-400 hover:text-gray-500"
       >
         <span class="sr-only">Previous month</span>
         <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
@@ -13,7 +13,7 @@
       <button
         @click="onRightArrowClick"
         type="button"
-        class="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+        class="-m-1.5 flex cursor-pointer flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
       >
         <span class="sr-only">Next month</span>
         <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
@@ -64,8 +64,8 @@
             day.isSelected && day.isToday && 'bg-brand-600',
             day.isSelected && !day.isToday && 'bg-gray-900',
           ]"
-          >{{ day.date.split('-').pop().replace(/^0/, '') }}</time
-        >
+          >{{ day.date.split('-')[0].replace(/^0/, '') }}
+        </time>
       </button>
     </div>
   </div>
@@ -93,7 +93,9 @@ const updateCalendar = () => {
     currentYear.value,
     currentMonth.value
   ) as DateObject[]
-
+  console.log(calendarDates.value)
+  console.log('Current Month: ', currentMonth.value)
+  console.log('Current Year: ', currentYear.value)
   currentMonthString.value = month.value
   return calendarDates.value
 }
@@ -118,22 +120,22 @@ const monthNames = [
 
 console.log(calendarDates.value)
 
-function onRightArrowClick() {
-  currentMonth.value = currentMonth.value === 11 ? 0 : currentMonth.value + 1
-  // Increment the current month, resetting to 0 if necessary
-  if (currentMonth.value === 0) {
-    currentYear.value++
-    // Increment the current year if the month was reset to 0
-  }
-  updateCalendar()
-}
-
 function onLeftArrowClick() {
   currentMonth.value = currentMonth.value === 0 ? 11 : currentMonth.value - 1
   // Decrement the current month, resetting to 11 if necessary
   if (currentMonth.value === 11) {
     currentYear.value--
     // Decrement the current year if the month was reset to 11
+  }
+  updateCalendar()
+}
+
+function onRightArrowClick() {
+  currentMonth.value = currentMonth.value === 11 ? 0 : currentMonth.value + 1
+  // Increment the current month, resetting to 0 if necessary
+  if (currentMonth.value === 0) {
+    currentYear.value++
+    // Increment the current year if the month was reset to 0
   }
   updateCalendar()
 }

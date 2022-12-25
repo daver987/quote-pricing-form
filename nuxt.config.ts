@@ -25,6 +25,8 @@ export default defineNuxtConfig({
       '@googlemaps/js-api-loader',
       '@heroicons/vue',
       '@headlessui/vue',
+      'libphonenumber-js',
+      'vue3-reactive-tel-input',
     ],
   },
   headlessui: {

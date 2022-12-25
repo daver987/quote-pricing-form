@@ -25,17 +25,15 @@
           />
         </div>
         <div class="col-span-1 p-0">
-          <ClientOnly>
-            <QuasarForm />
-          </ClientOnly>
+          <QuasarForm />
         </div>
       </BaseContainer>
     </BaseSection>
-    <BaseSection>
-      <BaseContainer>
-        <InputDate label="Date Component" placeholder="Pick A Date" />
-      </BaseContainer>
-    </BaseSection>
+    <!--    <BaseSection>-->
+    <!--      <BaseContainer>-->
+    <!--        <InputDate label="Date Component" placeholder="Pick A Date" />-->
+    <!--      </BaseContainer>-->
+    <!--    </BaseSection>-->
     <BaseSection class="pt-0">
       <BaseContainer
         class="grid grid-cols-1 md:grid-cols-2 lg:max-w-7xl lg:grid-cols-4 gap-3 @container -mt-8"
