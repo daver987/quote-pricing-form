@@ -649,174 +649,178 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <form
-    class="max-w-2xl rounded-lg shadow-xl bg-black p-5 space-y-3 border border-white"
-    ref="quoteForm"
-    id="lead_form"
-    @submit.prevent="submitForm"
+  <div
+    class="bg-black sm:mx-auto sm:w-full sm:max-w-lg sm:overflow-hidden sm:rounded-lg border border-1 border-white rounded"
   >
-    <div>
-      <div class="text-white text-center uppercase text-3xl">Instant Quote</div>
-    </div>
-    <div class="grid w-full grid-cols-1 gap-3">
-      <InputPlacesAutocomplete
-        name="originLocation"
-        v-model="originLocation"
-        label="Pick Up Location:"
-        @change="onOriginChange"
-        placeholder="Enter pick up location"
-      />
-    </div>
-    <div class="grid w-full grid-cols-1 gap-3">
-      <InputPlacesAutocomplete
-        name="destinationLocation"
-        v-model="destinationLocation"
-        label="Drop Off Location:"
-        @change="onDestinationChange"
-        placeholder="Enter drop off location"
-      />
-    </div>
-    <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
-      <div class="col-span-1">
-        <InputDate
-          placeholder="Enter A Pickup Date"
-          name="pickupDate"
-          v-model="pickupDate"
+    <h3 class="text-white text-center uppercase pt-5 text-3xl">
+      Instant Quote
+    </h3>
+    <form
+      class="p-5 space-y-3"
+      ref="quoteForm"
+      id="lead_form"
+      @submit.prevent="submitForm"
+    >
+      <div class="grid w-full grid-cols-1 gap-3">
+        <InputPlacesAutocomplete
+          name="originLocation"
+          v-model="originLocation"
+          label="Pick Up Location:"
+          @change="onOriginChange"
+          placeholder="Enter pick up location"
         />
       </div>
-      <div class="md:col-span-1">
-        <InputDate
-          placeholder="Enter A Pickup Time"
-          name="pickupTime"
-          v-model="pickupTime"
+      <div class="grid w-full grid-cols-1 gap-3">
+        <InputPlacesAutocomplete
+          name="destinationLocation"
+          v-model="destinationLocation"
+          label="Drop Off Location:"
+          @change="onDestinationChange"
+          placeholder="Enter drop off location"
         />
       </div>
-    </div>
-    <div v-if="isRoundTrip" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <div class="col-span-1">
-        <InputDate
-          placeholder="Enter A Return Date"
-          name="returnDate"
-          v-model="returnPickupDate"
-        />
+      <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+        <div class="col-span-1">
+          <InputDate
+            placeholder="Enter A Pickup Date"
+            name="pickupDate"
+            v-model="pickupDate"
+          />
+        </div>
+        <div class="md:col-span-1">
+          <InputDate
+            placeholder="Enter A Pickup Time"
+            name="pickupTime"
+            v-model="pickupTime"
+          />
+        </div>
       </div>
-      <div class="col-span-1">
-        <InputDate
-          placeholder="Enter A Return Date"
-          name="returnTime"
-          v-model="returnPickupTime"
-        />
+      <div v-if="isRoundTrip" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="col-span-1">
+          <InputDate
+            placeholder="Enter A Return Date"
+            name="returnDate"
+            v-model="returnPickupDate"
+          />
+        </div>
+        <div class="col-span-1">
+          <InputDate
+            placeholder="Enter A Return Date"
+            name="returnTime"
+            v-model="returnPickupTime"
+          />
+        </div>
       </div>
-    </div>
-    <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
-      <div class="col-span-1">
-        <InputListbox
-          v-model="selectedServiceType"
-          label="Service Type:"
-          id="service-type"
-          name="selectedServiceType"
-          :options="serviceTypeOptions"
-          :disable="isDisabled"
-          placeholder="Select Service Type"
-        />
-      </div>
+      <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+        <div class="col-span-1">
+          <InputListbox
+            v-model="selectedServiceType"
+            label="Service Type:"
+            id="service-type"
+            name="selectedServiceType"
+            :options="serviceTypeOptions"
+            :disable="isDisabled"
+            placeholder="Select Service Type"
+          />
+        </div>
 
-      <div class="col-span-1">
-        <InputListbox
-          label="Passengers:"
-          name="selectedPassengers"
-          id="num_passengers"
-          v-model="selectedPassengers"
-          :options="passengerOptions"
-          :disable="isDisabled"
-          placeholder="Select Number Of Passengers"
-        />
+        <div class="col-span-1">
+          <InputListbox
+            label="Passengers:"
+            name="selectedPassengers"
+            id="num_passengers"
+            v-model="selectedPassengers"
+            :options="passengerOptions"
+            :disable="isDisabled"
+            placeholder="Select Number Of Passengers"
+          />
+        </div>
       </div>
-    </div>
-    <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
-      <div class="col-span-1">
-        <InputListbox
-          name="selectedVehicleType"
-          id="selectedVehicleType"
-          v-model="selectedVehicleType"
-          label="Vehicle Type"
-          :options="vehicleTypeOptions"
-          :disabled="isDisabled"
-          placeholder="Select Vehicle Type"
-        />
-      </div>
+      <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+        <div class="col-span-1">
+          <InputListbox
+            name="selectedVehicleType"
+            id="selectedVehicleType"
+            v-model="selectedVehicleType"
+            label="Vehicle Type"
+            :options="vehicleTypeOptions"
+            :disabled="isDisabled"
+            placeholder="Select Vehicle Type"
+          />
+        </div>
 
-      <div class="col-span-1">
-        <InputListbox
-          name="selectedNumberOfHours"
-          id="num_hours"
-          label="Number Of Hours:"
-          v-model="selectedNumberOfHours"
-          :options="hoursRequiredOptions"
-          :placeholder="'Select Number Of Hours'"
-        />
+        <div class="col-span-1">
+          <InputListbox
+            name="selectedNumberOfHours"
+            id="num_hours"
+            label="Number Of Hours:"
+            v-model="selectedNumberOfHours"
+            :options="hoursRequiredOptions"
+            :placeholder="'Select Number Of Hours'"
+          />
+        </div>
       </div>
-    </div>
-    <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
-      <div class="col-span-1">
-        <InputText
-          type="text"
-          name="firstName"
-          id="first_name"
-          v-model="firstName"
-          label="First Name:"
-          placeholder="Enter first name"
-        />
-      </div>
+      <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+        <div class="col-span-1">
+          <InputText
+            type="text"
+            name="firstName"
+            id="first_name"
+            v-model="firstName"
+            label="First Name:"
+            placeholder="Enter first name"
+          />
+        </div>
 
-      <div class="col-span-1">
-        <InputText
-          type="text"
-          name="lastName"
-          id="last_name"
-          label="Last Name:"
-          v-model="lastName"
-          placeholder="Enter last name"
+        <div class="col-span-1">
+          <InputText
+            type="text"
+            name="lastName"
+            id="last_name"
+            label="Last Name:"
+            v-model="lastName"
+            placeholder="Enter last name"
+          />
+        </div>
+      </div>
+      <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+        <div class="col-span-1">
+          <InputText
+            type="email"
+            name="emailAddress"
+            id="email"
+            label="Email Address:"
+            v-model="emailAddress"
+            placeholder="Enter Email Address"
+          />
+        </div>
+        <div class="col-span-1">
+          <vue3-reactive-tel-input
+            :dropdownOptions="dropdownOptions"
+            :inputOptions="inputOptions"
+            invalidMsg="Please enter a valid phone number"
+            v-model:value="phoneNumber"
+          ></vue3-reactive-tel-input>
+        </div>
+      </div>
+      <div class="flex flex-row">
+        <InputCheckbox
+          name="isRoundTrip"
+          id="round_trip"
+          label="Round Trip"
+          v-model="isRoundTrip"
         />
       </div>
-    </div>
-    <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
-      <div class="col-span-1">
-        <InputText
-          type="email"
-          name="emailAddress"
-          id="email"
-          label="Email Address:"
-          v-model="emailAddress"
-          placeholder="Enter Email Address"
-        />
+      <div class="flex flex-row">
+        <button
+          @click="submitForm"
+          id="submit_button"
+          type="submit"
+          class="inline-flex w-full uppercase items-center rounded border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+        >
+          <span class="self-center mx-auto">Get Prices & Availability</span>
+        </button>
       </div>
-      <div class="col-span-1">
-        <vue3-reactive-tel-input
-          :dropdownOptions="dropdownOptions"
-          :inputOptions="inputOptions"
-          invalidMsg="Please enter a valid phone number"
-          v-model:value="phoneNumber"
-        ></vue3-reactive-tel-input>
-      </div>
-    </div>
-    <div class="flex flex-row">
-      <InputCheckbox
-        name="isRoundTrip"
-        id="round_trip"
-        label="Round Trip"
-        v-model="isRoundTrip"
-      />
-    </div>
-    <div class="flex flex-row">
-      <button
-        @click="submitForm"
-        id="submit_button"
-        type="submit"
-        class="inline-flex w-full uppercase items-center rounded border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-      >
-        <span class="self-center mx-auto">Get Prices & Availability</span>
-      </button>
-    </div>
-  </form>
+    </form>
+  </div>
 </template>

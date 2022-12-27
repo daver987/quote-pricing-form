@@ -1,42 +1,137 @@
 <template>
   <div>
-    <BaseSection
-      class="min-h-screen bg-center bg-no-repeat bg-cover pt-0"
+    <div
+      class="relative overflow-hidden bg-gray-900"
       style="background-image: url('/icons/gradient-background.svg')"
-      ><TheNavbar />
-      <BaseContainer class="grid grid-cols-1 md:grid-cols-2 place-items-center">
-        <div class="col-span-1 p-0 md:p-2">
-          <div class="space-y-2">
-            <h1 class="text-5xl text-gray-50 font-heading">
-              Experience Luxury Rides & Tours
-            </h1>
-            <p class="text-brand text-xl uppercase font-medium tracking-wider">
-              In Toronto
-            </p>
+    >
+      <div class="relative pt-6 pb-16 sm:pb-24">
+        <Popover>
+          <nav
+            class="relative mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6"
+            aria-label="Global"
+          >
+            <div class="flex flex-1 items-center">
+              <div class="flex w-full items-center justify-between md:w-auto">
+                <NuxtLink to="/">
+                  <span class="sr-only">High Park Livery</span>
+                  <img
+                    class="h-12 w-auto sm:h-14"
+                    src="/images/hpl-logo-3.png"
+                    alt=""
+                  />
+                </NuxtLink>
+                <div class="-mr-2 flex items-center md:hidden">
+                  <PopoverButton
+                    class="focus-ring-inset inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+                  >
+                    <span class="sr-only">Open main menu</span>
+                    <Bars3Icon class="h-8 w-8" aria-hidden="true" />
+                  </PopoverButton>
+                </div>
+              </div>
+              <div class="hidden space-x-10 md:ml-10 md:flex">
+                <NuxtLink
+                  v-for="item in navigation"
+                  :key="item.name"
+                  :href="item.href"
+                  class="font-base uppercase text-white hover:text-gray-300"
+                  >{{ item.name }}</NuxtLink
+                >
+              </div>
+            </div>
+            <div class="hidden md:flex">
+              <NuxtLink
+                to="#"
+                class="inline-flex items-center rounded border border-transparent uppercase bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+                >Log in</NuxtLink
+              >
+            </div>
+          </nav>
+
+          <transition
+            enter-active-class="duration-150 ease-out"
+            enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100"
+            leave-active-class="duration-100 ease-in"
+            leave-from-class="opacity-100 scale-100"
+            leave-to-class="opacity-0 scale-95"
+          >
+            <PopoverPanel
+              focus
+              class="absolute inset-x-0 top-0 z-10 origin-top-right transform p-2 transition md:hidden"
+            >
+              <div
+                class="overflow-hidden rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5"
+              >
+                <div class="flex items-center justify-between px-5 pt-4">
+                  <div>
+                    <img
+                      class="h-12 w-auto"
+                      src="/images/hpl-logo-2.png"
+                      alt=""
+                    />
+                  </div>
+                  <div class="-mr-2">
+                    <PopoverButton
+                      class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-base"
+                    >
+                      <span class="sr-only">Close menu</span>
+                      <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                    </PopoverButton>
+                  </div>
+                </div>
+                <div class="space-y-1 px-2 pt-2 pb-3">
+                  <a
+                    v-for="item in navigation"
+                    :key="item.name"
+                    :href="item.href"
+                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                    >{{ item.name }}</a
+                  >
+                </div>
+                <a
+                  href="#"
+                  class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-base-600 hover:bg-gray-100"
+                  >Log in</a
+                >
+              </div>
+            </PopoverPanel>
+          </transition>
+        </Popover>
+
+        <main class="mt-16 sm:mt-24">
+          <div class="mx-auto max-w-7xl">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+              <div
+                class="px-4 sm:px-6 sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:flex lg:items-center lg:text-left"
+              >
+                <div class="flex flex-col align-center lg:align-start">
+                  <h1
+                    class="text-center text-white sm:text-4xl text-3xl md:text-5xl font-heading md:text-left"
+                  >
+                    Experience Toronto's Finest Car Service
+                  </h1>
+                  <p class="text-center subheading md:text-left">
+                    High Park Livery
+                  </p>
+                  <img
+                    alt="Lincoln Continental"
+                    src="/images/lincoln-continental-1.png"
+                    class="object-cover object-center max-w-sm md:max-w-lg self-center md:self-start mt-8"
+                  />
+                </div>
+              </div>
+              <div class="mt-16 sm:mt-24 lg:col-span-6 lg:mt-0 px-3">
+                <QuasarForm />
+              </div>
+            </div>
           </div>
-          <nuxt-img
-            src="/images/lincoln-continental-1.png"
-            alt="Lincoln Continental"
-            class="max-w-lg"
-            format="avif"
-            quality="80"
-            width="1011"
-            height="506"
-          />
-        </div>
-        <div class="col-span-1 p-0">
-          <QuasarForm />
-        </div>
-      </BaseContainer>
-    </BaseSection>
-    <!--    <BaseSection>-->
-    <!--      <BaseContainer>-->
-    <!--        <InputDate label="Date Component" placeholder="Pick A Date" />-->
-    <!--      </BaseContainer>-->
-    <!--    </BaseSection>-->
-    <BaseSection class="pt-0">
+        </main>
+      </div>
+    </div>
+    <BaseSection class="pt-0 relative">
       <BaseContainer
-        class="grid grid-cols-1 md:grid-cols-2 lg:max-w-7xl lg:grid-cols-4 gap-3 @container -mt-8"
+        class="grid grid-cols-1 md:grid-cols-2 lg:max-w-7xl lg:grid-cols-4 gap-3 @container -mt-8 z-10 relative"
       >
         <IconBlockAbout
           v-for="feature in features"
@@ -97,7 +192,7 @@
             </span>
           </p>
 
-          <p class="font-body text-sm text-brand font-semibold">
+          <p class="font-body text-sm text-brand font-semibold mt-2">
             Special requests are available for Specialty 6+ person vehicles that
             can take larger tour groups. Contact us to learn about the various
             options available from our limo service.
@@ -112,41 +207,7 @@
         </div>
       </BaseContainer>
     </BaseSection>
-    <section
-      aria-labelledby="policies-heading"
-      class="mt-24 border-t border-gray-200 bg-gray-50"
-    >
-      <h2 id="policies-heading" class="sr-only">Our policies</h2>
-
-      <div class="mx-auto max-w-7xl py-24 px-4 sm:px-6 sm:py-32 lg:px-8">
-        <div
-          class="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-0"
-        >
-          <div
-            v-for="policy in policies"
-            :key="policy.name"
-            class="text-center md:flex md:items-start md:text-left lg:block lg:text-center"
-          >
-            <div class="md:flex-shrink-0">
-              <div class="flow-root">
-                <img
-                  class="-my-1 mx-auto h-24 w-auto"
-                  :src="policy.imageSrc"
-                  alt=""
-                />
-              </div>
-            </div>
-            <div class="mt-6 md:mt-0 md:ml-4 lg:mt-6 lg:ml-0">
-              <h3 class="text-base font-medium text-gray-900">
-                {{ policy.name }}
-              </h3>
-              <p class="mt-3 text-sm text-gray-500">{{ policy.description }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <BaseSection class="">
+    <BaseSection>
       <BaseContainer
         class="flex flex-col mx-auto mb-8 max-w-4xl md:flex-none md:mb-4 md:grid md:grid-cols-2 md:grid-rows-1 md:items-stretch lg:max-w-7xl"
       >
@@ -197,7 +258,7 @@
     <BaseSection class="pt-0 px-4 sm:px-6 lg:px-8">
       <BaseContainer class="bg-white pb-16 pt-32 -mt-16">
         <p class="text-center subheading">WHAT High Park Livery OFFERS YOU</p>
-        <h2 class="text-center heading">We Offer</h2>
+        <h2 class="text-center heading mt-4">We Offer</h2>
       </BaseContainer>
       <BaseContainer
         class="bg-white shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-4 @container -mt-8"
@@ -227,47 +288,15 @@
 <script setup lang="ts">
 import { services } from '~/data/services'
 import { features } from '~/data/features'
-// import {
-//   Dialog,
-//   DialogPanel,
-//   TransitionChild,
-//   TransitionRoot,
-// } from '@headlessui/vue'
-import { CalendarIcon } from '@heroicons/vue/20/solid'
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+
+const navigation = [
+  { name: 'Services', href: '#' },
+  { name: 'Fleet', href: '#' },
+  { name: 'Contact', href: '#' },
+]
 
 const open = ref(false)
-const toggleCalendar = () => {
-  open.value = !open.value
-}
 const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
-const policies = [
-  {
-    name: 'All Inclusive Pricing',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce/icons/icon-returns-light.svg',
-    description:
-      'Not what you expected? Place it back in the parcel and attach the pre-paid postage stamp.',
-  },
-  {
-    name: 'Online Booking',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce/icons/icon-calendar-light.svg',
-    description:
-      'We offer a delivery service that has never been done before. Checkout today and receive your products within hours.',
-  },
-  {
-    name: 'All year discount',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce/icons/icon-gift-card-light.svg',
-    description:
-      'Looking for a deal? You can use the code "ALLYEAR" at checkout and get money off all year round.',
-  },
-  {
-    name: 'For the planet',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce/icons/icon-planet-light.svg',
-    description:
-      'We’ve pledged 1% of sales to the preservation and restoration of the natural environment.',
-  },
-]
 </script>
