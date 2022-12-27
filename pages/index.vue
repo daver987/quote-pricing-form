@@ -81,18 +81,18 @@
                   </div>
                 </div>
                 <div class="space-y-1 px-2 pt-2 pb-3">
-                  <a
+                  <NuxtLink
                     v-for="item in navigation"
                     :key="item.name"
-                    :href="item.href"
+                    :to="item.href"
                     class="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                    >{{ item.name }}</a
+                    >{{ item.name }}</NuxtLink
                   >
                 </div>
-                <a
-                  href="#"
+                <NuxtLink
+                  to="/"
                   class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-base-600 hover:bg-gray-100"
-                  >Log in</a
+                  >Log in</NuxtLink
                 >
               </div>
             </PopoverPanel>
@@ -129,9 +129,9 @@
         </main>
       </div>
     </div>
-    <BaseSection class="pt-0 relative">
+    <BaseSection>
       <BaseContainer
-        class="grid grid-cols-1 md:grid-cols-2 lg:max-w-7xl lg:grid-cols-4 gap-3 @container -mt-8 z-10 relative"
+        class="grid grid-cols-1 md:grid-cols-2 lg:max-w-7xl lg:grid-cols-4 gap-3 @container"
       >
         <IconBlockAbout
           v-for="feature in features"
