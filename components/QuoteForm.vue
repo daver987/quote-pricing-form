@@ -689,7 +689,7 @@ const submitForm = async () => {
           />
         </div>
         <div class="md:col-span-1">
-          <InputDate
+          <InputTime
             placeholder="Enter A Pickup Time"
             name="pickupTime"
             v-model="pickupTime"
