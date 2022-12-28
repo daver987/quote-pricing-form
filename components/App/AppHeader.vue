@@ -154,8 +154,6 @@ const navigation = {
     { name: 'Stores', href: '#' },
   ],
 }
-
-const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 </script>
 
 <template>
@@ -332,55 +330,19 @@ const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
       </div>
     </Dialog>
   </TransitionRoot>
-  <header class="bg-white relative">
-    <div class="bg-black w-full">
-      <div
-        class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
-      >
-        <!-- Currency selector -->
-        <form>
-          <div>
-            <label for="desktop-currency" class="sr-only">Currency</label>
-            <div
-              class="group relative -ml-2 rounded-md border-transparent bg-black focus-within:ring-2 focus-within:ring-white"
-            >
-              <select
-                id="desktop-currency"
-                name="currency"
-                class="flex items-center rounded-md border-transparent bg-black bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100"
-              >
-                <option v-for="currency in currencies" :key="currency">
-                  {{ currency }}
-                </option>
-              </select>
-              <div
-                class="pointer-events-none absolute inset-y-0 right-0 flex items-center"
-              >
-                <ChevronDownIcon
-                  class="h-5 w-5 text-gray-300"
-                  aria-hidden="true"
-                />
-              </div>
-            </div>
-          </div>
-        </form>
-
-        <div class="flex items-center space-x-6">
-          <a href="#" class="text-sm font-medium text-white hover:text-gray-100"
-            >Sign in</a
-          >
-          <a href="#" class="text-sm font-medium text-white hover:text-gray-100"
-            >Create an account</a
-          >
-        </div>
-      </div>
-    </div>
+  <header class="bg-transparent relative">
+    <p
+      v-if="false"
+      class="flex max-w-7xl mx-auto h-8 items-center justify-center bg-brand px-4 text-sm font-medium text-gray-900 lg:px-6"
+    >
+      Get free delivery on orders over $100
+    </p>
     <nav aria-label="Top" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="py-2 border-b border-gray-200">
-        <div class="flex h-16 lg:items-center">
+        <div class="flex h-16 w-full justify-center lg:items-center">
           <button
             type="button"
-            class="rounded-md bg-white p-2 text-gray-400 lg:hidden"
+            class="rounded bg-transparent p-2 text-gray-400 lg:hidden"
             @click="open = true"
           >
             <span class="sr-only">Open menu</span>
@@ -388,12 +350,14 @@ const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
           </button>
 
           <!-- Logo -->
-          <div class="ml-4 flex lg:justify-center lg:ml-0">
-            <NuxtLink to="/">
+          <div
+            class="ml-2 flex justify-center w-full lg:w-auto lg:justify-start lg:ml-0"
+          >
+            <NuxtLink to="/" class="self-center">
               <span class="sr-only">High Park Livery</span>
               <img
-                class="h-16 w-auto"
-                src="/images/hpl-logo-2.png"
+                class="h-12 lg:h-14 w-auto"
+                src="/images/hpl-logo-3.png"
                 alt="High Park Livery Logo"
               />
             </NuxtLink>
@@ -512,7 +476,7 @@ const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
                 v-for="page in navigation.pages"
                 :key="page.name"
                 :to="page.href"
-                class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                class="flex items-center text-sm font-medium text-gray-100 hover:text-brand"
                 >{{ page.name }}</NuxtLink
               >
             </div>
@@ -524,13 +488,13 @@ const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
             >
               <a
                 href="#"
-                class="text-sm font-medium text-gray-700 hover:text-gray-800"
+                class="text-sm font-medium text-gray-100 hover:text-brand"
                 >Sign in</a
               >
               <span class="h-6 w-px bg-gray-200" aria-hidden="true" />
               <a
                 href="#"
-                class="text-sm font-medium text-gray-700 hover:text-gray-800"
+                class="text-sm font-medium text-gray-100 hover:text-brand"
                 >Create account</a
               >
             </div>
@@ -538,7 +502,7 @@ const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
             <div class="hidden lg:ml-8 lg:flex">
               <a
                 href="#"
-                class="flex items-center text-gray-700 hover:text-gray-800"
+                class="flex items-center text-gray-100 hover:text-brand"
               >
                 <img
                   src="https://tailwindui.com/img/flags/flag-canada.svg"
@@ -566,7 +530,7 @@ const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
                   aria-hidden="true"
                 />
                 <span
-                  class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800"
+                  class="ml-2 text-sm font-medium text-gray-100 hover:text-brand"
                   >0</span
                 >
                 <span class="sr-only">items in cart, view bag</span>

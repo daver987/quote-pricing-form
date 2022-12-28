@@ -525,7 +525,7 @@
   resolved "https://registry.yarnpkg.com/@headlessui/tailwindcss/-/tailwindcss-0.1.2.tgz#f49a88f00b235fe812583ece8bdb1038b096646d"
   integrity sha512-AQNESz+f1grCxifrocOE6hDMDFqhqY0g3xrSGOS0ocGkmVkssaBzXaAPAPNSs/nHmr4ZUhfl5THQpYrvaouWlQ==
 
-"@headlessui/vue@^1.0.0", "@headlessui/vue@^1.7.7":
+"@headlessui/vue@^1.7.7":
   version "1.7.7"
   resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-1.7.7.tgz#db7f2ffde01b9d1f6e9adce53c5de73d73399c08"
   integrity sha512-dkdNhJkxyT9rXW5fHx/MkKaM3U13P3duYuwoGTRmDGjE7xAsvcWOSJRJpw1AmCQTvjZF44bh2wSlySLaHW+WuQ==
@@ -3954,15 +3954,6 @@ nth-check@^2.0.1:
   integrity sha512-/TMIr47b9YrLgXoT7zm0mwqwBYE/l6tEzEBsq0IwlbZ6rXD3iDwfUS6J6QASRHdM3KvRUfxoVeHixq7eBu5idg==
   optionalDependencies:
     fsevents "~2.3.2"
-
-nuxt-headlessui@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/nuxt-headlessui/-/nuxt-headlessui-1.0.4.tgz#f37d61db6c033f0c64be9e8983af916d068f2319"
-  integrity sha512-DvmfZqDInDyvBnldf54XIShZVOmKA7SFtIxWQNOORwghDijQxqxkDLw+2BCw/otXf/xE815/7su895edeVsSeA==
-  dependencies:
-    "@headlessui/vue" "^1.0.0"
-    "@nuxt/kit" "^3.0.0"
-    pathe "^1.0.0"
 
 "nuxt@npm:nuxt3@latest":
   version "3.0.1-rc.0-27857531.faf2607"

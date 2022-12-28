@@ -12,9 +12,13 @@ const products = [
     name: 'From Airport',
     href: '#',
     price: '$32.00',
-    color: 'Sienna',
-    inStock: true,
-    size: 'Large',
+    pickup: 'YYZ Pearson International Airport',
+    pickupTime: '10:00 AM',
+    pickupDate: '2021-05-01',
+    vehicle: 'Premium Sedan',
+    passengers: 4,
+    isRoundTrip: true,
+    dropoff: '1265 Sixth Line, Oakville, ON L6H 6R1',
     imageSrc: '/images/car-service-2.jpg',
     imageAlt: "Front of men's Basic Tee in sienna.",
   },
@@ -23,10 +27,14 @@ const products = [
     name: 'To Airport',
     href: '#',
     price: '$32.00',
-    color: 'Black',
-    inStock: false,
+    pickup: 'Black',
+    pickupTime: '10:00 AM',
+    pickupDate: '2021-05-01',
+    vehicle: 'Sedan',
+    passengers: 4,
+    isRoundTrip: false,
     leadTime: '3–4 weeks',
-    size: 'Large',
+    dropoff: 'Large',
     imageSrc: '/images/chauffeur-1.jpeg',
     imageAlt: "Front of men's Basic Tee in black.",
   },
@@ -56,23 +64,35 @@ const currentDate = getCurrentDate()
 </script>
 
 <template>
-  <div class="bg-white">
+  <div class="bg-white dark:bg-grey-800">
     <!-- Mobile menu -->
     <main
       class="mx-auto max-w-2xl px-4 pt-8 pb-24 sm:px-6 lg:max-w-7xl lg:px-8"
     >
-      <h1 class="text-3xl font-bold tracking-tight text-gray-900">
+      <h1
+        class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-gray-100"
+      >
         Quote Details
       </h1>
       <div class="mt-2 text-sm sm:flex sm:justify-between">
         <dl class="flex">
-          <dt class="text-gray-500">Order number&nbsp;</dt>
-          <dd class="font-medium text-gray-900">W086438695</dd>
+          <dt class="text-gray-500 dark:text-gray-100">
+            Quote number&nbsp;<span
+              class="mx-2 text-gray-400 dark:text-gray-100"
+              aria-hidden="true"
+              >&middot;</span
+            >
+          </dt>
+          <dd class="font-medium text-red-600"><span>W086438695</span></dd>
           <dt>
             <span class="sr-only">Date</span>
-            <span class="mx-2 text-gray-400" aria-hidden="true">&middot;</span>
+            <span
+              class="mx-2 text-gray-400 dark:text-gray-100"
+              aria-hidden="true"
+              >&middot;</span
+            >
           </dt>
-          <dd class="font-medium text-gray-900">
+          <dd class="font-medium text-gray-900 dark:text-gray-100">
             <time :datetime="currentDate">{{ currentDate }}</time>
           </dd>
         </dl>
@@ -108,47 +128,49 @@ const currentDate = getCurrentDate()
 
               <div class="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
                 <div
-                  class="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0"
+                  class="relative pr-9 sm:grid sm:grid-cols-1 sm:gap-x-6 sm:pr-0"
                 >
                   <div>
-                    <div class="flex justify-between">
-                      <h3 class="text-sm">
+                    <div class="flex justify-between mb-2">
+                      <h3 class="text-base">
                         <a
                           :href="product.href"
-                          class="font-medium text-gray-700 hover:text-gray-800"
+                          class="font-medium text-gray-700 dark:text-gray-200 dark:hover:text-gray-200 hover:text-gray-800"
                           >{{ product.name }}</a
                         >
                       </h3>
                     </div>
-                    <div class="mt-1 flex text-sm">
-                      <p class="text-gray-500">{{ product.color }}</p>
-                      <p
-                        v-if="product.size"
-                        class="ml-4 border-l border-gray-200 pl-4 text-gray-500"
-                      >
-                        {{ product.size }}
+                    <div class="mt-2 flex flex-col text-sm space-y-1">
+                      <p class="dark:text-gray-100 text-gray-500">
+                        <span class="text-brand-400">Date: </span
+                        >{{ product.pickupDate }}
+                        <span class="text-brand-400">Time: </span>
+                        {{ product.pickupTime }}
+                      </p>
+                      <p class="dark:text-gray-100 text-gray-500">
+                        <span class="text-brand-400">PU: </span
+                        >{{ product.pickup }}
+                      </p>
+                      <p class="dark:text-gray-100 text-gray-500">
+                        <span class="text-brand-400">DO: </span>
+                        {{ product.dropoff }}
+                      </p>
+                      <p class="dark:text-gray-100 text-gray-500">
+                        <span class="text-brand-400">Vehicle Type: </span
+                        >{{ product.vehicle }}
+                      </p>
+                      <p class="dark:text-gray-100 text-gray-500">
+                        <span class="text-brand-400">Passengers: </span
+                        >{{ product.passengers }}
                       </p>
                     </div>
-                    <p class="mt-1 text-sm font-medium text-gray-900">
-                      {{ product.price }}
+                    <p class="mt-3 text-sm font-medium">
+                      <span class="text-brand-400">Subtotal: </span
+                      >{{ product.price }}
                     </p>
                   </div>
 
                   <div class="mt-4 sm:mt-0 sm:pr-9">
-                    <label :for="`quantity-${productIdx}`" class="sr-only"
-                      >Quantity, {{ product.name }}</label
-                    >
-                    <select
-                      :id="`quantity-${productIdx}`"
-                      :name="`quantity-${productIdx}`"
-                      class="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand sm:text-sm"
-                    >
-                      <option value="1">Point To Point</option>
-                      <option value="2">To Airport</option>
-                      <option value="3">From Airport</option>
-                      <option value="4">Hourly / As Directed</option>
-                    </select>
-
                     <div class="absolute top-0 right-0">
                       <button
                         type="button"
@@ -161,9 +183,11 @@ const currentDate = getCurrentDate()
                   </div>
                 </div>
 
-                <p class="mt-4 flex space-x-2 text-sm text-gray-700">
+                <p
+                  class="mt-4 flex space-x-2 text-sm text-gray-700 dark:text-gray-200"
+                >
                   <CheckIcon
-                    v-if="product.inStock"
+                    v-if="product.isRoundTrip"
                     class="h-5 w-5 flex-shrink-0 text-green-500"
                     aria-hidden="true"
                   />
@@ -173,9 +197,9 @@ const currentDate = getCurrentDate()
                     aria-hidden="true"
                   />
                   <span>{{
-                    product.inStock
-                      ? 'In stock'
-                      : `Ships in ${product.leadTime}`
+                    product.isRoundTrip
+                      ? 'Round Trip'
+                      : `One Way ${product.leadTime}`
                   }}</span>
                 </p>
               </div>
@@ -259,9 +283,9 @@ const currentDate = getCurrentDate()
           <div class="mt-6">
             <button
               type="submit"
-              class="w-full rounded-md border border-transparent bg-brand py-3 px-4 text-base font-medium uppercase text-white shadow-sm hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
+              class="w-full rounded-md border border-transparent bg-red-600 py-3 px-4 text-base font-medium uppercase text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
             >
-              Book Now
+              Proceed To Book
             </button>
           </div>
         </section>

@@ -2,7 +2,6 @@
 
 module.exports = {
   important: true,
-  darkMode: 'class',
   content: [
     `components/**/*.{vue,js}`,
     `layouts/**/*.vue`,
@@ -48,6 +47,17 @@ module.exports = {
           700: '#324D67',
           800: '#213345',
           900: '#111A22',
+        },
+        grey: {
+          100: '#999999',
+          200: '#888888',
+          300: '#777777',
+          400: '#666666',
+          DEFAULT: '#555555',
+          600: '#444444',
+          700: '#333333',
+          800: '#222222',
+          900: '#111111',
         },
         body: {
           light: '#fff',

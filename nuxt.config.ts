@@ -16,7 +16,6 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@vueuse/nuxt',
-    'nuxt-headlessui',
     '@nuxtjs/tailwindcss',
     '@nuxt/image-edge',
   ],
@@ -28,9 +27,6 @@ export default defineNuxtConfig({
       'libphonenumber-js',
       'vue3-reactive-tel-input',
     ],
-  },
-  headlessui: {
-    prefix: 'Headless',
   },
   runtimeConfig: {
     HUBSPOT_ACCESS_TOKEN: process.env.HUBSPOT_ACCESS_TOKEN,

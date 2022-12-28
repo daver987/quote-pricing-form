@@ -45,7 +45,7 @@ const vehicleImage = ref<string>(
 </script>
 
 <template>
-  <div>
+  <div class="dark:bg-grey-800">
     <!--    <QuotedCard-->
     <!--      :totalCost="formattedTotal"-->
     <!--      :vehicleType="vehicleTypeLabel"-->
