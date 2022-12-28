@@ -338,7 +338,7 @@ const navigation = {
       Get free delivery on orders over $100
     </p>
     <nav aria-label="Top" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="py-2 border-b border-gray-200">
+      <div class="py-2 border-b border-gray-200/30">
         <div class="flex h-16 w-full justify-center lg:items-center">
           <button
             type="button"
@@ -377,7 +377,7 @@ const navigation = {
                     :class="[
                       open
                         ? 'border-brand-600 text-brand-600'
-                        : 'border-transparent text-gray-700 hover:text-gray-800',
+                        : 'border-transparent text-gray-100 hover:text-brand',
                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out',
                     ]"
                   >
@@ -422,7 +422,7 @@ const navigation = {
                               </div>
                               <NuxtLink
                                 :href="item.href"
-                                class="mt-6 block font-medium text-gray-900"
+                                class="mt-6 block font-medium text-gray-100 hover:text-brand"
                               >
                                 <span
                                   class="absolute inset-0 z-10"
@@ -442,7 +442,7 @@ const navigation = {
                             >
                               <p
                                 :id="`${section.name}-heading`"
-                                class="font-medium text-gray-900"
+                                class="font-medium text-gray-100 hover:text-brand"
                               >
                                 {{ section.name }}
                               </p>
