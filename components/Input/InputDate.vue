@@ -17,7 +17,7 @@
 
       <div class="fixed inset-0 z-10 overflow-y-auto">
         <div
-          class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
+          class="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0"
         >
           <TransitionChild
             as="template"
@@ -29,10 +29,11 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-white pt-6 pb-8 px-2 shadow-xl transition-all sm:my-8 sm:w-full max-w-sm"
+              class="relative transform overflow-hidden rounded-lg bg-white pt-2 pb-8 shadow-xl transition-all sm:my-8 sm:w-full max-w-sm"
             >
-              <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+              <div class="absolute bottom-0 right-0 hidden pt-4 pr-4 sm:block">
                 <button
+                  v-if="false"
                   type="button"
                   class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                   @click="open = false"
@@ -129,14 +130,15 @@ defineProps({
 })
 const inputValue = ref('')
 const emit = defineEmits(['change'])
-const open = ref(false)
+const open = ref<boolean>(false)
 const selectedDate = ref('')
 const toggleCalendar = () => {
   open.value = !open.value
 }
-const updateDate = (date: string) => {
+const updateDate = (date: string, isOpen: boolean) => {
   selectedDate.value = date
   inputValue.value = date
+  open.value = isOpen
   console.log('date', date)
 }
 </script>

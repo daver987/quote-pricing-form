@@ -395,6 +395,7 @@ interface Place {
 interface SelectFormData {
   label: string
   value: number
+  isDisabled?: boolean
 }
 
 const originLocation = ref<string>('')
@@ -756,6 +757,7 @@ const submitForm = async () => {
             label="Number Of Hours:"
             v-model="selectedNumberOfHours"
             :options="hoursRequiredOptions"
+            :disabled="isDisabled"
             :placeholder="'Select Number Of Hours'"
           />
         </div>

@@ -4,16 +4,18 @@
       <button
         @click="onLeftArrowClick"
         type="button"
-        class="-m-1.5 flex flex-none items-center cursor-pointer justify-center p-1.5 text-gray-400 hover:text-gray-500"
+        class="-m-1.5 flex flex-none items-center cursor-pointer justify-center p-1.5 text-gray-900 hover:text-gray-50 hover:bg-brand-600 rounded-full bg-brand-400"
       >
         <span class="sr-only">Previous month</span>
         <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
       </button>
-      <div class="flex-auto font-semibold">{{ currentMonthString }}</div>
+      <div class="flex-auto text-lg uppercase font-semibold">
+        {{ currentMonthString }}
+      </div>
       <button
         @click="onRightArrowClick"
         type="button"
-        class="-m-1.5 flex cursor-pointer flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+        class="-m-1.5 flex cursor-pointer flex-none items-center justify-center p-1.5 text-gray-900 hover:text-gray-50 hover:bg-brand-600 rounded-full bg-brand-400"
       >
         <span class="sr-only">Next month</span>
         <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
@@ -50,7 +52,9 @@
             !day.isCurrentMonth &&
             !day.isToday &&
             'text-gray-400',
-          day.isToday && !day.isSelected && 'text-brand-600',
+          day.isToday &&
+            !day.isSelected &&
+            'text-brand bg-gray-100 hover:bg-gray-300 hover:text-brand-700',
           dayIdx === 0 && 'rounded-tl-lg',
           dayIdx === 6 && 'rounded-tr-lg',
           dayIdx === calendarDates.length - 7 && 'rounded-bl-lg',
@@ -61,8 +65,8 @@
           :datetime="day.date"
           :class="[
             'mx-auto flex h-7 w-7 items-center justify-center rounded-full date',
-            day.isSelected && day.isToday && 'bg-brand-600',
-            day.isSelected && !day.isToday && 'bg-gray-900',
+            day.isSelected && day.isToday && 'bg-brand',
+            day.isSelected && !day.isToday && 'bg-brand-600',
           ]"
           >{{ day.date.split('-')[0].replace(/^0/, '') }}
         </time>
@@ -150,8 +154,9 @@ const onDayClick = (day: DateObject) => {
   })
   day.isSelected = true
 }
+const isOpen = ref(false)
 const emit = defineEmits(['date'])
 const emitDate = () => {
-  emit('date', dayValue.value)
+  emit('date', dayValue.value, isOpen.value)
 }
 </script>

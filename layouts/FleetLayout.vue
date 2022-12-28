@@ -11,7 +11,7 @@ const headerInfo = {
 <template>
   <div class="bg-background">
     <TheNavbar />
-    <TheHeader
+    <AppHeader
       :aboveHeading="headerInfo.aboveHeading"
       :body="headerInfo.body"
       :heading="headerInfo.heading"
@@ -37,7 +37,7 @@ const headerInfo = {
       </div>
       <slot />
     </main>
-    <TheFooter />
+    <AppFooter />
   </div>
 </template>
 
