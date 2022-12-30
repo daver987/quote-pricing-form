@@ -7,7 +7,7 @@ const headerInfo = {
   aboveHeading: 'GET IN TOUCH',
   heading: 'CONTACT US',
   body: "Your chauffeur is just a phone call away! Don't hesitate to contact us or get an online quote for rates and availability.",
-  image: 'background-image: url("/images/View-City-Of-Toronto.jpg")',
+  image: 'background-image: url("/images/toronto-2.jpg")',
 }
 
 definePageMeta({

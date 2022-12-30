@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ourServices, Service } from '~/data/services'
+import { ourTours, Tour } from '~/data/tours'
 definePageMeta({
   title: 'Services',
   layout: 'default',
@@ -12,15 +14,15 @@ definePageMeta({
   },
 })
 useHead({
-  title: 'Luxury Ride Service | Services',
+  title: 'High Park Livery | Services',
 })
-const { data: tours } = useFetch('/api/tours')
-const { data: services } = useFetch('/api/service')
+const services = ourServices as Service[]
+const tours = ourTours as Tour[]
 const headerInfo = {
   aboveHeading: 'WHAT WE OFFER YOU',
   heading: 'OUR SERVICES',
-  image: 'background-image: url("/images/Toronto-City-Tour.jpg")',
-  body: "Luxury Ride Service is here to help you get from place to place. It's our job to provide you with the means of transportation, and we won't stop until it's done right.",
+  image: 'background-image: url("/images/toronto-5.jpg")',
+  body: "High Park Livery is here to help you get from place to place. It's our job to provide you with the means of transportation, and we won't stop until it's done right.",
 }
 </script>
 
@@ -54,9 +56,6 @@ const headerInfo = {
               clientele. As a full-service transportation company, we have a
               wide range of vehicles available to accommodate any need.
             </p>
-          </div>
-          <div class="col-span-1">
-            <LeadForm inner="micro_form_inner" outer="micro_form_outer" />
           </div>
         </div>
       </div>
@@ -98,9 +97,9 @@ const headerInfo = {
     <section class="bg-background mb-8">
       <div
         class="bg-center bg-no-repeat bg-cover py-8 px-6 z-10 relative sm:px-8 md:py-16 lg:py-20"
-        style="background-image: url('/images/Niagara-Falls-Tour.jpg')"
+        style="background-image: url('/images/niagara-falls-1.jpg')"
       >
-        <h2 class="text-center subheading">Luxury Ride Service Tours</h2>
+        <h2 class="text-center subheading">High Park Livery Tours</h2>
         <h2 class="mt-2 text-center text-heading-light text-4xl heading">
           Tour Services Available
         </h2>

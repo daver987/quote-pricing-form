@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { services } from '~/data/services'
+import { services } from '~/data/ourServices'
 import { features } from '~/data/features'
 
 const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'

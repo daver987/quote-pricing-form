@@ -1,3 +1,29 @@
+<script setup lang="ts">
+useHead({
+  title: 'Luxury Ride Service | About Us',
+})
+const headerInfo = {
+  aboveHeading: 'DISCOVER LUXURY RIDE SERVICE',
+  heading: 'ABOUT US',
+  body: "Luxury Ride Service is here to help you get from place to place. It's our job to provide you with the means of transportation, and we won't stop until it's done right.",
+  image: 'background-image: url("/images/chauffeur-4.jpg")',
+}
+
+const { data: quality } = useFetch('/api/qualities')
+definePageMeta({
+  title: 'About Us',
+  layout: 'default',
+  pageTransition: {
+    appear: true,
+    enterFromClass: 'opacity-0',
+    enterActiveClass: 'duration-[500ms]',
+    leaveToClass: 'opacity-0',
+    leaveActiveClass: 'duration-[500ms]',
+    mode: 'out-in',
+  },
+})
+</script>
+
 <template>
   <div>
     <AppHeader
@@ -16,7 +42,7 @@
             <h2 class="mt-6 text-center heading">The Driver</h2>
           </div>
           <div class="py-5 px-4 sm:p-6">
-            <p class="font-body text-sm text-body">
+            <p>
               Our team of chauffeurs is some of the most experienced in the
               industry. All of our professional chauffeurs are safe, courteous,
               and fully certified drivers by the city of Toronto. We ensure that
@@ -39,10 +65,10 @@
           </div>
         </div>
         <div class="md:self-center">
-          <img
+          <NuxtImg
             alt="Chauffeur Service"
             class="object-center object-cover h-64 w-full md:object-left md:min-h-[18rem]"
-            src="/images/Chauffeur-Service.jpg"
+            src="/images/chauffeur-3.jpg"
             width="919"
             height="429"
           />
@@ -55,7 +81,7 @@
           <img
             alt="Tesla-S-Back-Seat"
             class="object-center object-cover w-full min-h-[18rem] self-center md:object-left"
-            src="/images/Tesla-Back-Seat-Car-Service.jpg"
+            src="/images/tesla-s-4.jpg"
             width="814"
             height="973"
           />
@@ -74,12 +100,13 @@
     </section>
     <section class="mb-8 background-bg">
       <div>
-        <img
+        <NuxtImg
           alt="Toronto-evening-skyline"
           class="object-cover object-center w-full min-h-[16rem]"
-          src="/images/toronto-evening-skyline.jpg"
-          width="1920"
-          height="528"
+          src="/images/toronto-6.jpeg"
+          width="6000"
+          height="1890"
+          quality="50"
         />
       </div>
       <div class="px-6">
@@ -96,7 +123,7 @@
               </h2>
             </div>
             <div class="py-4 px-3 sm:p-6">
-              <p class="font-body text-sm text-body">
+              <p>
                 Luxury Ride Service is a Toronto-based car service company. We
                 provide luxury transportation to clients in the Greater Toronto
                 and southern Ontario area. In addition to offering a variety of
@@ -104,7 +131,7 @@
                 corporate and non-corporate clients with highly personalized
                 services that aim to exceed all expectations.
               </p>
-              <p class="font-body text-sm text-body">
+              <p>
                 When you choose to work with Luxury Ride Service, you'll work
                 with highly trained professionals who know about the industry.
                 We are committed to customer satisfaction and punctuality in all
@@ -113,13 +140,13 @@
                 create an atmosphere that ensures passengers feel comfortable
                 and relaxed throughout their journey.
               </p>
-              <p class="font-body text-sm text-body">
+              <p>
                 At Luxury Ride Service, we don't cut corners or skimp on your
                 comfort to offer you a low price. We believe that all of our
                 luxury cars should be maintained to the highest industry
                 standards, ensuring a safe and unforgettable experience.
               </p>
-              <p class="font-body text-sm text-body">
+              <p>
                 Whether it's a night out on the town or a business meeting
                 across downtown Toronto, Luxury Ride Service can provide a
                 luxurious ride that fits perfectly within your schedule and
@@ -140,29 +167,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-useHead({
-  title: 'Luxury Ride Service | About Us',
-})
-const headerInfo = {
-  aboveHeading: 'DISCOVER LUXURY RIDE SERVICE',
-  heading: 'ABOUT US',
-  body: "Luxury Ride Service is here to help you get from place to place. It's our job to provide you with the means of transportation, and we won't stop until it's done right.",
-  image: 'background-image: url("/images/Chauffeur-Opens-Door.jpg")',
-}
-
-const { data: quality } = useFetch('/api/qualities')
-definePageMeta({
-  title: 'About Us',
-  layout: 'default',
-  pageTransition: {
-    appear: true,
-    enterFromClass: 'opacity-0',
-    enterActiveClass: 'duration-[500ms]',
-    leaveToClass: 'opacity-0',
-    leaveActiveClass: 'duration-[500ms]',
-    mode: 'out-in',
-  },
-})
-</script>
