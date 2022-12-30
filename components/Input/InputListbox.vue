@@ -71,7 +71,7 @@ const emit = defineEmits(['update:modelValue'])
     <div class="relative mt-1">
       <ListboxButton
         :class="classes"
-        class="relative w-full cursor-default disabled:cursor-not-allowed disabled:opacity-75 disabled:text-gray-300 rounded border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand sm:text-sm"
+        class="relative w-full cursor-default rounded border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand sm:text-sm"
       >
         <span class="block truncate">{{ modelValue.label }}</span>
         <span

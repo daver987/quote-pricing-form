@@ -123,7 +123,7 @@ const vehicleTypeOptions = <SelectFormData[]>[
 const selectedVehicleType = ref<SelectFormData>(vehicleTypeOptions[0])
 console.log(selectedVehicleType.value)
 
-const hoursRequiredClasses = ref('text-gray-400')
+const hoursRequiredClasses = ref('cursor-not-allowed opacity-50 text-gray-300')
 const hoursRequiredOptions = ref<SelectFormData[]>([
   {
     label: 'For Hourly Service Only',
@@ -390,6 +390,7 @@ watch(selectedServiceType, () => {
   if (selectedServiceType.value.value === 4) {
     isItHourly.value = true
     disabled.value = false
+    hoursRequiredClasses.value = 'text-gray-400'
     hoursRequiredOptions.value = [
       {
         label: 'Select Hours',
@@ -456,6 +457,7 @@ watch(selectedServiceType, () => {
   } else {
     isItHourly.value = false
     disabled.value = true
+    hoursRequiredClasses.value = 'cursor-not-allowed opacity-50 text-gray-300'
     hoursRequiredOptions.value = [
       {
         label: 'For Hourly Service',
@@ -611,13 +613,11 @@ watch(selectedServiceType, () => {
     serviceTypeClasses.value = 'text-gray-900'
   }
 })
-// watch(selectedNumberOfHours, () => {
-//   if (selectedNumberOfHours.value.value === 0) {
-//     hoursRequiredClasses.value = 'text-gray-400'
-//   } else {
-//     hoursRequiredClasses.value = 'text-gray-900'
-//   }
-// })
+watch(selectedNumberOfHours, () => {
+  if (selectedNumberOfHours.value.value !== 0) {
+    hoursRequiredClasses.value = 'text-gray-900'
+  }
+})
 
 const onOriginChange = async (evt: Place) => {
   origin.value = evt
@@ -939,6 +939,7 @@ const submitForm = async () => {
             name="selectedNumberOfHours"
             :default-value="selectedNumberOfHours"
             :is-disabled="disabled"
+            :classes="hoursRequiredClasses"
           />
         </div>
       </div>
