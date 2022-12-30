@@ -2,7 +2,9 @@ export default defineNuxtConfig({
   // typescript: {
   //   shim: false,
   // },
-
+  nitro: {
+    preset: 'vercel',
+  },
   experimental: {
     writeEarlyHints: true,
   },

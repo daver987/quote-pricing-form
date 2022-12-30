@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ourServices, Service } from '~/data/services'
+import { services, Service } from '~/data/services'
 import { ourTours, Tour } from '~/data/tours'
 definePageMeta({
   title: 'Services',
@@ -16,7 +16,7 @@ definePageMeta({
 useHead({
   title: 'High Park Livery | Services',
 })
-const services = ourServices as Service[]
+const service1 = services as Service[]
 const tours = ourTours as Tour[]
 const headerInfo = {
   aboveHeading: 'WHAT WE OFFER YOU',
@@ -64,7 +64,7 @@ const headerInfo = {
       <div class="container mx-auto max-w-7xl md:grid md:gap-4 md:grid-cols-2">
         <div
           :class="service.boxPosition"
-          v-for="service in services"
+          v-for="service in service1"
           :key="service.title"
         >
           <div :class="service.imagePosition">

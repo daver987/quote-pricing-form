@@ -1,11 +1,4 @@
-export interface Service {
-  title: string
-  body: string
-  image: string
-  altText: string
-}
-
-export const ourServices = <Service[]>[
+export const servicesHome = [
   {
     title: 'TORONTO TOURS',
     body: 'Get a tour of the city of Toronto with a car service for an unforgettable experience. Toronto is the most culturally diverse city in Canada. Customer satisfaction and the safety of our clients are our number one priority! Along the way, your driver can stop at your favourite landmarks and take pictures to make your visit to Toronto more memorable.',

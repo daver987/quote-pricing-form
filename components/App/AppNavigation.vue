@@ -358,7 +358,7 @@ const navigation = {
           >
             <NuxtLink to="/" class="self-center">
               <span class="sr-only">High Park Livery</span>
-              <img
+              <NuxtImg
                 class="h-12 lg:h-14 w-auto"
                 src="/images/hpl-logo-3.png"
                 alt="High Park Livery Logo"

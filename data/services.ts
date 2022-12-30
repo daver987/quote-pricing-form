@@ -10,7 +10,7 @@ export interface Service {
   aboveHeading: string
 }
 
-export const ourServices = [
+export const services = [
   {
     title: 'Airport Services',
     aboveHeading: 'TRAVEL IN COMFORT',

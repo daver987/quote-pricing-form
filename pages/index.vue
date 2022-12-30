@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { services } from '~/data/ourServices'
+import { servicesHome } from '~/data/servicesHome'
 import { features } from '~/data/features'
 
 const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
@@ -272,7 +272,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         class="bg-white shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-4 @container -mt-8"
       >
         <IconBlockAbout
-          v-for="service in services"
+          v-for="service in servicesHome"
           :key="service.title"
           :alt-text="service.altText"
           :body="service.body"
