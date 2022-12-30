@@ -15,12 +15,12 @@ const { quoteFormValues } = storeToRefs(quoteStore)
 // const result = parser.value.getResult()
 // const { ua, browser, device, os, cpu, engine } = result
 // console.log(ua, browser, device, os, cpu, engine)
-
-const passengerOptions = <SelectFormData[]>[
+const passengerClasses = ref('text-gray-400')
+const passengerOptions = ref<SelectFormData[]>([
   {
     label: 'Select Passengers',
     value: 0,
-    isDisabled: false,
+    isDisabled: true,
   },
   {
     label: '1 passenger',
@@ -57,15 +57,16 @@ const passengerOptions = <SelectFormData[]>[
     value: 7,
     isDisabled: false,
   },
-]
-const selectedPassengers = ref<SelectFormData>(passengerOptions[0])
+])
+const selectedPassengers = ref<SelectFormData>(passengerOptions.value[0])
 console.log(selectedPassengers.value)
 
+const serviceTypeClasses = ref('text-gray-400')
 const serviceTypeOptions = <SelectFormData[]>[
   {
     label: 'Select Service Type',
     value: 0,
-    isDisabled: false,
+    isDisabled: true,
   },
   {
     label: 'Point-to-Point',
@@ -91,11 +92,12 @@ const serviceTypeOptions = <SelectFormData[]>[
 const selectedServiceType = ref<SelectFormData>(serviceTypeOptions[0])
 console.log(selectedServiceType.value)
 
+const vehicleTypeClasses = ref('text-gray-400')
 const vehicleTypeOptions = <SelectFormData[]>[
   {
     label: 'Select Vehicle Type',
     value: 0,
-    isDisabled: false,
+    isDisabled: true,
   },
   {
     label: 'Standard Sedan',
@@ -121,70 +123,16 @@ const vehicleTypeOptions = <SelectFormData[]>[
 const selectedVehicleType = ref<SelectFormData>(vehicleTypeOptions[0])
 console.log(selectedVehicleType.value)
 
-const hoursRequiredOptions = <SelectFormData[]>[
+const hoursRequiredClasses = ref('text-gray-400')
+const hoursRequiredOptions = ref<SelectFormData[]>([
   {
-    label: 'For Hourly Service',
+    label: 'For Hourly Service Only',
     value: 0,
-    isDisabled: false,
+    isDisabled: true,
   },
-  {
-    label: '2 hrs',
-    value: 2,
-    isDisabled: false,
-  },
-  {
-    label: '3 hrs',
-    value: 3,
-    isDisabled: false,
-  },
-  {
-    label: '4 hrs',
-    value: 4,
-    isDisabled: false,
-  },
-  {
-    label: '5 hrs',
-    value: 5,
-    isDisabled: false,
-  },
-  {
-    label: '6 hrs',
-    value: 6,
-    isDisabled: false,
-  },
-  {
-    label: '7 hrs',
-    value: 7,
-    isDisabled: false,
-  },
-  {
-    label: '8 hrs',
-    value: 8,
-    isDisabled: false,
-  },
-  {
-    label: '9 hrs',
-    value: 9,
-    isDisabled: false,
-  },
-  {
-    label: '10 hrs',
-    value: 10,
-    isDisabled: false,
-  },
-  {
-    label: '11 hrs',
-    value: 11,
-    isDisabled: false,
-  },
-  {
-    label: '12 hrs',
-    value: 12,
-    isDisabled: false,
-  },
-]
-const selectedNumberOfHours = ref<SelectFormData>(hoursRequiredOptions[0])
-console.log(selectedNumberOfHours.value)
+])
+const selectedNumberOfHours = ref<SelectFormData>(hoursRequiredOptions.value[0])
+console.log('Selected hours', selectedNumberOfHours.value)
 
 const inputOptions = ref({
   id: 'phoneNumber',
@@ -437,24 +385,239 @@ const checkValues = () => {
   console.log('Destination Data:', placeDataDestination.value)
 }
 
-const isDisabled = ref(true)
+const disabled = ref(true)
 watch(selectedServiceType, () => {
   if (selectedServiceType.value.value === 4) {
     isItHourly.value = true
-    isDisabled.value = false
-    selectedNumberOfHours.value = { label: 'Select Hours', value: 0 }
+    disabled.value = false
+    hoursRequiredOptions.value = [
+      {
+        label: 'Select Hours',
+        value: 0,
+        isDisabled: true,
+      },
+      {
+        label: '2 hrs',
+        value: 2,
+        isDisabled: false,
+      },
+      {
+        label: '3 hrs',
+        value: 3,
+        isDisabled: false,
+      },
+      {
+        label: '4 hrs',
+        value: 4,
+        isDisabled: false,
+      },
+      {
+        label: '5 hrs',
+        value: 5,
+        isDisabled: false,
+      },
+      {
+        label: '6 hrs',
+        value: 6,
+        isDisabled: false,
+      },
+      {
+        label: '7 hrs',
+        value: 7,
+        isDisabled: false,
+      },
+      {
+        label: '8 hrs',
+        value: 8,
+        isDisabled: false,
+      },
+      {
+        label: '9 hrs',
+        value: 9,
+        isDisabled: false,
+      },
+      {
+        label: '10 hrs',
+        value: 10,
+        isDisabled: false,
+      },
+      {
+        label: '11 hrs',
+        value: 11,
+        isDisabled: false,
+      },
+      {
+        label: '12 hrs',
+        value: 12,
+        isDisabled: false,
+      },
+    ]
+    selectedNumberOfHours.value = hoursRequiredOptions.value[0]
   } else {
     isItHourly.value = false
-    isDisabled.value = true
-    selectedNumberOfHours.value = { label: 'For Hourly Service', value: 0 }
+    disabled.value = true
+    hoursRequiredOptions.value = [
+      {
+        label: 'For Hourly Service',
+        value: 0,
+        isDisabled: true,
+      },
+    ]
+    selectedNumberOfHours.value = hoursRequiredOptions.value[0]
   }
   console.log(
     selectedServiceType.value.label as string,
     selectedServiceType.value.value,
-    selectedNumberOfHours.value,
+    selectedNumberOfHours.value.label,
     isItHourly.value
   )
 })
+
+watch(selectedVehicleType, () => {
+  if (selectedVehicleType.value.value === 1 || 2) {
+    passengerOptions.value = [
+      {
+        label: 'Select Passengers',
+        value: 0,
+        isDisabled: true,
+      },
+      {
+        label: '1 passenger',
+        value: 1,
+        isDisabled: false,
+      },
+      {
+        label: '2 passengers',
+        value: 2,
+        isDisabled: false,
+      },
+      {
+        label: '3 passengers',
+        value: 3,
+        isDisabled: false,
+      },
+    ]
+    selectedPassengers.value = passengerOptions.value[0]
+  }
+  if (selectedVehicleType.value.value === 3) {
+    passengerOptions.value = [
+      {
+        label: 'Select Passengers',
+        value: 0,
+        isDisabled: true,
+      },
+      {
+        label: '1 passenger',
+        value: 1,
+        isDisabled: false,
+      },
+      {
+        label: '2 passengers',
+        value: 2,
+        isDisabled: false,
+      },
+      {
+        label: '3 passengers',
+        value: 3,
+        isDisabled: false,
+      },
+      {
+        label: '4 passengers',
+        value: 4,
+        isDisabled: false,
+      },
+      {
+        label: '5 passengers',
+        value: 5,
+        isDisabled: false,
+      },
+      {
+        label: '6 passengers',
+        value: 6,
+        isDisabled: false,
+      },
+      {
+        label: '7 passengers',
+        value: 7,
+        isDisabled: false,
+      },
+    ]
+    selectedPassengers.value = passengerOptions.value[0]
+  }
+  if (selectedVehicleType.value.value === 4) {
+    passengerOptions.value = [
+      {
+        label: 'Select Passengers',
+        value: 0,
+        isDisabled: true,
+      },
+      {
+        label: '1 passenger',
+        value: 1,
+        isDisabled: false,
+      },
+      {
+        label: '2 passengers',
+        value: 2,
+        isDisabled: false,
+      },
+      {
+        label: '3 passengers',
+        value: 3,
+        isDisabled: false,
+      },
+      {
+        label: '4 passengers',
+        value: 4,
+        isDisabled: false,
+      },
+      {
+        label: '5 passengers',
+        value: 5,
+        isDisabled: false,
+      },
+      {
+        label: '6 passengers',
+        value: 6,
+        isDisabled: false,
+      },
+    ]
+    selectedPassengers.value = passengerOptions.value[0]
+  }
+  console.log(
+    selectedVehicleType.value.label as string,
+    selectedVehicleType.value.value
+  )
+})
+
+watch(selectedVehicleType, () => {
+  if (selectedVehicleType.value.value === 0) {
+    vehicleTypeClasses.value = 'text-gray-400'
+  } else {
+    vehicleTypeClasses.value = 'text-gray-900'
+  }
+})
+watch(selectedPassengers, () => {
+  if (selectedPassengers.value.value === 0) {
+    passengerClasses.value = 'text-gray-400'
+  } else {
+    passengerClasses.value = 'text-gray-900'
+  }
+})
+watch(selectedServiceType, () => {
+  if (selectedServiceType.value.value === 0) {
+    serviceTypeClasses.value = 'text-gray-400'
+  } else {
+    serviceTypeClasses.value = 'text-gray-900'
+  }
+})
+// watch(selectedNumberOfHours, () => {
+//   if (selectedNumberOfHours.value.value === 0) {
+//     hoursRequiredClasses.value = 'text-gray-400'
+//   } else {
+//     hoursRequiredClasses.value = 'text-gray-900'
+//   }
+// })
 
 const onOriginChange = async (evt: Place) => {
   origin.value = evt
@@ -721,10 +884,10 @@ const submitForm = async () => {
           />
         </div>
         <div class="col-span-1">
-          <InputDate
+          <InputTime
             v-model="returnPickupTime"
             name="returnTime"
-            placeholder="Enter A Return Date"
+            placeholder="Enter A Return Time"
           />
         </div>
       </div>
@@ -733,11 +896,11 @@ const submitForm = async () => {
           <InputListbox
             id="service-type"
             v-model="selectedServiceType"
-            :disable="isDisabled"
             :options="serviceTypeOptions"
             label="Service Type:"
             name="selectedServiceType"
             placeholder="Select Service Type"
+            :classes="serviceTypeClasses"
           />
         </div>
 
@@ -745,11 +908,11 @@ const submitForm = async () => {
           <InputListbox
             id="num_passengers"
             v-model="selectedPassengers"
-            :disable="isDisabled"
             :options="passengerOptions"
             label="Passengers:"
             name="selectedPassengers"
             placeholder="Select Number Of Passengers"
+            :classes="passengerClasses"
           />
         </div>
       </div>
@@ -758,11 +921,11 @@ const submitForm = async () => {
           <InputListbox
             id="selectedVehicleType"
             v-model="selectedVehicleType"
-            :disabled="isDisabled"
             :options="vehicleTypeOptions"
             label="Vehicle Type"
             name="selectedVehicleType"
             placeholder="Select Vehicle Type"
+            :classes="vehicleTypeClasses"
           />
         </div>
 
@@ -770,11 +933,12 @@ const submitForm = async () => {
           <InputListbox
             id="num_hours"
             v-model="selectedNumberOfHours"
-            :disabled="isDisabled"
             :options="hoursRequiredOptions"
             :placeholder="'Select Number Of Hours'"
             label="Number Of Hours:"
             name="selectedNumberOfHours"
+            :default-value="selectedNumberOfHours"
+            :is-disabled="disabled"
           />
         </div>
       </div>

@@ -1,3 +1,7 @@
+<script setup lang="ts">
+//scripts here
+</script>
+
 <template>
   <div class="relative flex items-start">
     <div class="flex h-5 items-center">
@@ -7,6 +11,7 @@
         name="comments"
         type="checkbox"
         class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
+        @input="$emit('update:modelValue', $event.target.checked)"
       />
     </div>
     <div class="ml-3 text-sm">

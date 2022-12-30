@@ -26,19 +26,54 @@ const props = defineProps({
     required: false,
     default: 'Select an option',
   },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  isDisabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  modelValue: {
+    type: String,
+    required: false,
+    default: '',
+  },
+  selected: {
+    type: Object,
+    required: false,
+    default: {},
+  },
+  classes: {
+    type: String,
+    required: false,
+    default: 'text-gray-900',
+  },
 })
+const emit = defineEmits(['update:modelValue'])
 </script>
 
 <template>
-  <Listbox as="div" v-model="selected" :name="name">
+  <Listbox
+    as="div"
+    :modelValue="modelValue"
+    :name="name"
+    :defaultValue="selected"
+    @update:modelValue="(value) => emit('update:modelValue', value)"
+    v-slot="{ disabled }"
+    :disabled="isDisabled"
+  >
     <ListboxLabel v-if="false" class="block text-sm font-medium text-gray-700"
       >{{ label }}
     </ListboxLabel>
     <div class="relative mt-1">
       <ListboxButton
-        class="relative w-full cursor-default rounded border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand sm:text-sm"
+        :class="classes"
+        class="relative w-full cursor-default disabled:cursor-not-allowed disabled:opacity-75 disabled:text-gray-300 rounded border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand sm:text-sm"
       >
-        <span class="block truncate">{{ selected.label }}</span>
+        <span class="block truncate">{{ modelValue.label }}</span>
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
@@ -62,8 +97,8 @@ const props = defineProps({
             v-for="option in options"
             :key="option.value"
             :value="option"
-            :disabled="option.disabled"
-            v-slot="{ active, selected }"
+            :disabled="option.isDisabled"
+            v-slot="{ active, selected, disabled }"
           >
             <li
               :class="[
@@ -75,6 +110,10 @@ const props = defineProps({
                 :class="[
                   selected ? 'font-semibold' : 'font-normal',
                   'block truncate',
+                  active ? 'text-white' : 'text-gray-900',
+                  disabled
+                    ? 'cursor-not-allowed text-opacity-50'
+                    : 'text-gray-900',
                 ]"
                 >{{ option.label }}</span
               >
