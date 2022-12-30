@@ -1,16 +1,7 @@
 <script setup lang="ts">
 import { services } from '~/data/services'
 import { features } from '~/data/features'
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-const navigation = [
-  { name: 'Services', href: '#' },
-  { name: 'Fleet', href: '#' },
-  { name: 'Contact', href: '#' },
-]
-
-const open = ref(false)
 const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
 </script>
 
@@ -20,7 +11,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
       class="relative overflow-hidden min-h-screen"
       style="background-image: url('/icons/gradient-background.svg')"
     >
-      <app-header />
+      <AppNavigation />
       <div class="relative">
         <!--        <Popover>-->
         <!--          <nav-->
@@ -139,6 +130,9 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
                 </div>
               </div>
               <div class="mt-16 sm:mt-24 lg:col-span-6 lg:mt-0 px-3">
+                <ClientOnly>
+                  <InputTel />
+                </ClientOnly>
                 <QuoteForm />
               </div>
             </div>
@@ -298,6 +292,5 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
       </BaseContainer>
       <TheLogoCloud />
     </BaseSection>
-    <AppFooter />
   </div>
 </template>

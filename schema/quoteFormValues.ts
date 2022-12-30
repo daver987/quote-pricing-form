@@ -3,22 +3,22 @@ import { z } from 'zod'
 export const formSchema = z.object({
   pickupDate: z.string(),
   pickupTime: z.string(),
-  serviceType: z.object({
+  selectedServiceType: z.object({
     label: z.string(),
     value: z.number(),
     isDisabled: z.boolean(),
   }),
-  vehicleType: z.object({
+  selectedVehicleType: z.object({
     label: z.string(),
     value: z.number(),
     isDisabled: z.boolean(),
   }),
-  numberOfHours: z.object({
+  selectedNumberOfHours: z.object({
     label: z.string(),
     value: z.number(),
     isDisabled: z.boolean(),
   }),
-  passengers: z.object({
+  selectedPassengers: z.object({
     label: z.string(),
     value: z.number(),
     isDisabled: z.boolean(),

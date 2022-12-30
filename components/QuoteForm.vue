@@ -395,7 +395,7 @@ interface Place {
 interface SelectFormData {
   label: string
   value: number
-  isDisabled?: boolean
+  isDisabled?: boolean | undefined
 }
 
 const originLocation = ref<string>('')
@@ -456,8 +456,8 @@ watch(selectedServiceType, () => {
   )
 })
 
-const onOriginChange = async (e: Place) => {
-  origin.value = e
+const onOriginChange = async (evt: Place) => {
+  origin.value = evt
   console.log('Origin:', origin.value)
   if (origin.value && destination.value) {
     console.log('origin and destination are both set')
@@ -528,8 +528,8 @@ const onOriginChange = async (e: Place) => {
   }
 }
 
-const onDestinationChange = async (e: Place) => {
-  destination.value = e
+const onDestinationChange = async (evt: Place) => {
+  destination.value = evt
   console.log('Destination:', destination.value)
   if (origin.value && destination.value) {
     console.log('origin and destination are both set')
@@ -609,10 +609,26 @@ const submitForm = async () => {
   const formData = reactive<ValidationSchema>({
     pickupDate: pickupDate.value,
     pickupTime: pickupTime.value,
-    serviceType: selectedServiceType.value,
-    vehicleType: selectedVehicleType.value,
-    numberOfHours: selectedNumberOfHours.value,
-    passengers: selectedPassengers.value,
+    selectedServiceType: selectedServiceType.value as {
+      label: string
+      value: number
+      isDisabled: boolean
+    },
+    selectedVehicleType: selectedVehicleType.value as {
+      label: string
+      value: number
+      isDisabled: boolean
+    },
+    selectedNumberOfHours: selectedNumberOfHours.value as {
+      label: string
+      value: number
+      isDisabled: boolean
+    },
+    selectedPassengers: selectedPassengers.value as {
+      label: string
+      value: number
+      isDisabled: boolean
+    },
     firstName: firstName.value,
     lastName: lastName.value,
     emailAddress: emailAddress.value,
@@ -657,82 +673,82 @@ const submitForm = async () => {
       Instant Quote
     </h3>
     <form
-      class="p-5 space-y-3"
-      ref="quoteForm"
       id="lead_form"
+      ref="quoteForm"
+      class="p-5 space-y-3"
       @submit.prevent="submitForm"
     >
       <div class="grid w-full grid-cols-1 gap-3">
         <InputPlacesAutocomplete
-          name="originLocation"
           v-model="originLocation"
           label="Pick Up Location:"
-          @change="onOriginChange"
+          name="originLocation"
           placeholder="Enter pick up location"
+          @change="onOriginChange"
         />
       </div>
       <div class="grid w-full grid-cols-1 gap-3">
         <InputPlacesAutocomplete
-          name="destinationLocation"
           v-model="destinationLocation"
           label="Drop Off Location:"
-          @change="onDestinationChange"
+          name="destinationLocation"
           placeholder="Enter drop off location"
+          @change="onDestinationChange"
         />
       </div>
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <div class="col-span-1">
           <InputDate
-            placeholder="Enter A Pickup Date"
-            name="pickupDate"
             v-model="pickupDate"
+            name="pickupDate"
+            placeholder="Enter A Pickup Date"
           />
         </div>
         <div class="md:col-span-1">
           <InputTime
-            placeholder="Enter A Pickup Time"
-            name="pickupTime"
             v-model="pickupTime"
+            name="pickupTime"
+            placeholder="Enter A Pickup Time"
           />
         </div>
       </div>
       <div v-if="isRoundTrip" class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div class="col-span-1">
           <InputDate
-            placeholder="Enter A Return Date"
-            name="returnDate"
             v-model="returnPickupDate"
+            name="returnDate"
+            placeholder="Enter A Return Date"
           />
         </div>
         <div class="col-span-1">
           <InputDate
-            placeholder="Enter A Return Date"
-            name="returnTime"
             v-model="returnPickupTime"
+            name="returnTime"
+            placeholder="Enter A Return Date"
           />
         </div>
       </div>
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <div class="col-span-1">
           <InputListbox
-            v-model="selectedServiceType"
-            label="Service Type:"
             id="service-type"
-            name="selectedServiceType"
-            :options="serviceTypeOptions"
+            v-model="selectedServiceType"
             :disable="isDisabled"
+            :options="serviceTypeOptions"
+            label="Service Type:"
+            name="selectedServiceType"
             placeholder="Select Service Type"
           />
         </div>
 
         <div class="col-span-1">
           <InputListbox
-            label="Passengers:"
-            name="selectedPassengers"
             id="num_passengers"
             v-model="selectedPassengers"
-            :options="passengerOptions"
             :disable="isDisabled"
+            :options="passengerOptions"
+            label="Passengers:"
+            name="selectedPassengers"
             placeholder="Select Number Of Passengers"
           />
         </div>
@@ -740,85 +756,86 @@ const submitForm = async () => {
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <div class="col-span-1">
           <InputListbox
-            name="selectedVehicleType"
             id="selectedVehicleType"
             v-model="selectedVehicleType"
-            label="Vehicle Type"
-            :options="vehicleTypeOptions"
             :disabled="isDisabled"
+            :options="vehicleTypeOptions"
+            label="Vehicle Type"
+            name="selectedVehicleType"
             placeholder="Select Vehicle Type"
           />
         </div>
 
         <div class="col-span-1">
           <InputListbox
-            name="selectedNumberOfHours"
             id="num_hours"
-            label="Number Of Hours:"
             v-model="selectedNumberOfHours"
-            :options="hoursRequiredOptions"
             :disabled="isDisabled"
+            :options="hoursRequiredOptions"
             :placeholder="'Select Number Of Hours'"
+            label="Number Of Hours:"
+            name="selectedNumberOfHours"
           />
         </div>
       </div>
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <div class="col-span-1">
           <InputText
-            type="text"
-            name="firstName"
             id="first_name"
             v-model="firstName"
             label="First Name:"
+            name="firstName"
             placeholder="Enter first name"
+            type="text"
           />
         </div>
 
         <div class="col-span-1">
           <InputText
-            type="text"
-            name="lastName"
             id="last_name"
-            label="Last Name:"
             v-model="lastName"
+            label="Last Name:"
+            name="lastName"
             placeholder="Enter last name"
+            type="text"
           />
         </div>
       </div>
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <div class="col-span-1">
           <InputText
-            type="email"
-            name="emailAddress"
             id="email"
-            label="Email Address:"
             v-model="emailAddress"
+            label="Email Address:"
+            name="emailAddress"
             placeholder="Enter Email Address"
+            type="email"
           />
         </div>
         <div class="col-span-1">
-          <vue3-reactive-tel-input
+          <Vue3ReactiveTelInput
+            id="phone"
+            v-model:value="phoneNumber"
             :dropdownOptions="dropdownOptions"
             :inputOptions="inputOptions"
             invalidMsg="Please enter a valid phone number"
-            v-model:value="phoneNumber"
-          ></vue3-reactive-tel-input>
+          ></Vue3ReactiveTelInput>
         </div>
       </div>
       <div class="flex flex-row">
         <InputCheckbox
-          name="isRoundTrip"
           id="round_trip"
-          label="Round Trip"
           v-model="isRoundTrip"
+          label="Round Trip"
+          name="isRoundTrip"
         />
       </div>
       <div class="flex flex-row">
         <button
-          @click="submitForm"
           id="submit_button"
-          type="submit"
           class="inline-flex w-full uppercase items-center rounded border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          type="submit"
+          @click="submitForm"
         >
           <span class="self-center mx-auto">Get Prices & Availability</span>
         </button>

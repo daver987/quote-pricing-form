@@ -1,0 +1,72 @@
+<script setup>
+import VueTelInput from 'vue-tel-input'
+import 'vue-tel-input/dist/vue-tel-input.css'
+
+const phone = ref('')
+const telInput = ref(null)
+</script>
+
+<template>
+  <div class="container">
+    <div>
+      <VueTelInput id="phone" ref="telInput" v-model="phone" />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.container {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+}
+
+#phone,
+.btn {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn {
+  color: #ffffff;
+  background-color: #428bca;
+  border-color: #357ebd;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.btn:focus,
+.btn:hover {
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+
+.btn:active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+.alert {
+  padding: 15px;
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-info {
+  border-color: #bce8f1;
+  color: #31708f;
+  background-color: #d9edf7;
+}
+
+.alert-error {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+</style>
