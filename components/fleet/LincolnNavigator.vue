@@ -6,11 +6,13 @@
   <div>
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <div>
-        <h2 class="text-center pt-8 heading">Lincoln Navigator SUV</h2>
+        <h2 class="md:text-left text-center pt-8 heading">
+          Lincoln Navigator SUV
+        </h2>
       </div>
       <div>
-        <img
-          src="/images/Lincoln-Navigator-Car-Service.png"
+        <NuxtImg
+          src="/images/lincoln-navigator-6.png"
           alt="Lincoln Navigator"
           class="object-cover object-center w-full"
           width="1048"
@@ -21,7 +23,7 @@
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <BaseCard class="space-y-6">
         <h3 class="subheading">About The Vehicle</h3>
-        <p class="text-body text-sm">
+        <p>
           The Lincoln Navigator is one of the best vehicles to use for your
           night on the town. It comfortably fits six people, has plenty of
           amenities, and delivers luxury. The three-tonne colossus can easily
@@ -32,8 +34,8 @@
         </p>
       </BaseCard>
       <div>
-        <img
-          src="/images/lincoln-navigator-interior-fleet-2.jpg"
+        <NuxtImg
+          src="/images/lincoln-navigator-5.jpg"
           alt="Lincoln Navigator"
           class="object-cover object-center w-full"
           width="828"
@@ -45,8 +47,8 @@
       class="mb-12 auto-cols-auto grid grid-cols-1 place-items-center md:gap-4 md:grid-cols-12"
     >
       <div class="mb-6 col-span-1 md:mb-0 md:col-span-4">
-        <img
-          src="/images/lincoln-navigator-interior-fleet-3.jpg"
+        <NuxtImg
+          src="/images/lincoln-navigator-3.jpg"
           alt="Lincoln Navigator"
           class="h-full object-cover object-center w-full"
           width="536"
@@ -54,8 +56,8 @@
         />
       </div>
       <div class="col-span-6">
-        <img
-          src="/images/lincoln-navigator-interior-fleet.jpg"
+        <NuxtImg
+          src="/images/lincoln-navigator-2.jpg"
           alt="Lincoln Navigator"
           class="h-full object-cover object-center w-full"
           width="828"

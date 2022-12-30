@@ -41,7 +41,7 @@ const headerInfo = {
             <h2 class="text-center mb-4 subheading lg:text-left">
               CHECK OUT OUR SERVICES
             </h2>
-            <p class="text-body text-sm max-w-[65ch]">
+            <p class="max-w-[65ch]">
               Luxury Ride Service puts you or your business at the forefront of
               Toronto car service. For nearly a decade, we have maintained a
               fleet of new model vehicles. We have constantly upgraded to meet

@@ -130,9 +130,6 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
                 </div>
               </div>
               <div class="mt-16 sm:mt-24 lg:col-span-6 lg:mt-0 px-3">
-                <ClientOnly>
-                  <InputTel />
-                </ClientOnly>
                 <QuoteForm />
               </div>
             </div>
@@ -174,7 +171,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
             kind="btn-light"
             label="View All"
             :nuxtLink="true"
-            to="/fleet/cadillac-xts"
+            to="/fleet"
           />
         </div>
       </BaseContainer>
@@ -256,7 +253,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
       </BaseContainer>
     </BaseSection>
     <BaseSection class="pb-0">
-      <nuxt-img
+      <NuxtImg
         alt="Toronto Skyline"
         class="object-cover object-center lg:mx-auto lg:max-w-6xl"
         src="/images/toronto-3.jpg"

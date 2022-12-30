@@ -5,10 +5,10 @@
 <template>
   <div>
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
-      <div><h2 class="text-center pt-8 heading">Tesla S</h2></div>
+      <div><h2 class="md:text-left text-center pt-8 heading">Tesla S</h2></div>
       <div>
         <img
-          src="/images/Tesla-S-Car-Service.png"
+          src="/images/tesla-s-1.png"
           alt="Tesla S"
           class="object-cover object-center w-full"
           width="1083"
@@ -19,7 +19,7 @@
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <BaseCard class="space-y-6">
         <h3 class="subheading">About The Vehicle</h3>
-        <p class="text-body text-sm">
+        <p>
           The Tesla Model S luxury electric car is a fantastic choice for riders
           wanting an environmentally conscious and luxurious ride. The Tesla
           Model S has become the standard in eco-friendly limousines. The Model
@@ -30,8 +30,8 @@
         </p>
       </BaseCard>
       <div>
-        <img
-          src="/images/Tesla-Front-Interior-Car-Service.jpg"
+        <NuxtImg
+          src="/images/tesla-s-3.jpg"
           alt="Tesla S"
           class="object-cover object-center w-full"
           width="828"
@@ -41,8 +41,8 @@
     </div>
     <div class="mb-12 grid gap-4 grid-cols-1">
       <div class="col-span-1">
-        <img
-          src="/images/Tesla-Interior-Car-Service.jpg"
+        <NuxtImg
+          src="/images/tesla-s-2.jpg"
           alt="Tesla S"
           class="object-cover object-center w-full md:max-w-5xl"
           width="1380"

@@ -6,24 +6,25 @@
   <div>
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <div>
-        <h2 class="text-center pt-8 heading md:text-left">
+        <h2 class="text-center pt-8 font-heading md:text-left">
           Cadillac Escalade<br />SUV
         </h2>
       </div>
       <div>
-        <img
-          src="/images/Cadillac-Escalade-Car-Service.png"
+        <NuxtImg
+          src="/images/cadillac-escalade-1.png"
           alt="Cadillac-Escalade"
           class="object-cover object-center w-full"
           width="1084"
           height="720"
+          quality="80"
         />
       </div>
     </div>
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <BaseCard class="space-y-6">
         <h3 class="subheading">About The Vehicle</h3>
-        <p class="text-body text-sm">
+        <p>
           The Cadillac Escalade combines luxury, style, and comfort with
           high-tech features. The luxurious features include soft leather
           upholstery, a state-of-the-art entertainment system. The tech upgrades
@@ -35,23 +36,24 @@
         </p>
       </BaseCard>
       <div>
-        <img
-          src="/images/cadillac-escalade-interior-fleet-2.jpg"
+        <NuxtImg
+          src="/images/cadillac-escalade-2.jpg"
           alt="Cadillac-Escalade"
           class="object-cover object-center w-full"
           width="828"
           height="591"
+          quality="80"
         />
       </div>
     </div>
     <div class="mb-12 grid gap-4 grid-cols-1">
       <div class="col-span-1">
-        <img
-          src="/images/cadillac-escalade-interior-fleet.jpg"
+        <NuxtImg
+          src="/images/cadillac-escalade-5.jpg"
           alt="Cadillac-Escalade"
           class="object-cover object-center w-full md:max-w-5xl"
-          width="1380"
-          height="619"
+          width="1624"
+          height="1048"
         />
       </div>
     </div>

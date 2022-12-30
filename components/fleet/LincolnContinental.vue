@@ -6,22 +6,25 @@
   <div>
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <div>
-        <h2 class="text-center pt-8 heading">Lincoln Continental Sedan</h2>
+        <h2 class="text-center md:text-left pt-8 font-heading">
+          Lincoln Continental Sedan
+        </h2>
       </div>
       <div>
-        <img
-          src="/images/Lincoln-Continental-Car-Service.png"
+        <NuxtImg
+          src="/images/lincoln-continental-1.png"
           alt="Lincoln Continental Sedan"
           width="1011"
           height="506"
           class="h-full object-cover object-center w-full"
+          quality="80"
         />
       </div>
     </div>
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <BaseCard class="space-y-6">
         <h3 class="subheading">About The Vehicle</h3>
-        <p class="text-body text-sm">
+        <p>
           The Lincoln Continental is the industry's sleekest, most sophisticated
           limousine available. It features leather seating and fine wood
           accents. Its four chrome-accented headlights are sure to turn heads
@@ -34,19 +37,20 @@
         </p>
       </BaseCard>
       <div>
-        <img
-          src="/images/lincoln-continental-interior-2.jpg"
+        <NuxtImg
+          src="/images/lincoln-continental-2.jpg"
           alt="Lincoln Continental Interior"
           class="h-full object-cover object-center w-full"
           width="828"
           height="591"
+          quality="80"
         />
       </div>
     </div>
     <div class="mb-12 grid gap-4 grid-cols-1">
       <div class="col-span-1">
         <img
-          src="/images/lincoln-continental-interior-fleet.jpg"
+          src="/images/lincoln-continental-6.jpg"
           alt="Lincoln Continental Interior"
           class="object-cover object-center w-full md:max-w-5xl"
           width="1380"
