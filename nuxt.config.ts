@@ -22,11 +22,9 @@ export default defineNuxtConfig({
       '@heroicons/vue',
       '@headlessui/vue',
       'libphonenumber-js',
-      'vue-tel-input',
       'vue3-reactive-tel-input',
     ],
   },
-  css: ['vue-tel-input/dist/vue-tel-input.css'],
   runtimeConfig: {
     HUBSPOT_ACCESS_TOKEN: process.env.HUBSPOT_ACCESS_TOKEN,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
