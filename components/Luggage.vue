@@ -10,7 +10,7 @@
     </ItemCount>
     <div class="flex flex-col h-full justify-center items-center">
       <BaseButton
-        kind="btn-primary"
+        kind="btn-brand"
         label="Reserve"
         to="/reservations"
         :nuxtLink="true"

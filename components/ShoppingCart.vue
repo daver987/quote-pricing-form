@@ -108,7 +108,6 @@ const currentDate = getCurrentDate()
       >
         <section aria-labelledby="cart-heading" class="lg:col-span-7">
           <h2 id="cart-heading" class="sr-only">Items in your shopping cart</h2>
-
           <ul
             role="list"
             class="divide-y divide-gray-200 border-t border-b border-gray-200"
@@ -119,7 +118,7 @@ const currentDate = getCurrentDate()
               class="flex py-6 sm:py-10"
             >
               <div class="flex-shrink-0">
-                <img
+                <NuxtImg
                   :src="product.imageSrc"
                   :alt="product.imageAlt"
                   class="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
@@ -133,10 +132,10 @@ const currentDate = getCurrentDate()
                   <div>
                     <div class="flex justify-between mb-2">
                       <h3 class="text-base">
-                        <a
-                          :href="product.href"
+                        <NuxtLink
+                          :to="product.href"
                           class="font-medium text-gray-700 dark:text-gray-200 dark:hover:text-gray-200 hover:text-gray-800"
-                          >{{ product.name }}</a
+                          >{{ product.name }}</NuxtLink
                         >
                       </h3>
                     </div>
@@ -334,7 +333,5 @@ const currentDate = getCurrentDate()
         </div>
       </section>
     </main>
-
-    <AppFooter />
   </div>
 </template>

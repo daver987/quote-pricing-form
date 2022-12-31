@@ -19,7 +19,7 @@ definePageMeta({
 const headerInfo = {
   aboveHeading: 'Discover Our Luxury Vehicles',
   heading: 'OUR FLEET',
-  body: "Luxury Ride Service is here to help you get from place to place. It's our job to provide you with the means of transportation, and we won't stop until it's done right.",
+  body: "High Park Livery is here to help you get from place to place. It's our job to provide you with the means of transportation, and we won't stop until it's done right.",
   image: 'background-image: url("/images/lincoln-navigator-1.jpg")',
 }
 
@@ -94,7 +94,7 @@ const tabs = [
       @change="changeTab"
       as="div"
       :defaultIndex="0"
-      class="container bg-background mx-auto pt-6 px-6 md:-mt-20 md:px-0"
+      class="container mx-auto pt-6 px-6 md:-mt-20 md:px-0"
     >
       <TabList
         class="mx-auto mb-12 grid z-10 gap-1 grid-cols-2 relative md:grid-cols-3 lg:grid-cols-6"
@@ -110,9 +110,9 @@ const tabs = [
             :id="tab.id"
             :data-vehicle="tab.tag"
             :class="[
-              selected ? 'bg-primary text-white' : 'bg-white text-black',
+              selected ? 'bg-primary text-white' : 'bg-white text-gray-700',
             ]"
-            class="bg-white flex flex-col space-y-4 text-black w-full py-16 col-span-1 items-center justify-center hover:bg-primary border-white"
+            class="flex flex-col space-y-4 w-full py-16 col-span-1 items-center justify-center hover:bg-primary hover:text-white border-white"
           >
             <img :src="`/icons/${tab.icon}.svg`" alt="icon" class="w-16" />
             <span
