@@ -110,13 +110,14 @@ const tabs = [
             :id="tab.id"
             :data-vehicle="tab.tag"
             :class="[
-              selected ? 'bg-primary text-white' : 'bg-white text-gray-700',
+              selected ? 'bg-primary text-white' : 'bg-white text-gray-500',
             ]"
             class="flex flex-col space-y-4 w-full py-16 col-span-1 items-center justify-center hover:bg-primary hover:text-white border-white"
           >
-            <img :src="`/icons/${tab.icon}.svg`" alt="icon" class="w-16" />
+            <NuxtImg :src="`/icons/${tab.icon}.svg`" alt="icon" class="w-16" />
             <span
-              class="text-sm text-center text-body tracking-widest uppercase hover:text-white"
+              class="text-sm text-center tracking-widest uppercase hover:text-white"
+              :class="[selected ? 'bg-primary text-white' : 'text-gray-500']"
             >
               {{ tab.title }}
             </span>
