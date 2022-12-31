@@ -2,11 +2,11 @@
   <div class="flex flex-col h-full space-y-4 mb-8 items-center md:m-0">
     <slot></slot>
     <h4
-      class="font-subheading text-gray-500 text-base text-center tracking-[0.75rem] uppercase"
+      class="font-semibold text-gray-500 text-base text-center tracking-widest uppercase"
     >
       {{ kind }}
     </h4>
-    <p class="font-heading text-gray-500 text-7xl">
+    <p class="font-heading text-gray-700 text-5xl">
       {{ amount }}
     </p>
   </div>

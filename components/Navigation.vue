@@ -1,7 +1,7 @@
 <template>
   <nav class="grid grid-cols-6 p-5 bg-black mx-auto max-w-6xl">
     <NuxtLink to="https://highparklivery.com" class="max-w-[120px] col-span-3">
-      <img
+      <NuxtImg
         src="/images/hpl-logo-3.png"
         height="568"
         width="960"

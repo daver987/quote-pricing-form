@@ -16,14 +16,16 @@ export default defineEventHandler(async (event) => {
     lastName,
     emailAddress,
     phoneNumber,
-    vehicleType,
+    selectedVehicleType,
     isHourly,
-    numberOfHours,
+    selectedServiceType,
+    selectedNumberOfHours,
     tripData,
+    selectedPassengers,
   } = body
   const { distanceValue } = tripData
-  const { value: hours } = numberOfHours
-  const rate = getRateFromId(vehicleType.value, rates)
+  const { value: hours } = selectedNumberOfHours
+  const rate = getRateFromId(selectedVehicleType.value, rates)
   const baseRate = getBaseRate(isHourly, hours, distanceValue, rate as Rates)
   const computedSurcharges = getSurchargeAmounts(
     baseRate,
@@ -46,5 +48,7 @@ export default defineEventHandler(async (event) => {
     isHourly,
     hours,
     distanceValue,
+    selectedServiceType,
+    selectedPassengers,
   }
 })

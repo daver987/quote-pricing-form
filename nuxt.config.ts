@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxtjs/tailwindcss',
     '@nuxt/image-edge',
+    'nuxt-icon',
   ],
   build: {
     transpile: [
