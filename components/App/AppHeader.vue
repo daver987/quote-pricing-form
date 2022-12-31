@@ -62,8 +62,7 @@ defineProps({
             <a
               :href="`tel:${companyPhone}`"
               class="text-center text-sm font-body text-gray-300"
-              ><span class="text-brand md:text-white">CALL :</span>
-              {{ companyPhone }}</a
+              ><span class="text-brand">CALL :</span> {{ companyPhone }}</a
             >
           </div>
           <div
@@ -72,7 +71,7 @@ defineProps({
             <a
               :href="`mailto:${companyEmail}`"
               class="text-center text-sm uppercase tracking-wide font-body text-gray-300"
-              ><span class="text-brand md:text-white">EMAIL :</span>
+              ><span class="text-brand">EMAIL :</span>
               {{ companyEmail }}
             </a>
           </div>

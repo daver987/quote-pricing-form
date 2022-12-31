@@ -301,7 +301,7 @@ const navigation = {
             <div class="space-y-6 border-t border-gray-200 py-6 px-4">
               <div class="flow-root">
                 <NuxtLink
-                  to="#"
+                  to="/signin"
                   class="-m-2 block p-2 font-medium text-gray-900"
                   >Sign in</NuxtLink
                 >
@@ -489,10 +489,10 @@ const navigation = {
             <div
               class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6"
             >
-              <a
-                href="#"
+              <NuxtLink
+                href="/signin"
                 class="text-sm font-medium text-gray-100 hover:text-brand"
-                >Sign in</a
+                >Sign in</NuxtLink
               >
               <span class="h-6 w-px bg-gray-200" aria-hidden="true" />
               <a

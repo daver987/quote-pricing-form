@@ -64,7 +64,7 @@ const currentDate = getCurrentDate()
 </script>
 
 <template>
-  <div class="bg-white dark:bg-grey-800">
+  <div class="bg-white dark:bg-grey-900">
     <!-- Mobile menu -->
     <main
       class="mx-auto max-w-2xl px-4 pt-8 pb-24 sm:px-6 lg:max-w-7xl lg:px-8"
@@ -97,10 +97,10 @@ const currentDate = getCurrentDate()
           </dd>
         </dl>
         <div class="mt-4 sm:mt-0">
-          <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+          <NuxtLink to="/" class="font-medium text-brand-600 hover:text-brand">
             Continue Browsing
             <span aria-hidden="true"> &rarr;</span>
-          </a>
+          </NuxtLink>
         </div>
       </div>
       <form
@@ -209,21 +209,28 @@ const currentDate = getCurrentDate()
         <!-- Order summary -->
         <section
           aria-labelledby="summary-heading"
-          class="mt-16 rounded-lg bg-gray-100 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
+          class="mt-16 rounded-lg bg-gray-100 dark:bg-grey-800 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
         >
-          <h2 id="summary-heading" class="text-lg font-medium text-gray-900">
+          <h2
+            id="summary-heading"
+            class="text-lg font-medium dark:text-gray-100 text-gray-900"
+          >
             Quote summary
           </h2>
 
           <dl class="mt-6 space-y-4">
             <div class="flex items-center justify-between">
-              <dt class="text-sm text-gray-600">Subtotal</dt>
-              <dd class="text-sm font-medium text-gray-900">$99.00</dd>
+              <dt class="text-sm dark:text-gray-300 text-gray-600">Subtotal</dt>
+              <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
+                $99.00
+              </dd>
             </div>
             <div
               class="flex items-center justify-between border-t border-gray-200 pt-4"
             >
-              <dt class="flex items-center text-sm text-gray-600">
+              <dt
+                class="flex items-center text-sm dark:text-gray-300 text-gray-600"
+              >
                 <span>Fuel Surcharge</span>
                 <a
                   href="#"
@@ -235,12 +242,16 @@ const currentDate = getCurrentDate()
                   <QuestionMarkCircleIcon class="h-5 w-5" aria-hidden="true" />
                 </a>
               </dt>
-              <dd class="text-sm font-medium text-gray-900">$5.00</dd>
+              <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
+                $5.00
+              </dd>
             </div>
             <div
               class="flex items-center justify-between border-t border-gray-200 pt-4"
             >
-              <dt class="flex items-center text-sm text-gray-600">
+              <dt
+                class="flex items-center text-sm dark:text-gray-300 text-gray-600"
+              >
                 <span>Gratuity</span>
                 <a
                   href="#"
@@ -252,12 +263,14 @@ const currentDate = getCurrentDate()
                   <QuestionMarkCircleIcon class="h-5 w-5" aria-hidden="true" />
                 </a>
               </dt>
-              <dd class="text-sm font-medium text-gray-900">$5.00</dd>
+              <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
+                $5.00
+              </dd>
             </div>
             <div
               class="flex items-center justify-between border-t border-gray-200 pt-4"
             >
-              <dt class="flex text-sm text-gray-600">
+              <dt class="flex text-sm dark:text-gray-300 text-gray-600">
                 <span>HST</span>
                 <a
                   href="#"
@@ -269,13 +282,23 @@ const currentDate = getCurrentDate()
                   <QuestionMarkCircleIcon class="h-5 w-5" aria-hidden="true" />
                 </a>
               </dt>
-              <dd class="text-sm font-medium text-gray-900">$8.32</dd>
+              <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
+                $8.32
+              </dd>
             </div>
             <div
               class="flex items-center justify-between border-t border-gray-200 pt-4"
             >
-              <dt class="text-base font-medium text-gray-900">Order total</dt>
-              <dd class="text-base font-medium text-gray-900">$112.32</dd>
+              <dt
+                class="text-base font-medium dark:text-gray-100 text-gray-900"
+              >
+                Order total
+              </dt>
+              <dd
+                class="text-base font-medium dark:text-gray-100 text-gray-900"
+              >
+                $112.32
+              </dd>
             </div>
           </dl>
 

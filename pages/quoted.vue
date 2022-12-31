@@ -45,7 +45,7 @@ const calculateTotal = (base: number) => 1.42 * base
 </script>
 
 <template>
-  <div class="dark:bg-grey-800">
+  <div class="dark:bg-grey-900">
     <AppNavigation />
     <ShoppingCart />
   </div>
