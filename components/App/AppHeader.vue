@@ -42,7 +42,7 @@ defineProps({
         :style="image"
         class="relative bg-black md:col-span-2 py-32 md:px-10 bg-opacity-60 bg-cover bg-center bg-no-repeat bg-blend-darken"
       >
-        <div class="space-y-4">
+        <div class="space-y-4 text-center md:text-left">
           <p
             class="text-center font-subheading text-sm tracking-widest text-brand md:text-left"
           >
@@ -53,9 +53,7 @@ defineProps({
           >
             {{ heading }}
           </h1>
-          <p
-            class="max-w-xs text-center text-sm tracking-wider text-white font-body md:max-w-sm md:text-left"
-          >
+          <p class="max-w-xs mx-auto md:m-0 md:text-left">
             {{ body }}
           </p>
           <div
@@ -64,17 +62,18 @@ defineProps({
             <a
               :href="`tel:${companyPhone}`"
               class="text-center text-sm font-body text-gray-300"
-              >CALL: {{ companyPhone }}</a
+              ><span class="text-brand md:text-white">CALL :</span>
+              {{ companyPhone }}</a
             >
           </div>
           <div
-            class="md:transform md:rotate-90 md:absolute md:-right-36 bottom-1/2"
+            class="my-1 md:transform md:rotate-90 md:absolute md:-right-36 bottom-1/2"
           >
             <a
               :href="`mailto:${companyEmail}`"
               class="text-center text-sm uppercase tracking-wide font-body text-gray-300"
-            >
-              EMAIL: {{ companyEmail }}
+              ><span class="text-brand md:text-white">EMAIL :</span>
+              {{ companyEmail }}
             </a>
           </div>
         </div>
