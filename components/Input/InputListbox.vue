@@ -73,7 +73,7 @@ const emit = defineEmits(['update:modelValue'])
         :class="classes"
         class="relative w-full cursor-default rounded border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand sm:text-sm"
       >
-        <span class="block truncate">{{ modelValue.label }}</span>
+        <span class="capitalize block truncate">{{ modelValue.label }}</span>
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
