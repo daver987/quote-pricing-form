@@ -3,7 +3,7 @@
     <div class="py-5 px-4 sm:p-6">
       <div class="sm:flex">
         <div class="flex-shrink-0 mb-4 sm:mr-4 sm:mb-0">
-          <nuxt-img
+          <NuxtImg
             :alt="altText"
             :src="`icons/${image}.svg`"
             width="5rem"
@@ -16,7 +16,7 @@
           >
             {{ title }}
           </h3>
-          <p class="font-body mt-1 text-sm text-body">
+          <p>
             {{ body }}
           </p>
         </div>

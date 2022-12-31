@@ -11,7 +11,7 @@
         <BaseButton
           kind="btn-flat"
           label="View More"
-          to="/fleet/cadillac-xts"
+          to="/fleet"
           :nuxtLink="true"
         >
           <img

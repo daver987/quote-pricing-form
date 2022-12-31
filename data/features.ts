@@ -12,7 +12,7 @@ export const features = [
     altText: 'credit-cards',
   },
   {
-    title: 'book ahead',
+    title: 'Online Booking',
     body: "If you're planning on taking a trip to Toronto, Ontario, use our booking software online to book your Toronto car service in advance. This way, you can ensure that your car and driver are at the airport waiting to take you to your destination.",
     image: 'calendar',
     altText: 'calendar icon',

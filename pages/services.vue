@@ -44,7 +44,7 @@ const headerInfo = {
               CHECK OUT OUR SERVICES
             </h2>
             <p class="max-w-[65ch]">
-              Luxury Ride Service puts you or your business at the forefront of
+              High Park Livery puts you or your business at the forefront of
               Toronto car service. For nearly a decade, we have maintained a
               fleet of new model vehicles. We have constantly upgraded to meet
               the Toronto GTA car service market demands. ensuring that our
@@ -68,7 +68,7 @@ const headerInfo = {
           :key="service.title"
         >
           <div :class="service.imagePosition">
-            <img
+            <NuxtImg
               :alt="service.altText"
               :src="service.image"
               class="object-cover object-center"
@@ -81,7 +81,7 @@ const headerInfo = {
             >
               <h2 class="subheading">{{ service.aboveHeading }}</h2>
               <h2 class="mt-4 text-4xl heading">{{ service.title }}</h2>
-              <p class="mt-2 text-body text-sm mb-8">{{ service.body }}</p>
+              <p class="mb-8">{{ service.body }}</p>
               <BaseButton
                 class="mt-4"
                 kind="btn-primary"
@@ -94,7 +94,7 @@ const headerInfo = {
         </div>
       </div>
     </section>
-    <section class="bg-background mb-8">
+    <section class="mb-8">
       <div
         class="bg-center bg-no-repeat bg-cover py-8 px-6 z-10 relative sm:px-8 md:py-16 lg:py-20"
         style="background-image: url('/images/niagara-falls-1.jpg')"

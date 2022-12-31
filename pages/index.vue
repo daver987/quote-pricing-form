@@ -13,100 +13,6 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
     >
       <AppNavigation />
       <div class="relative">
-        <!--        <Popover>-->
-        <!--          <nav-->
-        <!--            class="relative mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6"-->
-        <!--            aria-label="Global"-->
-        <!--          >-->
-        <!--            <div class="flex flex-1 items-center">-->
-        <!--              <div class="flex w-full items-center justify-between md:w-auto">-->
-        <!--                <NuxtLink to="/">-->
-        <!--                  <span class="sr-only">High Park Livery</span>-->
-        <!--                  <img-->
-        <!--                    class="h-12 w-auto sm:h-14"-->
-        <!--                    src="/images/hpl-logo-3.png"-->
-        <!--                    alt="High Park Livery Logo"-->
-        <!--                  />-->
-        <!--                </NuxtLink>-->
-        <!--                <div class="-mr-2 flex items-center md:hidden">-->
-        <!--                  <PopoverButton-->
-        <!--                    class="focus-ring-inset inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-white"-->
-        <!--                  >-->
-        <!--                    <span class="sr-only">Open main menu</span>-->
-        <!--                    <Bars3Icon class="h-8 w-8" aria-hidden="true" />-->
-        <!--                  </PopoverButton>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--              <div class="hidden space-x-10 md:ml-10 md:flex">-->
-        <!--                <NuxtLink-->
-        <!--                  v-for="item in navigation"-->
-        <!--                  :key="item.name"-->
-        <!--                  :href="item.href"-->
-        <!--                  class="font-base uppercase text-white hover:text-gray-300"-->
-        <!--                  >{{ item.name }}-->
-        <!--                </NuxtLink>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--            <div class="hidden md:flex">-->
-        <!--              <NuxtLink-->
-        <!--                to="/"-->
-        <!--                class="inline-flex items-center rounded border border-transparent uppercase bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"-->
-        <!--                >Log in-->
-        <!--              </NuxtLink>-->
-        <!--            </div>-->
-        <!--          </nav>-->
-
-        <!--          <transition-->
-        <!--            enter-active-class="duration-150 ease-out"-->
-        <!--            enter-from-class="opacity-0 scale-95"-->
-        <!--            enter-to-class="opacity-100 scale-100"-->
-        <!--            leave-active-class="duration-100 ease-in"-->
-        <!--            leave-from-class="opacity-100 scale-100"-->
-        <!--            leave-to-class="opacity-0 scale-95"-->
-        <!--          >-->
-        <!--            <PopoverPanel-->
-        <!--              focus-->
-        <!--              class="absolute inset-x-0 top-0 z-10 origin-top-right transform p-2 transition md:hidden"-->
-        <!--            >-->
-        <!--              <div-->
-        <!--                class="overflow-hidden rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5"-->
-        <!--              >-->
-        <!--                <div class="flex items-center justify-between px-5 pt-4">-->
-        <!--                  <div>-->
-        <!--                    <img-->
-        <!--                      class="h-12 w-auto"-->
-        <!--                      src="/images/hpl-logo-2.png"-->
-        <!--                      alt="High Park Livery Logo"-->
-        <!--                    />-->
-        <!--                  </div>-->
-        <!--                  <div class="-mr-2">-->
-        <!--                    <PopoverButton-->
-        <!--                      class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-base"-->
-        <!--                    >-->
-        <!--                      <span class="sr-only">Close menu</span>-->
-        <!--                      <XMarkIcon class="h-6 w-6" aria-hidden="true" />-->
-        <!--                    </PopoverButton>-->
-        <!--                  </div>-->
-        <!--                </div>-->
-        <!--                <div class="space-y-1 px-2 pt-2 pb-3">-->
-        <!--                  <NuxtLink-->
-        <!--                    v-for="item in navigation"-->
-        <!--                    :key="item.name"-->
-        <!--                    :to="item.href"-->
-        <!--                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"-->
-        <!--                    >{{ item.name }}-->
-        <!--                  </NuxtLink>-->
-        <!--                </div>-->
-        <!--                <NuxtLink-->
-        <!--                  to="/"-->
-        <!--                  class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-base-600 hover:bg-gray-100"-->
-        <!--                  >Log in-->
-        <!--                </NuxtLink>-->
-        <!--              </div>-->
-        <!--            </PopoverPanel>-->
-        <!--          </transition>-->
-        <!--        </Popover>-->
-
         <main class="mt-16 sm:mt-24">
           <div class="mx-auto max-w-7xl">
             <div class="lg:grid lg:grid-cols-12 lg:gap-8">
@@ -122,7 +28,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
                   <p class="text-center subheading md:text-left">
                     High Park Livery
                   </p>
-                  <img
+                  <NuxtImg
                     alt="Lincoln Continental"
                     src="/images/lincoln-continental-1.png"
                     class="object-cover object-center max-w-sm md:max-w-lg self-center md:self-start mt-8"
@@ -207,11 +113,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
           </p>
         </div>
         <div class="col-span-2 p-6">
-          <nuxt-img
-            class="w-80"
-            src="/icons/24-hours.svg"
-            alt="24 hours icon"
-          />
+          <NuxtImg class="w-80" src="/icons/24-hours.svg" alt="24 hours icon" />
         </div>
       </BaseContainer>
     </BaseSection>
@@ -259,7 +161,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         src="/images/toronto-3.jpg"
         width="1364"
         height="459"
-        format="avif"
+        format="webp"
         quality="80"
       />
     </BaseSection>

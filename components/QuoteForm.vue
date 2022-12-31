@@ -818,7 +818,7 @@ const submitForm = async () => {
     })
     setTimeout(() => {
       router.push('/quoted')
-    }, 1550)
+    }, 1500)
     submitting.value = false
     return {
       data: data.value,

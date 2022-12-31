@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import { qualities } from '~/data/qualities'
 useHead({
-  title: 'Luxury Ride Service | About Us',
+  title: 'High Park Livery | About Us',
 })
 const headerInfo = {
-  aboveHeading: 'DISCOVER LUXURY RIDE SERVICE',
+  aboveHeading: 'DISCOVER High Park Livery',
   heading: 'ABOUT US',
-  body: "Luxury Ride Service is here to help you get from place to place. It's our job to provide you with the means of transportation, and we won't stop until it's done right.",
+  body: "High Park Livery is here to help you get from place to place. It's our job to provide you with the means of transportation, and we won't stop until it's done right.",
   image: 'background-image: url("/images/chauffeur-4.jpg")',
 }
 
-const { data: quality } = useFetch('/api/qualities')
+const quality = qualities
 definePageMeta({
   title: 'About Us',
   layout: 'default',
@@ -78,7 +79,7 @@ definePageMeta({
     <section class="bg-background mb-8 px-4 sm:px-6">
       <div class="container place-items-center md:grid md:grid-cols-2">
         <div class="flex">
-          <img
+          <NuxtImg
             alt="Tesla-S-Back-Seat"
             class="object-center object-cover w-full min-h-[18rem] self-center md:object-left"
             src="/images/tesla-s-4.jpg"
@@ -115,8 +116,8 @@ definePageMeta({
         >
           <div class="bg-white py-6 overflow-hidden md:px-2 lg:px-4">
             <div class="py-5 px-4 sm:px-6">
-              <p class="text-center subheading md:text-left">
-                LUXURY RIDE SERVICE?
+              <p class="text-center uppercase subheading md:text-left">
+                High Park Livery?
               </p>
               <h2 class="mt-6 text-center text-heading heading md:text-left">
                 WHO WE ARE
@@ -124,7 +125,7 @@ definePageMeta({
             </div>
             <div class="py-4 px-3 sm:p-6">
               <p>
-                Luxury Ride Service is a Toronto-based car service company. We
+                High Park Livery is a Toronto-based car service company. We
                 provide luxury transportation to clients in the Greater Toronto
                 and southern Ontario area. In addition to offering a variety of
                 car models and levels of service. Luxury Ride Service caters to
@@ -141,14 +142,14 @@ definePageMeta({
                 and relaxed throughout their journey.
               </p>
               <p>
-                At Luxury Ride Service, we don't cut corners or skimp on your
+                At High Park Livery, we don't cut corners or skimp on your
                 comfort to offer you a low price. We believe that all of our
                 luxury cars should be maintained to the highest industry
                 standards, ensuring a safe and unforgettable experience.
               </p>
               <p>
                 Whether it's a night out on the town or a business meeting
-                across downtown Toronto, Luxury Ride Service can provide a
+                across downtown Toronto, High Park Livery can provide a
                 luxurious ride that fits perfectly within your schedule and
                 budget.
               </p>
