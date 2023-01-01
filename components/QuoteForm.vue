@@ -4,7 +4,8 @@ import { Ref } from 'vue'
 import { formSchema, ValidationSchema } from '~/schema/quoteFormValues'
 import { useQuoteStore } from '~/stores/useQuoteStore'
 import { storeToRefs } from 'pinia'
-import { Vue3ReactiveTelInput } from 'vue3-reactive-tel-input'
+import { VueTelInput } from 'vue-tel-input'
+import 'vue-tel-input/dist/vue-tel-input.css'
 
 const quoteStore = useQuoteStore()
 const { quoteFormValues } = storeToRefs(quoteStore)
@@ -135,16 +136,19 @@ const selectedNumberOfHours = ref<SelectFormData>(hoursRequiredOptions.value[0])
 console.log('Selected hours', selectedNumberOfHours.value)
 
 const inputOptions = ref({
-  id: 'phoneNumber',
+  id: 'phone-number',
   required: true,
   styleClasses:
-    'block w-full focus:border-brand focus:ring-brand focus:ring-opacity-5 text-sm',
+    'block w-full border-0 p-0 text-gray-900 placeholder-gray-400 focus:ring-0 sm:text-sm pl-1',
   showDialCode: true,
+  name: 'phoneNumber',
+  type: 'tel',
 })
 
 const dropdownOptions = ref({
   showDialCodeInSelection: false,
   showFlags: true,
+  showSearchBox: true,
   showDialCodeInList: true,
 })
 
@@ -978,13 +982,14 @@ const submitForm = async () => {
           />
         </div>
         <div class="col-span-1">
-          <Vue3ReactiveTelInput
-            id="phone"
-            v-model:value="phoneNumber"
-            :dropdownOptions="dropdownOptions"
-            :inputOptions="inputOptions"
+          <VueTelInput
+            @input="onPhoneChange"
+            v-model="phoneNumber"
+            :dropdown-options="dropdownOptions"
+            :input-options="inputOptions"
+            style-classes="rounded border border-gray-300 pr-1 bg-white shadow-sm focus-within:border-brand-600 focus-within:ring-1 focus-within:ring-brand-600"
             invalidMsg="Please enter a valid phone number"
-          ></Vue3ReactiveTelInput>
+          ></VueTelInput>
         </div>
       </div>
       <div class="flex flex-row">
