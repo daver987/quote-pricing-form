@@ -49,7 +49,7 @@ defineProps({
             {{ aboveHeading }}
           </p>
           <h1
-            class="text-center leading-tight text-white font-heading md:text-left"
+            class="text-center capitalize leading-tight text-white font-heading md:text-left"
           >
             {{ heading }}
           </h1>

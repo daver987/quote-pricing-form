@@ -1,5 +1,5 @@
 <script setup lang="ts">
-definePageMeta({ layout: 'custom' })
+definePageMeta({ layout: 'auth' })
 const colorMode = useColorMode()
 const color = colorMode.value
 console.log(color)

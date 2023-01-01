@@ -2,7 +2,6 @@
 
 <template>
   <div>
-    Layout: auth
     <slot />
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Luxury Ride Service | Contact Us',
+  title: 'High Park Livery | Contact Us',
 })
 
 const headerInfo = {
@@ -68,19 +68,19 @@ definePageMeta({
             class="mb-12 md:mb-0 md:col-span-5 md:col-start-2 md:row-start-1"
           >
             <a
-              href="mailto:info@luxuryrideservice.com"
+              href="mailto:info@highparklivery.com"
               class="text-heading text-lg tracking-wide"
             >
               <div class="mx-auto text-body mb-8 text-9xl i-carbon-email" />
-              info@luxuryrideservice.com</a
+              info@highparklivery.com</a
             >
           </div>
           <div class="col-span-4 col-start-7 row-start-1">
-            <a href="tel:2896401876" class="text-lg tracking-wide text-heading">
+            <a href="tel:6473609631" class="text-lg tracking-wide text-heading">
               <div
                 class="mx-auto text-center text-body mb-6 text-9xl i-carbon-phone"
               />
-              289.640.1876</a
+              647.360.9631</a
             >
           </div>
         </div>

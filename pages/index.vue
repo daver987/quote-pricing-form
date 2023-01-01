@@ -21,7 +21,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
               >
                 <div class="flex flex-col align-center lg:align-start">
                   <h1
-                    class="text-center text-white sm:text-4xl text-3xl md:text-5xl font-heading md:text-left"
+                    class="text-center text-white capitalize sm:text-4xl text-3xl md:text-5xl font-heading md:text-left mb-2"
                   >
                     Experience Toronto's Finest Car Service
                   </h1>
