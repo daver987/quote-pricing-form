@@ -22,141 +22,144 @@ import {
   XMarkIcon as XMarkIconOutline,
   ChevronDownIcon,
 } from '@heroicons/vue/24/outline'
+import { navigation, NavigationItem } from '~/data/navigation'
+
+const nav = navigation as NavigationItem[]
 
 const open = ref<boolean>(false)
 
-const navigation = {
-  // categories: [
-  //   {
-  //     id: 'women',
-  //     name: 'Women',
-  //     featured: [
-  //       {
-  //         name: 'New Arrivals',
-  //         href: '#',
-  //         imageSrc:
-  //           'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-  //         imageAlt:
-  //           'Models sitting back to back, wearing Basic Tee in black and bone.',
-  //       },
-  //       {
-  //         name: 'Basic Tees',
-  //         href: '#',
-  //         imageSrc:
-  //           'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
-  //         imageAlt:
-  //           'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
-  //       },
-  //     ],
-  //     sections: [
-  //       {
-  //         id: 'clothing',
-  //         name: 'Clothing',
-  //         items: [
-  //           { name: 'Tops', href: '#' },
-  //           { name: 'Dresses', href: '#' },
-  //           { name: 'Pants', href: '#' },
-  //           { name: 'Denim', href: '#' },
-  //           { name: 'Sweaters', href: '#' },
-  //           { name: 'T-Shirts', href: '#' },
-  //           { name: 'Jackets', href: '#' },
-  //           { name: 'Activewear', href: '#' },
-  //           { name: 'Browse All', href: '#' },
-  //         ],
-  //       },
-  //       {
-  //         id: 'accessories',
-  //         name: 'Accessories',
-  //         items: [
-  //           { name: 'Watches', href: '#' },
-  //           { name: 'Wallets', href: '#' },
-  //           { name: 'Bags', href: '#' },
-  //           { name: 'Sunglasses', href: '#' },
-  //           { name: 'Hats', href: '#' },
-  //           { name: 'Belts', href: '#' },
-  //         ],
-  //       },
-  //       {
-  //         id: 'brands',
-  //         name: 'Brands',
-  //         items: [
-  //           { name: 'Full Nelson', href: '#' },
-  //           { name: 'My Way', href: '#' },
-  //           { name: 'Re-Arranged', href: '#' },
-  //           { name: 'Counterfeit', href: '#' },
-  //           { name: 'Significant Other', href: '#' },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 'men',
-  //     name: 'Men',
-  //     featured: [
-  //       {
-  //         name: 'New Arrivals',
-  //         href: '#',
-  //         imageSrc:
-  //           'https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg',
-  //         imageAlt:
-  //           'Drawstring top with elastic loop closure and textured interior padding.',
-  //       },
-  //       {
-  //         name: 'Artwork Tees',
-  //         href: '#',
-  //         imageSrc:
-  //           'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg',
-  //         imageAlt:
-  //           'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
-  //       },
-  //     ],
-  //     sections: [
-  //       {
-  //         id: 'clothing',
-  //         name: 'Clothing',
-  //         items: [
-  //           { name: 'Tops', href: '#' },
-  //           { name: 'Pants', href: '#' },
-  //           { name: 'Sweaters', href: '#' },
-  //           { name: 'T-Shirts', href: '#' },
-  //           { name: 'Jackets', href: '#' },
-  //           { name: 'Activewear', href: '#' },
-  //           { name: 'Browse All', href: '#' },
-  //         ],
-  //       },
-  //       {
-  //         id: 'accessories',
-  //         name: 'Accessories',
-  //         items: [
-  //           { name: 'Watches', href: '#' },
-  //           { name: 'Wallets', href: '#' },
-  //           { name: 'Bags', href: '#' },
-  //           { name: 'Sunglasses', href: '#' },
-  //           { name: 'Hats', href: '#' },
-  //           { name: 'Belts', href: '#' },
-  //         ],
-  //       },
-  //       {
-  //         id: 'brands',
-  //         name: 'Brands',
-  //         items: [
-  //           { name: 'Re-Arranged', href: '#' },
-  //           { name: 'Counterfeit', href: '#' },
-  //           { name: 'Full Nelson', href: '#' },
-  //           { name: 'My Way', href: '#' },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  // ],
-  pages: [
-    { name: 'Home', href: '/' },
-    { name: 'Services', href: '/services' },
-    { name: 'Fleet', href: '/fleet' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
-  ],
-}
+// const navigation = {
+// categories: [
+//   {
+//     id: 'women',
+//     name: 'Women',
+//     featured: [
+//       {
+//         name: 'New Arrivals',
+//         href: '#',
+//         imageSrc:
+//           'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
+//         imageAlt:
+//           'Models sitting back to back, wearing Basic Tee in black and bone.',
+//       },
+//       {
+//         name: 'Basic Tees',
+//         href: '#',
+//         imageSrc:
+//           'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
+//         imageAlt:
+//           'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
+//       },
+//     ],
+//     sections: [
+//       {
+//         id: 'clothing',
+//         name: 'Clothing',
+//         items: [
+//           { name: 'Tops', href: '#' },
+//           { name: 'Dresses', href: '#' },
+//           { name: 'Pants', href: '#' },
+//           { name: 'Denim', href: '#' },
+//           { name: 'Sweaters', href: '#' },
+//           { name: 'T-Shirts', href: '#' },
+//           { name: 'Jackets', href: '#' },
+//           { name: 'Activewear', href: '#' },
+//           { name: 'Browse All', href: '#' },
+//         ],
+//       },
+//       {
+//         id: 'accessories',
+//         name: 'Accessories',
+//         items: [
+//           { name: 'Watches', href: '#' },
+//           { name: 'Wallets', href: '#' },
+//           { name: 'Bags', href: '#' },
+//           { name: 'Sunglasses', href: '#' },
+//           { name: 'Hats', href: '#' },
+//           { name: 'Belts', href: '#' },
+//         ],
+//       },
+//       {
+//         id: 'brands',
+//         name: 'Brands',
+//         items: [
+//           { name: 'Full Nelson', href: '#' },
+//           { name: 'My Way', href: '#' },
+//           { name: 'Re-Arranged', href: '#' },
+//           { name: 'Counterfeit', href: '#' },
+//           { name: 'Significant Other', href: '#' },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     id: 'men',
+//     name: 'Men',
+//     featured: [
+//       {
+//         name: 'New Arrivals',
+//         href: '#',
+//         imageSrc:
+//           'https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg',
+//         imageAlt:
+//           'Drawstring top with elastic loop closure and textured interior padding.',
+//       },
+//       {
+//         name: 'Artwork Tees',
+//         href: '#',
+//         imageSrc:
+//           'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg',
+//         imageAlt:
+//           'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
+//       },
+//     ],
+//     sections: [
+//       {
+//         id: 'clothing',
+//         name: 'Clothing',
+//         items: [
+//           { name: 'Tops', href: '#' },
+//           { name: 'Pants', href: '#' },
+//           { name: 'Sweaters', href: '#' },
+//           { name: 'T-Shirts', href: '#' },
+//           { name: 'Jackets', href: '#' },
+//           { name: 'Activewear', href: '#' },
+//           { name: 'Browse All', href: '#' },
+//         ],
+//       },
+//       {
+//         id: 'accessories',
+//         name: 'Accessories',
+//         items: [
+//           { name: 'Watches', href: '#' },
+//           { name: 'Wallets', href: '#' },
+//           { name: 'Bags', href: '#' },
+//           { name: 'Sunglasses', href: '#' },
+//           { name: 'Hats', href: '#' },
+//           { name: 'Belts', href: '#' },
+//         ],
+//       },
+//       {
+//         id: 'brands',
+//         name: 'Brands',
+//         items: [
+//           { name: 'Re-Arranged', href: '#' },
+//           { name: 'Counterfeit', href: '#' },
+//           { name: 'Full Nelson', href: '#' },
+//           { name: 'My Way', href: '#' },
+//         ],
+//       },
+//     ],
+//   },
+// ],
+//   pages: [
+//     { name: 'Home', href: '/' },
+//     { name: 'Services', href: '/services' },
+//     { name: 'Fleet', href: '/fleet' },
+//     { name: 'About', href: '/about' },
+//     { name: 'Contact', href: '/contact' },
+//   ],
+// }
 </script>
 
 <template>
@@ -285,12 +288,9 @@ const navigation = {
             </TabGroup>
 
             <div class="space-y-6 border-t border-gray-200 py-6 px-4">
-              <div
-                v-for="page in navigation.pages"
-                :key="page.name"
-                class="flow-root"
-              >
+              <div v-for="page in nav" :key="page.id" class="flow-root">
                 <NuxtLink
+                  active-class="text-brand hover:text-brand-600"
                   :to="page.href"
                   class="-m-2 block p-2 font-medium text-gray-900"
                   >{{ page.name }}</NuxtLink
@@ -317,7 +317,7 @@ const navigation = {
 
             <div class="border-t border-gray-200 py-6 px-4">
               <NuxtLink href="#" class="-m-2 flex items-center p-2">
-                <img
+                <NuxtImg
                   src="https://tailwindui.com/img/flags/flag-canada.svg"
                   alt=""
                   class="block h-auto w-5 flex-shrink-0"
@@ -474,14 +474,14 @@ const navigation = {
                   </PopoverPanel>
                 </transition>
               </Popover>
-
-              <NuxtLink
-                v-for="page in navigation.pages"
-                :key="page.name"
-                :to="page.href"
-                class="flex items-center text-sm font-medium text-gray-100 hover:text-brand"
-                >{{ page.name }}</NuxtLink
-              >
+              <template v-for="page in nav" :key="page.id">
+                <NuxtLink
+                  :to="page.href"
+                  class="flex items-center text-sm font-medium capitalize tracking-wider text-gray-100 hover:text-brand"
+                  exact-active-class="text-brand hover:text-brand-600"
+                  >{{ page.name }}</NuxtLink
+                >
+              </template>
             </div>
           </PopoverGroup>
 

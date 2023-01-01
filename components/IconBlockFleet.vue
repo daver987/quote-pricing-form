@@ -14,10 +14,9 @@
           to="/fleet"
           :nuxtLink="true"
         >
-          <img
-            alt="right arrow"
-            class="pr-8 self-center"
-            src="/icons/right-arrow.svg"
+          <Icon
+            name="ic:twotone-arrow-right-alt"
+            class="text-brand h-12 w-auto"
           />
         </BaseButton>
       </div>

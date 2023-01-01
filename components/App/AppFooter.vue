@@ -1,149 +1,91 @@
-<script setup lang="ts">
-const footerNavigation = {
-  products: [
-    { name: 'Bags', href: '#' },
-    { name: 'Tees', href: '#' },
-    { name: 'Objects', href: '#' },
-    { name: 'Home Goods', href: '#' },
-    { name: 'Accessories', href: '#' },
-  ],
-  company: [
-    { name: 'Who we are', href: '#' },
-    { name: 'Sustainability', href: '#' },
-    { name: 'Press', href: '#' },
-    { name: 'Careers', href: '#' },
-    { name: 'Terms & Conditions', href: '#' },
-    { name: 'Privacy', href: '#' },
-  ],
-  customerService: [
-    { name: 'Contact', href: '#' },
-    { name: 'Shipping', href: '#' },
-    { name: 'Returns', href: '#' },
-    { name: 'Warranty', href: '#' },
-    { name: 'Secure Payments', href: '#' },
-    { name: 'FAQ', href: '#' },
-    { name: 'Find a store', href: '#' },
-  ],
-}
-//write a function that will return the current year
-const currentYear = new Date().getFullYear()
-</script>
-
 <template>
-  <footer aria-labelledby="footer-heading" class="bg-brand">
-    <h2 id="footer-heading" class="sr-only">Footer</h2>
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div v-if="false" class="border-t border-gray-200 py-20">
-        <div
-          class="grid grid-cols-1 md:grid-flow-col md:auto-rows-min md:grid-cols-12 md:gap-x-8 md:gap-y-16"
-        >
-          <!-- Image section -->
-          <div class="col-span-1 md:col-span-2 lg:col-start-1 lg:row-start-1">
-            <img
-              src="/images/hpl-logo-2.png"
-              alt="High Park Livery Logo"
-              class="h-12 w-auto"
+  <footer>
+    <div class="px-6 lg:px-10">
+      <FooterCta />
+    </div>
+    <div
+      class="w-full px-6 pt-24 pb-8 bg-background-dark lg:px-10 lg:pt-16 lg:pb-4"
+    >
+      <div
+        class="mx-auto grid max-w-7xl grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
+      >
+        <div class="my-8 space-y-10">
+          <NuxtLink to="/" class="max-w-[125px] block">
+            <NuxtImg
+              :alt="companyName"
+              :src="companyLogo"
+              class="object-contain w-full object-center"
             />
-          </div>
+          </NuxtLink>
 
-          <!-- Sitemap sections -->
-          <div
-            class="col-span-6 mt-10 grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-8 md:col-start-3 md:row-start-1 md:mt-0 lg:col-span-6 lg:col-start-2"
-          >
-            <div
-              class="grid grid-cols-1 gap-y-12 sm:col-span-2 sm:grid-cols-2 sm:gap-x-8"
-            >
-              <div>
-                <h3 class="text-sm font-medium text-gray-900">Products</h3>
-                <ul role="list" class="mt-6 space-y-6">
-                  <li
-                    v-for="item in footerNavigation.products"
-                    :key="item.name"
-                    class="text-sm"
-                  >
-                    <a
-                      :href="item.href"
-                      class="text-gray-500 hover:text-gray-600"
-                      >{{ item.name }}</a
-                    >
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3 class="text-sm font-medium text-gray-900">Company</h3>
-                <ul role="list" class="mt-6 space-y-6">
-                  <li
-                    v-for="item in footerNavigation.company"
-                    :key="item.name"
-                    class="text-sm"
-                  >
-                    <a
-                      :href="item.href"
-                      class="text-gray-500 hover:text-gray-600"
-                      >{{ item.name }}</a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div>
-              <h3 class="text-sm font-medium text-gray-900">
-                Customer Service
-              </h3>
-              <ul role="list" class="mt-6 space-y-6">
-                <li
-                  v-for="item in footerNavigation.customerService"
-                  :key="item.name"
-                  class="text-sm"
-                >
-                  <a
-                    :href="item.href"
-                    class="text-gray-500 hover:text-gray-600"
-                    >{{ item.name }}</a
-                  >
-                </li>
-              </ul>
-            </div>
+          <div class="flex flex-row justify-items-center">
+            <Icon class="mr-8 text-3xl text-primary" name="zmdi:phone" />
+            <a
+              :href="`tel:${companyPhone}`"
+              class="cursor-pointer text-base tracking-wider text-white font-body hover:text-primary"
+              >{{ companyPhone }}
+            </a>
           </div>
-
-          <!-- Newsletter section -->
-          <div
-            class="mt-12 md:col-span-8 md:col-start-3 md:row-start-2 md:mt-0 lg:col-span-4 lg:col-start-9 lg:row-start-1"
+          <div class="flex flex-row justify-items-center">
+            <Icon class="mr-8 text-4xl text-primary" name="ic:outline-mail" />
+            <a
+              :href="`mailto:${companyEmail}`"
+              class="cursor-pointer text-base tracking-wider text-white font-body hover:text-primary"
+              >{{ companyEmail }}
+            </a>
+          </div>
+        </div>
+        <div class="my-8 space-y-4">
+          <h3
+            class="text-xl uppercase tracking-widest font-subheading text-primary"
           >
-            <h3 class="text-sm font-medium text-gray-900">
-              Sign up for our newsletter
-            </h3>
-            <p class="mt-6 text-sm text-gray-500">
-              The latest deals and savings, sent to your inbox weekly.
-            </p>
-            <form class="mt-2 flex sm:max-w-md">
-              <label for="email-address" class="sr-only">Email address</label>
-              <input
-                id="email-address"
-                type="text"
-                autocomplete="email"
-                required=""
-                class="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white py-2 px-4 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
-              />
-              <div class="ml-4 flex-shrink-0">
-                <button
-                  type="submit"
-                  class="flex w-full items-center justify-center rounded-md border border-transparent bg-brand-600 py-2 px-4 text-base font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
-                >
-                  Sign up
-                </button>
-              </div>
-            </form>
+            Quick Links
+          </h3>
+          <ul
+            class="flex flex-col font-bold uppercase leading-relaxed tracking-wider font-body text-body-light"
+          >
+            <li v-for="myNavigation in nav" :key="myNavigation.id">
+              <NuxtLink
+                :to="myNavigation.href"
+                active-class="text-brand hover:text-brand-600"
+              >
+                {{ myNavigation.name }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </div>
+        <div class="my-8 space-y-6 lg:space-y-4">
+          <h3
+            class="text-xl uppercase tracking-widest font-subheading text-primary"
+          >
+            Sign Up
+          </h3>
+          <EmailInput />
+          <BaseButton kind="btn-solid" label="Subscribe" />
+          <p
+            class="text-center text-base uppercase tracking-wider font-body text-body-light"
+          >
+            Socialize With {{ companyName }}
+          </p>
+          <div class="mx-auto flex flex-row gap-8 justify-center max-w-40">
+            <Icon class="text-3xl text-primary" name="zmdi:facebook" />
+            <Icon class="text-3xl text-primary" name="zmdi:twitter" />
+            <Icon class="text-3xl text-primary" name="zmdi:instagram" />
           </div>
         </div>
       </div>
-
-      <div class="py-3 text-center">
-        <p class="text-sm text-gray-50">
-          &copy;<span>{{ currentYear }}</span> High Park Livery Inc. All rights
-          reserved
-        </p>
-      </div>
     </div>
+    <SubFooter />
   </footer>
 </template>
+
+<script setup lang="ts">
+import { navigation, NavigationItem } from '~/data/navigation'
+
+const companyName = 'High Park Livery'
+const companyEmail = 'info@highparklivery.com'
+const companyPhone = '647.360.9631'
+const companyLogo = '/images/hpl-logo-3.png'
+
+const nav = navigation as NavigationItem[]
+</script>
