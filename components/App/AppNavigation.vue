@@ -490,15 +490,15 @@ const navigation = {
               class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6"
             >
               <NuxtLink
-                href="/signin"
+                to="/signin"
                 class="text-sm font-medium text-gray-100 hover:text-brand"
                 >Sign in</NuxtLink
               >
               <span class="h-6 w-px bg-gray-200" aria-hidden="true" />
-              <a
-                href="#"
+              <NuxtLink
+                to="/signup"
                 class="text-sm font-medium text-gray-100 hover:text-brand"
-                >Create account</a
+                >Create account</NuxtLink
               >
             </div>
 

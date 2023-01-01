@@ -2,14 +2,12 @@ export default defineNuxtConfig({
   // typescript: {
   //   shim: false,
   // },
+  app: { pageTransition: { name: 'page', mode: 'out-in' } },
   nitro: {
     preset: 'vercel',
   },
   experimental: {
     writeEarlyHints: true,
-  },
-  app: {
-    pageTransition: { name: 'page', mode: 'out-in' },
   },
 
   modules: [

@@ -13,14 +13,14 @@ const headerInfo = {
 definePageMeta({
   title: 'Contact Us',
   layout: 'default',
-  pageTransition: {
-    appear: true,
-    enterFromClass: 'opacity-0',
-    enterActiveClass: 'duration-[500ms]',
-    leaveToClass: 'opacity-0',
-    leaveActiveClass: 'duration-[500ms]',
-    mode: 'out-in',
-  },
+  // pageTransition: {
+  //   appear: true,
+  //   enterFromClass: 'opacity-0',
+  //   enterActiveClass: 'duration-[500ms]',
+  //   leaveToClass: 'opacity-0',
+  //   leaveActiveClass: 'duration-[500ms]',
+  //   mode: 'out-in',
+  // },
 })
 
 // const formClasses = {
