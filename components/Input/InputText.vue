@@ -11,8 +11,8 @@
       :id="id"
       :placeholder="placeholder"
       :type="type"
-      :value="modelValue"
-      @input="(event) => (modelValue = event.target.value)"
+      @update="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
       class="block w-full border-0 p-0 text-gray-900 placeholder-gray-400 focus:ring-0 sm:text-sm pb-0.5 -mt-1"
     />
     <div v-if="showError" class="flex">

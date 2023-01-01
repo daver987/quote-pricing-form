@@ -67,8 +67,9 @@
         :aria-label="label"
         :name="name"
         :id="id"
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
         :placeholder="placeholder"
-        v-model="inputValue"
         class="block w-full rounded border-gray-300 pl-10 focus:border-brand focus:ring-brand sm:text-sm placeholder-gray-400"
       />
     </div>
@@ -126,6 +127,10 @@ defineProps({
     type: Boolean,
     required: false,
     default: false,
+  },
+  modelValue: {
+    type: String,
+    required: false,
   },
 })
 const inputValue = ref('')

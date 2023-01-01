@@ -371,24 +371,29 @@ const isItHourly = ref(false) as Ref<boolean>
 const tripData = ref<DirectionsResponse | null>(null)
 const calculatedDistance = ref<number>(0)
 
-const checkValues = () => {
-  console.log('Pickup Date:', pickupDate.value)
-  console.log('Pickup Time:', pickupTime.value)
-  console.log('Service Type:', selectedServiceType.value)
-  console.log('Vehicle Type:', selectedVehicleType.value)
-  console.log('Number of Hours:', selectedNumberOfHours.value)
-  console.log('Number of Passengers:', selectedPassengers.value)
-  console.log('First Name:', firstName.value)
-  console.log('Last Name:', lastName.value)
-  console.log('Email Address:', emailAddress.value)
-  console.log('Phone Number:', phoneNumber.value)
-  console.log('Is it a Round-trip?', isRoundTrip.value)
-  console.log('Is it hourly?', isItHourly.value)
-  console.log('Trip Data:', tripData.value)
-  console.log('Origin Data:', placeDataOrigin.value)
-  console.log('Destination Data:', placeDataDestination.value)
+const formValues = {
+  pickupDate: pickupDate.value,
+  pickupTime: pickupTime.value,
+  returnPickupDate: returnPickupDate.value,
+  returnPickupTime: returnPickupTime.value,
+  selectedServiceType: selectedServiceType.value,
+  selectedVehicleType: selectedVehicleType.value,
+  selectedNumberOfHours: selectedNumberOfHours.value,
+  selectedPassengers: selectedPassengers.value,
+  firstName: firstName.value,
+  lastName: lastName.value,
+  emailAddress: emailAddress.value,
+  phoneNumber: phoneNumber.value,
+  isRoundTrip: isRoundTrip.value,
+  isItHourly: isItHourly.value,
+  tripData: tripData.value,
+  placeDataOrigin: placeDataOrigin.value,
+  placeDataDestination: placeDataDestination.value,
 }
-
+const checkValues = () => {
+  console.log(formValues)
+  formSchema.safeParse(formValues)
+}
 const disabled = ref(true)
 watch(selectedServiceType, () => {
   if (selectedServiceType.value.value === 4) {
@@ -776,6 +781,8 @@ const submitForm = async () => {
   const formData = reactive<ValidationSchema>({
     pickupDate: pickupDate.value,
     pickupTime: pickupTime.value,
+    returnPickupDate: returnPickupDate.value,
+    returnPickupTime: returnPickupTime.value,
     selectedServiceType: selectedServiceType.value as {
       label: string
       value: number
@@ -910,19 +917,6 @@ const submitForm = async () => {
 
         <div class="col-span-1">
           <InputListbox
-            id="num_passengers"
-            v-model="selectedPassengers"
-            :options="passengerOptions"
-            label="Passengers:"
-            name="selectedPassengers"
-            placeholder="Select Number Of Passengers"
-            :classes="passengerClasses"
-          />
-        </div>
-      </div>
-      <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
-        <div class="col-span-1">
-          <InputListbox
             id="selectedVehicleType"
             v-model="selectedVehicleType"
             :options="vehicleTypeOptions"
@@ -930,6 +924,19 @@ const submitForm = async () => {
             name="selectedVehicleType"
             placeholder="Select Vehicle Type"
             :classes="vehicleTypeClasses"
+          />
+        </div>
+      </div>
+      <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+        <div class="col-span-1">
+          <InputListbox
+            id="num_passengers"
+            v-model="selectedPassengers"
+            :options="passengerOptions"
+            label="Passengers:"
+            name="selectedPassengers"
+            placeholder="Select Number Of Passengers"
+            :classes="passengerClasses"
           />
         </div>
 
@@ -983,7 +990,6 @@ const submitForm = async () => {
         </div>
         <div class="col-span-1">
           <VueTelInput
-            @input="onPhoneChange"
             v-model="phoneNumber"
             :dropdown-options="dropdownOptions"
             :input-options="inputOptions"
@@ -1009,6 +1015,7 @@ const submitForm = async () => {
         >
           <span class="self-center mx-auto">Get Prices & Availability</span>
         </button>
+        <button @click="checkValues">Check</button>
       </div>
     </form>
   </div>

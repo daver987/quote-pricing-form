@@ -3,6 +3,8 @@ import { z } from 'zod'
 export const formSchema = z.object({
   pickupDate: z.string(),
   pickupTime: z.string(),
+  returnPickupDate: z.string(),
+  returnPickupTime: z.string(),
   selectedServiceType: z.object({
     label: z.string(),
     value: z.number(),
