@@ -1096,6 +1096,11 @@
     "@unhead/schema" "1.0.13"
     hookable "^5.4.2"
 
+"@vee-validate/zod@^4.7.3":
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/@vee-validate/zod/-/zod-4.7.3.tgz#4b494bd8360bb8867900993bac01d269c94fdfbd"
+  integrity sha512-81yqHk9fbrZy+BaU6SEevEmJlABl6UCZ0Tv3/zY6T9wosubV7/uErf4Gw3Rpi2GFUpSQKYlD3dLSt1rzndrf+Q==
+
 "@vercel/nft@^0.22.5":
   version "0.22.6"
   resolved "https://registry.yarnpkg.com/@vercel/nft/-/nft-0.22.6.tgz#edb30d300bb809c0945ea4c7b87e56f634885541"
@@ -1198,7 +1203,7 @@
     "@vue/compiler-dom" "3.2.45"
     "@vue/shared" "3.2.45"
 
-"@vue/devtools-api@^6.4.5":
+"@vue/devtools-api@^6.1.4", "@vue/devtools-api@^6.4.5":
   version "6.4.5"
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.4.5.tgz#d54e844c1adbb1e677c81c665ecef1a2b4bb8380"
   integrity sha512-JD5fcdIuFxU4fQyXUu3w2KpAJHzTVdN+p4iOX2lMWSHMOoQdMAcpFLZzm9Z/2nmsoZ1a96QEhZ26e50xLBsgOQ==
@@ -3407,7 +3412,7 @@ lazystream@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
-libphonenumber-js@^1.10.12, libphonenumber-js@^1.10.13:
+libphonenumber-js@^1.10.12:
   version "1.10.15"
   resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.15.tgz#cad454adb5bf271bc820bbf7dd66776afcda7be6"
   integrity sha512-sLeVLmWX17VCKKulc+aDIRHS95TxoTsKMRJi5s5gJdwlqNzMWcBCtSHHruVyXjqfi67daXM2SnLf2juSrdx5Sg==
@@ -5664,6 +5669,13 @@ vary@^1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
+vee-validate@^4.7.3:
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-4.7.3.tgz#0200c2f1151d28d9fb6fdb6c59c01170146094be"
+  integrity sha512-1MwHLOzCrabSeChySZVVMamWStcucM1hHxapoebY9mJ7KWOvncMG19a7AlPl38zpE9pcD+G3CHKLvviGmTl5BQ==
+  dependencies:
+    "@vue/devtools-api" "^6.1.4"
+
 vite-node@0.26.2:
   version "0.26.2"
   resolved "https://registry.yarnpkg.com/vite-node/-/vite-node-0.26.2.tgz#2624236b9d68ea62c753572ee465fe4fa0657572"
@@ -5828,13 +5840,6 @@ vue-tel-input@^6.0.5:
   integrity sha512-7eTug2Yyo3bfLRlc//eSBu94YbXWB8PrBEe6/j48A0G51HUCUScZCJS0Kr4Sz5fV7jFtZ2jSCpGzb5fDZL7qYw==
   dependencies:
     libphonenumber-js "^1.10.12"
-
-vue3-reactive-tel-input@^1.0.6-0:
-  version "1.0.6-0"
-  resolved "https://registry.yarnpkg.com/vue3-reactive-tel-input/-/vue3-reactive-tel-input-1.0.6-0.tgz#12e2adefbfa560e877e9d105c4b68e6a0284c5c1"
-  integrity sha512-UoE2Qpxaiq4kPSZVJL/2kEmOAWuK6KxECc3QS3A1DGdkYbyC9yhhpotsR54W4y/xryc+N8a/ms8O81+bctAJrA==
-  dependencies:
-    libphonenumber-js "^1.10.13"
 
 vue@^2.0.0:
   version "2.7.14"

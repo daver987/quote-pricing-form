@@ -63,13 +63,14 @@
         />
       </div>
       <input
-        type="text"
         :aria-label="label"
         :name="name"
-        :id="id"
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        :id="name"
         :placeholder="placeholder"
+        :type="type"
+        @input="handleChange"
+        :value="inputValue"
+        type="text"
         class="block w-full rounded border-gray-300 pl-10 focus:border-brand focus:ring-brand sm:text-sm placeholder-gray-400"
       />
     </div>
@@ -89,52 +90,41 @@ import {
   TransitionRoot,
   Dialog,
 } from '@headlessui/vue'
-defineProps({
+import { useField } from 'vee-validate'
+
+const props = defineProps({
+  type: {
+    type: String,
+    default: 'text',
+  },
+  value: {
+    type: String,
+    default: '',
+  },
+  name: {
+    type: String,
+    required: true,
+  },
   label: {
     type: String,
     required: false,
   },
-  type: {
+  successMessage: {
     type: String,
-    required: false,
-  },
-  name: {
-    type: String,
-    required: false,
-  },
-  id: {
-    type: String,
-    required: false,
-  },
-  required: {
-    type: Boolean,
-    required: false,
-  },
-  autocomplete: {
-    type: String,
-    required: false,
+    default: '',
   },
   placeholder: {
     type: String,
-    required: false,
-  },
-  errorMessage: {
-    type: String,
-    required: false,
-    default: 'Required -*',
-  },
-  showError: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-  modelValue: {
-    type: String,
-    required: false,
+    default: '',
   },
 })
-const inputValue = ref('')
-const emit = defineEmits(['change'])
+const {
+  value: inputValue,
+  errorMessage,
+  handleChange,
+} = useField(props.name, undefined, {
+  initialValue: props.value,
+})
 const open = ref<boolean>(false)
 const selectedDate = ref('')
 const toggleCalendar = () => {

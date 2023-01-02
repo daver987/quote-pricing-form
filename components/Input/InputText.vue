@@ -8,11 +8,11 @@
     <input
       :aria-label="label"
       :name="name"
-      :id="id"
+      :id="name"
       :placeholder="placeholder"
       :type="type"
-      @update="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="handleChange"
+      :value="inputValue"
       class="block w-full border-0 p-0 text-gray-900 placeholder-gray-400 focus:ring-0 sm:text-sm pb-0.5 -mt-1"
     />
     <div v-if="showError" class="flex">
@@ -24,49 +24,39 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  label: {
-    type: String,
-    required: false,
-  },
+import { useField } from 'vee-validate'
+const props = defineProps({
   type: {
     type: String,
-    required: false,
+    default: 'text',
+  },
+  value: {
+    type: String,
+    default: '',
   },
   name: {
     type: String,
-    required: false,
+    required: true,
   },
-  id: {
+  label: {
     type: String,
-    required: false,
+    required: true,
   },
-  required: {
-    type: Boolean,
-    required: false,
-  },
-  autocomplete: {
+  successMessage: {
     type: String,
-    required: false,
+    default: '',
   },
   placeholder: {
     type: String,
-    required: false,
-  },
-  modelValue: {
-    type: String,
-    required: false,
-  },
-  errorMessage: {
-    type: String,
-    required: false,
-    default: 'Required -*',
-  },
-  showError: {
-    type: Boolean,
-    required: false,
-    default: false,
+    default: '',
   },
 })
-const emit = defineEmits(['change'])
+
+const {
+  value: inputValue,
+  errorMessage,
+  handleChange,
+} = useField(props.name, undefined, {
+  initialValue: props.value,
+})
 </script>

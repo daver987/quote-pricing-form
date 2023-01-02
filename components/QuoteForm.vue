@@ -3,12 +3,14 @@ import { DirectionsResponse } from '~/types/DirectionsResponse'
 import { Ref } from 'vue'
 import { formSchema, ValidationSchema } from '~/schema/quoteFormValues'
 import { useQuoteStore } from '~/stores/useQuoteStore'
-import { storeToRefs } from 'pinia'
+// import { storeToRefs } from 'pinia'
 import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
+import { toFormValidator } from '@vee-validate/zod'
 
 const quoteStore = useQuoteStore()
-const { quoteFormValues } = storeToRefs(quoteStore)
+// const { quoteFormValues } = storeToRefs(quoteStore)
+const validation = toFormValidator(formSchema)
 
 // import { UAParser } from 'ua-parser-js'
 
@@ -773,70 +775,80 @@ const onDestinationChange = async (evt: Place) => {
 //todo: add popup to show the terms and conditions
 
 const quoteForm = ref(null)
-const submitting = ref(false)
-const router = useRouter()
+// const submitting = ref(false)
+// const router = useRouter()
 
-const submitForm = async () => {
-  submitting.value = true
-  const formData = reactive<ValidationSchema>({
-    pickupDate: pickupDate.value,
-    pickupTime: pickupTime.value,
-    returnPickupDate: returnPickupDate.value,
-    returnPickupTime: returnPickupTime.value,
-    selectedServiceType: selectedServiceType.value as {
-      label: string
-      value: number
-      isDisabled: boolean
-    },
-    selectedVehicleType: selectedVehicleType.value as {
-      label: string
-      value: number
-      isDisabled: boolean
-    },
-    selectedNumberOfHours: selectedNumberOfHours.value as {
-      label: string
-      value: number
-      isDisabled: boolean
-    },
-    selectedPassengers: selectedPassengers.value as {
-      label: string
-      value: number
-      isDisabled: boolean
-    },
-    firstName: firstName.value,
-    lastName: lastName.value,
-    emailAddress: emailAddress.value,
-    phoneNumber: phoneNumber.value,
-    isRoundTrip: isRoundTrip.value,
-    isHourly: isItHourly.value,
-    tripData: tripData.value as unknown as DirectionsResponse,
-    originData: placeDataOrigin.value as unknown as Place,
-    destinationData: placeDataDestination.value as unknown as Place,
-    calculatedDistance: calculatedDistance.value,
-  })
-  console.log('form data is:', formData)
-  const form = formSchema.safeParse(formData)
-  if (!form.success) {
-    console.log('error', form.error)
-    return (submitting.value = false)
-  } else {
-    console.log('success', form.data)
-    quoteFormValues.value = form.data
-    console.log('quote form values are:', quoteFormValues.value)
-    const { data, error } = await useFetch('/api/submission', {
-      method: 'POST',
-      body: form.data,
-    })
-    setTimeout(() => {
-      router.push('/quoted')
-    }, 1500)
-    submitting.value = false
-    return {
-      data: data.value,
-      error: error.value,
-    }
+const submitForm = (evt: any) => {
+  try {
+    formSchema.parse(evt)
+    console.log('form is valid')
+  } catch (err) {
+    console.log(err)
+    return err
   }
 }
+
+// const submitForm = async () => {
+//   submitting.value = true
+//   const formData = reactive<ValidationSchema>({
+//     pickupDate: pickupDate.value,
+//     pickupTime: pickupTime.value,
+//     returnPickupDate: returnPickupDate.value,
+//     returnPickupTime: returnPickupTime.value,
+//     selectedServiceType: selectedServiceType.value as {
+//       label: string
+//       value: number
+//       isDisabled: boolean
+//     },
+//     selectedVehicleType: selectedVehicleType.value as {
+//       label: string
+//       value: number
+//       isDisabled: boolean
+//     },
+//     selectedNumberOfHours: selectedNumberOfHours.value as {
+//       label: string
+//       value: number
+//       isDisabled: boolean
+//     },
+//     selectedPassengers: selectedPassengers.value as {
+//       label: string
+//       value: number
+//       isDisabled: boolean
+//     },
+//     firstName: firstName.value,
+//     lastName: lastName.value,
+//     emailAddress: emailAddress.value,
+//     phoneNumber: phoneNumber.value,
+//     isRoundTrip: isRoundTrip.value,
+//     isHourly: isItHourly.value,
+//     tripData: tripData.value as unknown as DirectionsResponse,
+//     originData: placeDataOrigin.value as unknown as Place,
+//     destinationData: placeDataDestination.value as unknown as Place,
+//     calculatedDistance: calculatedDistance.value,
+//   })
+//   console.log('form data is:', formData)
+//   const form = formSchema.safeParse(formData)
+//   if (!form.success) {
+//     console.log('error', form.error)
+//     return (submitting.value = false)
+//   } else {
+//     console.log('success', form.data)
+//     quoteFormValues.value = form.data
+//     console.log('quote form values are:', quoteFormValues.value)
+//     const { data, error } = await useFetch('/api/submission', {
+//       method: 'POST',
+//       body: form.data,
+//     })
+//     setTimeout(() => {
+//       router.push('/quoted')
+//     }, 1500)
+//     submitting.value = false
+//     return {
+//       data: data.value,
+//       error: error.value,
+//     }
+//   }
+// }
 </script>
 
 <template>
@@ -904,52 +916,60 @@ const submitForm = async () => {
       </div>
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <div class="col-span-1">
-          <InputListbox
+          <!--          <InputListbox-->
+          <!--            id="service-type"-->
+          <!--            v-model="selectedServiceType"-->
+          <!--            :options="serviceTypeOptions"-->
+          <!--            label="Service Type:"-->
+          <!--            name="selectedServiceType"-->
+          <!--            placeholder="Select Service Type"-->
+          <!--            :classes="serviceTypeClasses"-->
+          <!--          />-->
+          <InputListbox2
+            key-prop="selectedServiceType"
             id="service-type"
             v-model="selectedServiceType"
             :options="serviceTypeOptions"
             label="Service Type:"
             name="selectedServiceType"
-            placeholder="Select Service Type"
             :classes="serviceTypeClasses"
           />
         </div>
 
         <div class="col-span-1">
-          <InputListbox
+          <InputListbox2
+            key-prop="selectedVehicleType"
             id="selectedVehicleType"
             v-model="selectedVehicleType"
             :options="vehicleTypeOptions"
             label="Vehicle Type"
             name="selectedVehicleType"
-            placeholder="Select Vehicle Type"
             :classes="vehicleTypeClasses"
           />
         </div>
       </div>
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <div class="col-span-1">
-          <InputListbox
+          <InputListbox2
+            key-prop="selectedPassengers"
             id="num_passengers"
             v-model="selectedPassengers"
             :options="passengerOptions"
-            label="Passengers:"
             name="selectedPassengers"
-            placeholder="Select Number Of Passengers"
+            label="Number of Passengers"
             :classes="passengerClasses"
           />
         </div>
 
         <div class="col-span-1">
-          <InputListbox
+          <InputListbox2
             id="num_hours"
+            key-prop="selectedPassengers"
             v-model="selectedNumberOfHours"
             :options="hoursRequiredOptions"
-            :placeholder="'Select Number Of Hours'"
-            label="Number Of Hours:"
             name="selectedNumberOfHours"
-            :default-value="selectedNumberOfHours"
             :is-disabled="disabled"
+            label="Number of Hours"
             :classes="hoursRequiredClasses"
           />
         </div>
