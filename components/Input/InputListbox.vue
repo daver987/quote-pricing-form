@@ -8,8 +8,6 @@ import {
   ListboxOptions,
 } from '@headlessui/vue'
 
-const selected = ref(props.options[0])
-
 const props = defineProps({
   value: {
     type: Object,
@@ -45,11 +43,6 @@ const props = defineProps({
     required: false,
     default: '',
   },
-  selected: {
-    type: Object,
-    required: false,
-    default: {},
-  },
   classes: {
     type: String,
     required: false,
@@ -61,7 +54,7 @@ const props = defineProps({
     default: true,
   },
 })
-const emit = defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue'])
 </script>
 
 <template>
@@ -125,7 +118,6 @@ const emit = defineEmits(['update:modelValue'])
                 ]"
                 >{{ option.label }}</span
               >
-
               <span
                 v-if="selected"
                 :class="[

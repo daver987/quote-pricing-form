@@ -6,15 +6,11 @@ import { useQuoteStore } from '~/stores/useQuoteStore'
 // import { storeToRefs } from 'pinia'
 import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
-import { useForm, Field } from 'vee-validate'
+import { useForm, useSubmitForm, Field, useField } from 'vee-validate'
 import { toFormValidator } from '@vee-validate/zod'
 
 const quoteStore = useQuoteStore()
 // const { quoteFormValues } = storeToRefs(quoteStore)
-const validationSchema = toFormValidator(formSchema)
-const { handleSubmit, errors } = useForm({
-  validationSchema,
-})
 
 // import { UAParser } from 'ua-parser-js'
 
@@ -356,7 +352,7 @@ interface SelectFormData {
   isDisabled?: boolean | undefined
 }
 
-const originLocation = ref<string>('')
+// const originLocation = ref<string>('')
 const destinationLocation = ref<string>('')
 const origin = ref<Place | null>(null)
 const destination = ref<Place | null>(null)
@@ -377,7 +373,7 @@ const isItHourly = ref(false) as Ref<boolean>
 const tripData = ref<DirectionsResponse | null>(null)
 const calculatedDistance = ref<number>(0)
 
-const formValues = {
+const formValues = reactive({
   pickupDate: pickupDate.value,
   pickupTime: pickupTime.value,
   returnPickupDate: returnPickupDate.value,
@@ -395,7 +391,8 @@ const formValues = {
   tripData: tripData.value,
   placeDataOrigin: placeDataOrigin.value,
   placeDataDestination: placeDataDestination.value,
-}
+  calculatedDistance: calculatedDistance.value,
+})
 const checkValues = () => {
   console.log(formValues)
   formSchema.safeParse(formValues)
@@ -503,17 +500,17 @@ watch(selectedVehicleType, () => {
         isDisabled: true,
       },
       {
-        label: '1 passenger',
+        label: '1 Passenger',
         value: 1,
         isDisabled: false,
       },
       {
-        label: '2 passengers',
+        label: '2 Passengers',
         value: 2,
         isDisabled: false,
       },
       {
-        label: '3 passengers',
+        label: '3 Passengers',
         value: 3,
         isDisabled: false,
       },
@@ -528,37 +525,37 @@ watch(selectedVehicleType, () => {
         isDisabled: true,
       },
       {
-        label: '1 passenger',
+        label: '1 Passenger',
         value: 1,
         isDisabled: false,
       },
       {
-        label: '2 passengers',
+        label: '2 Passengers',
         value: 2,
         isDisabled: false,
       },
       {
-        label: '3 passengers',
+        label: '3 Passengers',
         value: 3,
         isDisabled: false,
       },
       {
-        label: '4 passengers',
+        label: '4 Passengers',
         value: 4,
         isDisabled: false,
       },
       {
-        label: '5 passengers',
+        label: '5 Passengers',
         value: 5,
         isDisabled: false,
       },
       {
-        label: '6 passengers',
+        label: '6 Passengers',
         value: 6,
         isDisabled: false,
       },
       {
-        label: '7 passengers',
+        label: '7 Passengers',
         value: 7,
         isDisabled: false,
       },
@@ -573,32 +570,32 @@ watch(selectedVehicleType, () => {
         isDisabled: true,
       },
       {
-        label: '1 passenger',
+        label: '1 Passenger',
         value: 1,
         isDisabled: false,
       },
       {
-        label: '2 passengers',
+        label: '2 Passengers',
         value: 2,
         isDisabled: false,
       },
       {
-        label: '3 passengers',
+        label: '3 Passengers',
         value: 3,
         isDisabled: false,
       },
       {
-        label: '4 passengers',
+        label: '4 Passengers',
         value: 4,
         isDisabled: false,
       },
       {
-        label: '5 passengers',
+        label: '5 Passengers',
         value: 5,
         isDisabled: false,
       },
       {
-        label: '6 passengers',
+        label: '6 Passengers',
         value: 6,
         isDisabled: false,
       },
@@ -785,16 +782,13 @@ const onDestinationChange = async (evt: Place) => {
 const quoteForm = ref(null)
 // const submitting = ref(false)
 // const router = useRouter()
-
-const submitForm = (evt: any) => {
-  try {
-    formSchema.parse(evt)
-    console.log('form is valid')
-  } catch (err) {
-    console.log(err)
-    return err
-  }
-}
+const validationSchema = toFormValidator(formSchema)
+const { handleSubmit, errors } = useForm({
+  validationSchema,
+})
+const onSubmit = handleSubmit((formValues) => {
+  alert(JSON.stringify(formValues, null, 2))
+})
 
 // const submitForm = async () => {
 //   submitting.value = true
@@ -870,7 +864,7 @@ const submitForm = (evt: any) => {
       id="lead_form"
       ref="quoteForm"
       class="p-5 space-y-3"
-      @submit.prevent="handleSubmit"
+      @submit.prevent="onSubmit"
     >
       <div class="grid w-full grid-cols-1 gap-3">
         <InputPlacesAutocomplete
@@ -1062,13 +1056,47 @@ const submitForm = (evt: any) => {
             name="isRoundTrip"
           />
         </Field>
+        <Field
+          v-slot="{ field, errorMessage }"
+          v-model="placeDataOrigin"
+          name="placeDataOrigin"
+        >
+          <input type="hidden" v-bind="field" v-model="placeDataOrigin" />
+        </Field>
+        <Field
+          v-slot="{ field, errorMessage }"
+          v-model="placeDataDestination"
+          name="placeDataDestination"
+        >
+          <input type="hidden" v-bind="field" v-model="placeDataDestination" />
+        </Field>
+        <Field
+          v-slot="{ field, errorMessage }"
+          v-model="tripData"
+          name="tripData"
+        >
+          <input type="hidden" v-bind="field" v-model="tripData" />
+        </Field>
+        <Field
+          v-slot="{ field, errorMessage }"
+          v-model="calculatedDistance"
+          name="calculatedDistance"
+        >
+          <input type="hidden" v-bind="field" v-model="calculatedDistance" />
+        </Field>
+        <Field
+          v-slot="{ field, errorMessage }"
+          v-model="isItHourly"
+          name="isItHourly"
+        >
+          <input type="hidden" v-bind="field" v-model="isItHourly" />
+        </Field>
       </div>
       <div class="flex flex-row">
         <button
           id="submit_button"
           class="inline-flex w-full uppercase items-center rounded border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           type="submit"
-          @click="submitForm"
         >
           <span class="self-center mx-auto">Get Prices & Availability</span>
         </button>
