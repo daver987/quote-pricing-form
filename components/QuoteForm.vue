@@ -1048,13 +1048,23 @@ const onSubmit = handleSubmit((formValues) => {
           v-model="isRoundTrip"
           name="isRoundTrip"
         >
-          <InputCheckbox
-            v-bind="field"
-            id="round_trip"
-            v-model="isRoundTrip"
-            label="Round Trip"
-            name="isRoundTrip"
-          />
+          <div class="relative flex items-start">
+            <div class="flex h-5 items-center">
+              <input
+                aria-describedby="comments-description"
+                v-bind="field"
+                id="round_trip"
+                v-model="isRoundTrip"
+                type="checkbox"
+                class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
+              />
+            </div>
+            <div class="ml-3 text-sm">
+              <label for="comments" class="font-medium text-gray-100"
+                >Round Trip</label
+              >
+            </div>
+          </div>
         </Field>
         <Field
           v-slot="{ field, errorMessage }"

@@ -61,7 +61,7 @@ export const formSchema = z.object({
   lastName: z.string().min(1),
   emailAddress: z.string().email(),
   phoneNumber: z.string().min(7),
-  isRoundTrip: z.enum(['on', 'off']),
+  isRoundTrip: z.boolean(),
   isItHourly: z.boolean(),
   tripData: z.object({
     distanceValue: z.number(),
