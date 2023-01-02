@@ -1,82 +1,85 @@
 <template>
-  <TransitionRoot as="template" :show="open">
-    <Dialog as="div" class="relative z-10" @close="open = false">
-      <TransitionChild
-        as="template"
-        enter="ease-out duration-300"
-        enter-from="opacity-0"
-        enter-to="opacity-100"
-        leave="ease-in duration-200"
-        leave-from="opacity-100"
-        leave-to="opacity-0"
-      >
-        <div
-          class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-        />
-      </TransitionChild>
-
-      <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div
-          class="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0"
-        >
-          <TransitionChild
-            as="template"
-            enter="ease-out duration-300"
-            enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enter-to="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leave-from="opacity-100 translate-y-0 sm:scale-100"
-            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          >
-            <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-white pt-2 pb-8 shadow-xl transition-all sm:my-8 sm:w-full max-w-sm"
-            >
-              <div class="absolute bottom-0 right-0 hidden pt-4 pr-4 sm:block">
-                <button
-                  v-if="false"
-                  type="button"
-                  class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
-                  @click="open = false"
-                >
-                  <span class="sr-only">Close</span>
-                  <XMarkIcon class="h-6 w-6" aria-hidden="true" />
-                </button>
-              </div>
-              <Calendar class="mx-auto mt-4" @date="updateDate" />
-            </DialogPanel>
-          </TransitionChild>
-        </div>
-      </div>
-    </Dialog>
-  </TransitionRoot>
   <div>
-    <label :for="name" class="block text-xs font-medium text-gray-700">{{
-      label
-    }}</label>
-    <div class="relative mt-1 rounded shadow-sm">
-      <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-        <CalendarIcon
-          @click="toggleCalendar"
-          class="h-5 w-5 text-gray-400 cursor-pointer"
-          aria-hidden="true"
-          role="button"
+    <TransitionRoot as="template" :show="open">
+      <Dialog as="div" class="relative z-10" @close="open = false">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+          />
+        </TransitionChild>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+          <div
+            class="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0"
+          >
+            <TransitionChild
+              as="template"
+              enter="ease-out duration-300"
+              enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enter-to="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leave-from="opacity-100 translate-y-0 sm:scale-100"
+              leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <DialogPanel
+                class="relative transform overflow-hidden rounded-lg bg-white pt-2 pb-8 shadow-xl transition-all sm:my-8 sm:w-full max-w-sm"
+              >
+                <div
+                  class="absolute bottom-0 right-0 hidden pt-4 pr-4 sm:block"
+                >
+                  <button
+                    v-if="false"
+                    type="button"
+                    class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                    @click="open = false"
+                  >
+                    <span class="sr-only">Close</span>
+                    <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                  </button>
+                </div>
+                <Calendar class="mx-auto mt-4" @date="updateDate" />
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+    <div>
+      <label :for="name" class="block text-xs font-medium text-gray-700">{{
+        label
+      }}</label>
+      <div class="relative mt-1 rounded shadow-sm">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+          <CalendarIcon
+            @click="toggleCalendar"
+            class="h-5 w-5 text-gray-400 cursor-pointer"
+            aria-hidden="true"
+            role="button"
+          />
+        </div>
+        <input
+          :aria-label="name"
+          :name="name"
+          :id="name"
+          :placeholder="placeholder"
+          @input="handleChange"
+          :value="inputValue"
+          type="text"
+          class="block w-full rounded border-gray-300 pl-10 focus:border-brand focus:ring-brand sm:text-sm placeholder-gray-400"
         />
       </div>
-      <input
-        :aria-label="label"
-        :name="name"
-        :id="name"
-        :placeholder="placeholder"
-        :type="type"
-        @input="handleChange"
-        :value="inputValue"
-        type="text"
-        class="block w-full rounded border-gray-300 pl-10 focus:border-brand focus:ring-brand sm:text-sm placeholder-gray-400"
-      />
-    </div>
-    <div v-if="showError" class="flex">
-      <div class="block text-red-700 text-xs">
-        <div role="alert">{{ errorMessage }}</div>
+      <div v-if="showError" class="flex">
+        <div class="block text-red-700 text-xs">
+          <div role="alert">{{ errorMessage }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -92,11 +95,10 @@ import {
 } from '@headlessui/vue'
 import { useField } from 'vee-validate'
 
+const open = ref<boolean>(false)
+const selectedDate = ref('')
+
 const props = defineProps({
-  type: {
-    type: String,
-    default: 'text',
-  },
   value: {
     type: String,
     default: '',
@@ -118,6 +120,7 @@ const props = defineProps({
     default: '',
   },
 })
+
 const {
   value: inputValue,
   errorMessage,
@@ -125,8 +128,7 @@ const {
 } = useField(props.name, undefined, {
   initialValue: props.value,
 })
-const open = ref<boolean>(false)
-const selectedDate = ref('')
+
 const toggleCalendar = () => {
   open.value = !open.value
 }

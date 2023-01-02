@@ -6,11 +6,15 @@ import { useQuoteStore } from '~/stores/useQuoteStore'
 // import { storeToRefs } from 'pinia'
 import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
+import { useForm, Field } from 'vee-validate'
 import { toFormValidator } from '@vee-validate/zod'
 
 const quoteStore = useQuoteStore()
 // const { quoteFormValues } = storeToRefs(quoteStore)
-const validation = toFormValidator(formSchema)
+const validationSchema = toFormValidator(formSchema)
+const { handleSubmit, errors } = useForm({
+  validationSchema,
+})
 
 // import { UAParser } from 'ua-parser-js'
 
@@ -396,13 +400,13 @@ const checkValues = () => {
   console.log(formValues)
   formSchema.safeParse(formValues)
 }
-const disabled = ref(true)
+const disabled = ref<boolean>(true)
 watch(selectedServiceType, () => {
   if (selectedServiceType.value.value === 4) {
     isItHourly.value = true
     disabled.value = false
-    hoursRequiredClasses.value = 'text-gray-400'
-    hoursRequiredOptions.value = [
+    hoursRequiredClasses.value = <string>'text-gray-400'
+    hoursRequiredOptions.value = <SelectFormData[]>[
       {
         label: 'Select Hours',
         value: 0,
@@ -464,19 +468,23 @@ watch(selectedServiceType, () => {
         isDisabled: false,
       },
     ]
-    selectedNumberOfHours.value = hoursRequiredOptions.value[0]
+    selectedNumberOfHours.value = hoursRequiredOptions
+      .value[0] as SelectFormData
   } else {
     isItHourly.value = false
     disabled.value = true
-    hoursRequiredClasses.value = 'cursor-not-allowed opacity-50 text-gray-300'
-    hoursRequiredOptions.value = [
+    hoursRequiredClasses.value = <string>(
+      'cursor-not-allowed opacity-50 text-gray-300'
+    )
+    hoursRequiredOptions.value = <SelectFormData[]>[
       {
         label: 'For Hourly Service',
         value: 0,
         isDisabled: true,
       },
     ]
-    selectedNumberOfHours.value = hoursRequiredOptions.value[0]
+    selectedNumberOfHours.value = hoursRequiredOptions
+      .value[0] as SelectFormData
   }
   console.log(
     selectedServiceType.value.label as string,
@@ -488,7 +496,7 @@ watch(selectedServiceType, () => {
 
 watch(selectedVehicleType, () => {
   if (selectedVehicleType.value.value === 1 || 2) {
-    passengerOptions.value = [
+    passengerOptions.value = <SelectFormData[]>[
       {
         label: 'Select Passengers',
         value: 0,
@@ -510,10 +518,10 @@ watch(selectedVehicleType, () => {
         isDisabled: false,
       },
     ]
-    selectedPassengers.value = passengerOptions.value[0]
+    selectedPassengers.value = passengerOptions.value[0] as SelectFormData
   }
   if (selectedVehicleType.value.value === 3) {
-    passengerOptions.value = [
+    passengerOptions.value = <SelectFormData[]>[
       {
         label: 'Select Passengers',
         value: 0,
@@ -555,10 +563,10 @@ watch(selectedVehicleType, () => {
         isDisabled: false,
       },
     ]
-    selectedPassengers.value = passengerOptions.value[0]
+    selectedPassengers.value = passengerOptions.value[0] as SelectFormData
   }
   if (selectedVehicleType.value.value === 4) {
-    passengerOptions.value = [
+    passengerOptions.value = <SelectFormData[]>[
       {
         label: 'Select Passengers',
         value: 0,
@@ -595,38 +603,38 @@ watch(selectedVehicleType, () => {
         isDisabled: false,
       },
     ]
-    selectedPassengers.value = passengerOptions.value[0]
+    selectedPassengers.value = passengerOptions.value[0] as SelectFormData
   }
   console.log(
     selectedVehicleType.value.label as string,
-    selectedVehicleType.value.value
+    selectedVehicleType.value.value as number
   )
 })
 
 watch(selectedVehicleType, () => {
   if (selectedVehicleType.value.value === 0) {
-    vehicleTypeClasses.value = 'text-gray-400'
+    vehicleTypeClasses.value = 'text-gray-400' as string
   } else {
-    vehicleTypeClasses.value = 'text-gray-900'
+    vehicleTypeClasses.value = 'text-gray-900' as string
   }
 })
 watch(selectedPassengers, () => {
   if (selectedPassengers.value.value === 0) {
-    passengerClasses.value = 'text-gray-400'
+    passengerClasses.value = 'text-gray-400' as string
   } else {
-    passengerClasses.value = 'text-gray-900'
+    passengerClasses.value = 'text-gray-900' as string
   }
 })
 watch(selectedServiceType, () => {
   if (selectedServiceType.value.value === 0) {
-    serviceTypeClasses.value = 'text-gray-400'
+    serviceTypeClasses.value = 'text-gray-400' as string
   } else {
-    serviceTypeClasses.value = 'text-gray-900'
+    serviceTypeClasses.value = 'text-gray-900' as string
   }
 })
 watch(selectedNumberOfHours, () => {
   if (selectedNumberOfHours.value.value !== 0) {
-    hoursRequiredClasses.value = 'text-gray-900'
+    hoursRequiredClasses.value = 'text-gray-900' as string
   }
 })
 
@@ -862,7 +870,7 @@ const submitForm = (evt: any) => {
       id="lead_form"
       ref="quoteForm"
       class="p-5 space-y-3"
-      @submit.prevent="submitForm"
+      @submit.prevent="handleSubmit"
     >
       <div class="grid w-full grid-cols-1 gap-3">
         <InputPlacesAutocomplete
@@ -916,62 +924,77 @@ const submitForm = (evt: any) => {
       </div>
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <div class="col-span-1">
-          <!--          <InputListbox-->
-          <!--            id="service-type"-->
-          <!--            v-model="selectedServiceType"-->
-          <!--            :options="serviceTypeOptions"-->
-          <!--            label="Service Type:"-->
-          <!--            name="selectedServiceType"-->
-          <!--            placeholder="Select Service Type"-->
-          <!--            :classes="serviceTypeClasses"-->
-          <!--          />-->
-          <InputListbox2
-            key-prop="selectedServiceType"
-            id="service-type"
+          <Field
+            v-slot="{ field, errorMessage }"
             v-model="selectedServiceType"
-            :options="serviceTypeOptions"
-            label="Service Type:"
             name="selectedServiceType"
-            :classes="serviceTypeClasses"
-          />
+          >
+            <InputListbox
+              v-model="selectedServiceType"
+              :classes="serviceTypeClasses"
+              :options="serviceTypeOptions"
+              key-prop="selectedServiceType"
+              label-prop="name"
+              v-bind="field"
+            />
+            <span class="text-red-500">{{ errorMessage }}</span>
+          </Field>
         </div>
 
         <div class="col-span-1">
-          <InputListbox2
-            key-prop="selectedVehicleType"
-            id="selectedVehicleType"
+          <Field
+            v-slot="{ field, errorMessage }"
             v-model="selectedVehicleType"
-            :options="vehicleTypeOptions"
-            label="Vehicle Type"
             name="selectedVehicleType"
-            :classes="vehicleTypeClasses"
-          />
+          >
+            <InputListbox
+              v-model="selectedVehicleType"
+              :classes="vehicleTypeClasses"
+              :options="vehicleTypeOptions"
+              key-prop="selectedVehicleType"
+              label="Vehicle Type"
+              v-bind="field"
+            />
+            <span class="text-red-500">{{ errorMessage }}</span>
+          </Field>
         </div>
       </div>
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <div class="col-span-1">
-          <InputListbox2
-            key-prop="selectedPassengers"
-            id="num_passengers"
+          <Field
+            v-slot="{ field, errorMessage }"
             v-model="selectedPassengers"
-            :options="passengerOptions"
             name="selectedPassengers"
-            label="Number of Passengers"
-            :classes="passengerClasses"
-          />
+          >
+            <InputListbox
+              v-model="selectedPassengers"
+              :classes="passengerClasses"
+              :options="passengerOptions"
+              key-prop="selectedPassengers"
+              label="Number of Passengers"
+              v-bind="field"
+            />
+            <span class="text-red-500">{{ errorMessage }}</span>
+          </Field>
         </div>
 
         <div class="col-span-1">
-          <InputListbox2
-            id="num_hours"
-            key-prop="selectedPassengers"
+          <Field
+            v-slot="{ field, errorMessage }"
             v-model="selectedNumberOfHours"
-            :options="hoursRequiredOptions"
             name="selectedNumberOfHours"
-            :is-disabled="disabled"
-            label="Number of Hours"
-            :classes="hoursRequiredClasses"
-          />
+          >
+            <InputListbox
+              v-model="selectedNumberOfHours"
+              :classes="hoursRequiredClasses"
+              :is-disabled="disabled"
+              :options="hoursRequiredOptions"
+              key-prop="selectedNumberOfHours"
+              label="Number of Hours"
+              v-bind="field"
+            />
+            <span class="text-red-500">{{ errorMessage }}</span>
+          </Field>
         </div>
       </div>
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
@@ -1009,22 +1032,36 @@ const submitForm = (evt: any) => {
           />
         </div>
         <div class="col-span-1">
-          <VueTelInput
+          <Field
+            v-slot="{ field, errorMessage }"
             v-model="phoneNumber"
-            :dropdown-options="dropdownOptions"
-            :input-options="inputOptions"
-            style-classes="rounded border border-gray-300 pr-1 bg-white shadow-sm focus-within:border-brand-600 focus-within:ring-1 focus-within:ring-brand-600"
-            invalidMsg="Please enter a valid phone number"
-          ></VueTelInput>
+            name="phoneNumber"
+          >
+            <VueTelInput
+              v-bind="field"
+              v-model="phoneNumber"
+              :dropdown-options="dropdownOptions"
+              :input-options="inputOptions"
+              invalidMsg="Please enter a valid phone number"
+              style-classes="rounded border border-gray-300 pr-1 bg-white shadow-sm focus-within:border-brand-600 focus-within:ring-1 focus-within:ring-brand-600"
+            ></VueTelInput>
+          </Field>
         </div>
       </div>
       <div class="flex flex-row">
-        <InputCheckbox
-          id="round_trip"
+        <Field
+          v-slot="{ field, errorMessage }"
           v-model="isRoundTrip"
-          label="Round Trip"
           name="isRoundTrip"
-        />
+        >
+          <InputCheckbox
+            v-bind="field"
+            id="round_trip"
+            v-model="isRoundTrip"
+            label="Round Trip"
+            name="isRoundTrip"
+          />
+        </Field>
       </div>
       <div class="flex flex-row">
         <button
@@ -1035,7 +1072,6 @@ const submitForm = (evt: any) => {
         >
           <span class="self-center mx-auto">Get Prices & Availability</span>
         </button>
-        <button @click="checkValues">Check</button>
       </div>
     </form>
   </div>

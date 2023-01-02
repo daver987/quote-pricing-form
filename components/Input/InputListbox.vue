@@ -11,6 +11,10 @@ import {
 const selected = ref(props.options[0])
 
 const props = defineProps({
+  value: {
+    type: Object,
+    required: false,
+  },
   options: {
     type: Array,
     required: true,
@@ -37,7 +41,7 @@ const props = defineProps({
     default: false,
   },
   modelValue: {
-    type: String,
+    type: Object,
     required: false,
     default: '',
   },
@@ -63,10 +67,9 @@ const emit = defineEmits(['update:modelValue'])
 <template>
   <Listbox
     as="div"
-    :modelValue="modelValue"
+    :model-value="value || modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
     :name="name"
-    :defaultValue="selected"
-    @update:modelValue="(value) => emit('update:modelValue', value)"
     v-slot="{ disabled }"
     :disabled="isDisabled"
   >
@@ -98,10 +101,9 @@ const emit = defineEmits(['update:modelValue'])
           class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         >
           <ListboxOption
-            v-if="showCheckIcon"
             as="template"
             v-for="option in options"
-            :key="option.value"
+            :key="option.label"
             :value="option"
             :disabled="option.isDisabled"
             v-slot="{ active, selected, disabled }"
@@ -133,34 +135,6 @@ const emit = defineEmits(['update:modelValue'])
               >
                 <CheckIcon class="h-5 w-5" aria-hidden="true" />
               </span>
-            </li>
-          </ListboxOption>
-          <ListboxOption
-            v-else
-            as="template"
-            v-for="option in options"
-            :key="option.value"
-            :value="option"
-            :disabled="option.isDisabled"
-            v-slot="{ active, selected, disabled }"
-          >
-            <li
-              :class="[
-                active ? 'text-white bg-brand-600' : 'text-gray-900',
-                'relative cursor-default select-none py-2 pl-8 pr-4',
-              ]"
-            >
-              <span
-                :class="[
-                  selected ? 'font-semibold' : 'font-normal',
-                  'block truncate',
-                  active ? 'text-white' : 'text-gray-900',
-                  disabled
-                    ? 'cursor-not-allowed text-opacity-50'
-                    : 'text-gray-900',
-                ]"
-                >{{ option.label }}</span
-              >
             </li>
           </ListboxOption>
         </ListboxOptions>
