@@ -7,7 +7,7 @@ export const formSchema = z.object({
   returnPickupTime: z.string().optional(),
   selectedServiceType: z.object({
     label: z.enum([
-      'Point to Point',
+      'Point To Point',
       'From Airport',
       'To Airport',
       'Hourly / As Directed',
@@ -25,25 +25,28 @@ export const formSchema = z.object({
     value: z.number().int().gte(1).lte(4),
     isDisabled: z.boolean(),
   }),
-  selectedNumberOfHours: z.object({
-    label: z
-      .enum([
-        '2 hrs',
-        '3 hrs',
-        '4 hrs',
-        '5 hrs',
-        '6 hrs',
-        '7 hrs',
-        '8 hrs',
-        '9 hrs',
-        '10 hrs',
-        '11 hrs',
-        '12 hrs',
-      ])
-      .optional(),
-    value: z.number().int().gte(2).lte(12).optional(),
-    isDisabled: z.boolean().optional(),
-  }),
+  selectedNumberOfHours: z
+    .object({
+      label: z
+        .enum([
+          'For Hourly Service',
+          '2 hrs',
+          '3 hrs',
+          '4 hrs',
+          '5 hrs',
+          '6 hrs',
+          '7 hrs',
+          '8 hrs',
+          '9 hrs',
+          '10 hrs',
+          '11 hrs',
+          '12 hrs',
+        ])
+        .optional(),
+      value: z.number().int().gte(0).lte(12).optional(),
+      isDisabled: z.boolean().optional(),
+    })
+    .optional(),
   selectedPassengers: z.object({
     label: z.enum([
       '1 Passenger',

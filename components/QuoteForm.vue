@@ -6,7 +6,7 @@ import { useQuoteStore } from '~/stores/useQuoteStore'
 // import { storeToRefs } from 'pinia'
 import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
-import { useForm, useSubmitForm, Field, useField } from 'vee-validate'
+import { useForm, Field } from 'vee-validate'
 import { toFormValidator } from '@vee-validate/zod'
 
 const quoteStore = useQuoteStore()
@@ -72,7 +72,7 @@ const serviceTypeOptions = <SelectFormData[]>[
     isDisabled: true,
   },
   {
-    label: 'Point-to-Point',
+    label: 'Point To Point',
     value: 1,
     isDisabled: false,
   },
@@ -352,11 +352,9 @@ interface SelectFormData {
   isDisabled?: boolean | undefined
 }
 
-// const originLocation = ref<string>('')
-const destinationLocation = ref<string>('')
 const origin = ref<Place | null>(null)
-const destination = ref<Place | null>(null)
 const originPlaceId = ref<string>('')
+const destination = ref<Place | null>(null)
 const destinationPlaceId = ref<string>('')
 const pickupDate = ref<string>('')
 const pickupTime = ref<string>('')
@@ -393,10 +391,10 @@ const formValues = reactive({
   placeDataDestination: placeDataDestination.value,
   calculatedDistance: calculatedDistance.value,
 })
-const checkValues = () => {
-  console.log(formValues)
-  formSchema.safeParse(formValues)
-}
+// const checkValues = () => {
+//   console.log(formValues)
+//   formSchema.safeParse(formValues)
+// }
 const disabled = ref<boolean>(true)
 watch(selectedServiceType, () => {
   if (selectedServiceType.value.value === 4) {
@@ -490,7 +488,6 @@ watch(selectedServiceType, () => {
     isItHourly.value
   )
 })
-
 watch(selectedVehicleType, () => {
   if (selectedVehicleType.value.value === 1 || 2) {
     passengerOptions.value = <SelectFormData[]>[
@@ -607,7 +604,6 @@ watch(selectedVehicleType, () => {
     selectedVehicleType.value.value as number
   )
 })
-
 watch(selectedVehicleType, () => {
   if (selectedVehicleType.value.value === 0) {
     vehicleTypeClasses.value = 'text-gray-400' as string
@@ -773,7 +769,7 @@ const onDestinationChange = async (evt: Place) => {
   }
 }
 
-//todo: make the form reset without it having all of the inputs with errors
+//todo: make the form reset without it having all the inputs with errors
 //todo: add logic to check if the user picked an airport, if true add extra to the cost
 //todo: add waypoints to the route for the quote
 //todo: add popup to show images of the vehicles
@@ -786,8 +782,16 @@ const validationSchema = toFormValidator(formSchema)
 const { handleSubmit, errors } = useForm({
   validationSchema,
 })
+
 const onSubmit = handleSubmit((formValues) => {
+  console.log('form values are:', formValues)
   alert(JSON.stringify(formValues, null, 2))
+  const { data } = useFetch('/api/submission', {
+    method: 'POST',
+    body: formValues,
+  })
+  console.log('data is:', data.value)
+  return data.value
 })
 
 // const submitForm = async () => {
@@ -864,7 +868,7 @@ const onSubmit = handleSubmit((formValues) => {
       id="lead_form"
       ref="quoteForm"
       class="p-5 space-y-3"
-      @submit.prevent="onSubmit"
+      @submit="onSubmit"
     >
       <div class="grid w-full grid-cols-1 gap-3">
         <InputPlacesAutocomplete
@@ -1103,8 +1107,8 @@ const onSubmit = handleSubmit((formValues) => {
       <div class="flex flex-row">
         <button
           id="submit_button"
-          class="inline-flex w-full uppercase items-center rounded border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           type="submit"
+          class="inline-flex w-full uppercase items-center rounded border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
           <span class="self-center mx-auto">Get Prices & Availability</span>
         </button>

@@ -36,11 +36,12 @@
     "stripe": "^11.5.0",
     "twilio": "^3.84.0",
     "vee-validate": "^4.7.3",
-    "vitest": "^0.26.2",
+    "vitest": "^0.26.3",
     "vue-tel-input": "^6.0.5",
     "zod": "^3.20.2"
   },
   "dependencies": {
+    "@prisma/client": "4.8.0",
     "jquery": "^3.6.3"
   }
 }

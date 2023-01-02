@@ -6,27 +6,65 @@ import {
   getRateFromId,
   getBaseRate,
   getSurchargeAmounts,
-  round,
 } from '~/composables/useRateCalculator'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<ValidationSchema>(event)
   const {
+    calculatedDistance,
     firstName,
     lastName,
     emailAddress,
     phoneNumber,
     selectedVehicleType,
-    isHourly,
+    isItHourly,
+    isRoundTrip,
+    pickupDate,
+    pickupTime,
+    placeDataDestination,
+    placeDataOrigin,
     selectedServiceType,
     selectedNumberOfHours,
     tripData,
     selectedPassengers,
   } = body
-  const { distanceValue } = tripData
-  const { value: hours } = selectedNumberOfHours
-  const rate = getRateFromId(selectedVehicleType.value, rates)
-  const baseRate = getBaseRate(isHourly, hours, distanceValue, rate as Rates)
+  const {
+    distanceText,
+    distanceValue,
+    durationText,
+    durationValue,
+    endLat,
+    endLng,
+    startLat,
+    startLng,
+  } = tripData
+  const {
+    formatted_address: originFormattedAddress,
+    name: originName,
+    place_id: originPlaceId,
+  } = placeDataOrigin
+  const {
+    formatted_address: destinationFormattedAddress,
+    name: destinationName,
+    place_id: destinationPlaceId,
+  } = placeDataDestination
+  const { value: hoursValue, label: hoursLabel } = selectedNumberOfHours || {
+    value: 0,
+    label: '0 hrs',
+  }
+  const { value: passengersValue, label: passengersLabel } =
+    selectedPassengers || { value: 0, label: '1 Passenger' }
+  const { value: vehicleTypeValue, label: vehicleTypeLabel } =
+    selectedVehicleType || { value: 0, label: 'Standard' + ' Sedan' }
+  const { value: serviceTypeValue, label: serviceTypeLabel } =
+    selectedServiceType || { value: 0, label: 'Point To Point' }
+  const rate = getRateFromId(serviceTypeValue, rates)
+  const baseRate = getBaseRate(
+    isItHourly,
+    hoursValue as number,
+    distanceValue,
+    rate as Rates
+  )
   const computedSurcharges = getSurchargeAmounts(
     baseRate,
     surcharges as unknown as Surcharges
@@ -45,10 +83,34 @@ export default defineEventHandler(async (event) => {
     gratuity,
     HST,
     baseRate,
-    isHourly,
-    hours,
+    isItHourly,
+    hoursValue,
     distanceValue,
+    distanceText,
     selectedServiceType,
     selectedPassengers,
+    calculatedDistance,
+    durationText,
+    durationValue,
+    endLat,
+    endLng,
+    startLat,
+    startLng,
+    originFormattedAddress,
+    originName,
+    originPlaceId,
+    destinationFormattedAddress,
+    destinationName,
+    destinationPlaceId,
+    pickupDate,
+    pickupTime,
+    vehicleTypeLabel,
+    vehicleTypeValue,
+    serviceTypeLabel,
+    serviceTypeValue,
+    passengersLabel,
+    passengersValue,
+    hoursLabel,
+    isRoundTrip,
   }
 })
