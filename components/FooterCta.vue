@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container relative z-10 mx-auto -mb-28 flex max-w-7xl flex-col px-8 py-10 shadow-xl bg-background-light space-y-4 lg:space-y-0 lg:-mb-12 lg:flex-row lg:justify-between"
+    class="container relative z-10 flex flex-col px-8 py-10 mx-auto space-y-4 shadow-xl -mb-28 max-w-7xl bg-background-light lg:space-y-0 lg:-mb-12 lg:flex-row lg:justify-between"
   >
     <div class="lg:self-center">
       <h2 class="text-center heading lg:text-4xl">

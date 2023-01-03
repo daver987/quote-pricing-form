@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col h-full space-y-4 mb-8 items-center md:m-0">
+  <div class="flex flex-col items-center h-full mb-8 space-y-4 md:m-0">
     <slot></slot>
     <h4
-      class="font-semibold text-gray-500 text-base text-center tracking-widest uppercase"
+      class="text-base font-semibold tracking-widest text-center text-gray-500 uppercase"
     >
       {{ kind }}
     </h4>
-    <p class="font-heading text-gray-700 text-5xl">
+    <p class="text-5xl text-gray-700 font-heading">
       {{ amount }}
     </p>
   </div>

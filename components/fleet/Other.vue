@@ -4,14 +4,14 @@
 
 <template>
   <div>
-    <section class="my-32 w-full">
+    <section class="w-full my-32">
       <div
-        class="container mx-auto flex flex-col-reverse mb-8 max-w-7xl md:grid md:grid-cols-10"
+        class="container flex flex-col-reverse mx-auto mb-8 max-w-7xl md:grid md:grid-cols-10"
       >
         <div class="w-full md:col-span-6">
-          <BaseCard class="space-y-6 w-full">
+          <BaseCard class="w-full space-y-6">
             <h3 class="subheading">About The Vehicle</h3>
-            <h2 class="text-center text-3xl heading md:text-left">
+            <h2 class="text-3xl text-center heading md:text-left">
               Executive Passenger Van
             </h2>
             <p class="max-w-[50ch]">
@@ -34,21 +34,21 @@
       </div>
       <Luggage :peopleAmount="12" :luggageAmount="12" />
     </section>
-    <section class="mb-16 md:mb-32 w-full">
+    <section class="w-full mb-16 md:mb-32">
       <div class="flex flex-col md:grid md:grid-cols-10">
         <div class="w-full md:col-span-4 md:relative">
           <NuxtImg
             src="/images/suburban.png"
             alt="GMC Yukon XL"
-            class="object-cover object-center w-full md:w-5xl w-2xl md:right-0 md:bottom-[55%] md:-bottom-12 md:left-0"
+            class="object-cover object-center w-full md:w-5xl w-2xl md:right-0 md:bottom-[55%] md:left-0"
             width="1079"
             height="570"
           />
         </div>
         <div class="mb-8 md:col-span-6">
-          <BaseCard class="container space-y-6 mb-8 col-span-6 md:pl-56">
+          <BaseCard class="container col-span-6 mb-8 space-y-6 md:pl-56">
             <h2 class="subheading">ABOUT THE VEHICLE</h2>
-            <h2 class="text-center text-3xl heading md:text-left">
+            <h2 class="text-3xl text-center heading md:text-left">
               Chevy Suburban
             </h2>
             <p class="text-body max-w-[50ch] text-sm">
@@ -64,12 +64,12 @@
         </div>
       </div>
     </section>
-    <section class="mb-16 md:mb-24 w-full">
+    <section class="w-full mb-16 md:mb-24">
       <div class="flex flex-col-reverse md:grid md:grid-cols-10">
         <div class="mb-8 md:col-span-6">
           <BaseCard class="container space-y-6 md:col-span-6">
             <h2 class="subheading">ABOUT THE VEHICLE</h2>
-            <h3 class="text-center text-3xl heading md:text-left">YUKON XL</h3>
+            <h3 class="text-3xl text-center heading md:text-left">YUKON XL</h3>
             <p class="max-w-[55ch]">
               The GMC Yukon XL is a full-size SUV that seats up to eight people
               comfortably. This vehicle can be used for airport transportation,

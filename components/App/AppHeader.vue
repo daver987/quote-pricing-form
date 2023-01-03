@@ -31,25 +31,25 @@ defineProps({
 
 <template>
   <header
-    class="relative overflow-hidden min-h-screen"
+    class="relative min-h-screen overflow-hidden"
     style="background-image: url('/icons/gradient-background.svg')"
   >
     <AppNavigation />
     <BaseContainer
-      class="relative grid grid-cols-1 md:grid-cols-2 h-full mt-20"
+      class="relative grid h-full grid-cols-1 mt-20 md:grid-cols-2"
     >
       <div
         :style="image"
-        class="relative bg-black md:col-span-2 py-32 md:px-10 bg-opacity-60 bg-cover bg-center bg-no-repeat bg-blend-darken"
+        class="relative py-32 bg-black bg-center bg-no-repeat bg-cover md:col-span-2 md:px-10 bg-opacity-60 bg-blend-darken"
       >
         <div class="space-y-4 text-center md:text-left">
           <p
-            class="text-center font-subheading text-sm tracking-widest text-brand md:text-left"
+            class="text-sm tracking-widest text-center font-subheading text-brand md:text-left"
           >
             {{ aboveHeading }}
           </p>
           <h1
-            class="text-center capitalize leading-tight text-white font-heading md:text-left"
+            class="leading-tight text-center text-white capitalize font-heading md:text-left"
           >
             {{ heading }}
           </h1>
@@ -61,7 +61,7 @@ defineProps({
           >
             <a
               :href="`tel:${companyPhone}`"
-              class="text-center text-sm font-body text-gray-300"
+              class="text-sm text-center text-gray-300 font-body"
               ><span class="text-brand">CALL :</span> {{ companyPhone }}</a
             >
           </div>
@@ -70,7 +70,7 @@ defineProps({
           >
             <a
               :href="`mailto:${companyEmail}`"
-              class="text-center text-sm uppercase tracking-wide font-body text-gray-300"
+              class="text-sm tracking-wide text-center text-gray-300 uppercase font-body"
               ><span class="text-brand">EMAIL :</span>
               {{ companyEmail }}
             </a>

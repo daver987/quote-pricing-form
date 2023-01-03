@@ -7,14 +7,6 @@ useHead({
 })
 definePageMeta({
   layout: 'default',
-  // pageTransition: {
-  //   appear: true,
-  //   enterFromClass: 'opacity-0',
-  //   enterActiveClass: 'duration-[500ms]',
-  //   leaveToClass: 'opacity-0',
-  //   leaveActiveClass: 'duration-[500ms]',
-  //   mode: 'out-in',
-  // },
 })
 const headerInfo = {
   aboveHeading: 'Discover Our Luxury Vehicles',
@@ -94,10 +86,10 @@ const tabs = [
       @change="changeTab"
       as="div"
       :defaultIndex="0"
-      class="container mx-auto pt-6 px-6 md:-mt-20 md:px-0"
+      class="container px-6 pt-6 mx-auto md:-mt-20 md:px-0"
     >
       <TabList
-        class="mx-auto mb-12 grid z-10 gap-1 grid-cols-2 relative md:grid-cols-3 lg:grid-cols-6"
+        class="relative z-10 grid grid-cols-2 gap-1 mx-auto mb-12 md:grid-cols-3 lg:grid-cols-6"
       >
         <Tab
           v-slot="{ selected }"
@@ -110,13 +102,13 @@ const tabs = [
             :id="tab.id"
             :data-vehicle="tab.tag"
             :class="[
-              selected ? 'bg-primary text-white' : 'bg-white text-gray-500',
-            ]"
-            class="flex flex-col space-y-4 w-full py-16 col-span-1 items-center justify-center hover:bg-primary hover:text-white border-white"
+  selected ? 'bg-primary text-white' : 'bg-white text-gray-500',
+]"
+            class="flex flex-col items-center justify-center w-full col-span-1 py-16 space-y-4 border-white hover:bg-primary hover:text-white"
           >
             <NuxtImg :src="`/icons/${tab.icon}.svg`" alt="icon" class="w-16" />
             <span
-              class="text-sm text-center tracking-widest uppercase hover:text-white"
+              class="text-sm tracking-widest text-center uppercase hover:text-white"
               :class="[selected ? 'bg-primary text-white' : 'text-gray-500']"
             >
               {{ tab.title }}

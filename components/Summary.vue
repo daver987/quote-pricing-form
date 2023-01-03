@@ -67,7 +67,7 @@ const space = ' '
 </script>
 
 <template>
-  <Container class="mx-auto px-4 sm:px-6 lg:px-8">
+  <Container class="px-4 mx-auto sm:px-6 lg:px-8">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-xl font-semibold text-gray-900">Order Summary</h1>
@@ -83,26 +83,26 @@ const space = ' '
           ><br />
           Pick up Date:
           <time class="font-normal" :datetime="pickupDate">{{
-            pickupDate
-          }}</time>
+    pickupDate
+}}</time>
           <br />
           Pick up Time:
           <time class="font-normal" :datetime="pickupTime">{{
-            pickupTime
-          }}</time>
+    pickupTime
+}}</time>
         </p>
       </div>
       <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
         <button
           @click="printSummary"
           type="button"
-          class="inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium uppercase tracking-wider text-white shadow-sm bg-primary hover:bg-primary focus:ring-primary focus:outline-none focus:ring-2 focus:ring-offset-2 sm:w-auto"
+          class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium tracking-wider text-white uppercase border border-transparent rounded-md shadow-sm bg-primary hover:bg-primary focus:ring-primary focus:outline-none focus:ring-2 focus:ring-offset-2 sm:w-auto"
         >
           Print
         </button>
       </div>
     </div>
-    <div class="-mx-4 mt-8 flex flex-col sm:-mx-6 md:mx-0">
+    <div class="flex flex-col mt-8 -mx-4 sm:-mx-6 md:mx-0">
       <table class="min-w-full divide-y divide-gray-300">
         <thead>
           <tr>
@@ -136,7 +136,7 @@ const space = ' '
         </thead>
         <tbody>
           <tr class="border-b border-gray-200">
-            <td class="py-4 pr-3 pl-4 text-sm sm:pl-6 md:pl-0">
+            <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
               <div class="mt-0.5 text-gray-500 sm:hidden">
                 <span class="font-bold text-gray-900">Routing </span>
               </div>
@@ -155,23 +155,23 @@ const space = ' '
               </div>
             </td>
             <td
-              class="hidden px-3 py-4 text-right text-sm text-gray-500 sm:table-cell"
+              class="hidden px-3 py-4 text-sm text-right text-gray-500 sm:table-cell"
             >
               {{ service }}
             </td>
             <td
-              class="hidden px-3 py-4 text-right text-sm text-gray-500 sm:table-cell"
+              class="hidden px-3 py-4 text-sm text-right text-gray-500 sm:table-cell"
             >
               {{ vehicle }}
             </td>
             <td
-              class="py-4 pr-4 pl-3 text-right text-sm text-gray-500 sm:pr-6 md:pr-0"
+              class="py-4 pl-3 pr-4 text-sm text-right text-gray-500 sm:pr-6 md:pr-0"
             >
               ${{ subtotalWithoutTax }}
             </td>
           </tr>
           <tr v-if="isRoundTrip === 'Yes'" class="border-b border-gray-200">
-            <td class="py-4 pr-3 pl-4 text-sm sm:pl-6 md:pl-0">
+            <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
               <div class="mt-0.5 text-gray-500 sm:hidden">
                 <span class="font-bold text-gray-900">Routing </span>
               </div>
@@ -191,17 +191,17 @@ const space = ' '
               </div>
             </td>
             <td
-              class="hidden px-3 py-4 text-right text-sm text-gray-500 sm:table-cell"
+              class="hidden px-3 py-4 text-sm text-right text-gray-500 sm:table-cell"
             >
               {{ service }}
             </td>
             <td
-              class="hidden px-3 py-4 text-right text-sm text-gray-500 sm:table-cell"
+              class="hidden px-3 py-4 text-sm text-right text-gray-500 sm:table-cell"
             >
               {{ vehicle }}
             </td>
             <td
-              class="py-4 pr-4 pl-3 text-right text-sm text-gray-500 sm:pr-6 md:pr-0"
+              class="py-4 pl-3 pr-4 text-sm text-right text-gray-500 sm:pr-6 md:pr-0"
             >
               ${{ subtotalWithoutTax }}
             </td>
@@ -212,18 +212,18 @@ const space = ' '
             <th
               scope="row"
               colspan="3"
-              class="hidden pt-6 pr-3 pl-6 text-right text-sm font-normal text-gray-500 sm:table-cell md:pl-0"
+              class="hidden pt-6 pl-6 pr-3 text-sm font-normal text-right text-gray-500 sm:table-cell md:pl-0"
             >
               Subtotal
             </th>
             <th
               scope="row"
-              class="pt-6 pr-3 pl-4 text-left text-sm font-normal text-gray-500 sm:hidden"
+              class="pt-6 pl-4 pr-3 text-sm font-normal text-left text-gray-500 sm:hidden"
             >
               Subtotal
             </th>
             <td
-              class="pt-6 pr-4 pl-3 text-right text-sm text-gray-500 sm:pr-6 md:pr-0"
+              class="pt-6 pl-3 pr-4 text-sm text-right text-gray-500 sm:pr-6 md:pr-0"
             >
               ${{ roundTripSubtotalWithoutTax }}
             </td>
@@ -232,18 +232,18 @@ const space = ' '
             <th
               scope="row"
               colspan="3"
-              class="hidden pt-4 pr-3 pl-6 text-right text-sm font-normal text-gray-500 sm:table-cell md:pl-0"
+              class="hidden pt-4 pl-6 pr-3 text-sm font-normal text-right text-gray-500 sm:table-cell md:pl-0"
             >
               HST
             </th>
             <th
               scope="row"
-              class="pt-4 pr-3 pl-4 text-left text-sm font-normal text-gray-500 sm:hidden"
+              class="pt-4 pl-4 pr-3 text-sm font-normal text-left text-gray-500 sm:hidden"
             >
               HST
             </th>
             <td
-              class="pt-4 pr-4 pl-3 text-right text-sm text-gray-500 sm:pr-6 md:pr-0"
+              class="pt-4 pl-3 pr-4 text-sm text-right text-gray-500 sm:pr-6 md:pr-0"
             >
               ${{ tax }}
             </td>
@@ -252,18 +252,18 @@ const space = ' '
             <th
               scope="row"
               colspan="3"
-              class="hidden pt-4 pr-3 pl-6 text-right text-sm font-semibold text-gray-900 sm:table-cell md:pl-0"
+              class="hidden pt-4 pl-6 pr-3 text-sm font-semibold text-right text-gray-900 sm:table-cell md:pl-0"
             >
               Total
             </th>
             <th
               scope="row"
-              class="pt-3 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:hidden"
+              class="pt-3 pl-4 pr-3 text-sm font-semibold text-left text-gray-900 sm:hidden"
             >
               Total
             </th>
             <td
-              class="pt-3 pr-4 pl-3 text-right text-sm font-semibold text-gray-900 sm:pr-6 md:pr-0"
+              class="pt-3 pl-3 pr-4 text-sm font-semibold text-right text-gray-900 sm:pr-6 md:pr-0"
             >
               ${{ totalAmount }}
             </td>
@@ -271,13 +271,13 @@ const space = ' '
         </tfoot>
       </table>
       <table class="mt-4">
-        <tr class="border-t border-gray-200 pb-4">
+        <tr class="pb-4 border-t border-gray-200">
           <td class="py-2">
             <Container>
               <div
-                class="mt-4 mb-6 flex flex-col items-start med:justify-between gap-4 md:flex-row"
+                class="flex flex-col items-start gap-4 mt-4 mb-6 med:justify-between md:flex-row"
               >
-                <div class="mb-2 flex flex-col">
+                <div class="flex flex-col mb-2">
                   <p class="text-base font-bold text-black">
                     We require a credit card to hold your reservation
                   </p>

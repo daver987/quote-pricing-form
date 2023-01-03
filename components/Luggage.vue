@@ -1,6 +1,6 @@
 <template>
-  <BaseCard class="w-full md:max-w-2xl flex justify-center">
-    <div class="w-full flex flex-col md:flex-row justify-around max-w-xl">
+  <BaseCard class="flex justify-center w-full md:max-w-2xl">
+    <div class="flex flex-col justify-around w-full max-w-xl md:flex-row">
       <ItemCount :kind="people" :amount="peopleAmount">
         <Icon name="bi:people" class="w-16 h-auto text-gray-400" />
       </ItemCount>
@@ -10,7 +10,7 @@
           class="w-16 h-auto text-gray-400"
         />
       </ItemCount>
-      <div class="flex flex-col h-full justify-center items-center">
+      <div class="flex flex-col items-center justify-center h-full">
         <BaseButton
           kind="btn-brand"
           label="Reserve"

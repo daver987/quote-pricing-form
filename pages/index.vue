@@ -8,7 +8,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
 <template>
   <div>
     <div
-      class="relative overflow-hidden min-h-screen"
+      class="relative min-h-screen overflow-hidden"
       style="background-image: url('/icons/gradient-background.svg')"
     >
       <AppNavigation />
@@ -21,7 +21,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
               >
                 <div class="flex flex-col align-center lg:align-start">
                   <h1
-                    class="text-center text-white capitalize sm:text-4xl text-3xl md:text-5xl font-heading md:text-left mb-2"
+                    class="mb-2 text-3xl text-center text-white capitalize sm:text-4xl md:text-5xl font-heading md:text-left"
                   >
                     Experience Toronto's Finest Car Service
                   </h1>
@@ -31,11 +31,11 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
                   <NuxtImg
                     alt="Lincoln Continental"
                     src="/images/lincoln-continental-1.png"
-                    class="object-cover object-center max-w-sm md:max-w-lg self-center md:self-start mt-8"
+                    class="self-center object-cover object-center max-w-sm mt-8 md:max-w-lg md:self-start"
                   />
                 </div>
               </div>
-              <div class="mt-16 sm:mt-24 lg:col-span-6 lg:mt-0 px-3">
+              <div class="px-3 mt-16 sm:mt-24 lg:col-span-6 lg:mt-0">
                 <QuoteForm />
               </div>
             </div>
@@ -58,7 +58,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
       </BaseContainer>
     </BaseSection>
     <BaseSection
-      class="bg-center bg-no-repeat bg-fit pt-10"
+      class="pt-10 bg-center bg-no-repeat bg-fit"
       :style="fleetImage"
     >
       <BaseContainer
@@ -68,7 +68,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
           <p class="text-center subheading lg:text-left">
             The Many Types of Comfort We offer
           </p>
-          <h2 class="text-center heading text-white capitalize lg:text-left">
+          <h2 class="text-center text-white capitalize heading lg:text-left">
             Our Fleet
           </h2>
         </div>
@@ -82,13 +82,13 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         </div>
       </BaseContainer>
     </BaseSection>
-    <BaseSection class="pt-0 px-4 sm:px-6 lg:px-8">
+    <BaseSection class="px-4 pt-0 sm:px-6 lg:px-8">
       <BaseContainer
-        class="bg-white shadow-xl grid grid-cols-6 md:grid-cols-12 gap-6 -mt-6"
+        class="grid grid-cols-6 gap-6 -mt-6 bg-white shadow-xl md:grid-cols-12"
       >
         <div class="col-span-6 p-6 md:col-span-7">
-          <p class="font-body text-sm text-body text-gray-400">
-            <span class="font-bold font-body text-sm text-brand uppercase"
+          <p class="text-sm text-gray-400 font-body">
+            <span class="text-sm font-bold uppercase font-body text-brand"
               >High Park Livery</span
             >
             <span class="text-gray-400">
@@ -106,7 +106,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
             </span>
           </p>
 
-          <p class="font-body text-sm text-brand font-semibold mt-2">
+          <p class="mt-2 text-sm font-semibold font-body text-brand">
             Special requests are available for Specialty 6+ person vehicles that
             can take larger tour groups. Contact us to learn about the various
             options available from our limo service.
@@ -119,7 +119,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
     </BaseSection>
     <BaseSection>
       <BaseContainer
-        class="flex flex-col mx-auto mb-8 max-w-4xl md:flex-none md:mb-4 md:grid md:grid-cols-2 md:grid-rows-1 md:items-stretch lg:max-w-7xl"
+        class="flex flex-col max-w-4xl mx-auto mb-8 md:flex-none md:mb-4 md:grid md:grid-cols-2 md:grid-rows-1 md:items-stretch lg:max-w-7xl"
       >
         <IconBlockFleet
           heading="Cadillac XTS"
@@ -132,7 +132,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         />
       </BaseContainer>
       <BaseContainer
-        class="flex flex-col mx-auto max-w-4xl gap-x-2 items-stretch md:flex-none md:grid md:grid-cols-2 lg:max-w-7xl"
+        class="flex flex-col items-stretch max-w-4xl mx-auto gap-x-2 md:flex-none md:grid md:grid-cols-2 lg:max-w-7xl"
       >
         <IconBlockFleet
           class="order-2 mb-8 w-full md:mb-4 md:max-w-[80%] md:col-span-1 md:col-start-1 md:row-start-2 md:justify-self-end"
@@ -165,10 +165,10 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         quality="80"
       />
     </BaseSection>
-    <BaseSection class="pt-0 px-4 sm:px-6 lg:px-8">
-      <BaseContainer class="bg-white pb-16 pt-32 -mt-16">
+    <BaseSection class="px-4 pt-0 sm:px-6 lg:px-8">
+      <BaseContainer class="pt-32 pb-16 -mt-16 bg-white">
         <p class="text-center subheading">WHAT High Park Livery OFFERS YOU</p>
-        <h2 class="text-center heading mt-4">We Offer</h2>
+        <h2 class="mt-4 text-center heading">We Offer</h2>
       </BaseContainer>
       <BaseContainer
         class="bg-white shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-4 @container -mt-8"

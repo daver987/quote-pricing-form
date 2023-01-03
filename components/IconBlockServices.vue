@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-white overflow-hidden">
-    <div class="py-5 px-4 sm:p-6">
+  <div class="overflow-hidden bg-white">
+    <div class="px-4 py-5 sm:p-6">
       <div class="sm:flex">
         <div class="flex-shrink-0 mb-4 sm:mr-4 sm:mb-0">
           <NuxtImg
@@ -12,7 +12,7 @@
         </div>
         <div>
           <h3
-            class="subheading text-base text-primary tracking-widest uppercase"
+            class="text-base tracking-widest uppercase subheading text-primary"
           >
             {{ title }}
           </h3>
