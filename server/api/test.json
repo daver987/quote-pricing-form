@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "data": {
+    "pickupDate": "19-01-2023",
+    "pickupTime": "12:55 PM",
+    "returnPickupDate": "00-00-0000",
+    "returnPickupTime": "00:00",
+    "selectedServiceType": {
+      "label": "To Airport",
+      "value": 2
+    },
+    "selectedVehicleType": {
+      "label": "Premium Sedan",
+      "value": 2
+    },
+    "selectedNumberOfHours": {
+      "label": "For Hourly Service",
+      "value": 0
+    },
+    "selectedPassengers": {
+      "label": "2 Passengers",
+      "value": 2
+    },
+    "firstName": "David",
+    "lastName": "Robertson",
+    "emailAddress": "oplholds@hotmail.com",
+    "phoneNumber": "+1 289 400 9408",
+    "isRoundTrip": true,
+    "isItHourly": false,
+    "tripData": {
+      "distanceValue": 35879,
+      "distanceText": "35.9 km",
+      "durationValue": 1482,
+      "durationText": "25 mins",
+      "startLat": 43.6858094,
+      "startLng": -79.6041328,
+      "endLat": 43.4599963,
+      "endLng": -79.7023802
+    },
+    "placeDataOrigin": {
+      "formatted_address": "6301 Silver Dart Dr, Mississauga, ON L5P 1B2, Canada",
+      "name": "Toronto Pearson International Airport",
+      "place_id": "ChIJkdQtwEo5K4gRxQ4DxOldHbQ"
+    },
+    "placeDataDestination": {
+      "formatted_address": "1265 Sixth Line, Oakville, ON L6H 1X2, Canada",
+      "name": "1265 Sixth Line",
+      "place_id": "ChIJL2VACCJdK4gRNSEzAPRTYs4"
+    },
+    "calculatedDistance": 35.879
+  }
+}

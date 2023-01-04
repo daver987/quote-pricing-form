@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "firstName" TEXT,
@@ -13,11 +13,12 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Quote" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "pickupDate" TEXT,
-    "pickupTime" TEXT,
+    "quoteNumber" SERIAL NOT NULL,
+    "pickupDate" TEXT NOT NULL,
+    "pickupTime" TEXT NOT NULL,
     "isRoundTrip" BOOLEAN NOT NULL DEFAULT false,
     "returnPickupDate" TEXT,
     "returnPickupTime" TEXT,
@@ -35,21 +36,21 @@ CREATE TABLE "Quote" (
     "vehicleTypeValue" INTEGER NOT NULL,
     "serviceTypeLabel" TEXT NOT NULL,
     "serviceTypeValue" INTEGER NOT NULL,
-    "passengersLabel" TEXT,
-    "passengersValue" INTEGER,
+    "passengersLabel" TEXT NOT NULL,
+    "passengersValue" INTEGER NOT NULL,
     "isItHourly" BOOLEAN NOT NULL DEFAULT false,
     "hoursLabel" TEXT,
     "hoursValue" DOUBLE PRECISION,
     "distanceText" TEXT,
-    "distanceValue" DOUBLE PRECISION,
+    "distanceValue" DOUBLE PRECISION NOT NULL,
     "durationText" TEXT,
-    "durationValue" DOUBLE PRECISION,
-    "calculatedDistance" DOUBLE PRECISION,
+    "durationValue" DOUBLE PRECISION NOT NULL,
+    "calculatedDistance" DOUBLE PRECISION NOT NULL,
     "baseRate" DOUBLE PRECISION,
     "fuelSurcharge" DOUBLE PRECISION,
     "gratuity" DOUBLE PRECISION,
     "HST" DOUBLE PRECISION,
-    "userId" INTEGER NOT NULL,
+    "userId" TEXT,
 
     CONSTRAINT "Quote_pkey" PRIMARY KEY ("id")
 );
@@ -58,10 +59,10 @@ CREATE TABLE "Quote" (
 CREATE UNIQUE INDEX "User_emailAddress_key" ON "User"("emailAddress");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Quote_id_key" ON "Quote"("id");
+CREATE UNIQUE INDEX "Quote_quoteNumber_key" ON "Quote"("quoteNumber");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Quote_userId_key" ON "Quote"("userId");
 
 -- AddForeignKey
-ALTER TABLE "Quote" ADD CONSTRAINT "Quote_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Quote" ADD CONSTRAINT "Quote_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

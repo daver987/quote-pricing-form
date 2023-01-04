@@ -6,59 +6,58 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(uuid())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   firstName    String?
   lastName     String?
   emailAddress String   @unique
   phoneNumber  String?
-  quotes       Quote[]
+
+  @@index([emailAddress], name: "emailAddress")
 }
 
 model Quote {
-  id                          Int      @id @unique @default(autoincrement())
+  id                          String   @id @default(uuid())
   createdAt                   DateTime @default(now())
   updatedAt                   DateTime @updatedAt
-  pickupDate                  String?  @db.VarChar(20)
-  pickupTime                  String?  @db.VarChar(20)
+  quoteNumber                 Int      @unique @default(autoincrement())
+  pickupDate                  String
+  pickupTime                  String
   isRoundTrip                 Boolean  @default(false)
-  returnPickupDate            String?  @db.VarChar(20)
-  returnPickupTime            String?  @db.VarChar(20)
-  originFormattedAddress      String   @db.VarChar(200)
-  originName                  String   @db.VarChar(200)
-  originPlaceId               String   @db.VarChar(200)
+  returnPickupDate            String?
+  returnPickupTime            String?
+  originFormattedAddress      String
+  originName                  String
+  originPlaceId               String
   startLat                    Float
   startLng                    Float
-  destinationFormattedAddress String   @db.VarChar(200)
-  destinationName             String   @db.VarChar(200)
-  destinationPlaceId          String   @db.VarChar(200)
+  destinationFormattedAddress String
+  destinationName             String
+  destinationPlaceId          String
   endLat                      Float
   endLng                      Float
-  vehicleTypeLabel            String   @db.VarChar(200)
+  vehicleTypeLabel            String
   vehicleTypeValue            Int
-  serviceTypeLabel            String   @db.VarChar(200)
+  serviceTypeLabel            String
   serviceTypeValue            Int
-  passengersLabel             String?  @db.VarChar(200)
-  passengersValue             Int?
+  passengersLabel             String
+  passengersValue             Int
   isItHourly                  Boolean  @default(false)
-  hoursLabel                  String?  @db.VarChar(200)
+  hoursLabel                  String?
   hoursValue                  Float?
-  distanceText                String?  @db.VarChar(200)
-  distanceValue               Float?
-  durationText                String?  @db.VarChar(200)
-  durationValue               Float?
-  calculatedDistance          Float?
+  distanceText                String?
+  distanceValue               Float
+  durationText                String?
+  durationValue               Float
+  calculatedDistance          Float
   baseRate                    Float?
   fuelSurcharge               Float?
   gratuity                    Float?
   HST                         Float?
-  User                        User?    @relation(fields: [userId], references: [id])
-  userId                      Int?
 }

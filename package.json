@@ -39,7 +39,8 @@
     "vee-validate": "^4.7.3",
     "vitest": "^0.26.3",
     "vue-tel-input": "^6.0.5",
-    "zod": "^3.20.2"
+    "zod": "^3.20.2",
+    "zod-prisma": "^0.5.4"
   },
   "dependencies": {
     "@prisma/client": "4.8.0",

@@ -784,14 +784,15 @@ const { handleSubmit, errors } = useForm({
 })
 
 const onSubmit = handleSubmit((formValues) => {
-  console.log('form values are:', formValues)
-  alert(JSON.stringify(formValues, null, 2))
+  const values = formSchema.safeParse(formValues)
+  console.log('form values are:', values)
+  alert(JSON.stringify(values, null, 2))
   const { data } = useFetch('/api/submission', {
     method: 'POST',
-    body: formValues,
+    body: values,
   })
-  console.log('data is:', data.value)
-  return data.value
+  console.log('data is:', data)
+  return data
 })
 
 // const submitForm = async () => {
