@@ -101,10 +101,9 @@ const userNavigation = [
             >
               <span class="sr-only">View notifications</span>
               <Icon
-                name="ri:logout-circle-r-line"
+                name="heroicons:bell-alert-20-solid"
                 class="h-6 w-6"
                 aria-hidden="true"
-                @click="signOutUser"
               />
             </button>
 
@@ -206,7 +205,7 @@ const userNavigation = [
             >
               <span class="sr-only">View notifications</span>
               <Icon
-                name="ri:logout-circle-r-line"
+                name="heroicons:bell-alert-20-solid"
                 class="h-6 w-6"
                 aria-hidden="true"
               />
