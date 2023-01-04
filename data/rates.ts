@@ -43,12 +43,10 @@ const rates = [
   },
 ] as Rates[]
 
-const surcharges = [
-  {
-    fuelSurcharge: 0.08,
-    gratuity: 0.2,
-    HST: 0.13,
-  },
-] as Surcharges[]
+const surcharges = {
+  fuelSurcharge: 0.08,
+  gratuity: 0.2,
+  HST: 0.13,
+} as Surcharges
 
 export { rates, surcharges }

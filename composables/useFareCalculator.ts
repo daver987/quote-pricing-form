@@ -35,4 +35,4 @@ function useFareCalculator(baseAmount: number, roundTrip: boolean) {
   }
 }
 
-export default useFareCalculator
+export { useFareCalculator }

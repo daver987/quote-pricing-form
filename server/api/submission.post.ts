@@ -80,7 +80,7 @@ export default defineEventHandler(async (event) => {
       isItHourly,
       // @ts-ignore
       selectedNumberOfHours.value,
-      distanceValue / 1000,
+      calculatedDistance,
       rate as Rates
     )
 
@@ -88,8 +88,9 @@ export default defineEventHandler(async (event) => {
       baseRate,
       surcharges as unknown as Surcharges
     )
-
     const { fuelSurcharge, gratuity, HST } = computedSurcharges
+
+    const totalFare = baseRate + fuelSurcharge + gratuity + HST
 
     const addUser = async () => {
       const { data, error } = await supabase
@@ -149,6 +150,7 @@ export default defineEventHandler(async (event) => {
           gratuity,
           HST,
           userEmail: emailAddress,
+          totalFare,
         })
         .select()
       console.log('This is the returned quote data', data)
