@@ -1,6 +1,7 @@
 <script setup>
 definePageMeta({
   layout: 'adminlayout',
+  middleware: ['auth'],
 })
 const people = [
   {

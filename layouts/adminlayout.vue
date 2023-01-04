@@ -8,7 +8,25 @@ import {
   MenuItem,
   MenuItems,
 } from '@headlessui/vue'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+const supabase = useSupabaseClient()
+const router = useRouter()
+const appUser = useSupabaseUser()
+
+const loading = ref(false)
+
+async function signOutUser() {
+  try {
+    loading.value = true
+    let { error } = await supabase.auth.signOut()
+    if (error) throw error
+  } catch (error) {
+    alert(error.message)
+  } finally {
+    appUser.value = null
+    loading.value = false
+  }
+}
 
 const user = {
   name: 'Robert',
@@ -18,14 +36,19 @@ const user = {
 }
 const navigation = [
   { name: 'Quotes', href: '/admin/quotes', current: true },
-  { name: 'Users', href: '/admin/users', current: false },
+  { name: 'Accounts', href: '/admin/users', current: false },
   { name: 'Orders', href: '/admin/orders', current: false },
-  { name: 'Calendar', href: '#', current: false },
 ]
+
+const profile = () => {
+  router.push('/admin/profile')
+}
+const settings = () => {
+  router.push('/admin/settings')
+}
 const userNavigation = [
-  { name: 'Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { id: 0, name: 'Profile', href: '/admin/profile', onClick: profile },
+  { id: 1, name: 'Settings', href: '/admin/settings', onClick: settings },
 ]
 </script>
 
@@ -73,7 +96,12 @@ const userNavigation = [
               class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
             >
               <span class="sr-only">View notifications</span>
-              <BellIcon class="h-6 w-6" aria-hidden="true" />
+              <Icon
+                name="ri:logout-circle-r-line"
+                class="h-6 w-6"
+                aria-hidden="true"
+                @click="signOutUser"
+              />
             </button>
 
             <!-- Profile dropdown -->
@@ -106,14 +134,15 @@ const userNavigation = [
                     :key="item.name"
                     v-slot="{ active }"
                   >
-                    <a
-                      :href="item.href"
+                    <NuxtLink
+                      :to="item.href"
                       :class="[
                         active ? 'bg-gray-100' : '',
                         'block px-4 py-2 text-sm text-gray-700',
                       ]"
-                      >{{ item.name }}</a
                     >
+                      {{ item.name }}
+                    </NuxtLink>
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -141,8 +170,8 @@ const userNavigation = [
           <DisclosureButton
             v-for="item in navigation"
             :key="item.name"
-            as="a"
-            :href="item.href"
+            as="NuxtLink"
+            :to="item.href"
             :class="[
               item.current
                 ? 'bg-brand-100 border-brand text-brand-700'
@@ -171,16 +200,19 @@ const userNavigation = [
               class="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
             >
               <span class="sr-only">View notifications</span>
-              <BellIcon class="h-6 w-6" aria-hidden="true" />
+              <Icon
+                name="ri:logout-circle-r-line"
+                class="h-6 w-6"
+                aria-hidden="true"
+              />
             </button>
           </div>
           <div class="mt-3 space-y-1">
             <DisclosureButton
               v-for="item in userNavigation"
-              :key="item.name"
-              as="a"
-              :href="item.href"
+              :key="item.id"
               class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+              @click="item.onClick"
             >
               {{ item.name }}
             </DisclosureButton>
