@@ -941,15 +941,15 @@ const onSubmit = handleSubmit((formValues) => {
         <div class="col-span-1">
           <Field
             v-slot="{ field, errorMessage }"
-            v-model="selectedPassengers"
-            name="selectedPassengers"
+            v-model="selectedVehicleType"
+            name="selectedVehicleType"
           >
             <InputListbox
-              v-model="selectedPassengers"
-              :classes="passengerClasses"
-              :options="passengerOptions"
-              key-prop="selectedPassengers"
-              label="Number of Passengers"
+              v-model="selectedVehicleType"
+              :classes="vehicleTypeClasses"
+              :options="vehicleTypeOptions"
+              key-prop="selectedVehicleType"
+              label="Vehicle Type"
               v-bind="field"
             />
             <span class="text-red-500">{{ errorMessage }}</span>
@@ -960,15 +960,15 @@ const onSubmit = handleSubmit((formValues) => {
         <div class="col-span-1">
           <Field
             v-slot="{ field, errorMessage }"
-            v-model="selectedVehicleType"
-            name="selectedVehicleType"
+            v-model="selectedPassengers"
+            name="selectedPassengers"
           >
             <InputListbox
-              v-model="selectedVehicleType"
-              :classes="vehicleTypeClasses"
-              :options="vehicleTypeOptions"
-              key-prop="selectedVehicleType"
-              label="Vehicle Type"
+              v-model="selectedPassengers"
+              :classes="passengerClasses"
+              :options="passengerOptions"
+              key-prop="selectedPassengers"
+              label="Number of Passengers"
               v-bind="field"
             />
             <span class="text-red-500">{{ errorMessage }}</span>
