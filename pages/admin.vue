@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-  <main class="max-w-8xl mx-auto">
+  <main>
     <NuxtPage />
   </main>
 </template>

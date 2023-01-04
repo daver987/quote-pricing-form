@@ -27,7 +27,7 @@ const createSession = async () => {
 <template>
   <BaseSection class="py-8 w-full">
     <BaseContainer>
-      <Navigation @clicked:booked="createSession" />
+      <AppNavigation @clicked:booked="createSession" />
       <Summary
         class="bg-white pt-4"
         :quoteNumber="route.quotenumber"

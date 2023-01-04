@@ -12,7 +12,7 @@ useHead({
 
 <template>
   <section class="min-h-screen bg-primary">
-    <Navigation />
+    <AppNavigation />
     <div class="p-6 text-center">
       <p class="text-3xl font-bold mb-4">
         Forgot to add something? Shop around then come back to pay!

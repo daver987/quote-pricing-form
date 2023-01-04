@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 const colorMode = useColorMode()
 const color = colorMode.value
-console.log(color)
 </script>
 
 <template>
@@ -130,7 +129,3 @@ console.log(color)
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

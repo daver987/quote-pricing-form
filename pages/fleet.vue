@@ -102,8 +102,8 @@ const tabs = [
             :id="tab.id"
             :data-vehicle="tab.tag"
             :class="[
-  selected ? 'bg-primary text-white' : 'bg-white text-gray-500',
-]"
+              selected ? 'bg-primary text-white' : 'bg-white text-gray-500',
+            ]"
             class="flex flex-col items-center justify-center w-full col-span-1 py-16 space-y-4 border-white hover:bg-primary hover:text-white"
           >
             <NuxtImg :src="`/icons/${tab.icon}.svg`" alt="icon" class="w-16" />
@@ -136,7 +136,7 @@ const tabs = [
 
 <style scoped>
 .exact-active-class {
-  background-color: #bb880f;
+  background-color: #ac8053;
 }
 
 /* we will explain what these classes do next! */

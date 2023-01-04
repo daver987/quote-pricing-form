@@ -22,18 +22,6 @@ definePageMeta({
   //   mode: 'out-in',
   // },
 })
-
-// const formClasses = {
-//   outer: 'mb-2',
-//   label: 'block text-sm font-body text-body sm:mt-px sm:pt-2',
-//   inner: 'max-w-lg flex rounded-md shadow-sm',
-//   input:
-//     'flex-1 block w-full focus:ring-primary focus:border focus:border-primary min-w-0 rounded-none sm:text-sm border border-body p-2',
-//   help: 'text-body',
-//   message: 'text-red-600',
-// }
-// const phoneNumber = ref('')
-// const results = ref('')
 </script>
 
 <template>
@@ -51,7 +39,6 @@ definePageMeta({
           id="contact_form_outer"
         >
           <h3 class="mb-4 subheading">Tell Us Something</h3>
-          <ContactForm />
         </div>
       </div>
     </section>

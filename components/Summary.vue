@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useFareCalculator from '@/composables/useFareCalculator'
+import { useFareCalculator } from '@/composables/useFareCalculator'
 const props = defineProps({
   quoteNumber: {
     default: '450',
@@ -67,7 +67,7 @@ const space = ' '
 </script>
 
 <template>
-  <Container class="px-4 mx-auto sm:px-6 lg:px-8">
+  <BaseContainer>
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-xl font-semibold text-gray-900">Order Summary</h1>
@@ -83,13 +83,13 @@ const space = ' '
           ><br />
           Pick up Date:
           <time class="font-normal" :datetime="pickupDate">{{
-    pickupDate
-}}</time>
+            pickupDate
+          }}</time>
           <br />
           Pick up Time:
           <time class="font-normal" :datetime="pickupTime">{{
-    pickupTime
-}}</time>
+            pickupTime
+          }}</time>
         </p>
       </div>
       <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -273,7 +273,7 @@ const space = ' '
       <table class="mt-4">
         <tr class="pb-4 border-t border-gray-200">
           <td class="py-2">
-            <Container>
+            <BaseContainer>
               <div
                 class="flex flex-col items-start gap-4 mt-4 mb-6 med:justify-between md:flex-row"
               >
@@ -300,10 +300,10 @@ const space = ' '
                   </p>
                 </div>
               </div>
-            </Container>
+            </BaseContainer>
           </td>
         </tr>
       </table>
     </div>
-  </Container>
+  </BaseContainer>
 </template>

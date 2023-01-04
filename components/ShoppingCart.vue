@@ -1,11 +1,4 @@
 <script setup lang="ts">
-import {
-  CheckIcon,
-  ClockIcon,
-  QuestionMarkCircleIcon,
-  XMarkIcon as XMarkIconMini,
-} from '@heroicons/vue/20/solid'
-
 const products = [
   {
     id: 1,
@@ -176,7 +169,11 @@ const currentDate = getCurrentDate()
                         class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
                       >
                         <span class="sr-only">Remove</span>
-                        <XMarkIconMini class="h-5 w-5" aria-hidden="true" />
+                        <Icon
+                          name="heroicons:x-mark-20-solid"
+                          class="h-5 w-5"
+                          aria-hidden="true"
+                        />
                       </button>
                     </div>
                   </div>
@@ -185,12 +182,14 @@ const currentDate = getCurrentDate()
                 <p
                   class="mt-4 flex space-x-2 text-sm text-gray-700 dark:text-gray-200"
                 >
-                  <CheckIcon
+                  <Icon
+                    name="heroicons:check-20-solid"
                     v-if="product.isRoundTrip"
                     class="h-5 w-5 flex-shrink-0 text-green-500"
                     aria-hidden="true"
                   />
-                  <ClockIcon
+                  <Icon
+                    name="heroicons:clock-20-solid"
                     v-else
                     class="h-5 w-5 flex-shrink-0 text-gray-300"
                     aria-hidden="true"
@@ -239,7 +238,11 @@ const currentDate = getCurrentDate()
                   <span class="sr-only"
                     >Learn more about how shipping is calculated</span
                   >
-                  <QuestionMarkCircleIcon class="h-5 w-5" aria-hidden="true" />
+                  <Icon
+                    name="heroicons:question-mark-circle-20-solid"
+                    class="h-5 w-5"
+                    aria-hidden="true"
+                  />
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
@@ -260,7 +263,11 @@ const currentDate = getCurrentDate()
                   <span class="sr-only"
                     >Learn more about how shipping is calculated</span
                   >
-                  <QuestionMarkCircleIcon class="h-5 w-5" aria-hidden="true" />
+                  <Icon
+                    name="heroicons:question-mark-circle-20-solid"
+                    class="h-5 w-5"
+                    aria-hidden="true"
+                  />
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
@@ -279,7 +286,11 @@ const currentDate = getCurrentDate()
                   <span class="sr-only"
                     >Learn more about how tax is calculated</span
                   >
-                  <QuestionMarkCircleIcon class="h-5 w-5" aria-hidden="true" />
+                  <Icon
+                    name="heroicons:question-mark-circle-20-solid"
+                    class="h-5 w-5"
+                    aria-hidden="true"
+                  />
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">

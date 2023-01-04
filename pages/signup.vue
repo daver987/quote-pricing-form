@@ -10,7 +10,7 @@ definePageMeta({ layout: 'auth' })
       <SignupForm />
     </div>
     <div class="relative hidden w-0 flex-1 lg:block">
-      <img
+      <NuxtImg
         class="absolute inset-0 h-full w-full object-cover"
         src="/images/toronto-6.jpeg"
         alt=""
