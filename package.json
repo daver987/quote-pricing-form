@@ -27,23 +27,19 @@
     "@types/ip": "^1.1.0",
     "@types/vue-tel-input": "^2.1.2",
     "@vee-validate/zod": "^4.7.3",
-    "@vueuse/math": "^9.9.0",
-    "@vueuse/nuxt": "^9.9.0",
+    "@vueuse/math": "^9.10.0",
+    "@vueuse/nuxt": "^9.10.0",
     "ip": "^1.1.8",
     "nuxt": "npm:nuxt3@latest",
     "nuxt-icon": "^0.1.8",
     "prettier": "^2.8.1",
-    "prisma": "^4.8.0",
     "stripe": "^11.5.0",
     "twilio": "^3.84.0",
     "vee-validate": "^4.7.3",
     "vitest": "^0.26.3",
     "vue-tel-input": "^6.0.5",
-    "zod": "^3.20.2",
-    "zod-prisma": "^0.5.4"
+    "zod": "^3.20.2"
   },
   "dependencies": {
-    "@prisma/client": "4.8.0",
-    "jquery": "^3.6.3"
   }
 }
