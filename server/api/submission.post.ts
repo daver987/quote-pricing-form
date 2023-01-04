@@ -151,6 +151,8 @@ export default defineEventHandler(async (event) => {
           HST,
           userEmail: emailAddress,
           totalFare,
+          firstName,
+          lastName,
         })
         .select()
       console.log('This is the returned quote data', data)
