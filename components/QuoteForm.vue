@@ -3,7 +3,6 @@ import { DirectionsResponse } from '~/types/DirectionsResponse'
 import { Ref } from 'vue'
 import { formSchema, ValidationSchema } from '~/schema/quoteFormValues'
 import { useQuoteStore } from '~/stores/useQuoteStore'
-// import { storeToRefs } from 'pinia'
 import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
 import { useForm, Field } from 'vee-validate'
@@ -391,10 +390,7 @@ const formValues = reactive({
   placeDataDestination: placeDataDestination.value,
   calculatedDistance: calculatedDistance.value,
 })
-// const checkValues = () => {
-//   console.log(formValues)
-//   formSchema.safeParse(formValues)
-// }
+
 const disabled = ref<boolean>(true)
 watch(selectedServiceType, () => {
   if (selectedServiceType.value.value === 4) {
@@ -769,29 +765,31 @@ const onDestinationChange = async (evt: Place) => {
   }
 }
 
-//todo: make the form reset without it having all the inputs with errors
 //todo: add logic to check if the user picked an airport, if true add extra to the cost
 //todo: add waypoints to the route for the quote
 //todo: add popup to show images of the vehicles
 //todo: add popup to show the terms and conditions
 
 const quoteForm = ref(null)
-// const submitting = ref(false)
-// const router = useRouter()
 const validationSchema = toFormValidator(formSchema)
 const { handleSubmit, errors } = useForm({
   validationSchema,
 })
+const showNotification = ref<boolean>(false)
+const loading = ref<boolean>(false)
 
-const onSubmit = handleSubmit((formValues) => {
+const onSubmit = handleSubmit(async (formValues) => {
+  loading.value = true
   const values = formSchema.safeParse(formValues)
-  console.log('form values are:', values)
-  alert(JSON.stringify(values, null, 2))
-  const { data } = useFetch('/api/submission', {
+  const { data } = await useFetch('/api/submission', {
     method: 'POST',
     body: values,
   })
   console.log('data is:', data)
+  setTimeout(() => {
+    loading.value = false
+    showNotification.value = true
+  }, 1500)
   return data
 })
 
@@ -1111,9 +1109,16 @@ const onSubmit = handleSubmit((formValues) => {
           type="submit"
           class="inline-flex w-full uppercase items-center rounded border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
-          <span class="self-center mx-auto">Get Prices & Availability</span>
+          <span class="self-center mx-auto">{{
+            loading ? 'Processing.....' : 'Get Prices & Availability'
+          }}</span>
         </button>
       </div>
     </form>
+    <Notification
+      :show="showNotification"
+      message1="Your Quote Has been submitted"
+      message2="Check Your Email for more Information"
+    />
   </div>
 </template>
