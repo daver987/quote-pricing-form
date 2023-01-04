@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-  <main>
+  <main class="overscroll-none">
     <NuxtPage />
   </main>
 </template>

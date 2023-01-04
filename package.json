@@ -40,6 +40,5 @@
     "vue-tel-input": "^6.0.5",
     "zod": "^3.20.2"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

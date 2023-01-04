@@ -14,23 +14,14 @@ quoteData.value = quotes.value
 console.log('Quote Data: ', quoteData.value)
 console.log('Quotes: ', quotes.value)
 
-const people = [
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  // More people...
-]
-
-const selectedPeople = ref([])
-const checked = ref(false)
-const indeterminate = computed(
-  () =>
-    selectedPeople.value.length > 0 &&
-    selectedPeople.value.length < people.length
-)
+// const selectedPeople = ref([])
+// const checked = ref(false)
+// const indeterminate = computed(
+//   () =>
+//     selectedQuotes.value.length > 0 &&
+//     selectedQuotes.value.length < quotes.length
+// )
+const selectedQuotes = ref([])
 </script>
 
 <template>
@@ -50,48 +41,22 @@ const indeterminate = computed(
     </div>
     <div class="mt-8 flex flex-col">
       <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="inline-block min-w-full py-2 align-middle">
           <div
-            class="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
+            class="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5"
           >
-            <div
-              v-if="selectedPeople.length > 0"
-              class="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16"
-            >
-              <button
-                type="button"
-                class="inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-              >
-                Bulk edit
-              </button>
-              <button
-                type="button"
-                class="inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-              >
-                Delete all
-              </button>
-            </div>
-            <table class="min-w-full table-fixed divide-y divide-gray-300">
+            <table class="min-w-full divide-y divide-gray-300">
               <thead class="bg-gray-50">
                 <tr>
-                  <th scope="col" class="relative w-12 px-6 sm:w-16 sm:px-8">
-                    <input
-                      type="checkbox"
-                      class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand sm:left-6"
-                      :checked="
-                        indeterminate || selectedPeople.length === people.length
-                      "
-                      :indeterminate="indeterminate"
-                      @change="
-                        selectedPeople = $event.target.checked
-                          ? people.map((p) => p.email)
-                          : []
-                      "
-                    />
+                  <th
+                    scope="col"
+                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8"
+                  >
+                    Quote Number
                   </th>
                   <th
                     scope="col"
-                    class="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
+                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
                     Contact
                   </th>
@@ -99,19 +64,19 @@ const indeterminate = computed(
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Trip Type
+                    Order Type
                   </th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Origin
+                    Pickup
                   </th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Destination
+                    Drop Off
                   </th>
                   <th
                     scope="col"
@@ -125,38 +90,23 @@ const indeterminate = computed(
                   >
                     Status
                   </th>
-                  <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <th
+                    scope="col"
+                    class="relative py-3.5 pl-3 pr-4 sm:pr-6 lg:pr-8"
+                  >
                     <span class="sr-only">Book</span>
                   </th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 bg-white">
-                <tr
-                  v-for="quote in quoteData"
-                  :key="quote.email"
-                  :class="[
-                    selectedPeople.includes(quote.email) && 'bg-gray-50',
-                  ]"
-                >
-                  <td class="relative w-12 px-6 sm:w-16 sm:px-8">
-                    <div
-                      v-if="selectedPeople.includes(quote.email)"
-                      class="absolute inset-y-0 left-0 w-0.5 bg-brand-600"
-                    ></div>
-                    <input
-                      type="checkbox"
-                      class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand sm:left-6"
-                      :value="quote.email"
-                      v-model="selectedPeople"
-                    />
+                <tr v-for="quote in quoteData" :key="quote.id">
+                  <td
+                    class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-red-500 sm:pl-6 lg:pl-8"
+                  >
+                    HPL-2300
                   </td>
                   <td
-                    :class="[
-                      'whitespace-nowrap py-4 pr-3 text-sm font-medium',
-                      selectedPeople.includes(quote.email)
-                        ? 'text-brand-600'
-                        : 'text-gray-900',
-                    ]"
+                    class="whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900"
                   >
                     <span>{{ quote.firstName }} {{ quote.lastName }}</span
                     ><br />
@@ -167,7 +117,9 @@ const indeterminate = computed(
                     ><br />
                     <span>{{ quote.serviceTypeLabel }}</span>
                   </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  <td
+                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-ellipsis overflow-hidden max-w-[24ch]"
+                  >
                     <span class="font-semibold font-sans text-gray-600"
                       >{{ quote.pickupDate }} {{ quote.pickupTime }}</span
                     ><br />
@@ -175,14 +127,14 @@ const indeterminate = computed(
                     ><br />
                     <span>{{ quote.originFormattedAddress }}</span>
                   </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  <td
+                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-ellipsis overflow-hidden max-w-[24ch]"
+                  >
                     <span>{{ quote.destinationName }}</span
                     ><br />
                     <span>{{ quote.destinationFormattedAddress }}</span>
                   </td>
-                  <td
-                    class="whitespace-nowrap px-3 py-4 text-sm font-semibold font-sans text-gray-600"
-                  >
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     ${{ quote.totalFare }}
                   </td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -192,7 +144,7 @@ const indeterminate = computed(
                     >
                   </td>
                   <td
-                    class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
+                    class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 lg:pr-8"
                   >
                     <a href="#" class="text-brand-600 hover:text-brand-900"
                       >Book<span class="sr-only">, {{ quote.name }}</span></a
