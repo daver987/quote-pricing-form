@@ -9,7 +9,7 @@ import {
   MenuItems,
 } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
-const supabase = useSupabaseClient()
+const supabase = useSupabaseAuthClient()
 const router = useRouter()
 const appUser = useSupabaseUser()
 
@@ -23,8 +23,10 @@ async function signOutUser() {
   } catch (error) {
     alert(error.message)
   } finally {
-    appUser.value = null
-    loading.value = false
+    setTimeout(() => {
+      loading.value = false
+      router.push('/admin/login')
+    }, 1000)
   }
 }
 
@@ -49,6 +51,7 @@ const settings = () => {
 const userNavigation = [
   { id: 0, name: 'Profile', href: '/admin/profile', onClick: profile },
   { id: 1, name: 'Settings', href: '/admin/settings', onClick: settings },
+  { id: 2, name: 'Logout', href: '#', onClick: signOutUser },
 ]
 </script>
 
@@ -79,6 +82,7 @@ const userNavigation = [
                 v-for="item in navigation"
                 :key="item.name"
                 :to="item.href"
+                @click="item.current = true"
                 :class="[
                   item.current
                     ? 'border-brand text-gray-900'
@@ -140,6 +144,7 @@ const userNavigation = [
                         active ? 'bg-gray-100' : '',
                         'block px-4 py-2 text-sm text-gray-700',
                       ]"
+                      @click="item.onClick"
                     >
                       {{ item.name }}
                     </NuxtLink>
@@ -229,5 +234,3 @@ const userNavigation = [
     </div>
   </div>
 </template>
-
-<style scoped></style>

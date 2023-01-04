@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const email = ref('')
 const password = ref('')
-const user = useSupabaseUser()
-const supabase = useSupabaseClient()
+const supabase = useSupabaseAuthClient()
 const router = useRouter()
 const loading = ref(false)
 
@@ -21,8 +20,11 @@ const login = async () => {
     console.log(error)
     return alert('Please check that your email and password are correct !')
   }
-  await navigateTo('/admin/quotes')
-  loading.value = false
+  setTimeout(() => {
+    loading.value = false
+    router.push('/admin/quotes')
+  }, 1000)
+  console.log(data)
 }
 </script>
 
@@ -63,8 +65,6 @@ const login = async () => {
                 id="email"
                 name="email"
                 type="email"
-                autocomplete="email"
-                required=""
                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-brand focus:outline-none focus:ring-brand sm:text-sm"
               />
             </div>
@@ -82,8 +82,6 @@ const login = async () => {
                 id="password"
                 name="password"
                 type="password"
-                autocomplete="current-password"
-                required=""
                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-brand focus:outline-none focus:ring-brand sm:text-sm"
               />
             </div>
