@@ -71,7 +71,7 @@ const rates = [
   },
 ]
 
-const surcharges = [
+const surcharges = ref([
   {
     id: 1,
     name: 'Gratuity',
@@ -99,7 +99,17 @@ const surcharges = [
     isTaxable: true,
     type: 'Active',
   },
-]
+])
+const openSurcharges = ref(false)
+const toggleSurcharges = () => {
+  openSurcharges.value = !openSurcharges.value
+  console.log(openSurcharges.value)
+}
+const openVehicleType = ref(false)
+const toggleVehicleType = () => {
+  openVehicleType.value = !openVehicleType.value
+  console.log(openVehicleType.value)
+}
 </script>
 
 <template>
@@ -119,6 +129,7 @@ const surcharges = [
               </div>
               <div class="pt-4">
                 <button
+                  @click="toggleVehicleType"
                   type="button"
                   class="inline-flex items-center rounded-full border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                 >
@@ -248,6 +259,7 @@ const surcharges = [
               </ul>
             </div>
           </div>
+
           <div>
             <div class="flex justify-between px-4">
               <div class="space-y-1">
@@ -260,6 +272,7 @@ const surcharges = [
               </div>
               <div class="pt-4">
                 <button
+                  @click="toggleSurcharges"
                   type="button"
                   class="inline-flex items-center rounded-full border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                 >
@@ -301,16 +314,20 @@ const surcharges = [
                         <div class="flex flex-col">
                           <SwitchGroup as="div" class="flex items-center">
                             <Switch
-                              v-model="enabled"
+                              v-model="surcharge.isPercentage"
                               :class="[
-                                enabled ? 'bg-indigo-600' : 'bg-gray-200',
-                                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                                surcharge.isPercentage
+                                  ? 'bg-brand-600'
+                                  : 'bg-gray-200',
+                                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2',
                               ]"
                             >
                               <span
                                 aria-hidden="true"
                                 :class="[
-                                  enabled ? 'translate-x-5' : 'translate-x-0',
+                                  surcharge.isPercentage
+                                    ? 'translate-x-5'
+                                    : 'translate-x-0',
                                   'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                                 ]"
                               />
@@ -325,16 +342,20 @@ const surcharges = [
                         <div class="flex flex-col">
                           <SwitchGroup as="div" class="flex items-center">
                             <Switch
-                              v-model="enabled"
+                              v-model="surcharge.isFlat"
                               :class="[
-                                enabled ? 'bg-indigo-600' : 'bg-gray-200',
-                                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                                surcharge.isFlat
+                                  ? 'bg-brand-600'
+                                  : 'bg-gray-200',
+                                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2',
                               ]"
                             >
                               <span
                                 aria-hidden="true"
                                 :class="[
-                                  enabled ? 'translate-x-5' : 'translate-x-0',
+                                  surcharge.isFlat
+                                    ? 'translate-x-5'
+                                    : 'translate-x-0',
                                   'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                                 ]"
                               />
@@ -349,16 +370,20 @@ const surcharges = [
                         <div class="flex flex-col">
                           <SwitchGroup as="div" class="flex items-center">
                             <Switch
-                              v-model="enabled"
+                              v-model="surcharge.isTaxable"
                               :class="[
-                                enabled ? 'bg-indigo-600' : 'bg-gray-200',
-                                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                                surcharge.isTaxable
+                                  ? 'bg-brand-600'
+                                  : 'bg-gray-200',
+                                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2',
                               ]"
                             >
                               <span
                                 aria-hidden="true"
                                 :class="[
-                                  enabled ? 'translate-x-5' : 'translate-x-0',
+                                  surcharge.isTaxable
+                                    ? 'translate-x-5'
+                                    : 'translate-x-0',
                                   'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                                 ]"
                               />
@@ -397,5 +422,7 @@ const surcharges = [
         </div>
       </div>
     </div>
+    <SettingsSurcharges :open="openSurcharges" />
+    <SettingsVehicleType :open="openVehicleType" />
   </div>
 </template>

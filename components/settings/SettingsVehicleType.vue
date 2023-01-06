@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   Dialog,
   DialogPanel,
@@ -58,8 +58,6 @@ defineProps({
     default: false,
   },
 })
-
-// const open = ref(true)
 </script>
 
 <template>
@@ -86,15 +84,15 @@ defineProps({
                   class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
                 >
                   <div class="h-0 flex-1 overflow-y-auto">
-                    <div class="bg-indigo-700 py-6 px-4 sm:px-6">
+                    <div class="bg-brand-700 py-6 px-4 sm:px-6">
                       <div class="flex items-center justify-between">
                         <DialogTitle class="text-lg font-medium text-white"
-                          >New Project</DialogTitle
+                          >New Vehicle Type</DialogTitle
                         >
                         <div class="ml-3 flex h-7 items-center">
                           <button
                             type="button"
-                            class="rounded-md bg-indigo-700 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+                            class="rounded-md bg-brand-700 text-brand-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
                             @click="open = false"
                           >
                             <span class="sr-only">Close panel</span>
@@ -103,9 +101,9 @@ defineProps({
                         </div>
                       </div>
                       <div class="mt-1">
-                        <p class="text-sm text-indigo-300">
+                        <p class="text-sm text-brand-300">
                           Get started by filling in the information below to
-                          create your new project.
+                          create your new Vehicle Type.
                         </p>
                       </div>
                     </div>
@@ -116,14 +114,14 @@ defineProps({
                             <label
                               for="project-name"
                               class="block text-sm font-medium text-gray-900"
-                              >Project name</label
+                              >Vehicle Type</label
                             >
                             <div class="mt-1">
                               <input
                                 type="text"
                                 name="project-name"
                                 id="project-name"
-                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
                               />
                             </div>
                           </div>
@@ -138,7 +136,7 @@ defineProps({
                                 id="description"
                                 name="description"
                                 rows="4"
-                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
                               />
                             </div>
                           </div>
@@ -162,7 +160,7 @@ defineProps({
                                 </a>
                                 <button
                                   type="button"
-                                  class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                  class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                                 >
                                   <span class="sr-only">Add team member</span>
                                   <PlusIcon
@@ -185,7 +183,7 @@ defineProps({
                                     name="privacy"
                                     aria-describedby="privacy-public-description"
                                     type="radio"
-                                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                    class="h-4 w-4 border-gray-300 text-brand-600 focus:ring-brand"
                                     checked=""
                                   />
                                 </div>
@@ -212,7 +210,7 @@ defineProps({
                                       name="privacy"
                                       aria-describedby="privacy-private-to-project-description"
                                       type="radio"
-                                      class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                      class="h-4 w-4 border-gray-300 text-brand-600 focus:ring-brand"
                                     />
                                   </div>
                                   <div class="pl-7 text-sm">
@@ -239,7 +237,7 @@ defineProps({
                                       name="privacy"
                                       aria-describedby="privacy-private-to-project-description"
                                       type="radio"
-                                      class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                      class="h-4 w-4 border-gray-300 text-brand-600 focus:ring-brand"
                                     />
                                   </div>
                                   <div class="pl-7 text-sm">
@@ -265,10 +263,10 @@ defineProps({
                           <div class="flex text-sm">
                             <a
                               href="#"
-                              class="group inline-flex items-center font-medium text-indigo-600 hover:text-indigo-900"
+                              class="group inline-flex items-center font-medium text-brand-600 hover:text-brand-900"
                             >
                               <LinkIcon
-                                class="h-5 w-5 text-indigo-500 group-hover:text-indigo-900"
+                                class="h-5 w-5 text-brand group-hover:text-brand-900"
                                 aria-hidden="true"
                               />
                               <span class="ml-2">Copy link</span>
@@ -293,14 +291,14 @@ defineProps({
                   <div class="flex flex-shrink-0 justify-end px-4 py-4">
                     <button
                       type="button"
-                      class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                       @click="open = false"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      class="ml-4 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      class="ml-4 inline-flex justify-center rounded-md border border-transparent bg-brand-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                     >
                       Save
                     </button>
