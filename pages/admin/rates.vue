@@ -1,10 +1,11 @@
 <script setup>
+import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+import { PlusIcon as PlusIconMini } from '@heroicons/vue/20/solid'
 definePageMeta({
   name: 'Rates',
   layout: 'admin',
   middleware: ['auth'],
 })
-import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 
 const enabled = ref(false)
 const rates = [
@@ -107,13 +108,23 @@ const surcharges = [
       <div class="mt-6">
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <div class="space-y-1">
-              <h3 class="text-lg font-medium leading-6 text-gray-900">
-                Vehicle Types
-              </h3>
-              <p class="max-w-2xl text-sm text-gray-500">
-                These are your current Vehicle Types and Rates.
-              </p>
+            <div class="flex justify-between px-4">
+              <div class="space-y-1">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">
+                  Vehicle Types
+                </h3>
+                <p class="max-w-2xl text-sm text-gray-500">
+                  These are your current Vehicle Types and Rates.
+                </p>
+              </div>
+              <div class="pt-4">
+                <button
+                  type="button"
+                  class="inline-flex items-center rounded-full border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                >
+                  <PlusIconMini class="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
             </div>
             <div class="overflow-hidden bg-white shadow sm:rounded-md mt-2">
               <ul role="list" class="divide-y divide-gray-200">
@@ -238,13 +249,23 @@ const surcharges = [
             </div>
           </div>
           <div>
-            <div class="space-y-1">
-              <h3 class="text-lg font-medium leading-6 text-gray-900">
-                Surcharges
-              </h3>
-              <p class="max-w-2xl text-sm text-gray-500">
-                These are your current surcharges.
-              </p>
+            <div class="flex justify-between px-4">
+              <div class="space-y-1">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">
+                  Surcharges
+                </h3>
+                <p class="max-w-2xl text-sm text-gray-500">
+                  These are your current surcharges.
+                </p>
+              </div>
+              <div class="pt-4">
+                <button
+                  type="button"
+                  class="inline-flex items-center rounded-full border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                >
+                  <PlusIconMini class="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
             </div>
             <div class="overflow-hidden bg-white shadow sm:rounded-md mt-2">
               <ul role="list" class="divide-y divide-gray-200">
