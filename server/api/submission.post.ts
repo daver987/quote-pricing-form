@@ -48,11 +48,19 @@ export default defineEventHandler(async (event) => {
       startLng,
     } = tripData as TripData
 
+    const isPearson = (origin: string) => {
+      if (origin === 'Toronto Pearson International Airport') {
+        return true
+      }
+    }
+
     const {
       formatted_address: originFormattedAddress,
       name: originName,
       place_id: originPlaceId,
     } = placeDataOrigin as PlaceDataOrigin
+
+    const isPearsonAirportPickup = isPearson(originName)
 
     const {
       formatted_address: destinationFormattedAddress,
@@ -60,12 +68,7 @@ export default defineEventHandler(async (event) => {
       place_id: destinationPlaceId,
     } = placeDataDestination as PlaceDataDestination
 
-    const isPearson = (origin: string, destination: string) => {
-      return (
-        origin === 'Toronto Pearson International Airport' ||
-        destination === 'Toronto Pearson International Airport'
-      )
-    }
+    const isPearsonAirportDropoff = isPearson(destinationName)
 
     const { value: hoursValue, label: hoursLabel } = selectedNumberOfHours || {
       value: 0,
@@ -99,7 +102,20 @@ export default defineEventHandler(async (event) => {
     )
     const { fuelSurcharge, gratuity, HST } = computedSurcharges
 
-    const isPearsonAirportPickup = isPearson(originName, destinationName)
+    const calculatedTotal = () => {
+      if (isPearsonAirportPickup) {
+        return baseRate + fuelSurcharge + gratuity + HST + 15
+      }
+      if (!isPearsonAirportPickup) {
+        return baseRate + fuelSurcharge + gratuity + HST
+      }
+      if (isPearsonAirportPickup || (isPearsonAirportDropoff && isRoundTrip)) {
+        return (baseRate + fuelSurcharge + gratuity + HST) * 2 + 15
+      }
+      if (!isPearsonAirportDropoff && !isPearsonAirportPickup && isRoundTrip) {
+        return (baseRate + fuelSurcharge + gratuity + HST) * 2
+      }
+    }
 
     const addUser = async () => {
       const { data, error } = await supabase
@@ -157,7 +173,7 @@ export default defineEventHandler(async (event) => {
           gratuity,
           HST,
           userEmail: emailAddress,
-          totalFare,
+          totalFare: calculatedTotal(),
           firstName,
           lastName,
         })
@@ -209,7 +225,7 @@ export default defineEventHandler(async (event) => {
       fuelSurcharge,
       gratuity,
       HST,
-      totalFare,
+      totalFare: calculatedTotal(),
     }
   } catch (error) {
     console.log(error)

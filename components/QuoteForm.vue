@@ -699,6 +699,7 @@ const returnedQuote = ref<ReturnedFormData | unknown>(null)
 const onSubmit = handleSubmit(async (formValues) => {
   loading.value = true
   const values = formSchema.safeParse(formValues)
+  console.log('values are:', values)
   const { data } = await useFetch('/api/submission', {
     method: 'POST',
     body: values,

@@ -45,7 +45,6 @@ const quoteNumber = 9999
 const baseRateString = isRoundTrip.value
   ? (baseRate.value * 2).toFixed(2)
   : baseRate.value.toFixed(2)
-const totalFareString = totalFare.value.toFixed(2)
 const fuelSurchargeString = isRoundTrip.value
   ? (baseRate.value * 0.08 * 2).toFixed(2)
   : (baseRate.value * 0.08).toFixed(2)
@@ -55,6 +54,31 @@ const gratuityString = isRoundTrip.value
 const hstString = isRoundTrip.value
   ? (baseRate.value * 0.13 * 2).toFixed(2)
   : (baseRate.value * 0.13).toFixed(2)
+const totalFareString = totalFare.value.toFixed(2)
+const totalFareFromPearsonString = (totalFare.value + 15).toFixed(2)
+const totalFareRoundTripString = (totalFare.value * 2).toFixed(2)
+const totalFareRoundTripFromPearsonString = (totalFare.value * 2 + 15).toFixed(
+  2
+)
+
+const isPearson = (origin: string) => {
+  if (origin === 'Toronto Pearson International Airport') {
+    return true
+  }
+}
+
+const isFromPearson = () => {
+  if (isPearson(originName)) {
+    return totalFareFromPearsonString
+  }
+  if (isRoundTrip.value && isPearson(originName)) {
+    return totalFareRoundTripFromPearsonString
+  }
+  if (isRoundTrip.value) {
+    return totalFareRoundTripString
+  }
+  return totalFareString
+}
 
 const vehicleImage = () => {
   if (vehicleTypeLabel.value === 'Standard Sedan') {
@@ -170,7 +194,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
                     </div>
                     <p class="mt-3 text-sm font-medium">
                       <span class="text-brand-400">Subtotal: </span>$
-                      {{ totalFare }}
+                      {{ totalFare.toFixed(2) }}
                     </p>
                   </div>
 
@@ -259,7 +283,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
                     </div>
                     <p class="mt-3 text-sm font-medium">
                       <span class="text-brand-400">Subtotal: </span
-                      >{{ totalFare }}
+                      >{{ totalFare.toFixed(2) }}
                     </p>
                   </div>
 
@@ -405,7 +429,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
               <dd
                 class="text-base font-medium dark:text-gray-100 text-gray-900"
               >
-                $ {{ isRoundTrip ? totalFare * 2 : totalFare }}
+                $ {{ isFromPearson() }}
               </dd>
             </div>
           </dl>
