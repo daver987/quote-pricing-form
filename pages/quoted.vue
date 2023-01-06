@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { useQuoteStore } from '~/stores/useQuoteStore'
+// import { useQuoteStore } from '~/stores/useQuoteStore'
 // import { storeToRefs } from 'pinia'
 // import { ValidationSchema } from '~/schema/quoteFormValues'
 // import { Ref } from 'vue'
 // import { rates } from '~/data/rates'
 // import { getRateFromId } from '~~/composables/useRateCalculator'
 
-const quoteStore = useQuoteStore()
+// const quoteStore = useQuoteStore()
 // const { quoteFormValues } = storeToRefs(quoteStore) as {
 //   quoteFormValues: Ref<ValidationSchema>
 // }
 
-const calculateBase = (distance: number, min: number, km: number) => {
-  return distance <= 25 ? minFare : (distance - 25) * km + min
-}
-const calculateTotal = (base: number) => 1.42 * base
+// const calculateBase = (distance: number, min: number, km: number) => {
+//   return distance <= 25 ? minFare : (distance - 25) * km + min
+// }
+// const calculateTotal = (base: number) => 1.42 * base
 
 // const {
 // vehicleType,

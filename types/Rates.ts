@@ -7,6 +7,8 @@ export interface Rates {
   min_rate_hourly: number
   min_distance: number
   min_rate_distance: number
+  vehicle_image_alt: string
+  vehicle_image_src: string
 }
 
 export interface Surcharges {

@@ -10,6 +10,8 @@ const rates = [
     min_rate_distance: 80,
     min_distance: 25,
     min_rate_hourly: 160,
+    vehicle_image_alt: 'Standard Sedan',
+    vehicle_image_src: '/images/cadillac-xts-1.png',
   },
   {
     id: 2,
@@ -20,6 +22,8 @@ const rates = [
     min_rate_distance: 90,
     min_distance: 25,
     min_rate_hourly: 180,
+    vehicle_image_alt: 'Premium Sedan',
+    vehicle_image_src: '/images/cadillac-xts-1.png',
   },
   {
     id: 3,
@@ -30,6 +34,8 @@ const rates = [
     min_rate_distance: 105,
     min_distance: 25,
     min_rate_hourly: 210,
+    vehicle_image_alt: 'Standard SUV',
+    vehicle_image_src: '/images/cadillac-xts-1.png',
   },
   {
     id: 4,
@@ -40,6 +46,8 @@ const rates = [
     min_rate_distance: 128,
     min_distance: 25,
     min_rate_hourly: 256,
+    vehicle_image_alt: 'Premium SUV',
+    vehicle_image_src: '/images/cadillac-xts-1.png',
   },
 ] as Rates[]
 

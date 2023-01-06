@@ -8,3 +8,9 @@ export interface DirectionsResponse {
   startLat: number
   startLng: number
 }
+
+export interface Place {
+  place_id: string
+  formatted_address: string
+  name: string
+}

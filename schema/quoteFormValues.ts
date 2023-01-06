@@ -31,6 +31,7 @@ export const formSchema = z.object({
     .object({
       label: z
         .enum([
+          'Hourly Service Not Selected',
           'For Hourly Service',
           '2 hrs',
           '3 hrs',
@@ -44,8 +45,8 @@ export const formSchema = z.object({
           '11 hrs',
           '12 hrs',
         ])
-        .optional(),
-      value: z.number().int().gte(0).lte(12).optional(),
+        .default('Hourly Service Not Selected'),
+      value: z.number().int().gte(0).lte(12).default(0),
     })
     .strip()
     .optional(),

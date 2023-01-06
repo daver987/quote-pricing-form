@@ -1,51 +1,38 @@
 <script setup lang="ts">
-const products = [
-  {
-    id: 1,
-    name: 'From Airport',
-    href: '#',
-    price: '$32.00',
-    pickup: 'YYZ Pearson International Airport',
-    pickupTime: '10:00 AM',
-    pickupDate: '2021-05-01',
-    vehicle: 'Premium Sedan',
-    passengers: 4,
-    isRoundTrip: true,
-    dropoff: '1265 Sixth Line, Oakville, ON L6H 6R1',
-    imageSrc: '/images/car-service-2.jpg',
-    imageAlt: "Front of men's Basic Tee in sienna.",
-  },
-  {
-    id: 2,
-    name: 'To Airport',
-    href: '#',
-    price: '$32.00',
-    pickup: 'Black',
-    pickupTime: '10:00 AM',
-    pickupDate: '2021-05-01',
-    vehicle: 'Sedan',
-    passengers: 4,
-    isRoundTrip: false,
-    leadTime: '3–4 weeks',
-    dropoff: 'Large',
-    imageSrc: '/images/chauffeur-1.jpeg',
-    imageAlt: "Front of men's Basic Tee in black.",
-  },
-]
-const relatedProducts = [
-  {
-    id: 1,
-    name: 'Billfold Wallet',
-    href: '#',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-related-product-01.jpg',
-    imageAlt: 'Front of Billfold Wallet in natural leather.',
-    price: '$118',
-    color: 'Natural',
-  },
-]
+import { useQuoteStore } from '~/stores/useQuoteStore'
+// import { returnedFormData, ReturnedFormData } from '~/schema/returnedFormData'
+import { storeToRefs } from 'pinia'
+import { Place } from '~/types/DirectionsResponse'
 
-//write a function that returns the current date in the format of June 16, 2022
+const store = useQuoteStore()
+const {
+  isRoundTrip,
+  pickupDate,
+  pickupTime,
+  returnPickupDate,
+  returnPickupTime,
+  vehicleTypeLabel,
+  passengersLabel,
+  serviceTypeLabel,
+  totalFare,
+  vehicleImageSrc,
+  vehicleImageAlt,
+  placeDataOrigin,
+  placeDataDestination,
+} = storeToRefs(store)
+
+const {
+  place_id: originPlaceIdValue,
+  formatted_address: originFormattedAddress,
+  name: originName,
+} = placeDataOrigin.value as Place
+const {
+  place_id: destinationPlaceId,
+  formatted_address: destinationFormattedAddress,
+  name: destinationName,
+} = placeDataDestination.value as Place
+//get the image for the selected vehicle type
+
 function getCurrentDate() {
   const date = new Date()
   const month = date.toLocaleString('default', { month: 'long' })
@@ -54,6 +41,7 @@ function getCurrentDate() {
   return `${month} ${day}, ${year}`
 }
 const currentDate = getCurrentDate()
+const quoteNumber = 9999
 </script>
 
 <template>
@@ -76,7 +64,9 @@ const currentDate = getCurrentDate()
               >&middot;</span
             >
           </dt>
-          <dd class="font-medium text-red-600"><span>W086438695</span></dd>
+          <dd class="font-medium text-red-600">
+            <span>{{ quoteNumber }}</span>
+          </dd>
           <dt>
             <span class="sr-only">Date</span>
             <span
@@ -105,15 +95,11 @@ const currentDate = getCurrentDate()
             role="list"
             class="divide-y divide-gray-200 border-t border-b border-gray-200"
           >
-            <li
-              v-for="(product, productIdx) in products"
-              :key="product.id"
-              class="flex py-6 sm:py-10"
-            >
+            <li class="flex py-6 sm:py-10">
               <div class="flex-shrink-0">
                 <NuxtImg
-                  :src="product.imageSrc"
-                  :alt="product.imageAlt"
+                  :src="vehicleImageSrc"
+                  :alt="vehicleImageSrc"
                   class="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
                 />
               </div>
@@ -126,39 +112,38 @@ const currentDate = getCurrentDate()
                     <div class="flex justify-between mb-2">
                       <h3 class="text-base">
                         <NuxtLink
-                          :to="product.href"
+                          to="#"
                           class="font-medium text-gray-700 dark:text-gray-200 dark:hover:text-gray-200 hover:text-gray-800"
-                          >{{ product.name }}</NuxtLink
+                          >{{ serviceTypeLabel }}</NuxtLink
                         >
                       </h3>
                     </div>
                     <div class="mt-2 flex flex-col text-sm space-y-1">
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">Date: </span
-                        >{{ product.pickupDate }}
+                        >{{ pickupDate }}
                         <span class="text-brand-400">Time: </span>
-                        {{ product.pickupTime }}
+                        {{ pickupTime }}
                       </p>
                       <p class="dark:text-gray-100 text-gray-500">
-                        <span class="text-brand-400">PU: </span
-                        >{{ product.pickup }}
+                        <span class="text-brand-400">PU: </span>{{ originName }}
                       </p>
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">DO: </span>
-                        {{ product.dropoff }}
+                        {{ destinationName }}
                       </p>
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">Vehicle Type: </span
-                        >{{ product.vehicle }}
+                        >{{ vehicleTypeLabel }}
                       </p>
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">Passengers: </span
-                        >{{ product.passengers }}
+                        >{{ passengersLabel }}
                       </p>
                     </div>
                     <p class="mt-3 text-sm font-medium">
-                      <span class="text-brand-400">Subtotal: </span
-                      >{{ product.price }}
+                      <span class="text-brand-400">Subtotal: </span>$
+                      {{ totalFare }}
                     </p>
                   </div>
 
@@ -184,7 +169,7 @@ const currentDate = getCurrentDate()
                 >
                   <Icon
                     name="heroicons:check-20-solid"
-                    v-if="product.isRoundTrip"
+                    v-if="isRoundTrip"
                     class="h-5 w-5 flex-shrink-0 text-green-500"
                     aria-hidden="true"
                   />
@@ -194,11 +179,95 @@ const currentDate = getCurrentDate()
                     class="h-5 w-5 flex-shrink-0 text-gray-300"
                     aria-hidden="true"
                   />
-                  <span>{{
-                    product.isRoundTrip
-                      ? 'Round Trip'
-                      : `One Way ${product.leadTime}`
-                  }}</span>
+                  <span>{{ isRoundTrip ? 'Round Trip' : `One Way Trip` }}</span>
+                </p>
+              </div>
+            </li>
+            <li v-if="isRoundTrip" class="flex py-6 sm:py-10">
+              <div class="flex-shrink-0">
+                <NuxtImg
+                  :src="vehicleImageSrc"
+                  :alt="vehicleImageAlt"
+                  class="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
+                />
+              </div>
+
+              <div class="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
+                <div
+                  class="relative pr-9 sm:grid sm:grid-cols-1 sm:gap-x-6 sm:pr-0"
+                >
+                  <div>
+                    <div class="flex justify-between mb-2">
+                      <h3 class="text-base">
+                        <NuxtLink
+                          to="#"
+                          class="font-medium text-gray-700 dark:text-gray-200 dark:hover:text-gray-200 hover:text-gray-800"
+                          >Toronto Car Service
+                        </NuxtLink>
+                      </h3>
+                    </div>
+                    <div class="mt-2 flex flex-col text-sm space-y-1">
+                      <p class="dark:text-gray-100 text-gray-500">
+                        <span class="text-brand-400">Date: </span
+                        >{{ returnPickupDate }}
+                        <span class="text-brand-400">Time: </span>
+                        {{ returnPickupTime }}
+                      </p>
+                      <p class="dark:text-gray-100 text-gray-500">
+                        <span class="text-brand-400">PU: </span>{{ originName }}
+                      </p>
+                      <p class="dark:text-gray-100 text-gray-500">
+                        <span class="text-brand-400">DO: </span>
+                        {{ destinationName }}
+                      </p>
+                      <p class="dark:text-gray-100 text-gray-500">
+                        <span class="text-brand-400">Vehicle Type: </span
+                        >{{ vehicleTypeLabel }}
+                      </p>
+                      <p class="dark:text-gray-100 text-gray-500">
+                        <span class="text-brand-400">Passengers: </span
+                        >{{ passengersLabel }}
+                      </p>
+                    </div>
+                    <p class="mt-3 text-sm font-medium">
+                      <span class="text-brand-400">Subtotal: </span
+                      >{{ totalFare }}
+                    </p>
+                  </div>
+
+                  <div class="mt-4 sm:mt-0 sm:pr-9">
+                    <div class="absolute top-0 right-0">
+                      <button
+                        type="button"
+                        class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
+                      >
+                        <span class="sr-only">Remove</span>
+                        <Icon
+                          name="heroicons:x-mark-20-solid"
+                          class="h-5 w-5"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <p
+                  class="mt-4 flex space-x-2 text-sm text-gray-700 dark:text-gray-200"
+                >
+                  <Icon
+                    name="heroicons:check-20-solid"
+                    v-if="isRoundTrip"
+                    class="h-5 w-5 flex-shrink-0 text-green-500"
+                    aria-hidden="true"
+                  />
+                  <Icon
+                    name="heroicons:clock-20-solid"
+                    v-else
+                    class="h-5 w-5 flex-shrink-0 text-gray-300"
+                    aria-hidden="true"
+                  />
+                  <span>{{ isRoundTrip ? 'Round Trip' : `One Way Trip` }}</span>
                 </p>
               </div>
             </li>
@@ -325,47 +394,47 @@ const currentDate = getCurrentDate()
       </form>
 
       <!-- Related products -->
-      <section aria-labelledby="related-heading" class="mt-24">
-        <h2 id="related-heading" class="text-lg font-medium text-gray-900">
-          You may also like&hellip;
-        </h2>
+      <!--      <section aria-labelledby="related-heading" class="mt-24">-->
+      <!--        <h2 id="related-heading" class="text-lg font-medium text-gray-900">-->
+      <!--          You may also like&hellip;-->
+      <!--        </h2>-->
 
-        <div
-          class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
-        >
-          <div
-            v-for="relatedProduct in relatedProducts"
-            :key="relatedProduct.id"
-            class="group relative"
-          >
-            <div
-              class="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md group-hover:opacity-75 lg:aspect-none lg:h-80"
-            >
-              <img
-                :src="relatedProduct.imageSrc"
-                :alt="relatedProduct.imageAlt"
-                class="h-full w-full object-cover object-center lg:h-full lg:w-full"
-              />
-            </div>
-            <div class="mt-4 flex justify-between">
-              <div>
-                <h3 class="text-sm text-gray-700">
-                  <a :href="relatedProduct.href">
-                    <span aria-hidden="true" class="absolute inset-0" />
-                    {{ relatedProduct.name }}
-                  </a>
-                </h3>
-                <p class="mt-1 text-sm text-gray-500">
-                  {{ relatedProduct.color }}
-                </p>
-              </div>
-              <p class="text-sm font-medium text-gray-900">
-                {{ relatedProduct.price }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <!--        <div-->
+      <!--          class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"-->
+      <!--        >-->
+      <!--          <div-->
+      <!--            v-for="relatedProduct in relatedProducts"-->
+      <!--            :key="relatedProduct.id"-->
+      <!--            class="group relative"-->
+      <!--          >-->
+      <!--            <div-->
+      <!--              class="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md group-hover:opacity-75 lg:aspect-none lg:h-80"-->
+      <!--            >-->
+      <!--              <img-->
+      <!--                :src="relatedProduct.imageSrc"-->
+      <!--                :alt="relatedProduct.imageAlt"-->
+      <!--                class="h-full w-full object-cover object-center lg:h-full lg:w-full"-->
+      <!--              />-->
+      <!--            </div>-->
+      <!--            <div class="mt-4 flex justify-between">-->
+      <!--              <div>-->
+      <!--                <h3 class="text-sm text-gray-700">-->
+      <!--                  <a :href="relatedProduct.href">-->
+      <!--                    <span aria-hidden="true" class="absolute inset-0" />-->
+      <!--                    {{ relatedProduct.name }}-->
+      <!--                  </a>-->
+      <!--                </h3>-->
+      <!--                <p class="mt-1 text-sm text-gray-500">-->
+      <!--                  {{ relatedProduct.color }}-->
+      <!--                </p>-->
+      <!--              </div>-->
+      <!--              <p class="text-sm font-medium text-gray-900">-->
+      <!--                {{ relatedProduct.price }}-->
+      <!--              </p>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </section>-->
     </main>
   </div>
 </template>

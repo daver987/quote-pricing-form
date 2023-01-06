@@ -74,12 +74,14 @@ export default defineEventHandler(async (event) => {
     const { value: serviceTypeValue, label: serviceTypeLabel } =
       selectedServiceType || { value: 0, label: 'Point To Point' }
 
+    const { value: selectedHours, label: selectedHoursLabel } =
+      selectedNumberOfHours || { value: 0, label: 'Hours Not Selected' }
+
     const rate = getRateFromId(serviceTypeValue, rates)
 
     const baseRate = getBaseRate(
       isItHourly,
-      // @ts-ignore
-      selectedNumberOfHours.value,
+      selectedHours,
       calculatedDistance,
       rate as Rates
     )
@@ -202,6 +204,7 @@ export default defineEventHandler(async (event) => {
       fuelSurcharge,
       gratuity,
       HST,
+      totalFare,
     }
   } catch (error) {
     console.log(error)

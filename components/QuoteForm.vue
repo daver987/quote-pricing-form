@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DirectionsResponse } from '~/types/DirectionsResponse'
+import { DirectionsResponse, Place } from '~/types/DirectionsResponse'
 import { Ref } from 'vue'
 import { formSchema, ValidationSchema } from '~/schema/quoteFormValues'
 import { useQuoteStore } from '~/stores/useQuoteStore'
@@ -7,16 +7,30 @@ import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
 import { useForm, Field } from 'vee-validate'
 import { toFormValidator } from '@vee-validate/zod'
+import { storeToRefs } from 'pinia'
+import { ReturnedFormData } from '~/schema/returnedFormData'
 
-const quoteStore = useQuoteStore()
-// const { quoteFormValues } = storeToRefs(quoteStore)
+const store = useQuoteStore()
+const {
+  isRoundTrip,
+  pickupDate,
+  pickupTime,
+  returnPickupDate,
+  returnPickupTime,
+  vehicleTypeLabel,
+  passengersLabel,
+  serviceTypeLabel,
+  totalFare,
+  tripData,
+  placeDataOrigin,
+  placeDataDestination,
+  isItHourly,
+  firstName,
+  lastName,
+  emailAddress,
+  phoneNumber,
+} = storeToRefs(store)
 
-// import { UAParser } from 'ua-parser-js'
-
-// const parser = ref(new UAParser())
-// const result = parser.value.getResult()
-// const { ua, browser, device, os, cpu, engine } = result
-// console.log(ua, browser, device, os, cpu, engine)
 const passengerClasses = ref('text-gray-400')
 const passengerOptions = ref<SelectFormData[]>([
   {
@@ -339,12 +353,6 @@ const dropdownOptions = ref({
 // }
 // }
 
-interface Place {
-  place_id: string
-  formatted_address: string
-  name: string
-}
-
 interface SelectFormData {
   label: string
   value: number
@@ -355,22 +363,9 @@ const origin = ref<Place | null>(null)
 const originPlaceId = ref<string>('')
 const destination = ref<Place | null>(null)
 const destinationPlaceId = ref<string>('')
-const pickupDate = ref<string>('')
-const pickupTime = ref<string>('')
-const returnPickupDate = ref<string>('')
-const returnPickupTime = ref<string>('')
-const firstName = ref<string>('')
-const lastName = ref<string>('')
-const emailAddress = ref<string>('')
-const phoneNumber = ref<string>('')
-const isRoundTrip = ref<boolean>(false)
-const placeDataOrigin = ref<Place | null>(null)
-const placeDataDestination = ref<Place | null>(null)
-const isItHourly = ref(false) as Ref<boolean>
-const tripData = ref<DirectionsResponse | null>(null)
 const calculatedDistance = ref<number>(0)
 
-const formValues = reactive({
+const formValues = ref({
   pickupDate: pickupDate.value,
   pickupTime: pickupTime.value,
   returnPickupDate: returnPickupDate.value,
@@ -770,13 +765,14 @@ const onDestinationChange = async (evt: Place) => {
 //todo: add popup to show images of the vehicles
 //todo: add popup to show the terms and conditions
 
-const quoteForm = ref(null)
 const validationSchema = toFormValidator(formSchema)
 const { handleSubmit, errors } = useForm({
   validationSchema,
 })
 const showNotification = ref<boolean>(false)
 const loading = ref<boolean>(false)
+const router = useRouter()
+const returnedQuote = ref<ReturnedFormData | unknown>(null)
 
 const onSubmit = handleSubmit(async (formValues) => {
   loading.value = true
@@ -785,12 +781,32 @@ const onSubmit = handleSubmit(async (formValues) => {
     method: 'POST',
     body: values,
   })
-  console.log('data is:', data)
+  returnedQuote.value = data.value as ReturnedFormData
+  const {
+    vehicleTypeLabel: vehicleLabel,
+    passengersLabel: paxLabel,
+    serviceTypeLabel: serviceLabel,
+    totalFare: subtotal,
+    pickupDate: selectedDate,
+    pickupTime: selectedTime,
+    returnPickupDate: returnDate,
+    returnPickupTime: returnTime,
+  } = returnedQuote.value as unknown as ReturnedFormData
+  console.log('Returned data is:', data.value)
+  vehicleTypeLabel.value = vehicleLabel
+  serviceTypeLabel.value = serviceLabel
+  passengersLabel.value = paxLabel
+  totalFare.value = subtotal
+  pickupDate.value = selectedDate
+  pickupTime.value = selectedTime
+  returnPickupDate.value = returnDate
+  returnPickupTime.value = returnTime
   setTimeout(() => {
     loading.value = false
+    router.push('/quoted')
     showNotification.value = true
   }, 1500)
-  return data
+  return
 })
 
 // const submitForm = async () => {
@@ -863,12 +879,7 @@ const onSubmit = handleSubmit(async (formValues) => {
     <h3 class="text-white text-center uppercase pt-5 text-3xl">
       Instant Quote
     </h3>
-    <form
-      id="lead_form"
-      ref="quoteForm"
-      class="p-5 space-y-3"
-      @submit="onSubmit"
-    >
+    <form id="lead_form" class="p-5 space-y-3" @submit="onSubmit">
       <div class="grid w-full grid-cols-1 gap-3">
         <InputPlacesAutocomplete
           label="Pick Up Location:"
@@ -1117,8 +1128,8 @@ const onSubmit = handleSubmit(async (formValues) => {
     </form>
     <Notification
       :show="showNotification"
-      message1="Your Quote Has been submitted"
-      message2="Check Your Email for more Information"
+      message1="Your Quote Has been Submitted"
+      message2="A copy of the quote has been sent to your email address"
     />
   </div>
 </template>
