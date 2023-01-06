@@ -7,10 +7,10 @@ import { Place } from '~/types/DirectionsResponse'
 const store = useQuoteStore()
 const {
   isRoundTrip,
-  pickupDate,
-  pickupTime,
-  returnPickupDate,
-  returnPickupTime,
+  selectedDate,
+  selectedTime,
+  selectedReturnDate,
+  selectedReturnTime,
   vehicleTypeLabel,
   passengersLabel,
   serviceTypeLabel,
@@ -19,19 +19,19 @@ const {
   vehicleImageAlt,
   placeDataOrigin,
   placeDataDestination,
+  baseRate,
 } = storeToRefs(store)
 
-const {
-  place_id: originPlaceIdValue,
-  formatted_address: originFormattedAddress,
-  name: originName,
-} = placeDataOrigin.value as Place
-const {
-  place_id: destinationPlaceId,
-  formatted_address: destinationFormattedAddress,
-  name: destinationName,
-} = placeDataDestination.value as Place
-//get the image for the selected vehicle type
+const { name: originName } = placeDataOrigin.value as Place
+const { name: destinationName } = placeDataDestination.value as Place
+
+const returnServiceTypeLabel = computed(() => {
+  if (isRoundTrip.value && serviceTypeLabel.value === 'To Airport')
+    return 'From Airport'
+  if (isRoundTrip.value && serviceTypeLabel.value === 'From Airport')
+    return 'To Airport'
+  else return serviceTypeLabel.value
+})
 
 function getCurrentDate() {
   const date = new Date()
@@ -42,6 +42,34 @@ function getCurrentDate() {
 }
 const currentDate = getCurrentDate()
 const quoteNumber = 9999
+
+const baseRateString = isRoundTrip.value
+  ? (baseRate.value * 2).toFixed(2)
+  : baseRate.value.toFixed(2)
+const totalFareString = totalFare.value.toFixed(2)
+const fuelSurchargeString = isRoundTrip.value
+  ? (baseRate.value * 0.08 * 2).toFixed(2)
+  : (baseRate.value * 0.08).toFixed(2)
+const gratuityString = isRoundTrip.value
+  ? (baseRate.value * 0.2 * 2).toFixed(2)
+  : (baseRate.value * 0.2).toFixed(2)
+const hstString = isRoundTrip.value
+  ? (baseRate.value * 0.13 * 2).toFixed(2)
+  : (baseRate.value * 0.13).toFixed(2)
+
+const vehicleImage = () => {
+  if (vehicleTypeLabel.value === 'Standard Sedan') {
+    return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/8c7c6a8d-06ad-4278-1c70-9d497b1cb200/1024'
+  } else if (vehicleTypeLabel.value === 'Premium Sedan') {
+    return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d171f30-de2f-447c-a602-95ccf248c600/1024'
+  } else if (vehicleTypeLabel.value === 'Standard SUV') {
+    return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/b4bf6461-ba55-48bd-e0ba-d613ae383000/1024'
+  } else {
+    return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d80107f-4800-45ae-8e20-c4adf2792f00/1024'
+  }
+}
+vehicleImageSrc.value = vehicleImage()
+vehicleImageAlt.value = vehicleTypeLabel.value
 </script>
 
 <template>
@@ -100,7 +128,7 @@ const quoteNumber = 9999
                 <NuxtImg
                   :src="vehicleImageSrc"
                   :alt="vehicleImageSrc"
-                  class="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
+                  class="h-24 w-24 rounded-md object-contain object-center sm:h-48 sm:w-48"
                 />
               </div>
 
@@ -121,9 +149,9 @@ const quoteNumber = 9999
                     <div class="mt-2 flex flex-col text-sm space-y-1">
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">Date: </span
-                        >{{ pickupDate }}
+                        >{{ selectedDate }}
                         <span class="text-brand-400">Time: </span>
-                        {{ pickupTime }}
+                        {{ selectedTime }}
                       </p>
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">PU: </span>{{ originName }}
@@ -188,7 +216,7 @@ const quoteNumber = 9999
                 <NuxtImg
                   :src="vehicleImageSrc"
                   :alt="vehicleImageAlt"
-                  class="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
+                  class="h-24 w-24 rounded-md object-contain object-center sm:h-48 sm:w-48"
                 />
               </div>
 
@@ -202,23 +230,24 @@ const quoteNumber = 9999
                         <NuxtLink
                           to="#"
                           class="font-medium text-gray-700 dark:text-gray-200 dark:hover:text-gray-200 hover:text-gray-800"
-                          >Toronto Car Service
+                          >{{ returnServiceTypeLabel }}
                         </NuxtLink>
                       </h3>
                     </div>
                     <div class="mt-2 flex flex-col text-sm space-y-1">
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">Date: </span
-                        >{{ returnPickupDate }}
+                        >{{ selectedReturnDate }}
                         <span class="text-brand-400">Time: </span>
-                        {{ returnPickupTime }}
+                        {{ selectedReturnTime }}
                       </p>
                       <p class="dark:text-gray-100 text-gray-500">
-                        <span class="text-brand-400">PU: </span>{{ originName }}
+                        <span class="text-brand-400">PU: </span
+                        >{{ destinationName }}
                       </p>
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">DO: </span>
-                        {{ destinationName }}
+                        {{ originName }}
                       </p>
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">Vehicle Type: </span
@@ -290,7 +319,7 @@ const quoteNumber = 9999
             <div class="flex items-center justify-between">
               <dt class="text-sm dark:text-gray-300 text-gray-600">Subtotal</dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $99.00
+                $ {{ baseRateString }}
               </dd>
             </div>
             <div
@@ -315,7 +344,7 @@ const quoteNumber = 9999
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $5.00
+                $ {{ fuelSurchargeString }}
               </dd>
             </div>
             <div
@@ -340,7 +369,7 @@ const quoteNumber = 9999
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $5.00
+                $ {{ gratuityString }}
               </dd>
             </div>
             <div
@@ -363,7 +392,7 @@ const quoteNumber = 9999
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $8.32
+                $ {{ hstString }}
               </dd>
             </div>
             <div
@@ -377,7 +406,7 @@ const quoteNumber = 9999
               <dd
                 class="text-base font-medium dark:text-gray-100 text-gray-900"
               >
-                $112.32
+                $ {{ isRoundTrip ? totalFare * 2 : totalFare }}
               </dd>
             </div>
           </dl>

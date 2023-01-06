@@ -5,10 +5,10 @@ export const useQuoteStore = defineStore('useQuoteStore', {
   state: () => ({
     isRoundTrip: false,
     isItHourly: false,
-    pickupDate: '00-00-0000',
-    pickupTime: '00:00',
-    returnPickupDate: '00-00-0000',
-    returnPickupTime: '00:00',
+    selectedDate: '',
+    selectedTime: '',
+    selectedReturnDate: '',
+    selectedReturnTime: '',
     originName: 'Pickup Location',
     destinationName: 'Dropoff Location',
     vehicleTypeLabel: 'Standard Sedan',
@@ -25,6 +25,7 @@ export const useQuoteStore = defineStore('useQuoteStore', {
     lastName: '',
     emailAddress: '',
     phoneNumber: '',
+    baseRate: 0,
   }),
 })
 

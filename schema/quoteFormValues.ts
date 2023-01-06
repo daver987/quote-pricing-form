@@ -3,8 +3,8 @@ import { z } from 'zod'
 export const formSchema = z.object({
   pickupDate: z.string().min(1),
   pickupTime: z.string().min(1),
-  returnPickupDate: z.string().default('00-00-0000'),
-  returnPickupTime: z.string().default('00:00'),
+  returnDate: z.string().optional(),
+  returnTime: z.string().optional(),
   selectedServiceType: z
     .object({
       label: z.enum([

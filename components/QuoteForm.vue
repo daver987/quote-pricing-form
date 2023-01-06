@@ -13,10 +13,10 @@ import { ReturnedFormData } from '~/schema/returnedFormData'
 const store = useQuoteStore()
 const {
   isRoundTrip,
-  pickupDate,
-  pickupTime,
-  returnPickupDate,
-  returnPickupTime,
+  selectedDate,
+  selectedTime,
+  selectedReturnDate,
+  selectedReturnTime,
   vehicleTypeLabel,
   passengersLabel,
   serviceTypeLabel,
@@ -29,6 +29,7 @@ const {
   lastName,
   emailAddress,
   phoneNumber,
+  baseRate,
 } = storeToRefs(store)
 
 const passengerClasses = ref('text-gray-400')
@@ -167,44 +168,6 @@ const dropdownOptions = ref({
   showDialCodeInList: true,
 })
 
-//logic to determine if it's an hourly based or distance based quote
-
-// const onSubmit = async (evt: Event) => {
-//   loading.value = true
-//   const rates = (await $fetch('/api/rates')) as Rates[]
-//   const surcharges = (await $fetch('/api/surcharges')) as Surcharges
-//   console.log(selectedVehicleType.value)
-//   vehicle_type.value = selectedVehicleType.value
-//   number_of_hours.value = selectedNumberOfHours.value as unknown as FormOptions
-//   console.log(isItHourly.value)
-//   const serviceRate = getRateFromId(selectedVehicleType.value.value, rates)
-//   console.log(serviceRate)
-//   const baseRate = getBaseRate(
-//     isItHourly.value,
-//     selectedNumberOfHours.value,
-//     distance_traveled.value,
-//     serviceRate as Rates,
-//   ) as number
-//   console.log(baseRate)
-//   const { fuelSurcharge, gratuity, HST } = getSurchargeAmounts(
-//     baseRate,
-//     surcharges,
-//   )
-//   const sumOfSurcharges = ref<number>(baseRate + fuelSurcharge + gratuity + HST)
-//   total_cost.value = usePrecision(
-//     sumOfSurcharges,
-//     2,
-//   ) as unknown as number
-
-//   console.log(total_cost.value)
-//   //make total cost have 2 decimal places
-
-//   //add the separated rate data to the quote store
-//   base_rate.value = baseRate
-//   fuel_surcharge.value = fuelSurcharge
-//   gratuity_rate.value = gratuity
-//   hst.value = HST
-
 //   const vehicleImages = () => {
 //     if (selectedVehicleType.value.label === 'Standard Sedan') {
 //       return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/8c7c6a8d-06ad-4278-1c70-9d497b1cb200/1024'
@@ -215,22 +178,6 @@ const dropdownOptions = ref({
 //     } else {
 //       return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d80107f-4800-45ae-8e20-c4adf2792f00/1024'
 //     }
-//   }
-//   vehicle_image.value = vehicleImages()
-//   console.log(vehicle_image.value)
-//   const timestamp = evt.timeStamp
-//   const {
-//     origin_input,
-//     destination_input,
-//     pickup_date,
-//     pickup_time,
-//     num_passengers,
-//     first_name,
-//     last_name,
-//     email_address,
-//     phone_number,
-//     /* @ts-ignore */
-//   } = Object.fromEntries(new FormData(evt.target as HTMLFormElement))
 
 // const service_type_id = ref(service_type.value.value) as Ref<number>
 // const formBody = {
@@ -364,12 +311,16 @@ const originPlaceId = ref<string>('')
 const destination = ref<Place | null>(null)
 const destinationPlaceId = ref<string>('')
 const calculatedDistance = ref<number>(0)
+const pickupDate = ref<string>('')
+const pickupTime = ref<string>('')
+const returnDate = ref<string>('')
+const returnTime = ref<string>('')
 
 const formValues = ref({
-  pickupDate: pickupDate.value,
-  pickupTime: pickupTime.value,
-  returnPickupDate: returnPickupDate.value,
-  returnPickupTime: returnPickupTime.value,
+  pickupDate: selectedDate.value,
+  pickupTime: selectedTime.value,
+  returnDate: selectedReturnDate.value,
+  returnTime: selectedReturnTime.value,
   selectedServiceType: selectedServiceType.value,
   selectedVehicleType: selectedVehicleType.value,
   selectedNumberOfHours: selectedNumberOfHours.value,
@@ -787,20 +738,22 @@ const onSubmit = handleSubmit(async (formValues) => {
     passengersLabel: paxLabel,
     serviceTypeLabel: serviceLabel,
     totalFare: subtotal,
-    pickupDate: selectedDate,
-    pickupTime: selectedTime,
-    returnPickupDate: returnDate,
-    returnPickupTime: returnTime,
+    baseRate: baseFare,
+    pickupDate: pickupDate,
+    pickupTime: pickupTime,
+    returnDate: returnDate,
+    returnTime: returnTime,
   } = returnedQuote.value as unknown as ReturnedFormData
   console.log('Returned data is:', data.value)
   vehicleTypeLabel.value = vehicleLabel
   serviceTypeLabel.value = serviceLabel
   passengersLabel.value = paxLabel
   totalFare.value = subtotal
-  pickupDate.value = selectedDate
-  pickupTime.value = selectedTime
-  returnPickupDate.value = returnDate
-  returnPickupTime.value = returnTime
+  baseRate.value = baseFare
+  selectedDate.value = pickupDate
+  selectedTime.value = pickupTime
+  selectedReturnDate.value = returnDate
+  selectedReturnTime.value = returnTime
   setTimeout(() => {
     loading.value = false
     router.push('/quoted')
@@ -912,17 +865,20 @@ const onSubmit = handleSubmit(async (formValues) => {
           />
         </div>
       </div>
-      <div v-if="isRoundTrip" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div
+        :class="[isRoundTrip ? 'visibleq' : 'hidden']"
+        class="grid grid-cols-1 md:grid-cols-2 gap-3"
+      >
         <div class="col-span-1">
           <InputDate
-            v-model="returnPickupDate"
+            v-model="returnDate"
             name="returnDate"
             placeholder="Enter A Return Date"
           />
         </div>
         <div class="col-span-1">
           <InputTime
-            v-model="returnPickupTime"
+            v-model="returnTime"
             name="returnTime"
             placeholder="Enter A Return Time"
           />
