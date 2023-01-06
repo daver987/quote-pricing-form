@@ -7,7 +7,6 @@ definePageMeta({
   middleware: ['auth'],
 })
 
-const enabled = ref(false)
 const rates = [
   {
     id: 1,
@@ -71,35 +70,35 @@ const rates = [
   },
 ]
 
-const surcharges = ref([
-  {
-    id: 1,
-    name: 'Gratuity',
-    amount: 0.2,
-    isPercentage: true,
-    isFlat: false,
-    isTaxable: false,
-    type: 'Active',
-  },
-  {
-    id: 2,
-    name: 'Fuel Surcharge',
-    amount: 0.08,
-    isPercentage: true,
-    isFlat: false,
-    isTaxable: true,
-    type: 'Active',
-  },
-  {
-    id: 3,
-    name: 'Admin Fee',
-    amount: 3.5,
-    isPercentage: false,
-    isFlat: true,
-    isTaxable: true,
-    type: 'Active',
-  },
-])
+// const surcharges = ref([
+//   {
+//     id: 1,
+//     name: 'Gratuity',
+//     amount: 0.2,
+//     isPercentage: true,
+//     isFlat: false,
+//     isTaxable: false,
+//     type: 'Active',
+//   },
+//   {
+//     id: 2,
+//     name: 'Fuel Surcharge',
+//     amount: 0.08,
+//     isPercentage: true,
+//     isFlat: false,
+//     isTaxable: true,
+//     type: 'Active',
+//   },
+//   {
+//     id: 3,
+//     name: 'Admin Fee',
+//     amount: 3.5,
+//     isPercentage: false,
+//     isFlat: true,
+//     isTaxable: true,
+//     type: 'Active',
+//   },
+// ])
 const openSurcharges = ref(false)
 const toggleSurcharges = () => {
   openSurcharges.value = !openSurcharges.value
@@ -110,6 +109,18 @@ const toggleVehicleType = () => {
   openVehicleType.value = !openVehicleType.value
   console.log(openVehicleType.value)
 }
+const supabase = useSupabaseClient()
+const { data: vehicleType } = await useAsyncData('vehicle_type', async () => {
+  const { data } = await supabase.from('vehicle_type').select()
+  return data
+})
+console.log(vehicleType.value)
+
+const { data: surcharges } = await useAsyncData('surcharges', async () => {
+  const { data } = await supabase.from('surcharges').select()
+  return data
+})
+console.log(surcharges.value)
 </script>
 
 <template>
@@ -139,7 +150,7 @@ const toggleVehicleType = () => {
             </div>
             <div class="overflow-hidden bg-white shadow sm:rounded-md mt-2">
               <ul role="list" class="divide-y divide-gray-200">
-                <li v-for="rate in rates" :key="rate.id">
+                <li v-for="rate in vehicleType" :key="rate.id">
                   <div class="block hover:bg-gray-50">
                     <div class="px-4 py-4 sm:px-6">
                       <div class="flex items-center justify-between">
@@ -152,7 +163,7 @@ const toggleVehicleType = () => {
                           <p
                             class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
                           >
-                            {{ rate.type }}
+                            {{ rate.is_active ? 'Active' : 'Inactive' }}
                           </p>
                         </div>
                       </div>
@@ -295,7 +306,7 @@ const toggleVehicleType = () => {
                           <p
                             class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
                           >
-                            {{ surcharge.type }}
+                            {{ surcharge.is_active ? 'Active' : 'Inactive' }}
                           </p>
                         </div>
                       </div>
@@ -308,15 +319,15 @@ const toggleVehicleType = () => {
                               class="font-sans text-gray-900 font-medium mr-2"
                               >Rate Amount:
                             </span>
-                            {{ surcharge.amount }}
+                            {{ surcharge.value }}
                           </p>
                         </div>
                         <div class="flex flex-col">
                           <SwitchGroup as="div" class="flex items-center">
                             <Switch
-                              v-model="surcharge.isPercentage"
+                              v-model="surcharge.is_percentage"
                               :class="[
-                                surcharge.isPercentage
+                                surcharge.is_percentage
                                   ? 'bg-brand-600'
                                   : 'bg-gray-200',
                                 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2',
@@ -325,7 +336,7 @@ const toggleVehicleType = () => {
                               <span
                                 aria-hidden="true"
                                 :class="[
-                                  surcharge.isPercentage
+                                  surcharge.is_percentage
                                     ? 'translate-x-5'
                                     : 'translate-x-0',
                                   'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
@@ -342,9 +353,9 @@ const toggleVehicleType = () => {
                         <div class="flex flex-col">
                           <SwitchGroup as="div" class="flex items-center">
                             <Switch
-                              v-model="surcharge.isFlat"
+                              v-model="surcharge.is_flat"
                               :class="[
-                                surcharge.isFlat
+                                surcharge.is_flat
                                   ? 'bg-brand-600'
                                   : 'bg-gray-200',
                                 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2',
@@ -353,7 +364,7 @@ const toggleVehicleType = () => {
                               <span
                                 aria-hidden="true"
                                 :class="[
-                                  surcharge.isFlat
+                                  surcharge.is_flat
                                     ? 'translate-x-5'
                                     : 'translate-x-0',
                                   'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
@@ -370,9 +381,9 @@ const toggleVehicleType = () => {
                         <div class="flex flex-col">
                           <SwitchGroup as="div" class="flex items-center">
                             <Switch
-                              v-model="surcharge.isTaxable"
+                              v-model="surcharge.is_taxable"
                               :class="[
-                                surcharge.isTaxable
+                                surcharge.is_taxable
                                   ? 'bg-brand-600'
                                   : 'bg-gray-200',
                                 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2',
@@ -381,7 +392,7 @@ const toggleVehicleType = () => {
                               <span
                                 aria-hidden="true"
                                 :class="[
-                                  surcharge.isTaxable
+                                  surcharge.is_taxable
                                     ? 'translate-x-5'
                                     : 'translate-x-0',
                                   'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
