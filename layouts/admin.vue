@@ -80,15 +80,10 @@ const userNavigation = [
               <div class="ml-10 flex items-baseline space-x-4">
                 <NuxtLink
                   v-for="item in navigation"
+                  exact-active-class="bg-grey-900 text-white"
+                  class="px-3 py-2 rounded-md text-sm font-medium text-grey-100 hover:bg-grey-700 hover:text-white"
                   :key="item.name"
                   :to="item.href"
-                  @click="item.current = true"
-                  :class="[
-                    item.current
-                      ? 'bg-grey-900 text-white'
-                      : 'text-grey-300 hover:bg-grey-700 hover:text-white',
-                    'px-3 py-2 rounded-md text-sm font-medium',
-                  ]"
                   :aria-current="item.current ? 'page' : undefined"
                   >{{ item.name }}</NuxtLink
                 >
