@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useQuoteStore } from '~/stores/useQuoteStore'
-// import { returnedFormData, ReturnedFormData } from '~/schema/returnedFormData'
 import { storeToRefs } from 'pinia'
 import { Place } from '~/types/DirectionsResponse'
 

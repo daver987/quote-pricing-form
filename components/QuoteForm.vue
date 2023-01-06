@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { DirectionsResponse, Place } from '~/types/DirectionsResponse'
-import { Ref } from 'vue'
-import { formSchema, ValidationSchema } from '~/schema/quoteFormValues'
+import { formSchema } from '~/schema/quoteFormValues'
 import { useQuoteStore } from '~/stores/useQuoteStore'
 import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
@@ -168,18 +167,6 @@ const dropdownOptions = ref({
   showDialCodeInList: true,
 })
 
-//   const vehicleImages = () => {
-//     if (selectedVehicleType.value.label === 'Standard Sedan') {
-//       return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/8c7c6a8d-06ad-4278-1c70-9d497b1cb200/1024'
-//     } else if (selectedVehicleType.value.label === 'Premium Sedan') {
-//       return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d171f30-de2f-447c-a602-95ccf248c600/1024'
-//     } else if (selectedVehicleType.value.label === 'Standard SUV') {
-//       return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/b4bf6461-ba55-48bd-e0ba-d613ae383000/1024'
-//     } else {
-//       return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d80107f-4800-45ae-8e20-c4adf2792f00/1024'
-//     }
-
-// const service_type_id = ref(service_type.value.value) as Ref<number>
 // const formBody = {
 //   fields: [
 //     {
@@ -283,21 +270,6 @@ const dropdownOptions = ref({
 //       value: origin_place_name.value,
 //     },
 //   ],
-// }
-
-// const { data, error } = await useFetch('/api/formSubmit', {
-//   body: formBody,
-// })
-// const router = useRouter()
-// setTimeout(() => {
-//   router.push('/quoted')
-// }, 750)
-// loading.value = false
-
-// return {
-//   data,
-//   error,
-// }
 // }
 
 interface SelectFormData {
@@ -713,7 +685,6 @@ const onDestinationChange = async (evt: Place) => {
 
 //todo: add logic to check if the user picked an airport, if true add extra to the cost
 //todo: add waypoints to the route for the quote
-//todo: add popup to show images of the vehicles
 //todo: add popup to show the terms and conditions
 
 const validationSchema = toFormValidator(formSchema)
@@ -761,68 +732,6 @@ const onSubmit = handleSubmit(async (formValues) => {
   }, 1500)
   return
 })
-
-// const submitForm = async () => {
-//   submitting.value = true
-//   const formData = reactive<ValidationSchema>({
-//     pickupDate: pickupDate.value,
-//     pickupTime: pickupTime.value,
-//     returnPickupDate: returnPickupDate.value,
-//     returnPickupTime: returnPickupTime.value,
-//     selectedServiceType: selectedServiceType.value as {
-//       label: string
-//       value: number
-//       isDisabled: boolean
-//     },
-//     selectedVehicleType: selectedVehicleType.value as {
-//       label: string
-//       value: number
-//       isDisabled: boolean
-//     },
-//     selectedNumberOfHours: selectedNumberOfHours.value as {
-//       label: string
-//       value: number
-//       isDisabled: boolean
-//     },
-//     selectedPassengers: selectedPassengers.value as {
-//       label: string
-//       value: number
-//       isDisabled: boolean
-//     },
-//     firstName: firstName.value,
-//     lastName: lastName.value,
-//     emailAddress: emailAddress.value,
-//     phoneNumber: phoneNumber.value,
-//     isRoundTrip: isRoundTrip.value,
-//     isHourly: isItHourly.value,
-//     tripData: tripData.value as unknown as DirectionsResponse,
-//     originData: placeDataOrigin.value as unknown as Place,
-//     destinationData: placeDataDestination.value as unknown as Place,
-//     calculatedDistance: calculatedDistance.value,
-//   })
-//   console.log('form data is:', formData)
-//   const form = formSchema.safeParse(formData)
-//   if (!form.success) {
-//     console.log('error', form.error)
-//     return (submitting.value = false)
-//   } else {
-//     console.log('success', form.data)
-//     quoteFormValues.value = form.data
-//     console.log('quote form values are:', quoteFormValues.value)
-//     const { data, error } = await useFetch('/api/submission', {
-//       method: 'POST',
-//       body: form.data,
-//     })
-//     setTimeout(() => {
-//       router.push('/quoted')
-//     }, 1500)
-//     submitting.value = false
-//     return {
-//       data: data.value,
-//       error: error.value,
-//     }
-//   }
-// }
 </script>
 
 <template>

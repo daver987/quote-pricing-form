@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'adminlayout',
+  layout: 'admin',
 })
 </script>
 
 <template>
-  <main class="overscroll-none">
+  <main class="max-w-7xl mx-auto py-8">
     <NuxtPage />
   </main>
 </template>

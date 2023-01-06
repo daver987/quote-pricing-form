@@ -1,6 +1,7 @@
 <script setup>
 definePageMeta({
-  layout: 'adminlayout',
+  name: 'Quotes',
+  layout: 'admin',
   middleware: ['auth'],
 })
 const supabase = useSupabaseClient()
@@ -21,14 +22,13 @@ console.log('Quotes: ', quotes.value)
 //     selectedQuotes.value.length > 0 &&
 //     selectedQuotes.value.length < quotes.length
 // )
-const selectedQuotes = ref([])
 </script>
 
 <template>
   <div class="px-4 sm:px-6 lg:px-8">
-    <div class="sm:flex sm:items-center">
+    <div class="sm:flex sm:items-center -mt-20">
       <div class="sm:flex-auto">
-        <h1 class="text-xl font-semibold text-gray-900">Quotes</h1>
+        <h1 class="text-xl font-semibold text-gray-900"></h1>
       </div>
       <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
         <button

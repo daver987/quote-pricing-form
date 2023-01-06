@@ -60,6 +60,13 @@ export default defineEventHandler(async (event) => {
       place_id: destinationPlaceId,
     } = placeDataDestination as PlaceDataDestination
 
+    const isPearson = (origin: string, destination: string) => {
+      return (
+        origin === 'Toronto Pearson International Airport' ||
+        destination === 'Toronto Pearson International Airport'
+      )
+    }
+
     const { value: hoursValue, label: hoursLabel } = selectedNumberOfHours || {
       value: 0,
       label: '0 hrs',
@@ -92,7 +99,7 @@ export default defineEventHandler(async (event) => {
     )
     const { fuelSurcharge, gratuity, HST } = computedSurcharges
 
-    const totalFare = baseRate + fuelSurcharge + gratuity + HST
+    const isPearsonAirportPickup = isPearson(originName, destinationName)
 
     const addUser = async () => {
       const { data, error } = await supabase
@@ -107,8 +114,6 @@ export default defineEventHandler(async (event) => {
         .select()
       console.log('This is the returned data', data)
       console.log('This is the returned error', error)
-      // @ts-ignore
-      const { userEmail } = data[0]
     }
 
     const addQuote = async () => {

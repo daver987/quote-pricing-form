@@ -22,7 +22,7 @@ const login = async () => {
   }
   setTimeout(() => {
     loading.value = false
-    router.push('/admin/quotes')
+    router.push('/admin')
   }, 1000)
   console.log(data)
 }
