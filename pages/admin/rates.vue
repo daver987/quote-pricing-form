@@ -1,6 +1,7 @@
 <script setup>
 import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import { PlusIcon as PlusIconMini } from '@heroicons/vue/20/solid'
+
 definePageMeta({
   name: 'Rates',
   layout: 'admin',
@@ -70,45 +71,18 @@ const rates = [
   },
 ]
 
-// const surcharges = ref([
-//   {
-//     id: 1,
-//     name: 'Gratuity',
-//     amount: 0.2,
-//     isPercentage: true,
-//     isFlat: false,
-//     isTaxable: false,
-//     type: 'Active',
-//   },
-//   {
-//     id: 2,
-//     name: 'Fuel Surcharge',
-//     amount: 0.08,
-//     isPercentage: true,
-//     isFlat: false,
-//     isTaxable: true,
-//     type: 'Active',
-//   },
-//   {
-//     id: 3,
-//     name: 'Admin Fee',
-//     amount: 3.5,
-//     isPercentage: false,
-//     isFlat: true,
-//     isTaxable: true,
-//     type: 'Active',
-//   },
-// ])
 const openSurcharges = ref(false)
 const toggleSurcharges = () => {
   openSurcharges.value = !openSurcharges.value
   console.log(openSurcharges.value)
 }
 const openVehicleType = ref(false)
+
 const toggleVehicleType = () => {
   openVehicleType.value = !openVehicleType.value
   console.log(openVehicleType.value)
 }
+
 const supabase = useSupabaseClient()
 const { data: vehicleType } = await useAsyncData('vehicle_type', async () => {
   const { data } = await supabase.from('vehicle_type').select()

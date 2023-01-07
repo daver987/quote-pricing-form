@@ -1,11 +1,10 @@
-import { ValidationSchema, formSchema } from '~/schema/quoteFormValues'
-import { TripData, PlaceDataOrigin, PlaceDataDestination } from '~/types/data'
-import { rates } from '~/data/rates'
+import { ValidationSchema } from '~/schema/quoteFormValues'
+import { PlaceDataDestination, PlaceDataOrigin, TripData } from '~/types/data'
+import { rates, surcharges } from '~/data/rates'
 import { Rates, Surcharges } from '~/types/Rates'
-import { surcharges } from '~/data/rates'
 import {
-  getRateFromId,
   getBaseRate,
+  getRateFromId,
   getSurchargeAmounts,
 } from '~/composables/useRateCalculator'
 import { serverSupabaseClient } from '#supabase/server'
@@ -14,8 +13,6 @@ export default defineEventHandler(async (event) => {
   const supabase = serverSupabaseClient(event)
   try {
     const body = await readBody(event)
-    console.log('This is the returned body', body)
-
     const {
       calculatedDistance,
       firstName,
@@ -117,6 +114,7 @@ export default defineEventHandler(async (event) => {
       }
     }
 
+    // add a user to the database
     const addUser = async () => {
       const { data, error } = await supabase
         .from('user')
@@ -132,6 +130,37 @@ export default defineEventHandler(async (event) => {
       console.log('This is the returned error', error)
     }
 
+    //increment the quote number
+    interface QuoteNumber {
+      latest_quote_number: number
+    }
+    //get the latest quote number
+    const getQuoteNumber = async () => {
+      const { data } = await supabase
+        .from('quote_number')
+        .select('latest_quote_number')
+        .single()
+      console.log('This is the returned quote number', data)
+      return data as QuoteNumber
+    }
+
+    const { latest_quote_number } = await getQuoteNumber()
+
+    //increment and update the quote number
+    const incrementedQuoteNumber = async () => {
+      const updatedQuoteNumber = latest_quote_number + 1
+      const { data } = await supabase
+        .from('quote_number')
+        // @ts-ignore
+        .update({ latest_quote_number: updatedQuoteNumber })
+        .eq('id', '1')
+      console.log('This is the updated quote number, data', data)
+      return updatedQuoteNumber
+    }
+    const quoteNumber = await incrementedQuoteNumber()
+    console.log('This is the new returned quote number', quoteNumber)
+
+    //add the quote to the database
     const addQuote = async () => {
       const { data, error } = await supabase
         .from('quotes')
@@ -160,9 +189,9 @@ export default defineEventHandler(async (event) => {
           passengersValue: selectedPassengers.value,
           isItHourly: isItHourly,
           // @ts-ignore
-          hoursLabel: selectedNumberOfHours.label,
+          hoursLabel: selectedHoursLabel,
           // @ts-ignore
-          hoursValue: selectedNumberOfHours.value,
+          hoursValue: selectedHours,
           distanceText: tripData.distanceText,
           distanceValue: tripData.distanceValue,
           durationText: tripData.durationText,
@@ -174,6 +203,7 @@ export default defineEventHandler(async (event) => {
           HST,
           userEmail: emailAddress,
           totalFare: calculatedTotal(),
+          quote_number: quoteNumber,
           firstName,
           lastName,
         })

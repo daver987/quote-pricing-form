@@ -19,14 +19,19 @@ export const useQuoteStore = defineStore('useQuoteStore', {
     vehicleImageSrc: '/images/cadillac-xts-1.png',
     vehicleImageAlt: 'Cadillac XTS',
     tripData: null as DirectionsResponse | null,
-    placeDataOrigin: null as Place | null,
-    placeDataDestination: null as Place | null,
+    placeDataOrigin: {} as Place | null,
+    placeDataDestination: {} as Place | null,
     firstName: '',
     lastName: '',
     emailAddress: '',
     phoneNumber: '',
     baseRate: 0,
   }),
+  actions: {
+    getQuote() {
+      // do something
+    },
+  },
 })
 
 if (import.meta.hot) {

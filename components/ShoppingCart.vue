@@ -1,36 +1,55 @@
 <script setup lang="ts">
 import { useQuoteStore } from '~/stores/useQuoteStore'
-import { storeToRefs } from 'pinia'
-import { Place } from '~/types/DirectionsResponse'
+import { Quote } from '~/schema/quote'
+
+const supabase = useSupabaseClient()
+
+const { data: quote } = await useAsyncData('quotes', async () => {
+  const { data } = await supabase.from('quotes').select()
+  return data
+})
+const quoteFormData = quote.value.pop() as Quote
+
+console.log('Quote Data: ', quoteFormData)
+console.log('Quote: ', quote.value)
 
 const store = useQuoteStore()
 const {
+  pickupDate,
+  pickupTime,
+  returnDate,
+  returnTime,
   isRoundTrip,
-  selectedDate,
-  selectedTime,
-  selectedReturnDate,
-  selectedReturnTime,
   vehicleTypeLabel,
   passengersLabel,
   serviceTypeLabel,
   totalFare,
-  vehicleImageSrc,
-  vehicleImageAlt,
-  placeDataOrigin,
-  placeDataDestination,
+  originName,
+  destinationName,
   baseRate,
-} = storeToRefs(store)
-
-const { name: originName } = placeDataOrigin.value as Place
-const { name: destinationName } = placeDataDestination.value as Place
+  gratuity,
+  HST,
+  fuelSurcharge,
+  id,
+  quote_number,
+} = quoteFormData as Quote
 
 const returnServiceTypeLabel = computed(() => {
-  if (isRoundTrip.value && serviceTypeLabel.value === 'To Airport')
-    return 'From Airport'
-  if (isRoundTrip.value && serviceTypeLabel.value === 'From Airport')
-    return 'To Airport'
-  else return serviceTypeLabel.value
+  if (isRoundTrip && serviceTypeLabel === 'To Airport') return 'From Airport'
+  if (isRoundTrip && serviceTypeLabel === 'From Airport') return 'To Airport'
+  else return serviceTypeLabel
 })
+
+const roundTripFare = (roundTrip: boolean, fare: number) => {
+  if (roundTrip) return fare * 2
+  else return fare
+}
+
+const tripBaseRate = roundTripFare(isRoundTrip, baseRate)
+const tripGratuity = roundTripFare(isRoundTrip, gratuity)
+const tripHST = roundTripFare(isRoundTrip, HST)
+const tripFuelSurcharge = roundTripFare(isRoundTrip, fuelSurcharge)
+const tripTotalFare = roundTripFare(isRoundTrip, totalFare)
 
 function getCurrentDate() {
   const date = new Date()
@@ -39,60 +58,34 @@ function getCurrentDate() {
   const year = date.getFullYear()
   return `${month} ${day}, ${year}`
 }
+
 const currentDate = getCurrentDate()
-const quoteNumber = 9999
 
-const baseRateString = isRoundTrip.value
-  ? (baseRate.value * 2).toFixed(2)
-  : baseRate.value.toFixed(2)
-const fuelSurchargeString = isRoundTrip.value
-  ? (baseRate.value * 0.08 * 2).toFixed(2)
-  : (baseRate.value * 0.08).toFixed(2)
-const gratuityString = isRoundTrip.value
-  ? (baseRate.value * 0.2 * 2).toFixed(2)
-  : (baseRate.value * 0.2).toFixed(2)
-const hstString = isRoundTrip.value
-  ? (baseRate.value * 0.13 * 2).toFixed(2)
-  : (baseRate.value * 0.13).toFixed(2)
-const totalFareString = totalFare.value.toFixed(2)
-const totalFareFromPearsonString = (totalFare.value + 15).toFixed(2)
-const totalFareRoundTripString = (totalFare.value * 2).toFixed(2)
-const totalFareRoundTripFromPearsonString = (totalFare.value * 2 + 15).toFixed(
-  2
-)
-
-const isPearson = (origin: string) => {
-  if (origin === 'Toronto Pearson International Airport') {
-    return true
-  }
-}
-
-const isFromPearson = () => {
-  if (isPearson(originName)) {
-    return totalFareFromPearsonString
-  }
-  if (isRoundTrip.value && isPearson(originName)) {
-    return totalFareRoundTripFromPearsonString
-  }
-  if (isRoundTrip.value) {
-    return totalFareRoundTripString
-  }
-  return totalFareString
-}
+// const { data: incrementedNumber } = await useAsyncData(
+//   'incrementQuote',
+//   async () => {
+//     const { data, error } = await supabase.rpc('increment_quote_number', {
+//       row_id: rowId,
+//     })
+//     console.log('Increment Quote: ', data)
+//     return data
+//   }
+// )
+// const quoteNumber = incrementedNumber
 
 const vehicleImage = () => {
-  if (vehicleTypeLabel.value === 'Standard Sedan') {
+  if (vehicleTypeLabel === 'Standard Sedan') {
     return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/8c7c6a8d-06ad-4278-1c70-9d497b1cb200/1024'
-  } else if (vehicleTypeLabel.value === 'Premium Sedan') {
+  } else if (vehicleTypeLabel === 'Premium Sedan') {
     return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d171f30-de2f-447c-a602-95ccf248c600/1024'
-  } else if (vehicleTypeLabel.value === 'Standard SUV') {
+  } else if (vehicleTypeLabel === 'Standard SUV') {
     return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/b4bf6461-ba55-48bd-e0ba-d613ae383000/1024'
   } else {
     return 'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d80107f-4800-45ae-8e20-c4adf2792f00/1024'
   }
 }
-vehicleImageSrc.value = vehicleImage()
-vehicleImageAlt.value = vehicleTypeLabel.value
+const vehicleImageSrc = vehicleImage()
+const vehicleImageAlt = vehicleTypeLabel
 </script>
 
 <template>
@@ -116,7 +109,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
             >
           </dt>
           <dd class="font-medium text-red-600">
-            <span>{{ quoteNumber }}</span>
+            <span>HPL-{{ quote_number }}</span>
           </dd>
           <dt>
             <span class="sr-only">Date</span>
@@ -165,16 +158,16 @@ vehicleImageAlt.value = vehicleTypeLabel.value
                         <NuxtLink
                           to="#"
                           class="font-medium text-gray-700 dark:text-gray-200 dark:hover:text-gray-200 hover:text-gray-800"
-                          >{{ serviceTypeLabel }}</NuxtLink
-                        >
+                          >{{ serviceTypeLabel }}
+                        </NuxtLink>
                       </h3>
                     </div>
                     <div class="mt-2 flex flex-col text-sm space-y-1">
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">Date: </span
-                        >{{ selectedDate }}
+                        >{{ pickupDate }}
                         <span class="text-brand-400">Time: </span>
-                        {{ selectedTime }}
+                        {{ pickupTime }}
                       </p>
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">PU: </span>{{ originName }}
@@ -194,7 +187,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
                     </div>
                     <p class="mt-3 text-sm font-medium">
                       <span class="text-brand-400">Subtotal: </span>$
-                      {{ totalFare.toFixed(2) }}
+                      {{ baseRate }}
                     </p>
                   </div>
 
@@ -260,9 +253,9 @@ vehicleImageAlt.value = vehicleTypeLabel.value
                     <div class="mt-2 flex flex-col text-sm space-y-1">
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">Date: </span
-                        >{{ selectedReturnDate }}
+                        >{{ returnDate }}
                         <span class="text-brand-400">Time: </span>
-                        {{ selectedReturnTime }}
+                        {{ returnTime }}
                       </p>
                       <p class="dark:text-gray-100 text-gray-500">
                         <span class="text-brand-400">PU: </span
@@ -283,7 +276,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
                     </div>
                     <p class="mt-3 text-sm font-medium">
                       <span class="text-brand-400">Subtotal: </span
-                      >{{ totalFare.toFixed(2) }}
+                      >{{ baseRate }}
                     </p>
                   </div>
 
@@ -342,7 +335,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
             <div class="flex items-center justify-between">
               <dt class="text-sm dark:text-gray-300 text-gray-600">Subtotal</dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ baseRateString }}
+                $ {{ tripBaseRate.toFixed(2) }}
               </dd>
             </div>
             <div
@@ -367,7 +360,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ fuelSurchargeString }}
+                $ {{ tripFuelSurcharge.toFixed(2) }}
               </dd>
             </div>
             <div
@@ -392,7 +385,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ gratuityString }}
+                $ {{ tripGratuity.toFixed(2) }}
               </dd>
             </div>
             <div
@@ -415,7 +408,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ hstString }}
+                $ {{ tripHST.toFixed(2) }}
               </dd>
             </div>
             <div
@@ -429,7 +422,7 @@ vehicleImageAlt.value = vehicleTypeLabel.value
               <dd
                 class="text-base font-medium dark:text-gray-100 text-gray-900"
               >
-                $ {{ isFromPearson() }}
+                {{ tripTotalFare.toFixed(2) }}
               </dd>
             </div>
           </dl>
