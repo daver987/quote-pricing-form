@@ -85,6 +85,7 @@ export const formSchema = z.object({
       formatted_address: z.string(),
       name: z.string(),
       place_id: z.string(),
+      types: z.array(z.string()),
     })
     .strip(),
   placeDataDestination: z
@@ -92,6 +93,7 @@ export const formSchema = z.object({
       formatted_address: z.string(),
       name: z.string(),
       place_id: z.string(),
+      types: z.array(z.string()),
     })
     .strip(),
   calculatedDistance: z.number(),

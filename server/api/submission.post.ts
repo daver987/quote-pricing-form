@@ -55,6 +55,7 @@ export default defineEventHandler(async (event) => {
       formatted_address: originFormattedAddress,
       name: originName,
       place_id: originPlaceId,
+      types: originTypes,
     } = placeDataOrigin as PlaceDataOrigin
 
     const isPearsonAirportPickup = isPearson(originName)
@@ -63,6 +64,7 @@ export default defineEventHandler(async (event) => {
       formatted_address: destinationFormattedAddress,
       name: destinationName,
       place_id: destinationPlaceId,
+      types: destinationTypes,
     } = placeDataDestination as PlaceDataDestination
 
     const isPearsonAirportDropoff = isPearson(destinationName)
@@ -126,7 +128,7 @@ export default defineEventHandler(async (event) => {
           phoneNumber,
         })
         .select()
-      console.log('This is the returned data', data)
+      console.log('This is the returned user data', data)
       console.log('This is the returned error', error)
     }
 
@@ -140,13 +142,12 @@ export default defineEventHandler(async (event) => {
         .from('quote_number')
         .select('latest_quote_number')
         .single()
-      console.log('This is the returned quote number', data)
+      console.log('This is the latest quote number', data)
       return data as QuoteNumber
     }
-
     const { latest_quote_number } = await getQuoteNumber()
 
-    //increment and update the quote number
+    //increment and update the latest quote number
     const incrementedQuoteNumber = async () => {
       const updatedQuoteNumber = latest_quote_number + 1
       const { data } = await supabase
@@ -154,11 +155,10 @@ export default defineEventHandler(async (event) => {
         // @ts-ignore
         .update({ latest_quote_number: updatedQuoteNumber })
         .eq('id', '1')
-      console.log('This is the updated quote number, data', data)
       return updatedQuoteNumber
     }
     const quoteNumber = await incrementedQuoteNumber()
-    console.log('This is the new returned quote number', quoteNumber)
+    console.log('This is the incremented quote number', quoteNumber)
 
     //add the quote to the database
     const addQuote = async () => {
@@ -208,8 +208,10 @@ export default defineEventHandler(async (event) => {
           lastName,
         })
         .select()
+      if (error) {
+        console.log('This is the returned error', error)
+      }
       console.log('This is the returned quote data', data)
-      console.log('This is the returned quote error', error)
     }
     await addUser()
     await addQuote()

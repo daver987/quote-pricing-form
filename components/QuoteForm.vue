@@ -9,6 +9,12 @@ import { toFormValidator } from '@vee-validate/zod'
 import { storeToRefs } from 'pinia'
 import { ReturnedFormData } from '~/schema/returnedFormData'
 
+interface SelectFormData {
+  label: string
+  value: number
+  isDisabled?: boolean | undefined
+}
+
 const store = useQuoteStore()
 const {
   isRoundTrip,
@@ -30,6 +36,7 @@ const {
   phoneNumber,
   baseRate,
 } = storeToRefs(store)
+const supabase = useSupabaseClient()
 
 const passengerClasses = ref('text-gray-400')
 const passengerOptions = ref<SelectFormData[]>([
@@ -77,65 +84,30 @@ const passengerOptions = ref<SelectFormData[]>([
 const selectedPassengers = ref<SelectFormData>(passengerOptions.value[0])
 console.log(selectedPassengers.value)
 
+// get the service types to populate the select
+const { data: serviceTypes } = await useAsyncData('service_type', async () => {
+  const { data } = await supabase
+    .from('service_type')
+    .select('label,value,isDisabled')
+  return data
+})
 const serviceTypeClasses = ref('text-gray-400')
-const serviceTypeOptions = <SelectFormData[]>[
-  {
-    label: 'Select Service Type',
-    value: 0,
-    isDisabled: true,
-  },
-  {
-    label: 'Point To Point',
-    value: 1,
-    isDisabled: false,
-  },
-  {
-    label: 'To Airport',
-    value: 2,
-    isDisabled: false,
-  },
-  {
-    label: 'From Airport',
-    value: 3,
-    isDisabled: false,
-  },
-  {
-    label: 'Hourly / As Directed',
-    value: 4,
-    isDisabled: false,
-  },
-]
+const serviceTypeOptions = <
+  SelectFormData[] // @ts-ignore
+>serviceTypes.value.sort((a, b) => (a.value > b.value ? 1 : -1))
 const selectedServiceType = ref<SelectFormData>(serviceTypeOptions[0])
-console.log(selectedServiceType.value)
 
+// get the vehicle types to populate the select
+const { data: vehicleTypes } = await useAsyncData('vehicle_type', async () => {
+  const { data } = await supabase
+    .from('vehicle_type')
+    .select('label,value,isDisabled')
+  return data
+})
 const vehicleTypeClasses = ref('text-gray-400')
-const vehicleTypeOptions = <SelectFormData[]>[
-  {
-    label: 'Select Vehicle Type',
-    value: 0,
-    isDisabled: true,
-  },
-  {
-    label: 'Standard Sedan',
-    value: 1,
-    isDisabled: false,
-  },
-  {
-    label: 'Premium Sedan',
-    value: 2,
-    isDisabled: false,
-  },
-  {
-    label: 'Standard SUV',
-    value: 3,
-    isDisabled: false,
-  },
-  {
-    label: 'Premium SUV',
-    value: 4,
-    isDisabled: false,
-  },
-]
+const vehicleTypeOptions = <
+  SelectFormData[] //@ts-ignore
+>vehicleTypes.value.sort((a, b) => (a.value > b.value ? 1 : -1))
 const selectedVehicleType = ref<SelectFormData>(vehicleTypeOptions[0])
 console.log(selectedVehicleType.value)
 
@@ -150,6 +122,7 @@ const hoursRequiredOptions = ref<SelectFormData[]>([
 const selectedNumberOfHours = ref<SelectFormData>(hoursRequiredOptions.value[0])
 console.log('Selected hours', selectedNumberOfHours.value)
 
+// Options for the phone number input
 const inputOptions = ref({
   id: 'phone-number',
   required: true,
@@ -166,117 +139,6 @@ const dropdownOptions = ref({
   showSearchBox: true,
   showDialCodeInList: true,
 })
-
-// const formBody = {
-//   fields: [
-//     {
-//       objectTypeId: '0-1',
-//       name: 'pick_up_date',
-//       value: pickup_date,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'pick_up_time',
-//       value: pickup_time,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'vehicle_type',
-//       value: selectedVehicleType.value.label,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'origin_formatted_address',
-//       value: origin_input,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'destination_formatted_address',
-//       value: destination_input,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'firstname',
-//       value: first_name,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'lastname',
-//       value: last_name,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'email',
-//       value: email_address,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'phone',
-//       value: phone_number,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'service_type',
-//       value: service_type.value.label,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'service_type_id',
-//       value: service_type_id.value,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'deal_amount',
-//       value: total_cost.value,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'pax_amount',
-//       value: num_passengers,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'hours',
-//       value: selectedNumberOfHours.value,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'distance',
-//       value: distance_traveled.value,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'time',
-//       value: duration_traveled.value,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'submission_timestamp',
-//       value: timestamp,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'vehicle_image_url',
-//       value: vehicle_image.value,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'destination_place_name',
-//       value: destination_place_name.value,
-//     },
-//     {
-//       objectTypeId: '0-1',
-//       name: 'origin_place_name',
-//       value: origin_place_name.value,
-//     },
-//   ],
-// }
-
-interface SelectFormData {
-  label: string
-  value: number
-  isDisabled?: boolean | undefined
-}
 
 const origin = ref<Place | null>(null)
 const originPlaceId = ref<string>('')
