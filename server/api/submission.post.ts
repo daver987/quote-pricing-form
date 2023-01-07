@@ -57,6 +57,11 @@ export default defineEventHandler(async (event) => {
       place_id: originPlaceId,
       types: originTypes,
     } = placeDataOrigin as PlaceDataOrigin
+    const isToAirport = () => {
+      if (originTypes.includes('Airport')) {
+        return true
+      }
+    }
 
     const isPearsonAirportPickup = isPearson(originName)
 
@@ -66,6 +71,12 @@ export default defineEventHandler(async (event) => {
       place_id: destinationPlaceId,
       types: destinationTypes,
     } = placeDataDestination as PlaceDataDestination
+
+    const isFromAirport = () => {
+      if (destinationTypes.includes('Airport')) {
+        return true
+      }
+    }
 
     const isPearsonAirportDropoff = isPearson(destinationName)
 

@@ -92,10 +92,11 @@ const { data: serviceTypes } = await useAsyncData('service_type', async () => {
   return data
 })
 const serviceTypeClasses = ref('text-gray-400')
-const serviceTypeOptions = <
-  SelectFormData[] // @ts-ignore
->serviceTypes.value.sort((a, b) => (a.value > b.value ? 1 : -1))
-const selectedServiceType = ref<SelectFormData>(serviceTypeOptions[0])
+const serviceTypeOptions = ref<SelectFormData[]>(
+  // @ts-ignore
+  serviceTypes.value.sort((a, b) => (a.value > b.value ? 1 : -1))
+)
+const selectedServiceType = ref<SelectFormData>(serviceTypeOptions.value[0])
 
 // get the vehicle types to populate the select
 const { data: vehicleTypes } = await useAsyncData('vehicle_type', async () => {
@@ -105,10 +106,11 @@ const { data: vehicleTypes } = await useAsyncData('vehicle_type', async () => {
   return data
 })
 const vehicleTypeClasses = ref('text-gray-400')
-const vehicleTypeOptions = <
-  SelectFormData[] //@ts-ignore
->vehicleTypes.value.sort((a, b) => (a.value > b.value ? 1 : -1))
-const selectedVehicleType = ref<SelectFormData>(vehicleTypeOptions[0])
+const vehicleTypeOptions = ref<SelectFormData[]>(
+  // @ts-ignore
+  vehicleTypes.value.sort((a, b) => (a.value > b.value ? 1 : -1))
+)
+const selectedVehicleType = ref<SelectFormData>(vehicleTypeOptions.value[0])
 console.log(selectedVehicleType.value)
 
 const hoursRequiredClasses = ref('cursor-not-allowed opacity-50 text-gray-300')
@@ -407,12 +409,15 @@ watch(selectedNumberOfHours, () => {
   }
 })
 
+const originType = ref<string[]>([])
 const onOriginChange = async (evt: Place) => {
   origin.value = evt
   console.log('Origin:', origin.value)
+  const { place_id, types } = origin.value
+  originType.value = types
+  console.log('Origin Type:', originType.value)
   if (origin.value && destination.value) {
     console.log('origin and destination are both set')
-    const { place_id } = origin.value
     const { data } = await useFetch<DirectionsResponse>('/api/get-distance', {
       query: {
         origin: originPlaceId.value,
@@ -479,12 +484,15 @@ const onOriginChange = async (evt: Place) => {
   }
 }
 
+const destinationType = ref<string[]>([])
 const onDestinationChange = async (evt: Place) => {
   destination.value = evt
+  const { place_id, types } = destination.value
+  destinationType.value = types
+  console.log('Destination Type:', destinationType.value)
   console.log('Destination:', destination.value)
   if (origin.value && destination.value) {
     console.log('origin and destination are both set')
-    const { place_id } = destination.value
     const { data } = await useFetch('/api/get-distance', {
       query: {
         origin: originPlaceId.value,
@@ -544,6 +552,21 @@ const onDestinationChange = async (evt: Place) => {
     return (destinationPlaceId.value = place_id)
   }
 }
+watch(originType, () => {
+  if (originType.value.includes('airport')) {
+    selectedServiceType.value = serviceTypeOptions.value[3]
+  } else {
+    selectedServiceType.value = serviceTypeOptions.value[0]
+  }
+})
+
+watch(destinationType, () => {
+  if (destinationType.value.includes('airport')) {
+    selectedServiceType.value = serviceTypeOptions.value[2]
+  } else {
+    selectedServiceType.value = serviceTypeOptions.value[0]
+  }
+})
 
 //todo: add logic to check if the user picked an airport, if true add extra to the cost
 //todo: add waypoints to the route for the quote

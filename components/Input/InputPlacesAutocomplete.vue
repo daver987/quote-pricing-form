@@ -55,15 +55,15 @@ const initAutocomplete = async () => {
   await loader.load().then(() => {
     autocomplete.value = new google.maps.places.Autocomplete(inputField.value, {
       componentRestrictions: { country: ['us', 'ca'] },
-      fields: ['place_id', 'formatted_address', 'name'],
+      fields: ['place_id', 'formatted_address', 'name', 'types'],
     })
-    autocomplete.value.setFields(['place_id'])
     autocomplete.value.addListener('place_changed', getAutocompleteComponents)
   })
 }
 
 const getAutocompleteComponents = () => {
   place.value = autocomplete.value.getPlace()
+  console.log('Returned place components:', place.value)
   const { place_id } = place.value
   console.log(place_id)
   emit('change', place.value)

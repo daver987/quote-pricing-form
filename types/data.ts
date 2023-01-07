@@ -33,12 +33,14 @@ export type PlaceDataOrigin = {
   formatted_address: string
   name: string
   place_id: string
+  types: string[]
 }
 
 export type PlaceDataDestination = {
   formatted_address: string
   name: string
   place_id: string
+  types: string[]
 }
 
 export type Data = {

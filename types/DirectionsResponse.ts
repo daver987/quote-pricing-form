@@ -13,4 +13,5 @@ export interface Place {
   place_id: string
   formatted_address: string
   name: string
+  types: string[]
 }
