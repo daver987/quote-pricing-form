@@ -86,6 +86,7 @@ export const formSchema = z.object({
       name: z.string(),
       place_id: z.string(),
       types: z.array(z.string()),
+      isPearsonAirportOrigin: z.boolean(),
     })
     .strip(),
   placeDataDestination: z
@@ -94,6 +95,7 @@ export const formSchema = z.object({
       name: z.string(),
       place_id: z.string(),
       types: z.array(z.string()),
+      isPearsonAirportDestination: z.boolean(),
     })
     .strip(),
   calculatedDistance: z.number(),

@@ -410,12 +410,18 @@ watch(selectedNumberOfHours, () => {
 })
 
 const originType = ref<string[]>([])
+const isPearsonAirportOrigin = ref<boolean>(false)
 const onOriginChange = async (evt: Place) => {
   origin.value = evt
   console.log('Origin:', origin.value)
-  const { place_id, types } = origin.value
+  const { place_id, types, name } = origin.value
   originType.value = types
+  name === 'Toronto Pearson International Airport'
+    ? (isPearsonAirportOrigin.value = true)
+    : (isPearsonAirportOrigin.value = false)
+  console.log('Is it PearsonAirport:', isPearsonAirportOrigin.value)
   console.log('Origin Type:', originType.value)
+  origin.value.isPearsonAirportOrigin = isPearsonAirportOrigin.value
   if (origin.value && destination.value) {
     console.log('origin and destination are both set')
     const { data } = await useFetch<DirectionsResponse>('/api/get-distance', {
@@ -485,10 +491,17 @@ const onOriginChange = async (evt: Place) => {
 }
 
 const destinationType = ref<string[]>([])
+const isPearsonAirportDestination = ref<boolean>(false)
 const onDestinationChange = async (evt: Place) => {
   destination.value = evt
-  const { place_id, types } = destination.value
+  const { place_id, types, name } = destination.value
   destinationType.value = types
+  name === 'Toronto Pearson International Airport'
+    ? (isPearsonAirportDestination.value = true)
+    : (isPearsonAirportDestination.value = false)
+  console.log('Is it PearsonAirport:', isPearsonAirportDestination.value)
+  destination.value.isPearsonAirportDestination =
+    isPearsonAirportDestination.value
   console.log('Destination Type:', destinationType.value)
   console.log('Destination:', destination.value)
   if (origin.value && destination.value) {
@@ -499,6 +512,7 @@ const onDestinationChange = async (evt: Place) => {
         destination: place_id,
       },
     })
+
     tripData.value = data.value
     placeDataOrigin.value = origin.value
     placeDataDestination.value = destination.value
@@ -555,8 +569,15 @@ const onDestinationChange = async (evt: Place) => {
 watch(originType, () => {
   if (originType.value.includes('airport')) {
     selectedServiceType.value = serviceTypeOptions.value[3]
-  } else {
-    selectedServiceType.value = serviceTypeOptions.value[0]
+  }
+  if (destinationType.value.includes('airport')) {
+    selectedServiceType.value = serviceTypeOptions.value[2]
+  }
+  if (
+    originType.value.includes('airport') &&
+    destinationType.value.includes('airport')
+  ) {
+    selectedServiceType.value = serviceTypeOptions.value[3]
   }
 })
 
