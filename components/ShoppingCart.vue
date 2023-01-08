@@ -1,19 +1,17 @@
 <script setup lang="ts">
-import { useQuoteStore } from '~/stores/useQuoteStore'
 import { Quote } from '~/schema/quote'
 
 const supabase = useSupabaseClient()
 
 const { data: quote } = await useAsyncData('quotes', async () => {
   const { data } = await supabase.from('quotes').select()
-  return data
+  return data as Quote[]
 })
 const quoteFormData = quote.value.pop() as Quote
 
 console.log('Quote Data: ', quoteFormData)
 console.log('Quote: ', quote.value)
 
-const store = useQuoteStore()
 const {
   pickupDate,
   pickupTime,
@@ -45,11 +43,14 @@ const roundTripFare = (roundTrip: boolean, fare: number) => {
   else return fare
 }
 
-const tripBaseRate = roundTripFare(isRoundTrip, baseRate)
-const tripGratuity = roundTripFare(isRoundTrip, gratuity)
-const tripHST = roundTripFare(isRoundTrip, HST)
-const tripFuelSurcharge = roundTripFare(isRoundTrip, fuelSurcharge)
-const tripTotalFare = roundTripFare(isRoundTrip, totalFare)
+const roundTripBaseRate = roundTripFare(isRoundTrip, baseRate).toFixed(2)
+const roundTripGratuity = roundTripFare(isRoundTrip, gratuity).toFixed(2)
+const roundTripHST = roundTripFare(isRoundTrip, HST).toFixed(2)
+const roundTripFuelSurcharge = roundTripFare(
+  isRoundTrip,
+  fuelSurcharge
+).toFixed(2)
+const roundTripTotalFare = roundTripFare(isRoundTrip, totalFare).toFixed(2)
 
 function getCurrentDate() {
   const date = new Date()
@@ -60,18 +61,6 @@ function getCurrentDate() {
 }
 
 const currentDate = getCurrentDate()
-
-// const { data: incrementedNumber } = await useAsyncData(
-//   'incrementQuote',
-//   async () => {
-//     const { data, error } = await supabase.rpc('increment_quote_number', {
-//       row_id: rowId,
-//     })
-//     console.log('Increment Quote: ', data)
-//     return data
-//   }
-// )
-// const quoteNumber = incrementedNumber
 
 const vehicleImage = () => {
   if (vehicleTypeLabel === 'Standard Sedan') {
@@ -187,7 +176,7 @@ const vehicleImageAlt = vehicleTypeLabel
                     </div>
                     <p class="mt-3 text-sm font-medium">
                       <span class="text-brand-400">Subtotal: </span>$
-                      {{ baseRate }}
+                      {{ baseRate.toFixed(2) }}
                     </p>
                   </div>
 
@@ -276,7 +265,7 @@ const vehicleImageAlt = vehicleTypeLabel
                     </div>
                     <p class="mt-3 text-sm font-medium">
                       <span class="text-brand-400">Subtotal: </span
-                      >{{ baseRate }}
+                      >{{ baseRate.toFixed(2) }}
                     </p>
                   </div>
 
@@ -335,7 +324,7 @@ const vehicleImageAlt = vehicleTypeLabel
             <div class="flex items-center justify-between">
               <dt class="text-sm dark:text-gray-300 text-gray-600">Subtotal</dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ tripBaseRate.toFixed(2) }}
+                $ {{ isRoundTrip ? roundTripBaseRate : baseRate }}
               </dd>
             </div>
             <div
@@ -360,7 +349,7 @@ const vehicleImageAlt = vehicleTypeLabel
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ tripFuelSurcharge.toFixed(2) }}
+                $ {{ isRoundTrip ? roundTripFuelSurcharge : fuelSurcharge }}
               </dd>
             </div>
             <div
@@ -385,7 +374,7 @@ const vehicleImageAlt = vehicleTypeLabel
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ tripGratuity.toFixed(2) }}
+                $ {{ isRoundTrip ? roundTripGratuity : gratuity }}
               </dd>
             </div>
             <div
@@ -408,7 +397,7 @@ const vehicleImageAlt = vehicleTypeLabel
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ tripHST.toFixed(2) }}
+                $ {{ isRoundTrip ? roundTripHST : HST }}
               </dd>
             </div>
             <div
@@ -422,7 +411,7 @@ const vehicleImageAlt = vehicleTypeLabel
               <dd
                 class="text-base font-medium dark:text-gray-100 text-gray-900"
               >
-                {{ tripTotalFare.toFixed(2) }}
+                {{ isRoundTrip ? roundTripTotalFare : totalFare }}
               </dd>
             </div>
           </dl>

@@ -235,7 +235,7 @@ export default defineEventHandler(async (event) => {
           gratuity: surchargeAmounts['Gratuity'],
           HST: surchargeAmounts['HST'],
           userEmail: emailAddress,
-          totalFare: 99,
+          totalFare: totalAmount,
           quote_number: quoteNumber,
           firstName,
           lastName,
