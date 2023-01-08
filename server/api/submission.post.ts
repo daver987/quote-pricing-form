@@ -1,12 +1,9 @@
 import { ValidationSchema } from '~/schema/quoteFormValues'
-import { PlaceDataDestination, PlaceDataOrigin, TripData } from '~/types/data'
+import { VehicleType } from '~/schema/vehicleType'
+import { TripData } from '~/types/data'
+import { Place } from '~/types/DirectionsResponse'
 import { rates, surcharges } from '~/data/rates'
-import { Rates, Surcharges } from '~/types/Rates'
-import {
-  getBaseRate,
-  getRateFromId,
-  getSurchargeAmounts,
-} from '~/composables/useRateCalculator'
+import { Surcharges } from '~/schema/surcharges'
 import { serverSupabaseClient } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
@@ -45,40 +42,19 @@ export default defineEventHandler(async (event) => {
       startLng,
     } = tripData as TripData
 
-    const isPearson = (origin: string) => {
-      if (origin === 'Toronto Pearson International Airport') {
-        return true
-      }
-    }
-
     const {
       formatted_address: originFormattedAddress,
       name: originName,
       place_id: originPlaceId,
-      types: originTypes,
-    } = placeDataOrigin as PlaceDataOrigin
-    const isToAirport = () => {
-      if (originTypes.includes('Airport')) {
-        return true
-      }
-    }
-
-    const isPearsonAirportPickup = isPearson(originName)
+      isPearsonAirportOrigin,
+    } = placeDataOrigin as Place
 
     const {
       formatted_address: destinationFormattedAddress,
       name: destinationName,
       place_id: destinationPlaceId,
-      types: destinationTypes,
-    } = placeDataDestination as PlaceDataDestination
-
-    const isFromAirport = () => {
-      if (destinationTypes.includes('Airport')) {
-        return true
-      }
-    }
-
-    const isPearsonAirportDropoff = isPearson(destinationName)
+      isPearsonAirportDestination,
+    } = placeDataDestination as Place
 
     const { value: hoursValue, label: hoursLabel } = selectedNumberOfHours || {
       value: 0,
@@ -96,36 +72,80 @@ export default defineEventHandler(async (event) => {
 
     const { value: selectedHours, label: selectedHoursLabel } =
       selectedNumberOfHours || { value: 0, label: 'Hours Not Selected' }
+    //get the vehicle type from the vehicle type value
+    const getVehicleType = async () => {
+      const { data } = await supabase
+        .from('vehicle_type')
+        .select('*')
+        .eq('value', vehicleTypeValue)
+        .limit(1)
+      console.log('This is the Vehicle Type', data)
+      return data
+    }
+    const vehicleRates = (await getVehicleType()) as VehicleType[]
 
-    const rate = getRateFromId(serviceTypeValue, rates)
+    const {
+      min_distance,
+      min_rate_distance,
+      per_km,
+      min_hours_hourly,
+      min_rate_hourly,
+      per_hour,
+    } = vehicleRates[0]
 
-    const baseRate = getBaseRate(
-      isItHourly,
-      selectedHours,
-      calculatedDistance,
-      rate as Rates
-    )
-
-    const computedSurcharges = getSurchargeAmounts(
-      baseRate,
-      surcharges as unknown as Surcharges
-    )
-    const { fuelSurcharge, gratuity, HST } = computedSurcharges
-
-    const calculatedTotal = () => {
-      if (isPearsonAirportPickup) {
-        return baseRate + fuelSurcharge + gratuity + HST + 15
+    //calculate the base rate
+    const baseRateDistance = () => {
+      if (calculatedDistance < min_distance) {
+        return min_rate_distance
       }
-      if (!isPearsonAirportPickup) {
-        return baseRate + fuelSurcharge + gratuity + HST
+      return (calculatedDistance - min_distance) * per_km + min_rate_distance
+    }
+
+    const baseRateHourly = () => {
+      if (selectedHours < min_hours_hourly) {
+        return min_rate_hourly
       }
-      if (isPearsonAirportPickup || (isPearsonAirportDropoff && isRoundTrip)) {
-        return (baseRate + fuelSurcharge + gratuity + HST) * 2 + 15
-      }
-      if (!isPearsonAirportDropoff && !isPearsonAirportPickup && isRoundTrip) {
-        return (baseRate + fuelSurcharge + gratuity + HST) * 2
+      return selectedHours * per_hour
+    }
+    //get the surcharges
+    const getSurcharges = async () => {
+      const { data } = await supabase.from('surcharges').select()
+      console.log('This is the Surcharge Data', data)
+      return data
+    }
+    const surcharges = (await getSurcharges()) as Surcharges[]
+
+    let baseAmount = isItHourly ? baseRateHourly() : baseRateDistance()
+    let surchargeAmounts = {} as any
+    let totalAmount: string | number = baseAmount
+
+    for (let surcharge of surcharges) {
+      if (surcharge.is_active) {
+        let amount = 0
+        if (surcharge.is_percentage) {
+          amount = baseAmount * surcharge.amount
+        } else if (surcharge.is_flat) {
+          amount = surcharge.amount
+        }
+        if (surchargeAmounts[surcharge.name]) {
+          surchargeAmounts[surcharge.name] += amount
+        } else {
+          surchargeAmounts[surcharge.name] = amount
+        }
+        totalAmount += amount
       }
     }
+
+    // convert values to strings with 2 decimal places
+    for (let key in surchargeAmounts) {
+      surchargeAmounts[key] = surchargeAmounts[key].toFixed(2)
+    }
+    totalAmount = totalAmount.toFixed(2)
+
+    console.log(surchargeAmounts) // {surcharge1: "20.00", surcharge2: "10.00", tax: "10.00"}
+    console.log(totalAmount) // "130.00"
+
+    //calculate the surcharges
 
     // add a user to the database
     const addUser = async () => {
@@ -185,11 +205,13 @@ export default defineEventHandler(async (event) => {
           originFormattedAddress: placeDataOrigin.formatted_address,
           originName: placeDataOrigin.name,
           originPlaceId: placeDataOrigin.place_id,
+          isPearsonAirportPickup: isPearsonAirportOrigin,
           startLat: tripData.startLat,
           startLng: tripData.startLng,
           destinationFormattedAddress: placeDataDestination.formatted_address,
           destinationName: placeDataDestination.name,
           destinationPlaceId: placeDataDestination.place_id,
+          isPearsonAirportDropoff: isPearsonAirportDestination,
           endLat: tripData.endLat,
           endLng: tripData.endLng,
           vehicleTypeLabel: selectedVehicleType.label,
@@ -208,12 +230,12 @@ export default defineEventHandler(async (event) => {
           durationText: tripData.durationText,
           durationValue: tripData.durationValue,
           calculatedDistance: calculatedDistance,
-          baseRate,
-          fuelSurcharge,
-          gratuity,
-          HST,
+          baseRate: isItHourly ? baseRateHourly() : baseRateDistance(),
+          fuelSurcharge: surchargeAmounts['Fuel Surcharge'],
+          gratuity: surchargeAmounts['Gratuity'],
+          HST: surchargeAmounts['HST'],
           userEmail: emailAddress,
-          totalFare: calculatedTotal(),
+          totalFare: 99,
           quote_number: quoteNumber,
           firstName,
           lastName,
@@ -228,7 +250,6 @@ export default defineEventHandler(async (event) => {
     await addQuote()
 
     return {
-      rate,
       statusCode: 200,
       body,
       pickupDate,
@@ -264,11 +285,6 @@ export default defineEventHandler(async (event) => {
       durationText,
       durationValue,
       calculatedDistance,
-      baseRate,
-      fuelSurcharge,
-      gratuity,
-      HST,
-      totalFare: calculatedTotal(),
     }
   } catch (error) {
     console.log(error)
