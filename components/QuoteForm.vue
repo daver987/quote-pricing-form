@@ -581,14 +581,6 @@ watch(originType, () => {
   }
 })
 
-watch(destinationType, () => {
-  if (destinationType.value.includes('airport')) {
-    selectedServiceType.value = serviceTypeOptions.value[2]
-  } else {
-    selectedServiceType.value = serviceTypeOptions.value[0]
-  }
-})
-
 //todo: add logic to check if the user picked an airport, if true add extra to the cost
 //todo: add waypoints to the route for the quote
 //todo: add popup to show the terms and conditions
