@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Quote } from '~/schema/quote'
-definePageMeta()
 
 const supabase = useSupabaseClient()
 
@@ -27,7 +26,6 @@ const { data: quoteFormData } = await useAsyncData('quotes', async () => {
 })
 
 console.log('Quote Data: ', quoteFormData)
-// console.log('Quote: ', quote.value)
 
 const {
   pickupDate,

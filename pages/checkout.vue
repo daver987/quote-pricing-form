@@ -32,8 +32,5 @@ const createSession = async () => {
 <template>
   <div class="dark:bg-grey-900">
     <ShoppingCart :is-it-quote="false" />
-    <BaseContainer>
-      <TosTable />
-    </BaseContainer>
   </div>
 </template>
