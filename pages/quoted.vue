@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="dark:bg-grey-900">
+  <div class="dark:bg-grey-900 min-h-screen">
     <AppNavigation />
     <ShoppingCart />
   </div>

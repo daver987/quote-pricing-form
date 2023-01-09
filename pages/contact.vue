@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  title: 'Contact Us',
+  layout: 'default',
+})
 useHead({
   title: 'High Park Livery | Contact Us',
 })
@@ -9,19 +13,6 @@ const headerInfo = {
   body: "Your chauffeur is just a phone call away! Don't hesitate to contact us or get an online quote for rates and availability.",
   image: 'background-image: url("/images/toronto-2.jpg")',
 }
-
-definePageMeta({
-  title: 'Contact Us',
-  layout: 'default',
-  // pageTransition: {
-  //   appear: true,
-  //   enterFromClass: 'opacity-0',
-  //   enterActiveClass: 'duration-[500ms]',
-  //   leaveToClass: 'opacity-0',
-  //   leaveActiveClass: 'duration-[500ms]',
-  //   mode: 'out-in',
-  // },
-})
 </script>
 
 <template>

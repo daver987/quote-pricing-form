@@ -2,6 +2,11 @@
 import { Query } from '~/types/query'
 import { ReturnType } from '~/types/returnType'
 
+definePageMeta({
+  title: 'Checkout',
+  layout: 'default',
+})
+
 const route = useRoute().query as unknown as Query
 console.log(route)
 const subtotal = parseFloat(route.amount)
@@ -25,9 +30,9 @@ const createSession = async () => {
 </script>
 
 <template>
-  <BaseSection class="py-8 w-full">
-    <BaseContainer>
-      <AppNavigation @clicked:booked="createSession" />
+  <BaseSection class="pb-8 pt-0 min-h-screen dark:bg-grey-900">
+    <AppNavigation />
+    <div class="px-4">
       <Summary
         class="bg-white pt-4"
         :quoteNumber="route.quotenumber"
@@ -42,6 +47,6 @@ const createSession = async () => {
         :subtotal="subtotal"
         :isRoundTrip="route.roundtrip"
       />
-    </BaseContainer>
+    </div>
   </BaseSection>
 </template>
