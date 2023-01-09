@@ -566,7 +566,23 @@ const onDestinationChange = async (evt: Place) => {
     return (destinationPlaceId.value = place_id)
   }
 }
+
 watch(originType, () => {
+  if (originType.value.includes('airport')) {
+    selectedServiceType.value = serviceTypeOptions.value[3]
+  }
+  if (destinationType.value.includes('airport')) {
+    selectedServiceType.value = serviceTypeOptions.value[2]
+  }
+  if (
+    originType.value.includes('airport') &&
+    destinationType.value.includes('airport')
+  ) {
+    selectedServiceType.value = serviceTypeOptions.value[3]
+  }
+})
+
+watch(destinationType, () => {
   if (originType.value.includes('airport')) {
     selectedServiceType.value = serviceTypeOptions.value[3]
   }
@@ -602,7 +618,7 @@ const onSubmit = handleSubmit(async (formValues) => {
     method: 'POST',
     body: values,
   })
-  returnedQuote.value = data.value as ReturnedFormData
+  returnedQuote.value = data.value as unknown as ReturnedFormData
   const {
     vehicleTypeLabel: vehicleLabel,
     passengersLabel: paxLabel,

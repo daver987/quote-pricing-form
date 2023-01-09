@@ -3,14 +3,30 @@ import { Quote } from '~/schema/quote'
 
 const supabase = useSupabaseClient()
 
-const { data: quote } = await useAsyncData('quotes', async () => {
-  const { data } = await supabase.from('quotes').select()
+interface QuoteNumber {
+  latest_quote_number: number
+}
+//get the latest quote number
+const getQuoteNumber = async () => {
+  const { data } = await supabase
+    .from('quote_number')
+    .select('latest_quote_number')
+    .single()
+  console.log('This is the latest quote number', data)
+  return data as QuoteNumber
+}
+const { latest_quote_number: quoteNumber } = await getQuoteNumber()
+
+const { data: quoteFormData } = await useAsyncData('quotes', async () => {
+  const { data } = await supabase
+    .from('quotes')
+    .select('*')
+    .eq('quote_number', quoteNumber)
   return data as Quote[]
 })
-const quoteFormData = quote.value.pop() as Quote
 
 console.log('Quote Data: ', quoteFormData)
-console.log('Quote: ', quote.value)
+// console.log('Quote: ', quote.value)
 
 const {
   pickupDate,
@@ -30,7 +46,10 @@ const {
   fuelSurcharge,
   id,
   quote_number,
-} = quoteFormData as Quote
+  isPearsonAirportPickup,
+  isPearsonAirportDropoff,
+  //@ts-ignore
+} = quoteFormData.value[0] as Quote
 
 const returnServiceTypeLabel = computed(() => {
   if (isRoundTrip && serviceTypeLabel === 'To Airport') return 'From Airport'
@@ -42,7 +61,15 @@ const roundTripFare = (roundTrip: boolean, fare: number) => {
   if (roundTrip) return fare * 2
   else return fare
 }
-
+const pearsonAirportFee = (isPickup: boolean, isDropoff: boolean) => {
+  if (isPickup) return 15
+  else if (isDropoff && isRoundTrip) return 15
+  else return 0
+}
+const addPearsonFee = pearsonAirportFee(
+  isPearsonAirportPickup,
+  isPearsonAirportDropoff
+)
 const roundTripBaseRate = roundTripFare(isRoundTrip, baseRate).toFixed(2)
 const roundTripGratuity = roundTripFare(isRoundTrip, gratuity).toFixed(2)
 const roundTripHST = roundTripFare(isRoundTrip, HST).toFixed(2)
@@ -50,7 +77,16 @@ const roundTripFuelSurcharge = roundTripFare(
   isRoundTrip,
   fuelSurcharge
 ).toFixed(2)
-const roundTripTotalFare = roundTripFare(isRoundTrip, totalFare).toFixed(2)
+const roundTripFareSubtotal = roundTripFare(isRoundTrip, totalFare)
+const roundTripTotalFare = () => {
+  if (addPearsonFee !== 15) return roundTripFareSubtotal
+  else return roundTripFareSubtotal + addPearsonFee
+}
+
+const totalFareWithAirportFee = () => {
+  if (addPearsonFee !== 15) return totalFare
+  else return totalFare + addPearsonFee
+}
 
 function getCurrentDate() {
   const date = new Date()
@@ -324,7 +360,7 @@ const vehicleImageAlt = vehicleTypeLabel
             <div class="flex items-center justify-between">
               <dt class="text-sm dark:text-gray-300 text-gray-600">Subtotal</dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ isRoundTrip ? roundTripBaseRate : baseRate }}
+                $ {{ isRoundTrip ? roundTripBaseRate : baseRate.toFixed(2) }}
               </dd>
             </div>
             <div
@@ -339,7 +375,7 @@ const vehicleImageAlt = vehicleTypeLabel
                   class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500"
                 >
                   <span class="sr-only"
-                    >Learn more about how shipping is calculated</span
+                    >Learn more about how fuel surcharge is calculated</span
                   >
                   <Icon
                     name="heroicons:question-mark-circle-20-solid"
@@ -349,7 +385,12 @@ const vehicleImageAlt = vehicleTypeLabel
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ isRoundTrip ? roundTripFuelSurcharge : fuelSurcharge }}
+                $
+                {{
+                  isRoundTrip
+                    ? roundTripFuelSurcharge
+                    : fuelSurcharge.toFixed(2)
+                }}
               </dd>
             </div>
             <div
@@ -364,7 +405,7 @@ const vehicleImageAlt = vehicleTypeLabel
                   class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500"
                 >
                   <span class="sr-only"
-                    >Learn more about how shipping is calculated</span
+                    >Learn more about how gratuity is calculated</span
                   >
                   <Icon
                     name="heroicons:question-mark-circle-20-solid"
@@ -374,7 +415,31 @@ const vehicleImageAlt = vehicleTypeLabel
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ isRoundTrip ? roundTripGratuity : gratuity }}
+                $ {{ isRoundTrip ? roundTripGratuity : gratuity.toFixed(2) }}
+              </dd>
+            </div>
+            <div
+              v-if="addPearsonFee === 15"
+              class="flex items-center justify-between border-t border-gray-200 pt-4"
+            >
+              <dt class="flex text-sm dark:text-gray-300 text-gray-600">
+                <span>Airport Fee</span>
+                <a
+                  href="#"
+                  class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500"
+                >
+                  <span class="sr-only"
+                    >Learn more about the Pearson Airport Fee</span
+                  >
+                  <Icon
+                    name="heroicons:question-mark-circle-20-solid"
+                    class="h-5 w-5"
+                    aria-hidden="true"
+                  />
+                </a>
+              </dt>
+              <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
+                $ {{ addPearsonFee.toFixed(2) }}
               </dd>
             </div>
             <div
@@ -397,7 +462,7 @@ const vehicleImageAlt = vehicleTypeLabel
                 </a>
               </dt>
               <dd class="text-sm font-medium dark:text-gray-100 text-gray-900">
-                $ {{ isRoundTrip ? roundTripHST : HST }}
+                $ {{ isRoundTrip ? roundTripHST : HST.toFixed(2) }}
               </dd>
             </div>
             <div
@@ -411,7 +476,11 @@ const vehicleImageAlt = vehicleTypeLabel
               <dd
                 class="text-base font-medium dark:text-gray-100 text-gray-900"
               >
-                {{ isRoundTrip ? roundTripTotalFare : totalFare }}
+                {{
+                  isRoundTrip
+                    ? roundTripTotalFare().toFixed(2)
+                    : totalFareWithAirportFee().toFixed(2)
+                }}
               </dd>
             </div>
           </dl>

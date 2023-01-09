@@ -43,6 +43,8 @@ export const quoteSchema = z.object({
   vehicleTypeLabel: z.string(),
   vehicleTypeValue: z.number(),
   quote_number: z.number(),
+  isPearsonAirportPickup: z.boolean(),
+  isPearsonAirportDropoff: z.boolean(),
 })
 
 export type Quote = z.infer<typeof quoteSchema>

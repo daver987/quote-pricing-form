@@ -78,7 +78,6 @@ export default defineEventHandler(async (event) => {
         .from('vehicle_type')
         .select('*')
         .eq('value', vehicleTypeValue)
-        .limit(1)
       console.log('This is the Vehicle Type', data)
       return data
     }
@@ -115,15 +114,20 @@ export default defineEventHandler(async (event) => {
     }
     const surcharges = (await getSurcharges()) as Surcharges[]
 
-    let baseAmount = isItHourly ? baseRateHourly() : baseRateDistance()
+    let baseAmount = () => {
+      if (isItHourly) {
+        return baseRateHourly()
+      }
+      return baseRateDistance()
+    }
     let surchargeAmounts = {} as any
-    let totalAmount: string | number = baseAmount
+    let totalAmount: string | number = baseAmount()
 
     for (let surcharge of surcharges) {
       if (surcharge.is_active) {
         let amount = 0
         if (surcharge.is_percentage) {
-          amount = baseAmount * surcharge.amount
+          amount = baseAmount() * surcharge.amount
         } else if (surcharge.is_flat) {
           amount = surcharge.amount
         }
@@ -144,8 +148,6 @@ export default defineEventHandler(async (event) => {
 
     console.log(surchargeAmounts) // {surcharge1: "20.00", surcharge2: "10.00", tax: "10.00"}
     console.log(totalAmount) // "130.00"
-
-    //calculate the surcharges
 
     // add a user to the database
     const addUser = async () => {
