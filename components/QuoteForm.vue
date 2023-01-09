@@ -605,7 +605,7 @@ const validationSchema = toFormValidator(formSchema)
 const { handleSubmit, errors } = useForm({
   validationSchema,
 })
-const showNotification = ref<boolean>(false)
+
 const loading = ref<boolean>(false)
 const router = useRouter()
 const returnedQuote = ref<ReturnedFormData | unknown>(null)
@@ -643,7 +643,6 @@ const onSubmit = handleSubmit(async (formValues) => {
   setTimeout(() => {
     loading.value = false
     router.push('/quoted')
-    showNotification.value = true
   }, 1500)
   return
 })
@@ -906,10 +905,5 @@ const onSubmit = handleSubmit(async (formValues) => {
         </button>
       </div>
     </form>
-    <Notification
-      :show="showNotification"
-      message1="Your Quote Has been Submitted"
-      message2="A copy of the quote has been sent to your email address"
-    />
   </div>
 </template>

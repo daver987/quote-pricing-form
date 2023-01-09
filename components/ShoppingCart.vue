@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Quote } from '~/schema/quote'
+definePageMeta()
 
 const supabase = useSupabaseClient()
 
@@ -118,9 +119,24 @@ const submitOrder = () => {
   loading.value = true
   setTimeout(() => {
     loading.value = false
-    router.push('/checkout')
-  }, 1500)
+    router.push('/')
+  }, 1000)
 }
+
+defineProps({
+  pageTitle: {
+    type: String,
+    default: 'Quote Details',
+  },
+  summaryHeading: {
+    type: String,
+    default: 'Quote Summary',
+  },
+  isItQuote: {
+    type: Boolean,
+    default: true,
+  },
+})
 </script>
 
 <template>
@@ -128,12 +144,12 @@ const submitOrder = () => {
     <h1
       class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-gray-100"
     >
-      Quote Details
+      {{ isItQuote ? 'Quote' : 'Order' }} Details
     </h1>
     <div class="mt-2 text-sm sm:flex sm:justify-between">
       <dl class="flex">
         <dt class="text-gray-500 dark:text-gray-100">
-          Quote number&nbsp;<span
+          {{ isItQuote ? 'Quote' : 'Order' }} Number&nbsp;<span
             class="mx-2 text-gray-400 dark:text-gray-100"
             aria-hidden="true"
             >&middot;</span
@@ -355,7 +371,7 @@ const submitOrder = () => {
           id="summary-heading"
           class="text-lg font-medium dark:text-gray-100 text-gray-900"
         >
-          Quote summary
+          {{ isItQuote ? 'Quote' : 'Order' }} Summary
         </h2>
 
         <dl class="mt-6 space-y-4">
@@ -469,7 +485,7 @@ const submitOrder = () => {
             class="flex items-center justify-between border-t border-gray-200 pt-4"
           >
             <dt class="text-base font-medium dark:text-gray-100 text-gray-900">
-              Order total
+              {{ isItQuote ? 'Quote' : 'Order' }} total
             </dt>
             <dd class="text-base font-medium dark:text-gray-100 text-gray-900">
               {{
@@ -483,11 +499,20 @@ const submitOrder = () => {
 
         <div class="mt-6">
           <button
+            v-if="isItQuote"
             @click="submitOrder"
             type="button"
             class="w-full rounded-md border border-transparent bg-red-600 py-3 px-4 text-base font-medium uppercase text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
-            {{ loading ? 'Loading...' : 'Proceed To Book' }}
+            {{ loading ? 'Loading...' : 'Add To Shopping Bag' }}
+          </button>
+          <button
+            v-else
+            @click="submitOrder"
+            type="button"
+            class="w-full rounded-md border border-transparent bg-red-600 py-3 px-4 text-base font-medium uppercase text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
+          >
+            {{ loading ? 'Loading...' : 'Checkout' }}
           </button>
         </div>
       </section>

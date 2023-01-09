@@ -24,6 +24,8 @@ const products = [
       'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
   },
 ]
+const isCartEmpty = products.length === 0
+const itemsInCart = products.length
 </script>
 
 <template>
@@ -34,8 +36,13 @@ const products = [
         aria-hidden="true"
       />
       <span
-        class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800"
-        >0</span
+        :class="[
+          isCartEmpty
+            ? 'dark:text-gray-300 dark:group-hover:text-gray-400 text-gray-700 group-hover:text-gray-800'
+            : 'text-brand-600 group-hover:text-brand-700',
+        ]"
+        class="ml-2 text-sm font-medium"
+        >{{ isCartEmpty ? 0 : itemsInCart }}</span
       >
       <span class="sr-only">items in cart, view bag</span>
     </PopoverButton>
@@ -48,7 +55,7 @@ const products = [
       leave-to-class="opacity-0"
     >
       <PopoverPanel
-        class="absolute inset-x-0 top-16 mt-px bg-white pb-6 shadow-lg sm:px-2 lg:top-full lg:left-auto lg:right-0 lg:mt-3 lg:-mr-1.5 lg:w-80 lg:rounded-lg lg:ring-1 lg:ring-black lg:ring-opacity-5"
+        class="absolute inset-x-0 z-10 top-16 mt-px bg-white pb-6 shadow-lg sm:px-2 lg:top-full lg:left-auto lg:right-0 lg:mt-3 lg:-mr-1.5 lg:w-80 lg:rounded-lg lg:ring-1 lg:ring-black lg:ring-opacity-5"
       >
         <h2 class="sr-only">Shopping Cart</h2>
 
@@ -75,15 +82,15 @@ const products = [
 
           <button
             type="submit"
-            class="w-full rounded-md border border-transparent bg-brand-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
+            class="w-full uppercase tracking-wider rounded-md border border-transparent bg-brand-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
             Checkout
           </button>
 
           <p class="mt-6 text-center">
             <NuxtLink
-              to="#"
-              class="text-sm font-medium text-brand-600 hover:text-brand"
+              to="/cart"
+              class="text-sm font-medium font-sans text-brand-600 hover:text-brand"
               >View Shopping Bag</NuxtLink
             >
           </p>

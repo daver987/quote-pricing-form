@@ -11,7 +11,6 @@ import {
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 const supabase = useSupabaseAuthClient()
 const router = useRouter()
-const appUser = useSupabaseUser()
 const pageName = computed(() => router.currentRoute.value.meta.name)
 const loading = ref(false)
 
@@ -230,8 +229,6 @@ const userNavigation = [
         </h1>
       </div>
     </header>
-    <!-- Replace with your content -->
     <slot />
-    <!-- /End replace -->
   </div>
 </template>

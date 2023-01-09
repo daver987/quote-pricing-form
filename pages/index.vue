@@ -13,7 +13,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
     >
       <AppNavigation />
       <div class="relative">
-        <main class="mt-16 sm:mt-24">
+        <div class="mt-16 sm:mt-24">
           <div class="mx-auto max-w-7xl">
             <div class="lg:grid lg:grid-cols-12 lg:gap-8">
               <div
@@ -40,7 +40,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
               </div>
             </div>
           </div>
-        </main>
+        </div>
       </div>
     </div>
     <BaseSection>
