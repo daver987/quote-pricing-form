@@ -1,11 +1,12 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'default',
+  name: 'Cart',
+  layout: 'store',
 })
 </script>
 
 <template>
-  <div class="dark:bg-grey-900 min-h-screen">
+  <div class="dark:bg-grey-900">
     <AppNavigation />
     <ShoppingCart :is-it-quote="false" />
   </div>

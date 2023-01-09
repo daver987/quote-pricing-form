@@ -137,14 +137,18 @@ defineProps({
     default: true,
   },
 })
+const addToCart = () => {
+  console.log('Add to cart')
+}
 </script>
 
 <template>
-  <main class="mx-auto max-w-2xl px-4 pt-8 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
+  <main class="mx-auto max-w-2xl px-4 pt-6 pb-8 sm:px-6 lg:max-w-7xl lg:px-8">
     <h1
-      class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-gray-100"
+      class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100"
     >
-      {{ isItQuote ? 'Quote' : 'Order' }} Details
+      <span class="mr-1">High Park Livery </span>-
+      <span class="ml-1">{{ isItQuote ? ' Quote' : ' Order' }} Details</span>
     </h1>
     <div class="mt-2 text-sm sm:flex sm:justify-between">
       <dl class="flex">
@@ -176,7 +180,7 @@ defineProps({
       </div>
     </div>
     <form
-      class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16"
+      class="mt-8 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16"
     >
       <section aria-labelledby="cart-heading" class="lg:col-span-7">
         <h2 id="cart-heading" class="sr-only">Items in your shopping cart</h2>
@@ -184,7 +188,7 @@ defineProps({
           role="list"
           class="divide-y divide-gray-200 border-t border-b border-gray-200"
         >
-          <li class="flex py-6 sm:py-10">
+          <li class="flex py-6 sm:py-8">
             <div class="flex-shrink-0">
               <NuxtImg
                 :src="vehicleImageSrc"
@@ -238,6 +242,7 @@ defineProps({
                 <div class="mt-4 sm:mt-0 sm:pr-9">
                   <div class="absolute top-0 right-0">
                     <button
+                      v-if="false"
                       type="button"
                       class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
                     >
@@ -500,11 +505,11 @@ defineProps({
         <div class="mt-6">
           <button
             v-if="isItQuote"
-            @click="submitOrder"
+            @click="addToCart"
             type="button"
             class="w-full rounded-md border border-transparent bg-red-600 py-3 px-4 text-base font-medium uppercase text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
-            {{ loading ? 'Loading...' : 'Add To Shopping Bag' }}
+            {{ loading ? 'Adding To Cart...' : 'Add To Shopping Bag' }}
           </button>
           <button
             v-else
@@ -514,6 +519,37 @@ defineProps({
           >
             {{ loading ? 'Loading...' : 'Checkout' }}
           </button>
+        </div>
+      </section>
+      <section
+        v-if="!isItQuote"
+        class="px-4 py-6 sm:p-6 lg:col-start-8 lg:col-span-5 lg:mt-0 lg:p-6"
+      >
+        <div class="flex flex-col mb-2">
+          <p
+            class="text-sm font-sans font-bold text-gray-900 dark:text-gray-100"
+          >
+            We require a credit card to hold your reservation
+          </p>
+          <p class="text-xs font-sans text-red-700 max-w-[65ch]">
+            Please note, 24 hours before the scheduled pickup time, an
+            authorization hold will be placed on your credit card for the full
+            amount of your reservation.
+          </p>
+          <div class="flex flex-col mt-2">
+            <p
+              class="text-sm font-sans font-bold text-gray-900 dark:text-gray-100"
+            >
+              Card is not charged until the completion of your trip
+            </p>
+            <p class="text-xs font-sans text-red-700">
+              All prices include taxes, surcharges and gratuity
+            </p>
+            <p class="text-xs font-sans text-red-700">
+              **Does not include hwy tolls, parking fees, or any extra fees
+              incurred during the trip
+            </p>
+          </div>
         </div>
       </section>
     </form>

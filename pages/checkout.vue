@@ -4,7 +4,7 @@ import { ReturnType } from '~/types/returnType'
 
 definePageMeta({
   title: 'Checkout',
-  layout: 'default',
+  layout: 'store',
 })
 
 const route = useRoute().query as unknown as Query
@@ -30,23 +30,10 @@ const createSession = async () => {
 </script>
 
 <template>
-  <BaseSection class="pb-8 pt-0 min-h-screen dark:bg-grey-900">
-    <AppNavigation />
-    <div class="px-4">
-      <Summary
-        class="bg-white pt-4"
-        :quoteNumber="route.quotenumber"
-        :firstname="route.fname"
-        :lastname="route.lname"
-        :pickupDate="route.date"
-        :pickupTime="route.time"
-        :origin="route.origin"
-        :destination="route.destination"
-        :service="route.service"
-        :vehicle="route.vehicle"
-        :subtotal="subtotal"
-        :isRoundTrip="route.roundtrip"
-      />
-    </div>
-  </BaseSection>
+  <div class="dark:bg-grey-900">
+    <ShoppingCart :is-it-quote="false" />
+    <BaseContainer>
+      <TosTable />
+    </BaseContainer>
+  </div>
 </template>

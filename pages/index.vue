@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { servicesHome } from '~/data/servicesHome'
 import { features } from '~/data/features'
+definePageMeta({
+  name: 'Home',
+  layout: 'default',
+})
 
 const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
 </script>

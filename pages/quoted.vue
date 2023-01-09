@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'default',
+  layout: 'store',
 })
 const showNotification = ref<boolean>(false)
 </script>
