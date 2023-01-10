@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { Database } from '~/types/supabase'
-import { useQuoteNumber } from '~/composables/states'
+import { useAddToCart, useQuoteNumber } from '~/composables/states'
 import { ReturnType } from '~/types/ReturnType'
 
 const supabase = useSupabaseClient<Database>()
-const quoteNumberState = useQuoteNumber()
+
 interface QuoteNumber {
   latest_quote_number: number
 }
 //get the latest quote number
+const quoteNumberState = useQuoteNumber()
 const getQuoteNumber = async () => {
   const { data } = await supabase
     .from('quote_number')
@@ -32,7 +33,6 @@ const getQuoteData = async () => {
 }
 
 const {
-  addedToCart,
   pickupDate,
   pickupTime,
   returnDate,
@@ -57,6 +57,8 @@ const {
   lastName,
   emailAddress,
 } = (await getQuoteData()) as Database | any
+
+const addToCartState = useAddToCart()
 
 const returnServiceTypeLabel = computed(() => {
   if (isRoundTrip && serviceTypeLabel === 'To Airport') return 'From Airport'
@@ -125,22 +127,7 @@ const vehicleImageSrc = vehicleImage()
 const vehicleImageAlt = vehicleTypeLabel
 
 const router = useRouter()
-const loading = ref(false)
 
-// defineProps({
-//   pageTitle: {
-//     type: String,
-//     default: 'Quote Details',
-//   },
-//   summaryHeading: {
-//     type: String,
-//     default: 'Quote Summary',
-//   },
-//   isItQuote: {
-//     type: Boolean,
-//     default: true,
-//   },
-// })
 const loadingCart = ref(false)
 const addToCart = async () => {
   loadingCart.value = true
@@ -156,7 +143,7 @@ const addToCart = async () => {
   console.log('This is the add to cart data', data)
   setTimeout(() => {
     loadingCart.value = false
-    addedToCart.value = true
+    addToCartState.value = true
   }, 1000)
 }
 
@@ -169,6 +156,7 @@ const createSession = async () => {
     lastName,
     emailAddress,
     customerId: id,
+    quoteNumber,
   }
   const { data: stripData } = await useFetch(`/api/create-checkout-session`, {
     method: 'POST',
@@ -185,7 +173,6 @@ const createSession = async () => {
     )
     .eq('id', userId)
     .select()
-  console.log('This is the supabase customer data', data)
   setTimeout(async () => {
     loadingCheckout.value = false
     await navigateTo(url, {
@@ -202,12 +189,14 @@ const createSession = async () => {
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100"
     >
       <span class="mr-1">High Park Livery </span>-
-      <span class="ml-1">{{ !addedToCart ? ' Quote' : ' Order' }} Details</span>
+      <span class="ml-1"
+        >{{ !addToCartState ? ' Quote' : ' Order' }} Details</span
+      >
     </h1>
     <div class="mt-2 text-sm sm:flex sm:justify-between">
       <dl class="flex">
         <dt class="text-gray-500 dark:text-gray-100">
-          {{ !addedToCart ? 'Quote' : 'Order' }} Number&nbsp;<span
+          {{ !addToCartState ? 'Quote' : 'Order' }} Number&nbsp;<span
             class="mx-2 text-gray-400 dark:text-gray-100"
             aria-hidden="true"
             >&middot;</span
@@ -430,7 +419,7 @@ const createSession = async () => {
           id="summary-heading"
           class="text-lg font-medium text-gray-900 dark:text-gray-100"
         >
-          {{ !addedToCart ? 'Quote' : 'Order' }} Summary
+          {{ !addToCartState ? 'Quote' : 'Order' }} Summary
         </h2>
 
         <dl class="mt-6 space-y-4">
@@ -544,7 +533,7 @@ const createSession = async () => {
             class="flex items-center justify-between pt-4 border-t border-gray-200"
           >
             <dt class="text-base font-medium text-gray-900 dark:text-gray-100">
-              {{ !addedToCart ? 'Quote' : 'Order' }} total
+              {{ !addToCartState ? 'Quote' : 'Order' }} total
             </dt>
             <dd class="text-base font-medium text-gray-900 dark:text-gray-100">
               $
@@ -559,7 +548,7 @@ const createSession = async () => {
 
         <div class="mt-6">
           <button
-            v-if="!addedToCart"
+            v-if="!addToCartState"
             @click="addToCart"
             type="button"
             class="w-full px-4 py-3 text-base font-medium text-white uppercase bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
@@ -579,7 +568,7 @@ const createSession = async () => {
         </div>
       </section>
       <section
-        v-if="addedToCart"
+        v-if="addToCartState"
         class="px-4 py-6 sm:p-6 lg:col-start-8 lg:col-span-5 lg:mt-0 lg:p-6"
       >
         <div class="flex flex-col mb-2">

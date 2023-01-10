@@ -5,8 +5,9 @@ definePageMeta({
 })
 const route = useRoute()
 const notification = ref<boolean>(false)
+const addToCartState = useAddToCart()
 const showNotification = () => {
-  if (route.fullPath === '/quoted') {
+  if (route.fullPath === '/quoted' && addToCartState.value === false) {
     setTimeout(() => {
       notification.value = true
     }, 1000)
