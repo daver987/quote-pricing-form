@@ -11,334 +11,337 @@ export interface Database {
     Tables: {
       profiles: {
         Row: {
+          avatar_url: string | null
+          first_name: string | null
           id: string
+          last_name: string | null
           updated_at: string | null
           username: string | null
-          first_name: string | null
-          last_name: string | null
-          avatar_url: string | null
           website: string | null
         }
         Insert: {
+          avatar_url?: string | null
+          first_name?: string | null
           id: string
+          last_name?: string | null
           updated_at?: string | null
           username?: string | null
-          first_name?: string | null
-          last_name?: string | null
-          avatar_url?: string | null
           website?: string | null
         }
         Update: {
+          avatar_url?: string | null
+          first_name?: string | null
           id?: string
+          last_name?: string | null
           updated_at?: string | null
           username?: string | null
-          first_name?: string | null
-          last_name?: string | null
-          avatar_url?: string | null
           website?: string | null
         }
       }
       quote_number: {
         Row: {
-          id: number
           created_at: string | null
+          id: number
           latest_quote_number: number | null
         }
         Insert: {
-          id?: number
           created_at?: string | null
+          id?: number
           latest_quote_number?: number | null
         }
         Update: {
-          id?: number
           created_at?: string | null
+          id?: number
           latest_quote_number?: number | null
         }
       }
       quotes: {
         Row: {
+          addedToCart: boolean
+          baseRate: number
+          calculatedDistance: number
           createdAt: string
-          updatedAt: string
+          destinationFormattedAddress: string
+          destinationName: string
+          destinationPlaceId: string
+          distanceText: string
+          distanceValue: number
+          durationText: string
+          durationValue: number
+          endLat: number
+          endLng: number
+          firstName: string
+          fuelSurcharge: number
+          gratuity: number
+          hoursLabel: string
+          hoursValue: number
+          HST: number
+          id: string
+          isBooked: boolean
+          isItHourly: boolean
+          isPearsonAirportDropoff: boolean
+          isPearsonAirportPickup: boolean
+          isRoundTrip: boolean
+          lastName: string
+          originFormattedAddress: string
+          originName: string
+          originPlaceId: string
+          passengersLabel: string
+          passengersValue: number
           pickupDate: string
           pickupTime: string
-          isRoundTrip: boolean | null
+          quote_number: number
           returnDate: string | null
           returnTime: string | null
-          originFormattedAddress: string
-          originName: string
-          originPlaceId: string
-          startLat: number
-          startLng: number
-          destinationFormattedAddress: string
-          destinationName: string
-          destinationPlaceId: string
-          endLat: number
-          endLng: number
-          vehicleTypeLabel: string
-          vehicleTypeValue: number
           serviceTypeLabel: string
           serviceTypeValue: number
-          passengersLabel: string | null
-          passengersValue: number | null
-          isItHourly: boolean | null
-          hoursLabel: string | null
-          hoursValue: number | null
-          distanceText: string | null
-          distanceValue: number | null
-          durationText: string | null
-          durationValue: number | null
-          calculatedDistance: number | null
-          baseRate: number | null
-          fuelSurcharge: number | null
-          gratuity: number | null
-          HST: number | null
-          id: string
-          totalFare: number | null
-          firstName: string | null
-          lastName: string | null
+          startLat: number
+          startLng: number
+          totalFare: number
+          updatedAt: string
+          userEmail: string
           userId: string | null
-          quote_number: number | null
-          isPearsonAirportPickup: boolean | null
-          isPearsonAirportDropoff: boolean | null
-          isBooked: boolean
-          userEmail: string | null
+          vehicleTypeLabel: string
+          vehicleTypeValue: number
         }
         Insert: {
+          addedToCart?: boolean
+          baseRate: number
+          calculatedDistance: number
           createdAt?: string
-          updatedAt?: string
-          pickupDate: string
-          pickupTime: string
-          isRoundTrip?: boolean | null
-          returnDate?: string | null
-          returnTime?: string | null
-          originFormattedAddress: string
-          originName: string
-          originPlaceId: string
-          startLat: number
-          startLng: number
           destinationFormattedAddress: string
           destinationName: string
           destinationPlaceId: string
+          distanceText: string
+          distanceValue: number
+          durationText: string
+          durationValue: number
           endLat: number
           endLng: number
-          vehicleTypeLabel: string
-          vehicleTypeValue: number
-          serviceTypeLabel: string
-          serviceTypeValue: number
-          passengersLabel?: string | null
-          passengersValue?: number | null
-          isItHourly?: boolean | null
-          hoursLabel?: string | null
-          hoursValue?: number | null
-          distanceText?: string | null
-          distanceValue?: number | null
-          durationText?: string | null
-          durationValue?: number | null
-          calculatedDistance?: number | null
-          baseRate?: number | null
-          fuelSurcharge?: number | null
-          gratuity?: number | null
-          HST?: number | null
+          firstName: string
+          fuelSurcharge: number
+          gratuity: number
+          hoursLabel: string
+          hoursValue?: number
+          HST: number
           id?: string
-          totalFare?: number | null
-          firstName?: string | null
-          lastName?: string | null
-          userId?: string | null
-          quote_number?: number | null
-          isPearsonAirportPickup?: boolean | null
-          isPearsonAirportDropoff?: boolean | null
           isBooked?: boolean
-          userEmail?: string | null
-        }
-        Update: {
-          createdAt?: string
-          updatedAt?: string
-          pickupDate?: string
-          pickupTime?: string
-          isRoundTrip?: boolean | null
+          isItHourly?: boolean
+          isPearsonAirportDropoff?: boolean
+          isPearsonAirportPickup?: boolean
+          isRoundTrip?: boolean
+          lastName: string
+          originFormattedAddress: string
+          originName: string
+          originPlaceId: string
+          passengersLabel?: string
+          passengersValue?: number
+          pickupDate: string
+          pickupTime: string
+          quote_number: number
           returnDate?: string | null
           returnTime?: string | null
-          originFormattedAddress?: string
-          originName?: string
-          originPlaceId?: string
-          startLat?: number
-          startLng?: number
+          serviceTypeLabel: string
+          serviceTypeValue: number
+          startLat: number
+          startLng: number
+          totalFare: number
+          updatedAt?: string
+          userEmail: string
+          userId?: string | null
+          vehicleTypeLabel: string
+          vehicleTypeValue: number
+        }
+        Update: {
+          addedToCart?: boolean
+          baseRate?: number
+          calculatedDistance?: number
+          createdAt?: string
           destinationFormattedAddress?: string
           destinationName?: string
           destinationPlaceId?: string
+          distanceText?: string
+          distanceValue?: number
+          durationText?: string
+          durationValue?: number
           endLat?: number
           endLng?: number
-          vehicleTypeLabel?: string
-          vehicleTypeValue?: number
+          firstName?: string
+          fuelSurcharge?: number
+          gratuity?: number
+          hoursLabel?: string
+          hoursValue?: number
+          HST?: number
+          id?: string
+          isBooked?: boolean
+          isItHourly?: boolean
+          isPearsonAirportDropoff?: boolean
+          isPearsonAirportPickup?: boolean
+          isRoundTrip?: boolean
+          lastName?: string
+          originFormattedAddress?: string
+          originName?: string
+          originPlaceId?: string
+          passengersLabel?: string
+          passengersValue?: number
+          pickupDate?: string
+          pickupTime?: string
+          quote_number?: number
+          returnDate?: string | null
+          returnTime?: string | null
           serviceTypeLabel?: string
           serviceTypeValue?: number
-          passengersLabel?: string | null
-          passengersValue?: number | null
-          isItHourly?: boolean | null
-          hoursLabel?: string | null
-          hoursValue?: number | null
-          distanceText?: string | null
-          distanceValue?: number | null
-          durationText?: string | null
-          durationValue?: number | null
-          calculatedDistance?: number | null
-          baseRate?: number | null
-          fuelSurcharge?: number | null
-          gratuity?: number | null
-          HST?: number | null
-          id?: string
-          totalFare?: number | null
-          firstName?: string | null
-          lastName?: string | null
+          startLat?: number
+          startLng?: number
+          totalFare?: number
+          updatedAt?: string
+          userEmail?: string
           userId?: string | null
-          quote_number?: number | null
-          isPearsonAirportPickup?: boolean | null
-          isPearsonAirportDropoff?: boolean | null
-          isBooked?: boolean
-          userEmail?: string | null
+          vehicleTypeLabel?: string
+          vehicleTypeValue?: number
         }
       }
       service_type: {
         Row: {
-          id: number
           created_at: string | null
+          id: number
+          isDisabled: boolean | null
           label: string | null
           value: number | null
-          isDisabled: boolean | null
         }
         Insert: {
-          id?: number
           created_at?: string | null
+          id?: number
+          isDisabled?: boolean | null
           label?: string | null
           value?: number | null
-          isDisabled?: boolean | null
         }
         Update: {
-          id?: number
           created_at?: string | null
+          id?: number
+          isDisabled?: boolean | null
           label?: string | null
           value?: number | null
-          isDisabled?: boolean | null
         }
       }
       surcharges: {
         Row: {
-          id: number
-          created_at: string | null
-          name: string | null
-          is_percentage: boolean | null
-          is_flat: boolean | null
-          is_taxable: boolean | null
           amount: number | null
-          is_active: boolean | null
+          created_at: string | null
           description: string | null
+          id: number
+          is_active: boolean | null
+          is_flat: boolean | null
+          is_percentage: boolean | null
           is_tax: boolean | null
+          is_taxable: boolean | null
+          name: string | null
         }
         Insert: {
-          id?: number
-          created_at?: string | null
-          name?: string | null
-          is_percentage?: boolean | null
-          is_flat?: boolean | null
-          is_taxable?: boolean | null
           amount?: number | null
-          is_active?: boolean | null
+          created_at?: string | null
           description?: string | null
+          id?: number
+          is_active?: boolean | null
+          is_flat?: boolean | null
+          is_percentage?: boolean | null
           is_tax?: boolean | null
+          is_taxable?: boolean | null
+          name?: string | null
         }
         Update: {
-          id?: number
-          created_at?: string | null
-          name?: string | null
-          is_percentage?: boolean | null
-          is_flat?: boolean | null
-          is_taxable?: boolean | null
           amount?: number | null
-          is_active?: boolean | null
+          created_at?: string | null
           description?: string | null
+          id?: number
+          is_active?: boolean | null
+          is_flat?: boolean | null
+          is_percentage?: boolean | null
           is_tax?: boolean | null
+          is_taxable?: boolean | null
+          name?: string | null
         }
       }
       user: {
         Row: {
           createdAt: string
-          updatedAt: string
-          firstName: string
-          lastName: string
           emailAddress: string
-          phoneNumber: string
+          firstName: string
           id: string
+          lastName: string
+          phoneNumber: string
+          updatedAt: string
         }
         Insert: {
           createdAt?: string
-          updatedAt?: string
-          firstName: string
-          lastName: string
           emailAddress: string
-          phoneNumber: string
+          firstName: string
           id?: string
+          lastName: string
+          phoneNumber: string
+          updatedAt?: string
         }
         Update: {
           createdAt?: string
-          updatedAt?: string
-          firstName?: string
-          lastName?: string
           emailAddress?: string
-          phoneNumber?: string
+          firstName?: string
           id?: string
+          lastName?: string
+          phoneNumber?: string
+          updatedAt?: string
         }
       }
       vehicle_type: {
         Row: {
-          id: number
           created_at: string | null
-          max_passengers: number | null
-          max_luggage: number | null
-          per_km: number | null
-          per_hour: number | null
-          min_hours_hourly: number | null
-          min_rate_distance: number | null
-          min_distance: number | null
-          min_rate_hourly: number | null
+          id: number
           is_active: boolean | null
-          name: string | null
-          value: number | null
           isDisabled: boolean | null
           label: string | null
+          max_luggage: number | null
+          max_passengers: number | null
+          min_distance: number | null
+          min_hours_hourly: number | null
+          min_rate_distance: number | null
+          min_rate_hourly: number | null
+          name: string | null
+          per_hour: number | null
+          per_km: number | null
+          value: number | null
         }
         Insert: {
-          id?: number
           created_at?: string | null
-          max_passengers?: number | null
-          max_luggage?: number | null
-          per_km?: number | null
-          per_hour?: number | null
-          min_hours_hourly?: number | null
-          min_rate_distance?: number | null
-          min_distance?: number | null
-          min_rate_hourly?: number | null
+          id?: number
           is_active?: boolean | null
-          name?: string | null
-          value?: number | null
           isDisabled?: boolean | null
           label?: string | null
+          max_luggage?: number | null
+          max_passengers?: number | null
+          min_distance?: number | null
+          min_hours_hourly?: number | null
+          min_rate_distance?: number | null
+          min_rate_hourly?: number | null
+          name?: string | null
+          per_hour?: number | null
+          per_km?: number | null
+          value?: number | null
         }
         Update: {
-          id?: number
           created_at?: string | null
-          max_passengers?: number | null
-          max_luggage?: number | null
-          per_km?: number | null
-          per_hour?: number | null
-          min_hours_hourly?: number | null
-          min_rate_distance?: number | null
-          min_distance?: number | null
-          min_rate_hourly?: number | null
+          id?: number
           is_active?: boolean | null
-          name?: string | null
-          value?: number | null
           isDisabled?: boolean | null
           label?: string | null
+          max_luggage?: number | null
+          max_passengers?: number | null
+          min_distance?: number | null
+          min_hours_hourly?: number | null
+          min_rate_distance?: number | null
+          min_rate_hourly?: number | null
+          name?: string | null
+          per_hour?: number | null
+          per_km?: number | null
+          value?: number | null
         }
       }
     }

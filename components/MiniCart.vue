@@ -1,7 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { ShoppingBagIcon } from '@heroicons/vue/24/outline'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+import { Database } from '~/types/supabase'
+import { useQuoteNumber } from '~/composables/states'
 
+const supabase = useSupabaseClient<Database>()
 const products = [
   {
     id: 1,
@@ -24,8 +27,33 @@ const products = [
       'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
   },
 ]
-const isCartEmpty = products.length === 0
-const itemsInCart = products.length
+
+const quoteNumberState = useQuoteNumber()
+const getAddedToCart = async () => {
+  const { data: quoteData, error } = await supabase
+    .from('quotes')
+    .select('addedToCart, isRoundTrip')
+    .eq('quote_number', quoteNumberState.value)
+    .single()
+  if (error) {
+    console.log(error)
+  }
+  console.log('Update added to cart quote data', quoteData)
+  return quoteData
+}
+const quote = await getAddedToCart()
+const addedToCart = quote?.addedToCart
+const isRoundTrip = quote?.isRoundTrip
+
+const itemsInCart = () => {
+  if (addedToCart && isRoundTrip) {
+    return 2
+  }
+  if (addedToCart && !isRoundTrip) {
+    return 1
+  }
+  return 0
+}
 </script>
 
 <template>
@@ -37,12 +65,12 @@ const itemsInCart = products.length
       />
       <span
         :class="[
-          isCartEmpty
+          addedToCart
             ? 'dark:text-gray-300 dark:group-hover:text-gray-400 text-gray-700 group-hover:text-gray-800'
             : 'text-brand-600 group-hover:text-brand-700',
         ]"
         class="ml-2 text-sm font-medium"
-        >{{ isCartEmpty ? itemsInCart : 0 }}</span
+        >{{ itemsInCart() }}</span
       >
       <span class="sr-only">items in cart, view bag</span>
     </PopoverButton>
@@ -61,7 +89,7 @@ const itemsInCart = products.length
 
         <form class="mx-auto max-w-2xl px-4">
           <ul role="list" class="divide-y divide-gray-200">
-            <li class="flex items-center py-6" v-if="!isCartEmpty">
+            <li class="flex items-center py-6" v-if="!addedToCart">
               <Icon
                 name="teenyicons:mood-sad-outline"
                 class="h-16 w-16 flex-none rounded-md"
@@ -91,14 +119,14 @@ const itemsInCart = products.length
           </ul>
 
           <button
-            v-if="isCartEmpty"
+            v-if="addedToCart"
             type="submit"
             class="w-full uppercase tracking-wider rounded-md border border-transparent bg-brand-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
             Checkout
           </button>
 
-          <p v-if="isCartEmpty" class="mt-6 text-center">
+          <p v-if="addedToCart" class="mt-6 text-center">
             <NuxtLink
               to="/cart"
               class="text-sm font-medium font-sans text-brand-600 hover:text-brand"

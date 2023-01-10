@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { Database } from '~/types/supabase'
+import { useQuoteNumber } from '~/composables/states'
 
 const supabase = useSupabaseClient<Database>()
-
+const quoteNumberState = useQuoteNumber()
 interface QuoteNumber {
   latest_quote_number: number
 }
@@ -16,6 +17,8 @@ const getQuoteNumber = async () => {
   return data as QuoteNumber
 }
 const { latest_quote_number: quoteNumber } = await getQuoteNumber()
+quoteNumberState.value = quoteNumber
+console.log('This is the quote number state', quoteNumberState.value)
 
 const getQuoteData = async () => {
   const { data: quoteFormData } = await supabase
@@ -139,8 +142,21 @@ defineProps({
     default: true,
   },
 })
-const addToCart = () => {
-  console.log('Add to cart')
+const loadingCart = ref(false)
+const addToCart = async () => {
+  loadingCart.value = true
+  const { data, error } = await supabase
+    .from('quotes')
+    .update({ addedToCart: true })
+    .eq('quote_number', quoteNumber)
+  if (error) {
+    console.log('Error adding to cart', error)
+    return
+  }
+  console.log('This is the add to cart', data)
+  setTimeout(() => {
+    loadingCart.value = false
+  }, 1000)
 }
 </script>
 
@@ -512,7 +528,9 @@ const addToCart = () => {
             type="button"
             class="w-full px-4 py-3 text-base font-medium text-white uppercase bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
-            {{ loading ? 'Adding To Cart...' : 'Add To Shopping Bag' }}
+            {{
+              loadingCart ? 'Adding To Shopping Bag...' : 'Add To Shopping Bag'
+            }}
           </button>
           <button
             v-else
