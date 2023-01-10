@@ -77,8 +77,8 @@ const decrementMinutes = () => {
 }
 
 const amPm = [
-  { id: 0, title: 'AM' },
-  { id: 1, title: 'PM' },
+  { id: '0', title: 'AM' },
+  { id: '1', title: 'PM' },
 ]
 const amPmIndex = ref(0)
 const changeAmPm = () => {
@@ -103,13 +103,13 @@ const changeAmPm = () => {
           leave-to="opacity-0"
         >
           <div
-            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+            class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
           />
         </TransitionChild>
 
         <div class="fixed inset-0 z-10 overflow-y-auto">
           <div
-            class="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0"
+            class="flex items-end justify-center min-h-full text-center sm:items-center sm:p-0"
           >
             <TransitionChild
               as="template"
@@ -121,7 +121,7 @@ const changeAmPm = () => {
               leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <DialogPanel
-                class="relative transform overflow-hidden rounded-lg bg-white p-8 shadow-xl transition-all sm:my-8 sm:w-full max-w-sm"
+                class="relative max-w-sm p-8 overflow-hidden transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full"
               >
                 <div
                   class="absolute bottom-0 right-0 hidden pt-4 pr-4 sm:block"
@@ -129,30 +129,30 @@ const changeAmPm = () => {
                   <button
                     v-if="false"
                     type="button"
-                    class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                    class="text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                     @click="open = false"
                   >
                     <span class="sr-only">Close</span>
-                    <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon class="w-6 h-6" aria-hidden="true" />
                   </button>
                 </div>
-                <div class="flex flex-row space-x-6 justify-around">
+                <div class="flex flex-row justify-around space-x-6">
                   <div class="flex flex-row space-x-2">
                     <div class="flex flex-col">
                       <button
                         @click="incrementHours"
                         type="button"
-                        class="inline-flex items-center rounded-none border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                        class="inline-flex items-center p-1 text-white border border-transparent rounded-none shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                       >
-                        <PlusIconMini class="h-5 w-5" aria-hidden="true" />
+                        <PlusIconMini class="w-5 h-5" aria-hidden="true" />
                       </button>
                       <span>{{ hours }}</span>
                       <button
                         @click="decrementHours"
                         type="button"
-                        class="inline-flex items-center rounded-none border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                        class="inline-flex items-center p-1 text-white border border-transparent rounded-none shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                       >
-                        <MinusIconMini class="h-5 w-5" aria-hidden="true" />
+                        <MinusIconMini class="w-5 h-5" aria-hidden="true" />
                       </button>
                     </div>
                     <span class="self-center">:</span>
@@ -160,19 +160,19 @@ const changeAmPm = () => {
                       <button
                         @click="incrementMinutes"
                         type="button"
-                        class="inline-flex items-center rounded-none border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                        class="inline-flex items-center p-1 text-white border border-transparent rounded-none shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                       >
-                        <PlusIconMini class="h-5 w-5" aria-hidden="true" />
+                        <PlusIconMini class="w-5 h-5" aria-hidden="true" />
                       </button>
                       <span>{{
-                        minutes < 9 ? 0 + '' + '' + minutes : minutes
+                        minutes< 9? 0 + '' + '' + minutes : minutes
                       }}</span>
                       <button
                         @click="decrementMinutes"
                         type="button"
-                        class="inline-flex items-center rounded-none border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                        class="inline-flex items-center p-1 text-white border border-transparent rounded-none shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                       >
-                        <MinusIconMini class="h-5 w-5" aria-hidden="true" />
+                        <MinusIconMini class="w-5 h-5" aria-hidden="true" />
                       </button>
                     </div>
                   </div>
@@ -192,11 +192,11 @@ const changeAmPm = () => {
                             name="notification-method"
                             type="radio"
                             :value="a.title"
-                            class="h-4 w-4 border-gray-300 text-brand-600 focus:ring-brand"
+                            class="w-4 h-4 border-gray-300 text-brand-600 focus:ring-brand"
                           />
                           <label
                             :for="a.id"
-                            class="ml-3 block text-sm font-medium text-gray-700"
+                            class="block ml-3 text-sm font-medium text-gray-700"
                             >{{ a.title }}</label
                           >
                         </div>
@@ -218,7 +218,7 @@ const changeAmPm = () => {
         <div class="absolute inset-y-0 left-0 flex items-center pl-3">
           <ClockIcon
             @click="toggleTimePicker"
-            class="h-5 w-5 text-gray-400 cursor-pointer"
+            class="w-5 h-5 text-gray-400 cursor-pointer"
             aria-hidden="true"
             role="button"
           />
@@ -231,11 +231,11 @@ const changeAmPm = () => {
           @input="handleChange"
           :value="inputValue"
           type="text"
-          class="block w-full rounded border-gray-300 pl-10 focus:border-brand focus:ring-brand sm:text-sm placeholder-gray-400"
+          class="block w-full pl-10 placeholder-gray-400 border-gray-300 rounded focus:border-brand focus:ring-brand sm:text-sm"
         />
       </div>
-      <div v-if="showError" class="flex">
-        <div class="block text-red-700 text-xs">
+      <div v-if="!showError" class="flex">
+        <div class="block text-xs text-red-700">
           <div role="alert">{{ errorMessage }}</div>
         </div>
       </div>

@@ -4,7 +4,6 @@ definePageMeta({
   name: 'Quoted',
 })
 const route = useRoute()
-console.log('route', route.fullPath)
 const notification = ref<boolean>(false)
 const showNotification = () => {
   if (route.fullPath === '/quoted') {
@@ -20,7 +19,7 @@ showNotification()
 </script>
 
 <template>
-  <div class="dark:bg-grey-900 min-h-screen">
+  <div class="min-h-screen dark:bg-grey-900">
     <AppNavigation />
     <ShoppingCart />
     <Notification

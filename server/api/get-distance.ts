@@ -1,5 +1,4 @@
 import { Directions } from '~/types/Directions'
-import { getQuery } from 'h3'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
@@ -29,4 +28,3 @@ export default defineEventHandler(async (event) => {
     endLng,
   }
 })
-

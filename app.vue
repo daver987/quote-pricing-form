@@ -6,6 +6,7 @@ console.log('user cookie', userCookie.value)
 //
 // const parser = ref(new UAParser())
 // console.log(parser.value, parser.value.getResult())
+//npx supabase gen types typescript --project-id ssnrhskkuvkhgliiywdw --schema public > types/supabase.ts
 </script>
 
 <template>
@@ -19,15 +20,18 @@ console.log('user cookie', userCookie.value)
 .page-leave-active {
   transition: all 0.4s;
 }
+
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
   filter: blur(1rem);
 }
+
 .layout-enter-active,
 .layout-leave-active {
   transition: all 0.4s;
 }
+
 .layout-enter-from,
 .layout-leave-to {
   opacity: 0;

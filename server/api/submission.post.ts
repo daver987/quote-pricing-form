@@ -2,12 +2,12 @@ import { ValidationSchema } from '~/schema/quoteFormValues'
 import { VehicleType } from '~/schema/vehicleType'
 import { TripData } from '~/types/data'
 import { Place } from '~/types/DirectionsResponse'
-import { rates, surcharges } from '~/data/rates'
 import { Surcharges } from '~/schema/surcharges'
 import { serverSupabaseClient } from '#supabase/server'
+import { Database } from '~/types/supabase'
 
 export default defineEventHandler(async (event) => {
-  const supabase = serverSupabaseClient(event)
+  const supabase = serverSupabaseClient<Database>(event)
   try {
     const body = await readBody(event)
     const {
@@ -144,17 +144,17 @@ export default defineEventHandler(async (event) => {
     for (let key in surchargeAmounts) {
       surchargeAmounts[key] = surchargeAmounts[key].toFixed(2)
     }
-    totalAmount = totalAmount.toFixed(2)
+    // totalAmount = totalAmount.toFixed(2)
 
     console.log(surchargeAmounts) // {surcharge1: "20.00", surcharge2: "10.00", tax: "10.00"}
     console.log(totalAmount) // "130.00"
 
+    let userId = ''
     // add a user to the database
     const addUser = async () => {
       const { data, error } = await supabase
         .from('user')
         .upsert({
-          // @ts-ignore
           firstName,
           lastName,
           emailAddress,
@@ -163,6 +163,9 @@ export default defineEventHandler(async (event) => {
         .select()
       console.log('This is the returned user data', data)
       console.log('This is the returned error', error)
+      //@ts-ignore
+      userId = data[0].id
+      console.log('This is the user id', userId)
     }
 
     //increment the quote number
@@ -198,12 +201,11 @@ export default defineEventHandler(async (event) => {
       const { data, error } = await supabase
         .from('quotes')
         .upsert({
-          // @ts-ignore
-          pickupDate: pickupDate,
-          pickupTime: pickupTime,
-          isRoundTrip: isRoundTrip,
-          returnDate: returnDate,
-          returnTime: returnTime,
+          pickupDate,
+          pickupTime,
+          isRoundTrip,
+          returnDate,
+          returnTime,
           originFormattedAddress: placeDataOrigin.formatted_address,
           originName: placeDataOrigin.name,
           originPlaceId: placeDataOrigin.place_id,
@@ -237,10 +239,11 @@ export default defineEventHandler(async (event) => {
           gratuity: surchargeAmounts['Gratuity'],
           HST: surchargeAmounts['HST'],
           userEmail: emailAddress,
-          totalFare: totalAmount,
+          totalFare: totalAmount as number,
           quote_number: quoteNumber,
           firstName,
           lastName,
+          userId,
         })
         .select()
       if (error) {

@@ -20,7 +20,7 @@ async function signOutUser() {
     let { error } = await supabase.auth.signOut()
     if (error) throw error
   } catch (error) {
-    alert(error.message)
+    console.error('Error signing out user: ', error)
   } finally {
     setTimeout(() => {
       loading.value = false
@@ -58,29 +58,29 @@ const userNavigation = [
 <template>
   <div class="min-h-full">
     <Disclosure as="nav" class="bg-grey-800" v-slot="{ open }">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 items-center justify-between">
+      <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
           <div class="flex items-center">
             <div class="flex-shrink-0">
               <NuxtLink to="/admin">
                 <NuxtImg
-                  class="block h-8 w-auto lg:hidden"
+                  class="block w-auto h-8 lg:hidden"
                   src="/images/hpl-logo-3.png"
                   alt="High Park Livery"
                 />
                 <NuxtImg
-                  class="hidden h-12 w-auto lg:block"
+                  class="hidden w-auto h-12 lg:block"
                   src="/images/hpl-logo-3.png"
                   alt="High Park Livery"
                 />
               </NuxtLink>
             </div>
             <div class="hidden md:block">
-              <div class="ml-10 flex items-baseline space-x-4">
+              <div class="flex items-baseline ml-10 space-x-4">
                 <NuxtLink
                   v-for="item in navigation"
-                  exact-active-class="bg-grey-900 text-white"
-                  class="px-3 py-2 rounded-md text-sm font-medium text-grey-100 hover:bg-grey-700 hover:text-white"
+                  exact-active-class="text-white bg-grey-900"
+                  class="px-3 py-2 text-sm font-medium rounded-md text-grey-100 hover:bg-grey-700 hover:text-white"
                   :key="item.name"
                   :to="item.href"
                   :aria-current="item.current ? 'page' : undefined"
@@ -90,15 +90,15 @@ const userNavigation = [
             </div>
           </div>
           <div class="hidden md:block">
-            <div class="ml-4 flex items-center md:ml-6">
+            <div class="flex items-center ml-4 md:ml-6">
               <button
                 type="button"
-                class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                class="p-1 rounded-full dark:hover:text-white dark:text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
               >
                 <span class="sr-only">View notifications</span>
                 <Icon
-                  name="heroicons:bell-alert-20-solid"
-                  class="h-6 w-6"
+                  name="heroicons:bell-alert"
+                  class="w-6 h-6 bg-transparent"
                   aria-hidden="true"
                 />
               </button>
@@ -107,26 +107,26 @@ const userNavigation = [
               <Menu as="div" class="relative ml-3">
                 <div>
                   <MenuButton
-                    class="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                    class="flex items-center max-w-xs text-sm bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                   >
                     <span class="sr-only">Open user menu</span>
                     <NuxtImg
-                      class="h-8 w-8 rounded-full"
+                      class="w-8 h-8 rounded-full"
                       :src="user.imageUrl"
                       alt=""
                     />
                   </MenuButton>
                 </div>
                 <transition
-                  enter-active-class="transition ease-out duration-100"
-                  enter-from-class="transform opacity-0 scale-95"
-                  enter-to-class="transform opacity-100 scale-100"
-                  leave-active-class="transition ease-in duration-75"
-                  leave-from-class="transform opacity-100 scale-100"
-                  leave-to-class="transform opacity-0 scale-95"
+                  enter-active-class="transition duration-100 ease-out"
+                  enter-from-class="transform scale-95 opacity-0"
+                  enter-to-class="transform scale-100 opacity-100"
+                  leave-active-class="transition duration-75 ease-in"
+                  leave-from-class="transform scale-100 opacity-100"
+                  leave-to-class="transform scale-95 opacity-0"
                 >
                   <MenuItems
-                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    class="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                   >
                     <MenuItem
                       v-for="item in userNavigation"
@@ -149,25 +149,25 @@ const userNavigation = [
               </Menu>
             </div>
           </div>
-          <div class="-mr-2 flex md:hidden">
+          <div class="flex -mr-2 md:hidden">
             <!-- Mobile menu button -->
             <DisclosureButton
-              class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              class="inline-flex items-center justify-center p-2 text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
             >
               <span class="sr-only">Open main menu</span>
               <Bars3Icon
                 v-if="!open"
-                class="block h-6 w-6"
+                class="block w-6 h-6"
                 aria-hidden="true"
               />
-              <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
+              <XMarkIcon v-else class="block w-6 h-6" aria-hidden="true" />
             </DisclosureButton>
           </div>
         </div>
       </div>
 
       <DisclosurePanel class="md:hidden">
-        <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <DisclosureButton
             v-for="item in navigation"
             :key="item.name"
@@ -183,10 +183,10 @@ const userNavigation = [
             >{{ item.name }}</DisclosureButton
           >
         </div>
-        <div class="border-t border-gray-700 pt-4 pb-3">
+        <div class="pt-4 pb-3 border-t border-gray-700">
           <div class="flex items-center px-5">
             <div class="flex-shrink-0">
-              <img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />
+              <img class="w-10 h-10 rounded-full" :src="user.imageUrl" alt="" />
             </div>
             <div class="ml-3">
               <div class="text-base font-medium text-white">
@@ -198,23 +198,23 @@ const userNavigation = [
             </div>
             <button
               type="button"
-              class="ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              class="flex-shrink-0 p-1 ml-auto text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
             >
               <span class="sr-only">View notifications</span>
               <Icon
                 name="heroicons:bell-alert-20-solid"
-                class="h-6 w-6"
+                class="w-6 h-6"
                 aria-hidden="true"
               />
             </button>
           </div>
-          <div class="mt-3 space-y-1 px-2">
+          <div class="px-2 mt-3 space-y-1">
             <DisclosureButton
               v-for="item in userNavigation"
               :key="item.name"
               as="a"
               :href="item.href"
-              class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+              class="block px-3 py-2 text-base font-medium text-gray-400 rounded-md hover:bg-gray-700 hover:text-white"
               >{{ item.name }}</DisclosureButton
             >
           </div>
@@ -223,7 +223,7 @@ const userNavigation = [
     </Disclosure>
 
     <header class="bg-white shadow-sm">
-      <div class="mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:px-8">
+      <div class="px-4 py-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <h1 class="text-lg font-semibold leading-6 text-gray-900">
           {{ pageName }}
         </h1>

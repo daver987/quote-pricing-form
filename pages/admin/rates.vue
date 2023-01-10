@@ -8,68 +8,6 @@ definePageMeta({
   middleware: ['auth'],
 })
 
-const rates = [
-  {
-    id: 1,
-    name: 'Standard Sedan',
-    per_km: 1.7,
-    per_hour: 80,
-    min_hours_hourly: 2,
-    min_rate_distance: 80,
-    min_distance: 25,
-    min_rate_hourly: 160,
-    max_passengers: 3,
-    max_luggage: 3,
-    type: 'Active',
-    vehicle_image_alt: 'Standard Sedan',
-    vehicle_image_src: '/images/cadillac-xts-1.png',
-  },
-  {
-    id: 2,
-    name: 'Premium Sedan',
-    per_km: 1.95,
-    per_hour: 90,
-    min_hours_hourly: 2,
-    min_rate_distance: 90,
-    min_distance: 25,
-    min_rate_hourly: 180,
-    max_passengers: 3,
-    max_luggage: 3,
-    type: 'Active',
-    vehicle_image_alt: 'Premium Sedan',
-    vehicle_image_src: '/images/cadillac-xts-1.png',
-  },
-  {
-    id: 3,
-    name: 'Standard SUV',
-    per_km: 2.2,
-    per_hour: 105,
-    min_hours_hourly: 2,
-    min_rate_distance: 105,
-    min_distance: 25,
-    min_rate_hourly: 210,
-    max_passengers: 7,
-    max_luggage: 7,
-    type: 'Active',
-    vehicle_image_alt: 'Standard SUV',
-    vehicle_image_src: '/images/cadillac-xts-1.png',
-  },
-  {
-    id: 4,
-    name: 'Premium SUV',
-    per_km: 2.7,
-    per_hour: 128,
-    min_hours_hourly: 2,
-    min_rate_distance: 128,
-    min_distance: 25,
-    min_rate_hourly: 256,
-    max_passengers: 6,
-    max_luggage: 6,
-    type: 'Active',
-    vehicle_image_alt: 'Premium SUV',
-    vehicle_image_src: '/images/cadillac-xts-1.png',
-  },
-]
 
 const openSurcharges = ref(false)
 const toggleSurcharges = () => {
@@ -116,26 +54,26 @@ console.log(surcharges.value)
                 <button
                   @click="toggleVehicleType"
                   type="button"
-                  class="inline-flex items-center rounded-full border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                  class="inline-flex items-center p-1 text-white border border-transparent rounded-full shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                 >
-                  <PlusIconMini class="h-5 w-5" aria-hidden="true" />
+                  <PlusIconMini class="w-5 h-5" aria-hidden="true" />
                 </button>
               </div>
             </div>
-            <div class="overflow-hidden bg-white shadow sm:rounded-md mt-2">
+            <div class="mt-2 overflow-hidden bg-white shadow sm:rounded-md">
               <ul role="list" class="divide-y divide-gray-200">
                 <li v-for="rate in vehicleType" :key="rate.id">
                   <div class="block hover:bg-gray-50">
                     <div class="px-4 py-4 sm:px-6">
                       <div class="flex items-center justify-between">
                         <p
-                          class="truncate text-sm font-sans font-medium text-brand-600"
+                          class="font-sans text-sm font-medium truncate text-brand-600"
                         >
                           {{ rate.name }}
                         </p>
-                        <div class="ml-2 flex flex-shrink-0">
+                        <div class="flex flex-shrink-0 ml-2">
                           <p
-                            class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
+                            class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full"
                           >
                             {{ rate.is_active ? 'Active' : 'Inactive' }}
                           </p>
@@ -144,28 +82,28 @@ console.log(surcharges.value)
                       <div class="mt-2 sm:flex sm:justify-between">
                         <div class="flex flex-col">
                           <p
-                            class="flex items-center text-sm font-sans font-semibold text-gray-500"
+                            class="flex items-center font-sans text-sm font-semibold text-gray-500"
                           >
                             <span
-                              class="font-sans text-gray-900 font-medium mr-2"
+                              class="mr-2 font-sans font-medium text-gray-900"
                               >Price Per Km:
                             </span>
                             {{ rate.per_km }}
                           </p>
                           <p
-                            class="flex items-center text-sm font-sans font-semibold text-gray-500"
+                            class="flex items-center font-sans text-sm font-semibold text-gray-500"
                           >
                             <span
-                              class="font-sans text-gray-900 font-medium mr-2"
+                              class="mr-2 font-sans font-medium text-gray-900"
                               >Min Price:
                             </span>
                             {{ rate.min_rate_distance }}
                           </p>
                           <p
-                            class="flex items-center text-sm font-sans font-semibold text-gray-500"
+                            class="flex items-center font-sans text-sm font-semibold text-gray-500"
                           >
                             <span
-                              class="font-sans text-gray-900 font-medium mr-2"
+                              class="mr-2 font-sans font-medium text-gray-900"
                               >Min Km Included:
                             </span>
                             {{ rate.min_distance }}
@@ -173,28 +111,28 @@ console.log(surcharges.value)
                         </div>
                         <div class="flex flex-col">
                           <p
-                            class="flex items-center text-sm font-sans font-semibold text-gray-500"
+                            class="flex items-center font-sans text-sm font-semibold text-gray-500"
                           >
                             <span
-                              class="font-sans text-gray-900 font-medium mr-2"
+                              class="mr-2 font-sans font-medium text-gray-900"
                               >Price Per Hour:
                             </span>
                             {{ rate.per_hour }}
                           </p>
                           <p
-                            class="flex items-center text-sm font-sans font-semibold text-gray-500"
+                            class="flex items-center font-sans text-sm font-semibold text-gray-500"
                           >
                             <span
-                              class="font-sans text-gray-900 font-medium mr-2"
+                              class="mr-2 font-sans font-medium text-gray-900"
                               >Min Price Per Hour:
                             </span>
                             {{ rate.min_rate_hourly }}
                           </p>
                           <p
-                            class="flex items-center text-sm font-sans font-semibold text-gray-500"
+                            class="flex items-center font-sans text-sm font-semibold text-gray-500"
                           >
                             <span
-                              class="font-sans text-gray-900 font-medium mr-2"
+                              class="mr-2 font-sans font-medium text-gray-900"
                               >Min Hours Included:
                             </span>
                             {{ rate.min_hours_hourly }}
@@ -202,19 +140,19 @@ console.log(surcharges.value)
                         </div>
                         <div class="flex flex-col">
                           <p
-                            class="flex items-center text-sm font-sans font-semibold text-gray-500"
+                            class="flex items-center font-sans text-sm font-semibold text-gray-500"
                           >
                             <span
-                              class="font-sans text-gray-900 font-medium mr-2"
+                              class="mr-2 font-sans font-medium text-gray-900"
                               >Max Passengers:
                             </span>
                             {{ rate.max_passengers }}
                           </p>
                           <p
-                            class="flex items-center text-sm font-sans font-semibold text-gray-500"
+                            class="flex items-center font-sans text-sm font-semibold text-gray-500"
                           >
                             <span
-                              class="font-sans text-gray-900 font-medium mr-2"
+                              class="mr-2 font-sans font-medium text-gray-900"
                               >Max luggage:
                             </span>
                             {{ rate.max_luggage }}
@@ -222,7 +160,7 @@ console.log(surcharges.value)
                         </div>
 
                         <div
-                          class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0"
+                          class="flex items-center mt-2 text-sm text-gray-500 sm:mt-0"
                         >
                           <Icon
                             name="heroicons:pencil"
@@ -231,7 +169,7 @@ console.log(surcharges.value)
                           />
                           <p>
                             <button
-                              class="text-indigo-600 font-sans font-medium"
+                              class="font-sans font-medium text-indigo-600"
                             >
                               Edit
                             </button>
@@ -257,28 +195,28 @@ console.log(surcharges.value)
               </div>
               <div class="pt-4">
                 <button
-                  @click="toggleSurcharges"
+                  @click="openSurcharges = !openSurcharges"
                   type="button"
-                  class="inline-flex items-center rounded-full border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                  class="inline-flex items-center p-1 text-white border border-transparent rounded-full shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                 >
-                  <PlusIconMini class="h-5 w-5" aria-hidden="true" />
+                  <PlusIconMini class="w-5 h-5" aria-hidden="true" />
                 </button>
               </div>
             </div>
-            <div class="overflow-hidden bg-white shadow sm:rounded-md mt-2">
+            <div class="mt-2 overflow-hidden bg-white shadow sm:rounded-md">
               <ul role="list" class="divide-y divide-gray-200">
                 <li v-for="surcharge in surcharges" :key="surcharge.id">
                   <div class="block hover:bg-gray-50">
                     <div class="px-4 py-4 sm:px-6">
                       <div class="flex items-center justify-between">
                         <p
-                          class="truncate text-sm font-sans font-medium text-brand-600"
+                          class="font-sans text-sm font-medium truncate text-brand-600"
                         >
                           {{ surcharge.name }}
                         </p>
-                        <div class="ml-2 flex flex-shrink-0">
+                        <div class="flex flex-shrink-0 ml-2">
                           <p
-                            class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
+                            class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full"
                           >
                             {{ surcharge.is_active ? 'Active' : 'Inactive' }}
                           </p>
@@ -287,10 +225,10 @@ console.log(surcharges.value)
                       <div class="mt-2 sm:flex sm:justify-between">
                         <div class="flex flex-col">
                           <p
-                            class="flex items-center text-sm font-sans font-semibold text-gray-500"
+                            class="flex items-center font-sans text-sm font-semibold text-gray-500"
                           >
                             <span
-                              class="font-sans text-gray-900 font-medium mr-2"
+                              class="mr-2 font-sans font-medium text-gray-900"
                               >Rate Amount:
                             </span>
                             {{ surcharge.value }}
@@ -382,7 +320,7 @@ console.log(surcharges.value)
                         </div>
 
                         <div
-                          class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0"
+                          class="flex items-center mt-2 text-sm text-gray-500 sm:mt-0"
                         >
                           <Icon
                             name="heroicons:pencil"
@@ -391,7 +329,7 @@ console.log(surcharges.value)
                           />
                           <p>
                             <button
-                              class="text-indigo-600 font-sans font-medium"
+                              class="font-sans font-medium text-indigo-600"
                             >
                               Edit
                             </button>
@@ -407,7 +345,7 @@ console.log(surcharges.value)
         </div>
       </div>
     </div>
-    <SettingsSurcharges :open="openSurcharges" />
+    <SettingsSurcharges v-bind:isOpen="openSurcharges" :open="openSurcharges" />
     <SettingsVehicleType :open="openVehicleType" />
   </div>
 </template>

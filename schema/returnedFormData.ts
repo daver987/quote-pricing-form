@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const returnedFormData = z
+export const returnedQuote = z
   .object({
     HST: z.number(),
     baseRate: z.number(),
@@ -38,6 +38,7 @@ export const returnedFormData = z
     startLat: z.number(),
     startLng: z.number(),
     statusCode: z.number(),
+    userId: z.string(),
     vehicleTypeLabel: z.string().default('Standard Sedan'),
     vehicleTypeValue: z.number(),
     totalFare: z.number().default(0),
@@ -56,4 +57,4 @@ export const returnedFormData = z
   })
   .strip()
 
-export type ReturnedFormData = z.infer<typeof returnedFormData>
+export type ReturnedQuote = z.infer<typeof returnedQuote>

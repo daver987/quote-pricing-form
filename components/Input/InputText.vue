@@ -1,8 +1,8 @@
 <template>
   <div
-    class="rounded border border-gray-300 px-3 bg-white shadow-sm focus-within:border-brand-600 focus-within:ring-1 focus-within:ring-brand-600"
+    class="px-3 bg-white border border-gray-300 rounded shadow-sm focus-within:border-brand-600 focus-within:ring-1 focus-within:ring-brand-600"
   >
-    <label :for="name" class="block text-xxs font-regular text-gray-700">{{
+    <label :for="name" class="block text-gray-700 text-xxs font-regular">{{
       label
     }}</label>
     <input
@@ -15,8 +15,8 @@
       :value="inputValue"
       class="block w-full border-0 p-0 text-gray-900 placeholder-gray-400 focus:ring-0 sm:text-sm pb-0.5 -mt-1"
     />
-    <div v-if="showError" class="flex">
-      <div class="block text-red-700 text-xs">
+    <div v-if="!showError" class="flex">
+      <div class="block text-xs text-red-700">
         <div role="alert">{{ errorMessage }}</div>
       </div>
     </div>

@@ -5,7 +5,8 @@ import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
 import { useForm, Field } from 'vee-validate'
 import { toFormValidator } from '@vee-validate/zod'
-import { ReturnedFormData } from '~/schema/returnedFormData'
+import { Database } from '~/types/supabase'
+import { ReturnedQuote, returnedQuote } from '~/schema/returnedFormData'
 
 interface SelectFormData {
   label: string
@@ -14,7 +15,7 @@ interface SelectFormData {
 }
 const newUser = useUser()
 console.log('New User', newUser.value)
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 
 const passengerClasses = ref('text-gray-400')
 const passengerOptions = ref<SelectFormData[]>([
@@ -563,10 +564,6 @@ watch(destinationType, () => {
   }
 })
 
-//todo: add logic to check if the user picked an airport, if true add extra to the cost
-//todo: add waypoints to the route for the quote
-//todo: add popup to show the terms and conditions
-
 const validationSchema = toFormValidator(formSchema)
 const { handleSubmit, errors } = useForm({
   validationSchema,
@@ -574,7 +571,7 @@ const { handleSubmit, errors } = useForm({
 
 const loading = ref<boolean>(false)
 const router = useRouter()
-const returnedQuote = ref<ReturnedFormData | unknown>(null)
+const returnedQuote = ref<ReturnedQuote | unknown>(null)
 const openAlert = ref<boolean>(false)
 
 const onSubmit = handleSubmit(async (formValues) => {
@@ -585,8 +582,9 @@ const onSubmit = handleSubmit(async (formValues) => {
     method: 'POST',
     body: values,
   })
-  returnedQuote.value = data.value as unknown as ReturnedFormData
+  returnedQuote.value = data.value as unknown as ReturnedQuote
   console.log('Returned data is:', data.value)
+  //@ts-ignore
   if (returnedQuote.value.statusCode === 200) {
     setTimeout(() => {
       loading.value = false
@@ -605,9 +603,9 @@ const onSubmit = handleSubmit(async (formValues) => {
 
 <template>
   <div
-    class="bg-black sm:mx-auto sm:w-full sm:max-w-lg sm:overflow-hidden sm:rounded-lg border border-1 border-white rounded"
+    class="bg-black border border-white rounded sm:mx-auto sm:w-full sm:max-w-lg sm:overflow-hidden sm:rounded-lg border-1"
   >
-    <h3 class="text-white text-center uppercase pt-5 text-3xl">
+    <h3 class="pt-5 text-3xl text-center text-white uppercase">
       Instant Quote
     </h3>
     <form id="lead_form" class="p-5 space-y-3" @submit="onSubmit">
@@ -644,8 +642,8 @@ const onSubmit = handleSubmit(async (formValues) => {
         </div>
       </div>
       <div
-        :class="[isRoundTrip ? 'visibleq' : 'hidden']"
-        class="grid grid-cols-1 md:grid-cols-2 gap-3"
+        :class="[isRoundTrip ? 'visible' : 'hidden']"
+        class="grid grid-cols-1 gap-3 md:grid-cols-2"
       >
         <div class="col-span-1">
           <InputDate
@@ -782,7 +780,7 @@ const onSubmit = handleSubmit(async (formValues) => {
               v-model="phoneNumber"
               :dropdown-options="dropdownOptions"
               :input-options="inputOptions"
-              invalidMsg="Please enter a valid phone number"
+              :invalidMsg="errorMessage"
               style-classes="rounded border border-gray-300 pr-1 bg-white shadow-sm focus-within:border-brand-600 focus-within:ring-1 focus-within:ring-brand-600"
             ></VueTelInput>
           </Field>
@@ -795,14 +793,14 @@ const onSubmit = handleSubmit(async (formValues) => {
           name="isRoundTrip"
         >
           <div class="relative flex items-start">
-            <div class="flex h-5 items-center">
+            <div class="flex items-center h-5">
               <input
                 aria-describedby="comments-description"
                 v-bind="field"
                 id="round_trip"
                 v-model="isRoundTrip"
                 type="checkbox"
-                class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
+                class="w-4 h-4 border-gray-300 rounded text-brand-600 focus:ring-brand-500"
               />
             </div>
             <div class="ml-3 text-sm">
@@ -852,7 +850,7 @@ const onSubmit = handleSubmit(async (formValues) => {
         <button
           id="submit_button"
           type="submit"
-          class="inline-flex w-full uppercase items-center rounded border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          class="inline-flex items-center w-full px-4 py-2 text-sm font-medium text-white uppercase bg-red-600 border border-transparent rounded shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
           <span class="self-center mx-auto">{{
             loading ? 'Processing.....' : 'Get Prices & Availability'
@@ -860,6 +858,10 @@ const onSubmit = handleSubmit(async (formValues) => {
         </button>
       </div>
     </form>
-    <Alert :open="openAlert" />
+    <Alert
+      alertMessage="Please refresh your browser and try again"
+      alertTitle="Oops Something went wrong"
+      :open="openAlert"
+    />
   </div>
 </template>
