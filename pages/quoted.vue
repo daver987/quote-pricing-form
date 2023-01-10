@@ -1,8 +1,22 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'store',
+  name: 'Quoted',
 })
-const showNotification = ref<boolean>(false)
+const route = useRoute()
+console.log('route', route.fullPath)
+const notification = ref<boolean>(false)
+const showNotification = () => {
+  if (route.fullPath === '/quoted') {
+    setTimeout(() => {
+      notification.value = true
+    }, 1000)
+    setTimeout(() => {
+      notification.value = false
+    }, 7000)
+  }
+}
+showNotification()
 </script>
 
 <template>
@@ -10,7 +24,7 @@ const showNotification = ref<boolean>(false)
     <AppNavigation />
     <ShoppingCart />
     <Notification
-      :show="showNotification"
+      :show="notification"
       message1="Your Quote Has been Submitted"
       message2="A copy of the quote has been sent to your email address"
     />

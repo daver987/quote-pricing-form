@@ -42,7 +42,7 @@ const itemsInCart = products.length
             : 'text-brand-600 group-hover:text-brand-700',
         ]"
         class="ml-2 text-sm font-medium"
-        >{{ isCartEmpty ? 0 : itemsInCart }}</span
+        >{{ isCartEmpty ? itemsInCart : 0 }}</span
       >
       <span class="sr-only">items in cart, view bag</span>
     </PopoverButton>
@@ -61,7 +61,17 @@ const itemsInCart = products.length
 
         <form class="mx-auto max-w-2xl px-4">
           <ul role="list" class="divide-y divide-gray-200">
+            <li class="flex items-center py-6" v-if="!isCartEmpty">
+              <Icon
+                name="teenyicons:mood-sad-outline"
+                class="h-16 w-16 flex-none rounded-md"
+              />
+              <div class="ml-4 flex-auto">
+                <h3 class="font-medium text-gray-900">Cart is Empty</h3>
+              </div>
+            </li>
             <li
+              v-else
               v-for="product in products"
               :key="product.id"
               class="flex items-center py-6"

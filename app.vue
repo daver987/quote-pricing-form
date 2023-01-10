@@ -1,4 +1,7 @@
 <script setup lang="ts">
+const userCookie = useCookie('hpl_user')
+userCookie.value = 'New User'
+console.log('user cookie', userCookie.value)
 // import { UAParser } from 'ua-parser-js'
 //
 // const parser = ref(new UAParser())
