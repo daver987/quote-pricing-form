@@ -49,6 +49,7 @@ const {
   HST,
   fuelSurcharge,
   id,
+  userId,
   quote_number,
   isPearsonAirportPickup,
   isPearsonAirportDropoff,
@@ -125,28 +126,21 @@ const vehicleImageAlt = vehicleTypeLabel
 
 const router = useRouter()
 const loading = ref(false)
-const submitOrder = () => {
-  loading.value = true
-  setTimeout(() => {
-    loading.value = false
-    router.push('/')
-  }, 1000)
-}
 
-defineProps({
-  pageTitle: {
-    type: String,
-    default: 'Quote Details',
-  },
-  summaryHeading: {
-    type: String,
-    default: 'Quote Summary',
-  },
-  isItQuote: {
-    type: Boolean,
-    default: true,
-  },
-})
+// defineProps({
+//   pageTitle: {
+//     type: String,
+//     default: 'Quote Details',
+//   },
+//   summaryHeading: {
+//     type: String,
+//     default: 'Quote Summary',
+//   },
+//   isItQuote: {
+//     type: Boolean,
+//     default: true,
+//   },
+// })
 const loadingCart = ref(false)
 const addToCart = async () => {
   loadingCart.value = true
@@ -154,38 +148,51 @@ const addToCart = async () => {
     .from('quotes')
     .update({ addedToCart: true })
     .eq('quote_number', quoteNumber)
+    .select()
   if (error) {
     console.log('Error adding to cart', error)
     return
   }
-  console.log('This is the add to cart', data)
+  console.log('This is the add to cart data', data)
   setTimeout(() => {
     loadingCart.value = false
+    addedToCart.value = true
   }, 1000)
 }
+
 //checkout
+const loadingCheckout = ref(false)
 const createSession = async () => {
+  loadingCheckout.value = true
   const checkoutBody = {
     firstName,
     lastName,
     emailAddress,
     customerId: id,
   }
-  const { data } = await useFetch(`/api/create-checkout-session`, {
+  const { data: stripData } = await useFetch(`/api/create-checkout-session`, {
     method: 'POST',
     body: checkoutBody,
   })
-  console.log(data)
-  const { statusCode, url, customer } = data.value as ReturnType
-  console.log(statusCode, url, customer)
-  await navigateTo(url, {
-    redirectCode: 303,
-    external: true,
-  })
-  return {
-    url,
-    customer,
-  }
+  console.log('Stripe Returned Data:', stripData)
+  const { statusCode, url, customer } = stripData.value as ReturnType
+  console.log('Returned Stripe Data', statusCode, url, customer)
+  const { data } = await supabase
+    .from('users')
+    .upsert(
+      { stripe_customer_id: customer },
+      { onConflict: 'stripe_customer_id' }
+    )
+    .eq('id', userId)
+    .select()
+  console.log('This is the supabase customer data', data)
+  setTimeout(async () => {
+    loadingCheckout.value = false
+    await navigateTo(url, {
+      redirectCode: 303,
+      external: true,
+    })
+  }, 1500)
 }
 </script>
 
@@ -567,7 +574,7 @@ const createSession = async () => {
             type="button"
             class="w-full px-4 py-3 text-base font-medium text-white uppercase bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
-            {{ loading ? 'Loading...' : 'Book Now' }}
+            {{ loadingCheckout ? 'Loading...' : 'Book Now' }}
           </button>
         </div>
       </section>
