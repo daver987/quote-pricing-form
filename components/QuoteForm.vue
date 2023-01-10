@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import { DirectionsResponse, Place } from '~/types/DirectionsResponse'
 import { formSchema } from '~/schema/quoteFormValues'
-import { useQuoteStore } from '~/stores/useQuoteStore'
 import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
 import { useForm, Field } from 'vee-validate'
 import { toFormValidator } from '@vee-validate/zod'
-import { storeToRefs } from 'pinia'
 import { ReturnedFormData } from '~/schema/returnedFormData'
 
 interface SelectFormData {
@@ -14,28 +12,8 @@ interface SelectFormData {
   value: number
   isDisabled?: boolean | undefined
 }
-
-const store = useQuoteStore()
-const {
-  isRoundTrip,
-  selectedDate,
-  selectedTime,
-  selectedReturnDate,
-  selectedReturnTime,
-  vehicleTypeLabel,
-  passengersLabel,
-  serviceTypeLabel,
-  totalFare,
-  tripData,
-  placeDataOrigin,
-  placeDataDestination,
-  isItHourly,
-  firstName,
-  lastName,
-  emailAddress,
-  phoneNumber,
-  baseRate,
-} = storeToRefs(store)
+const newUser = useUser()
+console.log('New User', newUser.value)
 const supabase = useSupabaseClient()
 
 const passengerClasses = ref('text-gray-400')
@@ -151,27 +129,15 @@ const pickupDate = ref<string>('')
 const pickupTime = ref<string>('')
 const returnDate = ref<string>('')
 const returnTime = ref<string>('')
-
-const formValues = ref({
-  pickupDate: selectedDate.value,
-  pickupTime: selectedTime.value,
-  returnDate: selectedReturnDate.value,
-  returnTime: selectedReturnTime.value,
-  selectedServiceType: selectedServiceType.value,
-  selectedVehicleType: selectedVehicleType.value,
-  selectedNumberOfHours: selectedNumberOfHours.value,
-  selectedPassengers: selectedPassengers.value,
-  firstName: firstName.value,
-  lastName: lastName.value,
-  emailAddress: emailAddress.value,
-  phoneNumber: phoneNumber.value,
-  isRoundTrip: isRoundTrip.value,
-  isItHourly: isItHourly.value,
-  tripData: tripData.value,
-  placeDataOrigin: placeDataOrigin.value,
-  placeDataDestination: placeDataDestination.value,
-  calculatedDistance: calculatedDistance.value,
-})
+const isItHourly = ref<boolean>(false)
+const tripData = ref<DirectionsResponse | null>(null)
+const placeDataOrigin = ref<Place | null>(null)
+const placeDataDestination = ref<Place | null>(null)
+const isRoundTrip = ref<boolean>(false)
+const firstName = ref<string>('')
+const lastName = ref<string>('')
+const emailAddress = ref<string>('')
+const phoneNumber = ref<string>('')
 
 const disabled = ref<boolean>(true)
 watch(selectedServiceType, () => {
@@ -609,6 +575,7 @@ const { handleSubmit, errors } = useForm({
 const loading = ref<boolean>(false)
 const router = useRouter()
 const returnedQuote = ref<ReturnedFormData | unknown>(null)
+const openAlert = ref<boolean>(false)
 
 const onSubmit = handleSubmit(async (formValues) => {
   loading.value = true
@@ -619,32 +586,20 @@ const onSubmit = handleSubmit(async (formValues) => {
     body: values,
   })
   returnedQuote.value = data.value as unknown as ReturnedFormData
-  const {
-    vehicleTypeLabel: vehicleLabel,
-    passengersLabel: paxLabel,
-    serviceTypeLabel: serviceLabel,
-    totalFare: subtotal,
-    baseRate: baseFare,
-    pickupDate: pickupDate,
-    pickupTime: pickupTime,
-    returnDate: returnDate,
-    returnTime: returnTime,
-  } = returnedQuote.value as unknown as ReturnedFormData
   console.log('Returned data is:', data.value)
-  vehicleTypeLabel.value = vehicleLabel
-  serviceTypeLabel.value = serviceLabel
-  passengersLabel.value = paxLabel
-  totalFare.value = subtotal
-  baseRate.value = baseFare
-  selectedDate.value = pickupDate
-  selectedTime.value = pickupTime
-  selectedReturnDate.value = returnDate
-  selectedReturnTime.value = returnTime
-  setTimeout(() => {
-    loading.value = false
-    router.push('/quoted')
-  }, 1500)
-  return
+  if (returnedQuote.value.statusCode === 200) {
+    setTimeout(() => {
+      loading.value = false
+      router.push('/quoted')
+    }, 1500)
+    return
+  } else {
+    setTimeout(() => {
+      loading.value = false
+      openAlert.value = true
+    }, 1500)
+    return
+  }
 })
 </script>
 
@@ -905,5 +860,6 @@ const onSubmit = handleSubmit(async (formValues) => {
         </button>
       </div>
     </form>
+    <Alert :open="openAlert" />
   </div>
 </template>

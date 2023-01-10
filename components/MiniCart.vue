@@ -67,7 +67,7 @@ const itemsInCart = products.length
                 class="h-16 w-16 flex-none rounded-md"
               />
               <div class="ml-4 flex-auto">
-                <h3 class="font-medium text-gray-900">Cart is Empty</h3>
+                <h3 class="font-medium text-lg text-gray-900">Cart is Empty</h3>
               </div>
             </li>
             <li
@@ -91,13 +91,14 @@ const itemsInCart = products.length
           </ul>
 
           <button
+            v-if="isCartEmpty"
             type="submit"
             class="w-full uppercase tracking-wider rounded-md border border-transparent bg-brand-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
             Checkout
           </button>
 
-          <p class="mt-6 text-center">
+          <p v-if="isCartEmpty" class="mt-6 text-center">
             <NuxtLink
               to="/cart"
               class="text-sm font-medium font-sans text-brand-600 hover:text-brand"
