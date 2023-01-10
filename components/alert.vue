@@ -99,13 +99,6 @@ defineProps({
                 >
                   Close
                 </button>
-                <!-- <button
-                  type="button"
-                  class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm"
-                  @click="open = false"
-                >
-                  Cancel
-                </button> -->
               </div>
             </DialogPanel>
           </TransitionChild>

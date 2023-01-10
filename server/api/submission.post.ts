@@ -72,6 +72,7 @@ export default defineEventHandler(async (event) => {
 
     const { value: selectedHours, label: selectedHoursLabel } =
       selectedNumberOfHours || { value: 0, label: 'Hours Not Selected' }
+
     //get the vehicle type from the vehicle type value
     const getVehicleType = async () => {
       const { data } = await supabase
@@ -106,6 +107,7 @@ export default defineEventHandler(async (event) => {
       }
       return selectedHours * per_hour
     }
+
     //get the surcharges
     const getSurcharges = async () => {
       const { data } = await supabase.from('surcharges').select()
@@ -154,15 +156,20 @@ export default defineEventHandler(async (event) => {
     const addUser = async () => {
       const { data, error } = await supabase
         .from('user')
-        .upsert({
-          firstName,
-          lastName,
-          emailAddress,
-          phoneNumber,
-        })
+        .upsert(
+          {
+            firstName,
+            lastName,
+            emailAddress,
+            phoneNumber,
+          },
+          { onConflict: 'emailAddress' }
+        )
         .select()
-      console.log('This is the returned user data', data)
-      console.log('This is the returned error', error)
+      if (error) {
+        console.log('Error', error)
+      }
+      console.log('This is the User Data', data)
       //@ts-ignore
       userId = data[0].id
       console.log('This is the user id', userId)
@@ -172,6 +179,7 @@ export default defineEventHandler(async (event) => {
     interface QuoteNumber {
       latest_quote_number: number
     }
+
     //get the latest quote number
     const getQuoteNumber = async () => {
       const { data } = await supabase
@@ -188,7 +196,6 @@ export default defineEventHandler(async (event) => {
       const updatedQuoteNumber = latest_quote_number + 1
       const { data } = await supabase
         .from('quote_number')
-        // @ts-ignore
         .update({ latest_quote_number: updatedQuoteNumber })
         .eq('id', '1')
       return updatedQuoteNumber
@@ -225,9 +232,7 @@ export default defineEventHandler(async (event) => {
           passengersLabel: selectedPassengers.label,
           passengersValue: selectedPassengers.value,
           isItHourly: isItHourly,
-          // @ts-ignore
           hoursLabel: selectedHoursLabel,
-          // @ts-ignore
           hoursValue: selectedHours,
           distanceText: tripData.distanceText,
           distanceValue: tripData.distanceValue,

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Luxury Ride Service | Reservations',
+  title: 'High Park Livery | Reservations',
   script: [
     {
       src: 'https://book.mylimobiz.com/v4/luxridesvc/widget/reservation',
@@ -17,14 +17,6 @@ const headerInfo = {
 definePageMeta({
   title: 'Reservations',
   layout: 'default',
-  // pageTransition: {
-  //   appear: true,
-  //   enterFromClass: 'opacity-0',
-  //   enterActiveClass: 'duration-[500ms]',
-  //   leaveToClass: 'opacity-0',
-  //   leaveActiveClass: 'duration-[500ms]',
-  //   mode: 'out-in',
-  // },
 })
 </script>
 
@@ -46,14 +38,6 @@ definePageMeta({
           data-ores-alias="luxridesvc"
           >Online Reservations
         </NuxtLink>
-        <!--        <Script-->
-        <!--          type="text/javascript"-->
-        <!--          src="https://book.mylimobiz.com/v4/widgets/widget-loader.js"-->
-        <!--        ></Script>-->
-        <!--        <iframe-->
-        <!--          src="https://book.mylimobiz.com/v4/luxridesvc"-->
-        <!--          class="h-[130vh] shadow-xl w-full md:h-[120vh]"-->
-        <!--        />-->
       </div>
     </section>
   </div>
