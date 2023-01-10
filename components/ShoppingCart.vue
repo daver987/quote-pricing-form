@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Database } from '~/types/supabase'
 import { useQuoteNumber } from '~/composables/states'
+import { ReturnType } from '~/types/ReturnType'
 
 const supabase = useSupabaseClient<Database>()
 const quoteNumberState = useQuoteNumber()
@@ -31,6 +32,7 @@ const getQuoteData = async () => {
 }
 
 const {
+  addedToCart,
   pickupDate,
   pickupTime,
   returnDate,
@@ -50,6 +52,9 @@ const {
   quote_number,
   isPearsonAirportPickup,
   isPearsonAirportDropoff,
+  firstName,
+  lastName,
+  emailAddress,
 } = (await getQuoteData()) as Database | any
 
 const returnServiceTypeLabel = computed(() => {
@@ -158,6 +163,30 @@ const addToCart = async () => {
     loadingCart.value = false
   }, 1000)
 }
+//checkout
+const createSession = async () => {
+  const checkoutBody = {
+    firstName,
+    lastName,
+    emailAddress,
+    customerId: id,
+  }
+  const { data } = await useFetch(`/api/create-checkout-session`, {
+    method: 'POST',
+    body: checkoutBody,
+  })
+  console.log(data)
+  const { statusCode, url, customer } = data.value as ReturnType
+  console.log(statusCode, url, customer)
+  await navigateTo(url, {
+    redirectCode: 303,
+    external: true,
+  })
+  return {
+    url,
+    customer,
+  }
+}
 </script>
 
 <template>
@@ -166,12 +195,12 @@ const addToCart = async () => {
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100"
     >
       <span class="mr-1">High Park Livery </span>-
-      <span class="ml-1">{{ isItQuote ? ' Quote' : ' Order' }} Details</span>
+      <span class="ml-1">{{ !addedToCart ? ' Quote' : ' Order' }} Details</span>
     </h1>
     <div class="mt-2 text-sm sm:flex sm:justify-between">
       <dl class="flex">
         <dt class="text-gray-500 dark:text-gray-100">
-          {{ isItQuote ? 'Quote' : 'Order' }} Number&nbsp;<span
+          {{ !addedToCart ? 'Quote' : 'Order' }} Number&nbsp;<span
             class="mx-2 text-gray-400 dark:text-gray-100"
             aria-hidden="true"
             >&middot;</span
@@ -394,7 +423,7 @@ const addToCart = async () => {
           id="summary-heading"
           class="text-lg font-medium text-gray-900 dark:text-gray-100"
         >
-          {{ isItQuote ? 'Quote' : 'Order' }} Summary
+          {{ !addedToCart ? 'Quote' : 'Order' }} Summary
         </h2>
 
         <dl class="mt-6 space-y-4">
@@ -508,7 +537,7 @@ const addToCart = async () => {
             class="flex items-center justify-between pt-4 border-t border-gray-200"
           >
             <dt class="text-base font-medium text-gray-900 dark:text-gray-100">
-              {{ isItQuote ? 'Quote' : 'Order' }} total
+              {{ !addedToCart ? 'Quote' : 'Order' }} total
             </dt>
             <dd class="text-base font-medium text-gray-900 dark:text-gray-100">
               $
@@ -523,7 +552,7 @@ const addToCart = async () => {
 
         <div class="mt-6">
           <button
-            v-if="isItQuote"
+            v-if="!addedToCart"
             @click="addToCart"
             type="button"
             class="w-full px-4 py-3 text-base font-medium text-white uppercase bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
@@ -534,16 +563,16 @@ const addToCart = async () => {
           </button>
           <button
             v-else
-            @click="submitOrder"
+            @click="createSession"
             type="button"
             class="w-full px-4 py-3 text-base font-medium text-white uppercase bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
-            {{ loading ? 'Loading...' : 'Checkout' }}
+            {{ loading ? 'Loading...' : 'Book Now' }}
           </button>
         </div>
       </section>
       <section
-        v-if="!isItQuote"
+        v-if="addedToCart"
         class="px-4 py-6 sm:p-6 lg:col-start-8 lg:col-span-5 lg:mt-0 lg:p-6"
       >
         <div class="flex flex-col mb-2">

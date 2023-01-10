@@ -123,7 +123,7 @@ const itemsInCart = () => {
             type="submit"
             class="w-full uppercase tracking-wider rounded-md border border-transparent bg-brand-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
-            Checkout
+            Book Now
           </button>
 
           <p v-if="addedToCart" class="mt-6 text-center">

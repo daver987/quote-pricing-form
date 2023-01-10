@@ -1,21 +1,23 @@
 import { Stripe } from 'stripe'
 import { Session } from '~/types/session'
-import { Query } from '~/types/query'
 
-const YOUR_DOMAIN = 'https://hpl-checkout.netlify.app'
+const YOUR_DOMAIN = 'http://localhost:3000'
 const STRIPE_SECRET_KEY = useRuntimeConfig().STRIPE_SECRET_KEY
 const stripe = new Stripe(STRIPE_SECRET_KEY, {
   apiVersion: '2022-11-15',
 })
 
 export default defineEventHandler(async (event) => {
-  const query = (await getQuery(event)) as unknown as Query
+  const body = await readBody(event)
 
   const customer = await stripe.customers.create({
-    email: query.email,
-    name: `${query.fname} ${query.lname}`,
-    phone: query.phone,
+    email: body.emailAddress,
+    name: `${body.firstName} ${body.lastName}`,
+    metadata: {
+      customerId: body.customerId,
+    },
   })
+  console.log('customer info', customer)
   const session = <Session>await stripe.checkout.sessions.create({
     billing_address_collection: 'auto',
     mode: 'setup',
@@ -25,6 +27,7 @@ export default defineEventHandler(async (event) => {
     automatic_tax: { enabled: false },
     customer: customer.id,
   })
+  console.log('session info', session)
 
   return {
     statusCode: 200,
