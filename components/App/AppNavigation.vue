@@ -281,10 +281,7 @@ const open = ref<boolean>(false)
 
             <!-- Cart -->
             <div class="flow-root ml-4 lg:ml-6">
-              <MiniCart
-                :added-to-cart="addedToCart"
-                :is-round-trip="isRoundTrip"
-              />
+              <MiniCart />
             </div>
           </div>
         </div>

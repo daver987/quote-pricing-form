@@ -8,26 +8,28 @@ const supabase = useSupabaseClient<Database>()
 const userStore = useUserStore()
 const { hplUserId } = storeToRefs(userStore)
 
-onMounted(() => {
-  async function getUserId() {
-    hplUserId.value = localStorage.getItem('hplUserId')
-    if (hplUserId.value === null || hplUserId.value === 'hpl_new_user') {
-      hplUserId.value = 'hpl_new_user'
-      localStorage.setItem('hplUserId', hplUserId.value)
-      console.log('hplUserId:', hplUserId.value)
-    } else {
-      const { data: userData } = await useAsyncData('user', async () => {
-        const { data } = await supabase
-          .from('user')
-          .select('*')
-          .eq('id', hplUserId.value)
-        return data
-      })
-      console.log('hplUserId:', hplUserId.value)
-      console.log('userData:', userData.value)
-    }
+async function getUserData() {
+  hplUserId.value = localStorage.getItem('hplUserId')
+  if (!hplUserId.value) {
+    hplUserId.value = 'hpl_new_user'
+    localStorage.setItem('hplUserId', hplUserId.value)
+  } else {
+    const { data: userData } = await useAsyncData('user', async () => {
+      return await supabase
+        .from('user')
+        .select('*')
+        .eq('id', hplUserId.value)
+        .single()
+    })
+    console.log('userData:', userData.value?.data)
+    console.log('hplUserId:', hplUserId.value)
   }
-  getUserId()
+}
+
+onMounted(async () => {
+  setTimeout(async () => {
+    await getUserData()
+  }, 2000)
 })
 
 //npx supabase gen types typescript --project-id ssnrhskkuvkhgliiywdw --schema public > types/supabase.ts

@@ -65,7 +65,18 @@ const {
   userEmail,
 } = quoteData.value as Quote
 
-const { addedToCart } = storeToRefs(cartStore)
+const { addedToCart, loading } = storeToRefs(cartStore)
+
+const { data: userData } = await useAsyncData('user', async () => {
+  const { data } = await supabase
+    .from('user')
+    .select('*')
+    // @ts-ignore
+    .eq('id', quoteData.value.userId)
+    .single()
+  return data
+})
+console.log('User Data in checkout component', userData.value)
 
 const returnServiceTypeLabel = computed(() => {
   if (isRoundTrip && serviceTypeLabel === 'To Airport') return 'From Airport'
@@ -564,9 +575,7 @@ const createSession = async () => {
             type="button"
             class="w-full px-4 py-3 text-base font-medium text-white uppercase bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
-            {{
-              loadingCart ? 'Adding To Shopping Bag...' : 'Add To Shopping Bag'
-            }}
+            {{ loading ? 'Adding To Shopping Bag...' : 'Add To Shopping Bag' }}
           </button>
           <button
             v-else

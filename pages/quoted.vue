@@ -1,13 +1,17 @@
 <script setup lang="ts">
+import { useCartStore } from '~/stores/useCartStore'
+import { storeToRefs } from 'pinia'
+
 definePageMeta({
   layout: 'store',
   name: 'Quoted',
 })
+const cartStore = useCartStore()
+const { addedToCart } = storeToRefs(cartStore)
 const route = useRoute()
 const notification = ref<boolean>(false)
-const addToCartState = useAddToCart()
 const showNotification = () => {
-  if (route.fullPath === '/quoted' && addToCartState.value === false) {
+  if (route.fullPath === '/quoted' && !addedToCart.value) {
     setTimeout(() => {
       notification.value = true
     }, 1000)

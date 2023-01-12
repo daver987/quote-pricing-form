@@ -63,7 +63,7 @@ const itemsInCart = () => {
       >
         <h2 class="sr-only">Shopping Cart</h2>
 
-        <form class="mx-auto max-w-2xl px-4">
+        <form class="mx-auto max-w-2xl px-4" @submit.prevent>
           <ul role="list" class="divide-y divide-gray-200">
             <li class="flex items-center py-6" v-if="!addedToCart">
               <Icon
