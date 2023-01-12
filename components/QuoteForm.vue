@@ -6,7 +6,7 @@ import 'vue-tel-input/dist/vue-tel-input.css'
 import { useForm, Field } from 'vee-validate'
 import { toFormValidator } from '@vee-validate/zod'
 import { Database } from '~/types/supabase'
-import { ReturnedQuote, returnedQuote } from '~/schema/returnedFormData'
+import { ReturnedQuote } from '~/schema/returnedFormData'
 import { useUserStore } from '~/stores/useUserStore'
 import { storeToRefs } from 'pinia'
 
@@ -16,8 +16,6 @@ interface SelectFormData {
   value: number
   isDisabled?: boolean | undefined
 }
-const newUser = useUser()
-console.log('New User', newUser.value)
 const supabase = useSupabaseClient<Database>()
 
 const passengerClasses = ref('text-gray-400')
@@ -64,7 +62,6 @@ const passengerOptions = ref<SelectFormData[]>([
   },
 ])
 const selectedPassengers = ref<SelectFormData>(passengerOptions.value[0])
-console.log(selectedPassengers.value)
 
 // get the service types to populate the select
 const { data: serviceTypes } = await useAsyncData('service_type', async () => {
@@ -93,7 +90,6 @@ const vehicleTypeOptions = ref<SelectFormData[]>(
   vehicleTypes.value.sort((a, b) => (a.value > b.value ? 1 : -1))
 )
 const selectedVehicleType = ref<SelectFormData>(vehicleTypeOptions.value[0])
-console.log(selectedVehicleType.value)
 
 const hoursRequiredClasses = ref('cursor-not-allowed opacity-50 text-gray-300')
 const hoursRequiredOptions = ref<SelectFormData[]>([
@@ -104,7 +100,6 @@ const hoursRequiredOptions = ref<SelectFormData[]>([
   },
 ])
 const selectedNumberOfHours = ref<SelectFormData>(hoursRequiredOptions.value[0])
-console.log('Selected hours', selectedNumberOfHours.value)
 
 // Options for the phone number input
 const inputOptions = ref({
@@ -587,7 +582,9 @@ const onSubmit = handleSubmit(async (formValues) => {
     body: values,
   })
   returnedQuote.value = data.value as unknown as ReturnedQuote
-  userStore.setUserData(returnedQuote.value)
+  // @ts-ignore
+  hplUserId.value = returnedQuote.value.hplUserId as unknown as string
+  localStorage.setItem('hplUserId', hplUserId.value)
   console.log('Returned data is:', returnedQuote.value)
 
   //@ts-ignore

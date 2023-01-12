@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/useUserStore'
 import { storeToRefs } from 'pinia'
+import { Database } from '~/types/supabase'
 
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 
 const userStore = useUserStore()
 const { hplUserId } = storeToRefs(userStore)
@@ -20,13 +21,10 @@ onMounted(() => {
           .from('user')
           .select('*')
           .eq('id', hplUserId.value)
-          .single()
         return data
       })
-      if (userData.value) {
-        userStore.setUserData(userData.value)
-        console.log('userData:', userData.value)
-      }
+      console.log('hplUserId:', hplUserId.value)
+      console.log('userData:', userData.value)
     }
   }
   getUserId()
