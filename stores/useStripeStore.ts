@@ -3,7 +3,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 export const useStripeStore = defineStore('useStripeStore', {
   state: () => ({
     customerId: '',
-    firstName: 'Eduardo',
+    firstName: '',
     lastName: '',
     emailAddress: '',
   }),
