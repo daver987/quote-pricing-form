@@ -1,37 +1,41 @@
 <script setup lang="ts">
 import { Database } from '~/types/supabase'
-import { useAddToCart, useQuoteNumber } from '~/composables/states'
 import { ReturnType } from '~/types/ReturnType'
+import { Quote } from '~/schema/quote'
+import { useQuoteStore } from '~/stores/useQuoteStore'
+import { useCartStore } from '~/stores/useCartStore'
+import { storeToRefs } from 'pinia'
 
 const supabase = useSupabaseClient<Database>()
 
-interface QuoteNumber {
-  latest_quote_number: number
-}
+const cartStore = useCartStore()
+const { addedToCart: isItAddedToCart } = storeToRefs(cartStore)
+const quoteStore = useQuoteStore()
+const { quoteNumber, quoteData } = storeToRefs(quoteStore)
+console.log('Store Quote Number', quoteNumber.value)
+
 //get the latest quote number
-const quoteNumberState = useQuoteNumber()
 const getQuoteNumber = async () => {
   const { data } = await supabase
     .from('quote_number')
     .select('latest_quote_number')
     .single()
   console.log('This is the latest quote number', data)
-  return data as QuoteNumber
+  // @ts-ignore
+  return data.latest_quote_number
 }
-const { latest_quote_number: quoteNumber } = await getQuoteNumber()
-quoteNumberState.value = quoteNumber
-console.log('This is the quote number state', quoteNumberState.value)
+quoteNumber.value = await getQuoteNumber()
 
-const getQuoteData = async () => {
-  const { data: quoteFormData } = await supabase
+const { data: quoteFormData } = await useAsyncData('quotes', async () => {
+  const { data } = await supabase
     .from('quotes')
     .select('*')
-    .eq('quote_number', quoteNumber)
-  console.log('This is the quote data', quoteFormData)
-  if (!quoteFormData) return null
-  return quoteFormData[0]
-}
-
+    .eq('quote_number', quoteNumber.value)
+    .single()
+  return data
+})
+console.log('Quote Form Data', quoteFormData.value)
+quoteData.value = quoteFormData.value as Quote
 const {
   pickupDate,
   pickupTime,
@@ -55,10 +59,11 @@ const {
   isPearsonAirportDropoff,
   firstName,
   lastName,
-  emailAddress,
-} = (await getQuoteData()) as Database | any
+  userEmail,
+  addedToCart,
+} = quoteData.value as Quote
 
-const addToCartState = useAddToCart()
+isItAddedToCart.value = quoteData.value.addedToCart
 
 const returnServiceTypeLabel = computed(() => {
   if (isRoundTrip && serviceTypeLabel === 'To Airport') return 'From Airport'
@@ -98,7 +103,7 @@ const roundTripTotalFare = () => {
 }
 
 const totalFareWithAirportFee = () => {
-  if (totalFare === null) return 0
+  if (!totalFare) return 0
   return addPearsonFee === 15 ? totalFare + addPearsonFee : totalFare
 }
 
@@ -134,7 +139,7 @@ const addToCart = async () => {
   const { data, error } = await supabase
     .from('quotes')
     .update({ addedToCart: true })
-    .eq('quote_number', quoteNumber)
+    .eq('quote_number', quoteNumber.value)
     .select()
   if (error) {
     console.log('Error adding to cart', error)
@@ -143,7 +148,6 @@ const addToCart = async () => {
   console.log('This is the add to cart data', data)
   setTimeout(() => {
     loadingCart.value = false
-    addToCartState.value = true
   }, 1000)
 }
 
@@ -154,31 +158,38 @@ const createSession = async () => {
   const checkoutBody = {
     firstName,
     lastName,
-    emailAddress,
+    userEmail: userEmail,
     customerId: id,
-    quoteNumber,
+    quoteNumber: quoteNumber.value,
   }
-  const { data: stripData } = await useFetch(`/api/create-checkout-session`, {
+  const { data: stripeData } = await useFetch(`/api/create-checkout-session`, {
     method: 'POST',
     body: checkoutBody,
   })
-  console.log('Stripe Returned Data:', stripData)
-  const { statusCode, url, customer } = stripData.value as ReturnType
-  console.log('Returned Stripe Data', statusCode, url, customer)
-  const { data } = await supabase
-    .from('users')
-    .upsert(
-      { stripe_customer_id: customer },
-      { onConflict: 'stripe_customer_id' }
-    )
-    .eq('id', userId)
-    .select()
+  console.log('Stripe Returned Data:', stripeData.value)
+  const { statusCode, url, stripeCustomerId, sessionId } =
+    stripeData.value as ReturnType
+  console.log(
+    'Returned Stripe Data',
+    statusCode,
+    url,
+    stripeCustomerId,
+    sessionId
+  )
   setTimeout(async () => {
-    loadingCheckout.value = false
-    await navigateTo(url, {
-      redirectCode: 303,
-      external: true,
+    const { data: userData } = await useAsyncData('user', async () => {
+      const { data } = await supabase
+        .from('user')
+        .update('stripe_customer_id', stripeCustomerId)
+        .eq('id', userId)
+      return data
     })
+    console.log('User Data', userData.value)
+    loadingCheckout.value = false
+    // await navigateTo(url, {
+    //   redirectCode: 303,
+    //   external: true,
+    // })
   }, 1500)
 }
 </script>
@@ -189,14 +200,12 @@ const createSession = async () => {
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100"
     >
       <span class="mr-1">High Park Livery </span>-
-      <span class="ml-1"
-        >{{ !addToCartState ? ' Quote' : ' Order' }} Details</span
-      >
+      <span class="ml-1">{{ !addedToCart ? ' Quote' : ' Order' }} Details</span>
     </h1>
     <div class="mt-2 text-sm sm:flex sm:justify-between">
       <dl class="flex">
         <dt class="text-gray-500 dark:text-gray-100">
-          {{ !addToCartState ? 'Quote' : 'Order' }} Number&nbsp;<span
+          {{ !addedToCart ? 'Quote' : 'Order' }} Number&nbsp;<span
             class="mx-2 text-gray-400 dark:text-gray-100"
             aria-hidden="true"
             >&middot;</span
@@ -419,7 +428,7 @@ const createSession = async () => {
           id="summary-heading"
           class="text-lg font-medium text-gray-900 dark:text-gray-100"
         >
-          {{ !addToCartState ? 'Quote' : 'Order' }} Summary
+          {{ !addedToCart ? 'Quote' : 'Order' }} Summary
         </h2>
 
         <dl class="mt-6 space-y-4">
@@ -533,7 +542,7 @@ const createSession = async () => {
             class="flex items-center justify-between pt-4 border-t border-gray-200"
           >
             <dt class="text-base font-medium text-gray-900 dark:text-gray-100">
-              {{ !addToCartState ? 'Quote' : 'Order' }} total
+              {{ !addedToCart ? 'Quote' : 'Order' }} total
             </dt>
             <dd class="text-base font-medium text-gray-900 dark:text-gray-100">
               $
@@ -548,7 +557,7 @@ const createSession = async () => {
 
         <div class="mt-6">
           <button
-            v-if="!addToCartState"
+            v-if="!addedToCart"
             @click="addToCart"
             type="button"
             class="w-full px-4 py-3 text-base font-medium text-white uppercase bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
@@ -568,7 +577,7 @@ const createSession = async () => {
         </div>
       </section>
       <section
-        v-if="addToCartState"
+        v-if="addedToCart"
         class="px-4 py-6 sm:p-6 lg:col-start-8 lg:col-span-5 lg:mt-0 lg:p-6"
       >
         <div class="flex flex-col mb-2">

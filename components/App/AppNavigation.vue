@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useCartStore } from '~/stores/useCartStore'
+import { useQuoteStore } from '~/stores/useQuoteStore'
+import { storeToRefs } from 'pinia'
 import {
   Dialog,
   DialogPanel,
@@ -9,13 +12,17 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
   XMarkIcon as XMarkIconOutline,
 } from '@heroicons/vue/24/outline'
 import { navigation, NavigationItem } from '~/data/navigation'
+
+const cartStore = useCartStore()
+const { addedToCart } = storeToRefs(cartStore)
+const quoteStore = useQuoteStore()
+const { isRoundTrip } = storeToRefs(quoteStore)
 
 const nav = navigation as NavigationItem[]
 
@@ -182,7 +189,6 @@ const open = ref<boolean>(false)
                     <div class="relative bg-white">
                       <div class="px-8 mx-auto max-w-7xl">
                         <div class="grid grid-cols-2 py-16 gap-y-10 gap-x-8">
-                      
                           <div
                             class="grid grid-cols-3 row-start-1 text-sm gap-y-10 gap-x-8"
                           >
@@ -275,7 +281,10 @@ const open = ref<boolean>(false)
 
             <!-- Cart -->
             <div class="flow-root ml-4 lg:ml-6">
-              <MiniCart />
+              <MiniCart
+                :added-to-cart="addedToCart"
+                :is-round-trip="isRoundTrip"
+              />
             </div>
           </div>
         </div>

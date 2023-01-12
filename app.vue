@@ -1,11 +1,23 @@
 <script setup lang="ts">
-const userCookie = useCookie('hpl_user')
-userCookie.value = 'New User'
-console.log('user cookie', userCookie.value)
-// import { UAParser } from 'ua-parser-js'
-//
-// const parser = ref(new UAParser())
-// console.log(parser.value, parser.value.getResult())
+import { useUserStore } from '~/stores/useUserStore'
+import { storeToRefs } from 'pinia'
+
+const userStore = useUserStore()
+const { userId } = storeToRefs(userStore)
+
+onMounted(() => {
+  function getUserId() {
+    let userId = localStorage.getItem('userId')
+    if (!userId) {
+      userId = Math.random().toString(36).substring(2, 9)
+      localStorage.setItem('userId', userId)
+    }
+    return userId
+  }
+  userId.value = getUserId()
+  console.log('User id', userId.value)
+})
+
 //npx supabase gen types typescript --project-id ssnrhskkuvkhgliiywdw --schema public > types/supabase.ts
 </script>
 

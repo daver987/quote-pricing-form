@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
-  typescript: {
-    shim: false,
-  },
+  // typescript: {
+  //   shim: false,
+  // },
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
     layoutTransition: { name: 'layout', mode: 'out-in' },
@@ -9,17 +9,22 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'vercel',
   },
-  experimental: {
-    writeEarlyHints: true,
-  },
+  // experimental: {
+  //   writeEarlyHints: true,
+  // },
 
   modules: [
-    '@pinia/nuxt',
     '@vueuse/nuxt',
     '@nuxtjs/tailwindcss',
     '@nuxt/image-edge',
     'nuxt-icon',
     '@nuxtjs/supabase',
+    [
+      '@pinia/nuxt',
+      {
+        autoImports: ['defineStore', ['defineStore', 'definePiniaStore']],
+      },
+    ],
   ],
   build: {
     transpile: [

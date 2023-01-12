@@ -45,6 +45,8 @@ export const quoteSchema = z.object({
   quote_number: z.number(),
   isPearsonAirportPickup: z.boolean(),
   isPearsonAirportDropoff: z.boolean(),
+  addedToCart: z.boolean(),
+  isBooked: z.boolean(),
 })
 
 export type Quote = z.infer<typeof quoteSchema>

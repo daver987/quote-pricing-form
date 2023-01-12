@@ -268,8 +268,10 @@ export interface Database {
           emailAddress: string
           firstName: string
           id: string
+          isCustomer: boolean
           lastName: string
           phoneNumber: string
+          stripe_customer_id: string | null
           updatedAt: string
         }
         Insert: {
@@ -277,8 +279,10 @@ export interface Database {
           emailAddress: string
           firstName: string
           id?: string
+          isCustomer?: boolean
           lastName: string
           phoneNumber: string
+          stripe_customer_id?: string | null
           updatedAt?: string
         }
         Update: {
@@ -286,8 +290,10 @@ export interface Database {
           emailAddress?: string
           firstName?: string
           id?: string
+          isCustomer?: boolean
           lastName?: string
           phoneNumber?: string
+          stripe_customer_id?: string | null
           updatedAt?: string
         }
       }
