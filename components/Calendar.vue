@@ -83,7 +83,7 @@ const emitDate = () => {
 }
 </script>
 <template>
-  <div class="max-w-xs text-center border-black rounded-md border-1">
+  <div class="max-w-xs text-center border-black rounded-md border-1 px-4">
     <div class="flex items-center text-gray-900">
       <button
         @click="onLeftArrowClick"

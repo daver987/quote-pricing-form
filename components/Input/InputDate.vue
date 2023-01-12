@@ -85,7 +85,7 @@ const updateDate = (date: string, isOpen: boolean) => {
               leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <DialogPanel
-                class="relative max-w-sm pt-2 pb-8 overflow-hidden transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full"
+                class="relative max-w-xs pt-2 pb-8 overflow-hidden transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full"
               >
                 <div
                   class="absolute bottom-0 right-0 hidden pt-4 pr-4 sm:block"

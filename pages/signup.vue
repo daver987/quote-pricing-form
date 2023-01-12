@@ -1,5 +1,8 @@
 <script setup lang="ts">
-definePageMeta({ layout: 'auth' })
+definePageMeta({
+  title: 'Sign Up',
+  layout: 'auth',
+})
 </script>
 
 <template>

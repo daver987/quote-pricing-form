@@ -119,7 +119,7 @@ const tabs = [
       <TabPanels as="div">
         <TabPanel v-for="tab in tabs" :key="tab.id">
           <transition
-            enter-active-class="transition duration-200 ease-out"
+            enter-active-class="transition duration-500 ease-out"
             enter-from-class="translate-y-1 opacity-0"
             enter-to-class="translate-y-0 opacity-100"
             leave-active-class="transition duration-150 ease-in"
@@ -133,20 +133,3 @@ const tabs = [
     </TabGroup>
   </div>
 </template>
-
-<style scoped>
-.exact-active-class {
-  background-color: #ac8053;
-}
-
-/* we will explain what these classes do next! */
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>
