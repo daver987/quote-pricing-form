@@ -15,11 +15,11 @@ export const services = [
     title: 'Airport Services',
     aboveHeading: 'TRAVEL IN COMFORT',
     body:
-      'No one wants to spend hours in an airport before their flight, but it is inevitable. With a limousine' +
-      ' service, you do not need to worry about the time spent at the airport. Drivers are available 24/7 and can' +
-      ' pick you up at any terminal. They will also drop you off at your terminal for your departure flight. When' +
-      ' flying internationally, the process can be even more daunting with all of the security checks and hours of' +
-      ' waiting in line. You will not have to worry about this as long as you are booked with HighPark Livery!',
+      "Spending hours at the airport can be a hassle, but with High Park Livery's limousine service, it doesn't\" +\n" +
+      "      ' have to be. Our drivers are available 24/7 to pick you up at any terminal and drop you off for your' +\n" +
+      "      '  departure flight. We also track your flight for arrivals, so you can be assured that we will be there for' +\n" +
+      "      ' you no matter if your flight is delayed or early. This makes the process of flying internationally less' +\n" +
+      "      ' daunting, as you wont have to worry about security checks and long wait times. Book with High Park Livery for a seamless airport experience.",
     image: '/images/car-service-2.jpg',
     altText: 'Airport-Service',
     boxPosition: 'md:col-span-2 md:grid md:grid-cols-2 mb-8',

@@ -4,12 +4,11 @@ import { ourTours, Tour } from '~/data/tours'
 definePageMeta({
   title: 'Services',
   layout: 'default',
-
 })
 useHead({
   title: 'High Park Livery | Services',
 })
-const service1 = services as Service[]
+// const service1 = services as Service[]
 const tours = ourTours as Tour[]
 const headerInfo = {
   aboveHeading: 'WHAT WE OFFER YOU',
@@ -36,18 +35,18 @@ const headerInfo = {
             <h2 class="mb-4 text-center subheading lg:text-left">
               CHECK OUT OUR SERVICES
             </h2>
-            <p class="max-w-[65ch]">
-              High Park Livery puts you or your business at the forefront of
-              Toronto car service. For nearly a decade, we have maintained a
-              fleet of new model vehicles. We have constantly upgraded to meet
-              the Toronto GTA car service market demands. ensuring that our
-              clients receive only the very best chauffeur service available in
-              Toronto. Our car service includes the safe and reliable Cadillac
-              XTS, Lincoln Navigator, Cadillac Escalade, and Lincoln
-              Continental. Our drivers are thoroughly trained to provide the
-              highest level of service for even the most discriminating
-              clientele. As a full-service transportation company, we have a
-              wide range of vehicles available to accommodate any need.
+            <p class="max-w-[65ch] text-gray-500 font-sans">
+              High Park Livery is a premier car service in Toronto. We have been
+              providing top-notch service for nearly a decade, through our fleet
+              of new model vehicles that we constantly upgrade to meet the
+              demands of the Toronto GTA market. We strive to ensure that our
+              clients receive the best chauffeur service in Toronto, with our
+              safe and reliable Cadillac XTS, Lincoln Navigator, Cadillac
+              Escalade, and Lincoln Continental. Our drivers are thoroughly
+              trained to provide exceptional service for even the most
+              discerning clientele. As a full-service transportation company, we
+              have a range of vehicles available to meet any transportation
+              need.
             </p>
           </div>
         </div>
@@ -57,7 +56,7 @@ const headerInfo = {
       <div class="container mx-auto max-w-7xl md:grid md:gap-4 md:grid-cols-2">
         <div
           :class="service.boxPosition"
-          v-for="service in service1"
+          v-for="service in services"
           :key="service.title"
         >
           <div :class="service.imagePosition">
@@ -74,10 +73,10 @@ const headerInfo = {
             >
               <h2 class="subheading">{{ service.aboveHeading }}</h2>
               <h2 class="mt-4 text-4xl heading">{{ service.title }}</h2>
-              <p class="mb-8">{{ service.body }}</p>
+              <p class="mb-8 text-gray-500 font-sans">{{ service.body }}</p>
               <BaseButton
-                class="mt-4"
-                kind="btn-primary"
+                class="mt-8"
+                kind="btn-brand"
                 label="Contact Us"
                 to="/contact"
                 :nuxtLink="true"

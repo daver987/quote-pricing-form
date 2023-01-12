@@ -41,7 +41,7 @@ definePageMeta({
               and fully certified drivers by the city of Toronto. We ensure that
               our clients arrive at their destination on time and always provide
               a safe and comfortable ride.<br />Your chauffeur is just a phone
-              call away! Luxury Ride Service will get you to your destination on
+              call away! High Park Livery will get you to your destination on
               time and in style. When you require something exceptional, don't
               hesitate to contact us or get an online quote for rates and
               availability.
@@ -127,10 +127,10 @@ definePageMeta({
                 services that aim to exceed all expectations.
               </p>
               <p>
-                When you choose to work with Luxury Ride Service, you'll work
-                with highly trained professionals who know about the industry.
-                We are committed to customer satisfaction and punctuality in all
-                that we do. We offer suggestions on routes as well as excellent
+                When you choose to work with High Park Livery, you'll work with
+                highly trained professionals who know about the industry. We are
+                committed to customer satisfaction and punctuality in all that
+                we do. We offer suggestions on routes as well as excellent
                 amenities like refreshments and WiFi while en route. We aim to
                 create an atmosphere that ensures passengers feel comfortable
                 and relaxed throughout their journey.
