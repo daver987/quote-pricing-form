@@ -37,7 +37,7 @@ export const servicesHome = [
   },
   {
     title: 'CORPORATE TRAVEL',
-    body: "With our car service, as far as we're concerned, you are number one! Arrive on time to all corporate events during your stay in Toronto. Whether you're coming in from Toronto Pearson Airport (YYZ) or from Toronto Airport (YTZ) located downtown Toronto we have a car or an SUV that will cover your needs.",
+    body: "With a Toronto executive car service, as far as we're concerned, you are number one! Arrive on time to all corporate events during your stay in Toronto. Whether you're coming in from Toronto Pearson Airport (YYZ) or from Toronto Airport (YTZ) located downtown Toronto we have a car or an SUV that will cover your needs.",
     image: 'briefcase',
     altText: 'Corporate-Travel',
   },

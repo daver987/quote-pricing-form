@@ -20,7 +20,7 @@ defineProps({
 </script>
 
 <template>
-  <BaseCard class="flex justify-center w-full md:max-w-2xl">
+  <BaseCard class="flex justify-center w-full md:max-w-2xl mb-8">
     <div class="flex flex-col justify-around w-full max-w-xl md:flex-row">
       <ItemCount :kind="people" :amount="peopleAmount">
         <Icon name="bi:people" class="w-16 h-auto text-gray-400" />

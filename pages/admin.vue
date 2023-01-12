@@ -9,5 +9,3 @@ definePageMeta({
     <NuxtPage />
   </main>
 </template>
-
-<style scoped></style>

@@ -15,7 +15,7 @@
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <BaseCard class="space-y-6">
         <h3 class="subheading">About The Vehicle</h3>
-        <p>
+        <p class="text-gray-500 font-sans">
           The Tesla Model S luxury electric car is a fantastic choice for riders
           wanting an environmentally conscious and luxurious ride. The Tesla
           Model S has become the standard in eco-friendly limousines. The Model

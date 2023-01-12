@@ -39,7 +39,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
                   />
                 </div>
               </div>
-              <div class="px-3 mt-16 sm:mt-24 lg:col-span-6 lg:mt-0">
+              <div class="px-3 pb-8 mt-16 sm:mt-24 lg:col-span-6 lg:mt-0">
                 <QuoteForm />
               </div>
             </div>
@@ -68,7 +68,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
       <BaseContainer
         class="flex flex-col justify-between place-items-center lg:flex-row"
       >
-        <div class="space-y-4">
+        <div class="space-y-4 mb-4">
           <p class="text-center subheading lg:text-left">
             The Many Types of Comfort We offer
           </p>
@@ -92,32 +92,37 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
       >
         <div class="col-span-6 p-6 md:col-span-7">
           <p class="text-sm text-gray-400 font-body">
-            <span class="text-sm font-bold uppercase font-body text-brand"
-              >High Park Livery</span
-            >
             <span class="text-gray-400">
-              puts you or your business at the forefront of Toronto car service.
-              For nearly a decade, we have maintained a fleet of new model
-              vehicles. We have constantly upgraded to meet the Toronto GTA car
-              service market demands. We are ensuring that our clients receive
-              only the very best chauffeur service available in Toronto, Canada.
-              Our car service includes the safe and reliable Cadillac XTS,
-              Lincoln Navigator SUV, Cadillac Escalade SUV, and Lincoln
-              Continental. Our thoroughly trained drivers provide the highest
-              level of service for even the most discriminating clientele. As a
-              full-service transportation company, we have a wide range of
-              vehicles available to accommodate any need.
+              Experience luxury and reliability with
+              <span class="text-sm font-bold uppercase font-body text-brand"
+                >High Park Livery's</span
+              >
+              Toronto car service. For over a decade, we have consistently
+              maintained a fleet of top-of-the-line vehicles to meet the demands
+              of the Toronto GTA market. Our clients can expect only the best in
+              chauffeur service with our selection of premium cars, including
+              the Cadillac XTS, Lincoln Navigator SUV, Cadillac Escalade SUV,
+              and Lincoln Continental. <br /><br />Our highly trained drivers
+              provide exceptional service for even the most discerning
+              clientele. As a full-service transportation company,
+              <strong class="text-brand"
+                >we have a variety of vehicles to meet any transportation need,
+                including specialty 6+ person vehicles for larger tour
+                groups.</strong
+              >
+              Contact us to explore the various options available from our limo
+              service.
             </span>
           </p>
-
-          <p class="mt-2 text-sm font-semibold font-body text-brand">
-            Special requests are available for Specialty 6+ person vehicles that
-            can take larger tour groups. Contact us to learn about the various
-            options available from our limo service.
-          </p>
         </div>
-        <div class="col-span-2 p-6">
-          <NuxtImg class="w-80" src="/icons/24-hours.svg" alt="24 hours icon" />
+        <div
+          class="col-span-2 p-6 w-full flex justify-center place-items-center"
+        >
+          <NuxtImg
+            class="w-96 self-center"
+            src="/icons/24-hours.svg"
+            alt="24 hours icon"
+          />
         </div>
       </BaseContainer>
     </BaseSection>
@@ -175,7 +180,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         <h2 class="mt-4 text-center heading">We Offer</h2>
       </BaseContainer>
       <BaseContainer
-        class="bg-white shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-4 @container -mt-8"
+        class="bg-white shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-4 @container -mt-8 pb-6"
       >
         <IconBlockAbout
           v-for="service in servicesHome"

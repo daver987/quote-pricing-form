@@ -20,7 +20,7 @@
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <BaseCard class="space-y-6">
         <h3 class="subheading">About The Vehicle</h3>
-        <p>
+        <p class="text-gray-500 font-sans">
           The Cadillac Escalade combines luxury, style, and comfort with
           high-tech features. The luxurious features include soft leather
           upholstery, a state-of-the-art entertainment system. The tech upgrades

@@ -1,25 +1,25 @@
 export const features = [
   {
     title: 'PROFESSIONAL DRIVERS',
-    body: "You deserve the best from a car service! That's why we always make sure you'll get an expert driver ready for your every need. The passengers' safety is of utmost priority. As one of the best Toronto car service companies in town, we ensure that our services to you or your business are safe and reliable.",
+    body: "We understand that not everyone is comfortable driving in a big city. That's why we offer professional car service. Whether you're coming in from the airport or need someone to take you to an important meeting, our drivers will get you where you need to go safely and on time. And because we only work with highly trained and experienced drivers, you can rest assured that you're in good hands. So if you're looking for a reliable and professional car service in Toronto, look no further than High Park Livery.",
     image: 'chauffeur',
     altText: 'chauffeur',
   },
   {
     title: 'All Inclusive rates',
-    body: "There's no need to worry about hidden fees when you reserve your car service with us. We will provide a safe and affordable means of transportation for everyone who books with our company. So they can arrive stress-free at Pearson International Airport (or any other location).  The customer always comes first, and every trip gets the attention it deserves, ensuring satisfaction throughout each journey.",
+    body: "When you book a ride with High Park Livery, you can rest assured that the price you see is the price you'll pay. We believe in transparent pricing, so our all-inclusive rates include everything from the initial booking fee to the gratuity for your driver. You can budget for your ride without worrying about hidden fees or surge pricing. And because we're a luxury service, you can also expect impeccable customer service and a comfortable, stress-free ride.",
     image: 'credit-cards',
     altText: 'credit-cards',
   },
   {
     title: 'Online Booking',
-    body: "If you're planning on taking a trip to Toronto, Ontario, use our booking software online to book your Toronto car service in advance. This way, you can ensure that your car and driver are at the airport waiting to take you to your destination.",
+    body: "At High Park Livery, we are proud to offer our clients a state-of-the-art online booking system. You can schedule a pickup time and location with just a few clicks. Our system also allows you to track your driver's progress and estimate your arrival time. We offer a wide range of vehicles to choose from, so you can find the perfect ride to suit your needs. So why wait? Book today! We have you covered whether you're looking for a sleek sedan or a spacious SUV.",
     image: 'calendar',
     altText: 'calendar icon',
   },
   {
     title: 'Complimentary Wait Time',
-    body: "Can't wait to get picked up on your journey from the Toronto airport? Don't worry; we've got it covered! As one of the premier Toronto car service companies, we make sure that we monitor your flight and that your driver is on location when you land. So you can focus on the things that are important to you and not if your ride will be there waiting.",
+    body: "High Park Livery offers complimentary wait times to ensure that our customers get the best possible service. For a regular pickup, we give you 15 minutes; for domestic flight arrival, we give you 30 minutes; and for international flight arrivals, we give you 60 minutes. You never have to worry about being late for your appointment or meeting. If you are running late, let us know, and we will adjust your pickup time. So why not try High Park Livery today? You won't be disappointed",
     image: 'time',
     altText: 'clock icon',
   },

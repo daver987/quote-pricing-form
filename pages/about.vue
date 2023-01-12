@@ -64,6 +64,7 @@ definePageMeta({
             src="/images/chauffeur-3.jpg"
             width="919"
             height="429"
+            quality="80"
           />
         </div>
       </div>
@@ -77,6 +78,7 @@ definePageMeta({
             src="/images/tesla-s-4.jpg"
             width="814"
             height="973"
+            quality="80"
           />
         </div>
         <div class="bg-white shadow-xl">
