@@ -1,7 +1,3 @@
-<script setup lang="ts">
-//scripts
-</script>
-
 <template>
   <div>
     <section class="w-full my-32">

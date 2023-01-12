@@ -1,3 +1,16 @@
+<script setup>
+defineProps({
+  heading: {
+    type: String,
+    required: true,
+  },
+  grid: {
+    type: String,
+    required: false,
+  },
+})
+</script>
+
 <template>
   <div :class="grid">
     <div
@@ -23,16 +36,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-defineProps({
-  heading: {
-    type: String,
-    required: true,
-  },
-  grid: {
-    type: String,
-    required: false,
-  },
-})
-</script>

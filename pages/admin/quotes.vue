@@ -11,7 +11,10 @@ const { data: quotes } = await useAsyncData('quotes', async () => {
   const { data } = await supabase.from('quotes').select()
   return data
 })
-quoteData.value = quotes.value
+quoteData.value = [...quotes.value].sort(
+  (a, b) => a.quote_number - b.quote_number
+)
+
 console.log('Quote Data: ', quoteData.value)
 console.log('Quotes: ', quotes.value)
 </script>
@@ -91,7 +94,7 @@ console.log('Quotes: ', quotes.value)
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="quote in quoteData" :key="quote.id">
+                <tr v-for="quote in quoteData" :key="quote.quote_number">
                   <td
                     class="py-4 pl-4 pr-3 text-sm text-red-500 whitespace-nowrap sm:pl-6 lg:pl-8"
                   >

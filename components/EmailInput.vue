@@ -10,5 +10,3 @@
     />
   </div>
 </template>
-
-<!--todo: hook up email for newsletter service-->

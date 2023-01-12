@@ -1,3 +1,16 @@
+<script setup lang="ts">
+defineProps({
+  kind: {
+    type: String,
+    default: 'luggage',
+  },
+  amount: {
+    type: Number,
+    default: 3,
+  },
+})
+</script>
+
 <template>
   <div class="flex flex-col items-center h-full mb-8 space-y-4 md:m-0">
     <slot></slot>
@@ -11,16 +24,3 @@
     </p>
   </div>
 </template>
-
-<script setup lang="ts">
-defineProps({
-  kind: {
-    type: String,
-    default: 'luggage',
-  },
-  amount: {
-    type: Number,
-    default: 3,
-  },
-})
-</script>

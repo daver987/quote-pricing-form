@@ -17,8 +17,3 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: 'FooterCta',
-}
-</script>

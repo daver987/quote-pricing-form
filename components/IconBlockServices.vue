@@ -1,3 +1,24 @@
+<script setup lang="ts">
+defineProps({
+  image: {
+    type: String,
+    required: true,
+  },
+  altText: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  body: {
+    type: String,
+    required: true,
+  },
+})
+</script>
+
 <template>
   <div class="overflow-hidden bg-white">
     <div class="px-4 py-5 sm:p-6">
@@ -24,24 +45,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-defineProps({
-  image: {
-    type: String,
-    required: true,
-  },
-  altText: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  body: {
-    type: String,
-    required: true,
-  },
-})
-</script>

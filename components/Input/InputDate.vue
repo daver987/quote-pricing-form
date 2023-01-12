@@ -1,3 +1,58 @@
+<script setup lang="ts">
+import { CalendarIcon, XMarkIcon } from '@heroicons/vue/20/solid'
+import {
+  DialogPanel,
+  TransitionChild,
+  TransitionRoot,
+  Dialog,
+} from '@headlessui/vue'
+import { useField } from 'vee-validate'
+
+const open = ref<boolean>(false)
+const selectedDate = ref('')
+
+const props = defineProps({
+  value: {
+    type: String,
+    default: '',
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  label: {
+    type: String,
+    required: false,
+  },
+  successMessage: {
+    type: String,
+    default: '',
+  },
+  placeholder: {
+    type: String,
+    default: '',
+  },
+})
+
+const {
+  value: inputValue,
+  errorMessage,
+  handleChange,
+} = useField(props.name, undefined, {
+  initialValue: props.value,
+})
+
+const toggleCalendar = () => {
+  open.value = !open.value
+}
+const updateDate = (date: string, isOpen: boolean) => {
+  selectedDate.value = date
+  inputValue.value = date
+  open.value = isOpen
+  console.log('date', date)
+}
+</script>
+
 <template>
   <div>
     <TransitionRoot as="template" :show="open">
@@ -84,58 +139,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { CalendarIcon, XMarkIcon } from '@heroicons/vue/20/solid'
-import {
-  DialogPanel,
-  TransitionChild,
-  TransitionRoot,
-  Dialog,
-} from '@headlessui/vue'
-import { useField } from 'vee-validate'
-
-const open = ref<boolean>(false)
-const selectedDate = ref('')
-
-const props = defineProps({
-  value: {
-    type: String,
-    default: '',
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  label: {
-    type: String,
-    required: false,
-  },
-  successMessage: {
-    type: String,
-    default: '',
-  },
-  placeholder: {
-    type: String,
-    default: '',
-  },
-})
-
-const {
-  value: inputValue,
-  errorMessage,
-  handleChange,
-} = useField(props.name, undefined, {
-  initialValue: props.value,
-})
-
-const toggleCalendar = () => {
-  open.value = !open.value
-}
-const updateDate = (date: string, isOpen: boolean) => {
-  selectedDate.value = date
-  inputValue.value = date
-  open.value = isOpen
-  console.log('date', date)
-}
-</script>

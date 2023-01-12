@@ -1,7 +1,3 @@
-<script setup lang="ts">
-//scripts
-</script>
-
 <template>
   <section class="w-full py-16">
     <slot />

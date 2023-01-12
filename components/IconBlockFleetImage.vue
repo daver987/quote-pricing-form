@@ -1,8 +1,4 @@
-<template>
-  <img :alt="altText" :src="image" class="md:object-center md:object-cover" />
-</template>
-
-<script setup>
+<script setup lang="ts">
 defineProps({
   image: {
     type: String,
@@ -14,3 +10,7 @@ defineProps({
   },
 })
 </script>
+
+<template>
+  <img :alt="altText" :src="image" class="md:object-center md:object-cover" />
+</template>

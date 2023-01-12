@@ -1,3 +1,24 @@
+<script setup lang="ts">
+defineProps({
+  people: {
+    type: String,
+    default: 'people',
+  },
+  peopleAmount: {
+    type: Number,
+    default: 0,
+  },
+  luggage: {
+    type: String,
+    default: 'luggage',
+  },
+  luggageAmount: {
+    type: Number,
+    default: 0,
+  },
+})
+</script>
+
 <template>
   <BaseCard class="flex justify-center w-full md:max-w-2xl">
     <div class="flex flex-col justify-around w-full max-w-xl md:flex-row">
@@ -21,24 +42,3 @@
     </div>
   </BaseCard>
 </template>
-
-<script setup lang="ts">
-defineProps({
-  people: {
-    type: String,
-    default: 'people',
-  },
-  peopleAmount: {
-    type: Number,
-    default: 0,
-  },
-  luggage: {
-    type: String,
-    default: 'luggage',
-  },
-  luggageAmount: {
-    type: Number,
-    default: 0,
-  },
-})
-</script>

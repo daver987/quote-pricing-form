@@ -1,3 +1,20 @@
+<script setup lang="ts">
+defineProps({
+  show: {
+    type: Boolean,
+    required: true,
+  },
+  message1: {
+    type: String,
+    required: false,
+  },
+  message2: {
+    type: String,
+    required: false,
+  },
+})
+</script>
+
 <template>
   <!-- Global notification live region, render this permanently at the end of the document -->
   <div
@@ -56,20 +73,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-defineProps({
-  show: {
-    type: Boolean,
-    required: true,
-  },
-  message1: {
-    type: String,
-    required: false,
-  },
-  message2: {
-    type: String,
-    required: false,
-  },
-})
-</script>

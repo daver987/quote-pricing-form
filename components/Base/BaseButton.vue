@@ -1,16 +1,3 @@
-<template>
-  <component
-    :class="btnStyle"
-    :is="btnType"
-    :href="href"
-    :to="to"
-    @click="$emit('clicked')"
-  >
-    <span class="mx-auto">{{ label }}</span>
-    <slot></slot>
-  </component>
-</template>
-
 <script setup lang="ts">
 interface Props {
   kind?: string
@@ -65,3 +52,16 @@ const btnStyle = computed(() => {
   ]
 })
 </script>
+
+<template>
+  <component
+    :class="btnStyle"
+    :is="btnType"
+    :href="href"
+    :to="to"
+    @click="$emit('clicked')"
+  >
+    <span class="mx-auto">{{ label }}</span>
+    <slot></slot>
+  </component>
+</template>

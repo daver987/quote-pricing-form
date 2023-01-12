@@ -114,12 +114,12 @@ const emitDate = () => {
       </button>
     </div>
     <div class="grid grid-cols-7 mt-6 text-xs leading-6 text-gray-500">
+      <div>S</div>
       <div>M</div>
       <div>T</div>
       <div>W</div>
       <div>T</div>
       <div>F</div>
-      <div>S</div>
       <div>S</div>
     </div>
     <div

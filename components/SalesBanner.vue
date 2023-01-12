@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import { XMarkIcon } from '@heroicons/vue/24/outline'
+
+defineProps({
+  enabled: {
+    type: Boolean,
+    required: false,
+  },
+  bannerLabel: {
+    type: String,
+    required: false,
+    default: 'Book Online Now and save 10% on your trip',
+  },
+  bannerLinkLabel: {
+    type: String,
+    required: false,
+    default: 'Learn more',
+  },
+})
+const hideBanner = ref(true)
+const dismissBanner = () => {
+  hideBanner.value = false
+}
+</script>
+
 <template>
   <div v-if="hideBanner" class="bg-brand">
     <div class="mx-auto max-w-7xl py-2 px-3 sm:px-6 lg:px-8">
@@ -32,28 +57,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { XMarkIcon } from '@heroicons/vue/24/outline'
-
-defineProps({
-  enabled: {
-    type: Boolean,
-    required: false,
-  },
-  bannerLabel: {
-    type: String,
-    required: false,
-    default: 'Book Online Now and save 10% on your trip',
-  },
-  bannerLinkLabel: {
-    type: String,
-    required: false,
-    default: 'Learn more',
-  },
-})
-const hideBanner = ref(true)
-const dismissBanner = () => {
-  hideBanner.value = false
-}
-</script>

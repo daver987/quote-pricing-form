@@ -1,7 +1,3 @@
-<script setup lang="ts">
-//scripts
-</script>
-
 <template>
   <div>
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
