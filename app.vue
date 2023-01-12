@@ -6,7 +6,14 @@ import { Database } from '~/types/supabase'
 const supabase = useSupabaseClient<Database>()
 
 const userStore = useUserStore()
-const { hplUserId } = storeToRefs(userStore)
+const {
+  hplUserId,
+  firstName,
+  lastName,
+  emailAddress,
+  phoneNumber,
+  stripeCustomerId,
+} = storeToRefs(userStore)
 
 async function getUserData() {
   hplUserId.value = localStorage.getItem('hplUserId')
@@ -22,6 +29,18 @@ async function getUserData() {
         .single()
     })
     console.log('userData:', userData.value?.data)
+    if (userData.value?.data) {
+      firstName.value = userData.value?.data?.firstName
+      lastName.value = userData.value?.data?.lastName
+      emailAddress.value = userData.value?.data?.emailAddress
+      phoneNumber.value = userData.value?.data?.phoneNumber
+      stripeCustomerId.value = userData.value?.data?.stripe_customer_id
+      console.log('firstName:', firstName.value)
+      console.log('lastName:', lastName.value)
+      console.log('emailAddress:', emailAddress.value)
+      console.log('phoneNumber:', phoneNumber.value)
+      console.log('stripeCustomerId:', stripeCustomerId.value)
+    }
     console.log('hplUserId:', hplUserId.value)
   }
 }

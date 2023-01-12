@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
     const customer = await stripe.customers.create({
       email: body.emailAddress,
       name: `${body.firstName} ${body.lastName}`,
+      phone: body.phoneNumber,
       metadata: {
         customer_id: body.customerId,
       },

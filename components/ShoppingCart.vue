@@ -14,8 +14,18 @@ const quoteStore = useQuoteStore()
 const { quoteNumber, quoteData } = storeToRefs(quoteStore)
 console.log('Store Quote Number', quoteNumber.value)
 const userStore = useUserStore()
-const { hplUserId } = storeToRefs(userStore)
+const { hplUserId, firstName, lastName, phoneNumber, emailAddress } =
+  storeToRefs(userStore)
 console.log('Store User ID in cart:', hplUserId.value)
+
+console.log(
+  'Shopping Cart User Data:',
+  hplUserId.value,
+  firstName.value,
+  lastName.value,
+  emailAddress.value,
+  phoneNumber.value
+)
 
 //get the latest quote number
 const getQuoteNumber = async () => {
@@ -60,23 +70,10 @@ const {
   quote_number,
   isPearsonAirportPickup,
   isPearsonAirportDropoff,
-  firstName,
-  lastName,
   userEmail,
 } = quoteData.value as Quote
 
 const { addedToCart, loading } = storeToRefs(cartStore)
-
-const { data: userData } = await useAsyncData('user', async () => {
-  const { data } = await supabase
-    .from('user')
-    .select('*')
-    // @ts-ignore
-    .eq('id', quoteData.value.userId)
-    .single()
-  return data
-})
-console.log('User Data in checkout component', userData.value)
 
 const returnServiceTypeLabel = computed(() => {
   if (isRoundTrip && serviceTypeLabel === 'To Airport') return 'From Airport'
@@ -146,33 +143,16 @@ const vehicleImageAlt = vehicleTypeLabel
 
 const router = useRouter()
 
-const loadingCart = ref(false)
-// const addToCart = async () => {
-//   loadingCart.value = true
-//   const { data, error } = await supabase
-//     .from('quotes')
-//     .update({ addedToCart: true })
-//     .eq('quote_number', quoteNumber.value)
-//     .select()
-//   if (error) {
-//     console.log('Error adding to cart', error)
-//     return
-//   }
-//   console.log('This is the add to cart data', data)
-//   setTimeout(() => {
-//     loadingCart.value = false
-//   }, 1000)
-// }
-
 //checkout
 const loadingCheckout = ref(false)
 const createSession = async () => {
   loadingCheckout.value = true
   const checkoutBody = {
-    firstName,
-    lastName,
+    firstName: firstName.value,
+    lastName: lastName.value,
     userEmail: userEmail,
     customerId: id,
+    phoneNumber: phoneNumber.value,
     quoteNumber: quoteNumber.value,
   }
   const { data: stripeData } = await useFetch(`/api/create-checkout-session`, {
@@ -189,15 +169,21 @@ const createSession = async () => {
     stripeCustomerId,
     sessionId
   )
-  setTimeout(async () => {
+  if (stripeData && stripeData.value && stripeData.value.stripeCustomerId) {
+    const stripeCustomerId = ref(stripeData.value.stripeCustomerId)
     const { data: userData } = await useAsyncData('user', async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('user')
-        .update('stripe_customer_id', stripeCustomerId)
-        .eq('id', userId)
+        .update({ stripe_customer_id: stripeCustomerId.value })
+        .eq('id', quoteData.value?.userId)
+      console.log('Updated User Data', data, error)
       return data
     })
-    console.log('User Data', userData.value)
+  } else {
+    console.log('No Stripe Customer Id found')
+  }
+
+  setTimeout(async () => {
     loadingCheckout.value = false
     // await navigateTo(url, {
     //   redirectCode: 303,

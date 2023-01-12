@@ -7,6 +7,7 @@ export const useUserStore = defineStore('useUserStore', {
     lastName: '',
     emailAddress: '',
     phoneNumber: '',
+    stripeCustomerId: null as string | null,
   }),
   getters: {
     //
