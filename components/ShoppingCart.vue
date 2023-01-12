@@ -60,18 +60,9 @@ const {
   firstName,
   lastName,
   userEmail,
-  addedToCart,
 } = quoteData.value as Quote
 
-isItAddedToCart.value = quoteData.value.addedToCart
-
-const addToCart = () => {
-  isItAddedToCart.value = !isItAddedToCart.value
-}
-
-const removeFromCart = () => {
-  isItAddedToCart.value = false
-}
+const { addedToCart } = storeToRefs(cartStore)
 
 const returnServiceTypeLabel = computed(() => {
   if (isRoundTrip && serviceTypeLabel === 'To Airport') return 'From Airport'
@@ -208,14 +199,12 @@ const createSession = async () => {
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100"
     >
       <span class="mr-1">High Park Livery </span>-
-      <span class="ml-1"
-        >{{ !isItAddedToCart ? ' Quote' : ' Order' }} Details</span
-      >
+      <span class="ml-1">{{ !addedToCart ? ' Quote' : ' Order' }} Details</span>
     </h1>
     <div class="mt-2 text-sm sm:flex sm:justify-between">
       <dl class="flex">
         <dt class="text-gray-500 dark:text-gray-100">
-          {{ !isItAddedToCart ? 'Quote' : 'Order' }} Number&nbsp;<span
+          {{ !addedToCart ? 'Quote' : 'Order' }} Number&nbsp;<span
             class="mx-2 text-gray-400 dark:text-gray-100"
             aria-hidden="true"
             >&middot;</span
@@ -438,7 +427,7 @@ const createSession = async () => {
           id="summary-heading"
           class="text-lg font-medium text-gray-900 dark:text-gray-100"
         >
-          {{ !isItAddedToCart ? 'Quote' : 'Order' }} Summary
+          {{ !addedToCart ? 'Quote' : 'Order' }} Summary
         </h2>
 
         <dl class="mt-6 space-y-4">
@@ -552,7 +541,7 @@ const createSession = async () => {
             class="flex items-center justify-between pt-4 border-t border-gray-200"
           >
             <dt class="text-base font-medium text-gray-900 dark:text-gray-100">
-              {{ !isItAddedToCart ? 'Quote' : 'Order' }} total
+              {{ !addedToCart ? 'Quote' : 'Order' }} total
             </dt>
             <dd class="text-base font-medium text-gray-900 dark:text-gray-100">
               $
@@ -567,8 +556,8 @@ const createSession = async () => {
 
         <div class="mt-6">
           <button
-            v-if="!isItAddedToCart"
-            @click="addToCart"
+            v-if="!addedToCart"
+            @click="cartStore.addToCart()"
             type="button"
             class="w-full px-4 py-3 text-base font-medium text-white uppercase bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
@@ -587,7 +576,7 @@ const createSession = async () => {
         </div>
       </section>
       <section
-        v-if="isItAddedToCart"
+        v-if="addedToCart"
         class="px-4 py-6 sm:p-6 lg:col-start-8 lg:col-span-5 lg:mt-0 lg:p-6"
       >
         <div class="flex flex-col mb-2">

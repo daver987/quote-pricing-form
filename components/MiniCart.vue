@@ -10,23 +10,10 @@ const { addedToCart } = storeToRefs(cartStore)
 const quoteStore = useQuoteStore()
 const { isRoundTrip } = storeToRefs(quoteStore)
 
-// const props = defineProps({
-//   addedToCart: {
-//     required: false,
-//     type: Boolean,
-//     default: false,
-//   },
-//   isRoundTrip: {
-//     required: false,
-//     type: Boolean,
-//     default: false,
-//   },
-// })
 const products = [
   {
     id: 1,
     name: 'Point to Point',
-    href: '#',
     color: '00-00-0000',
     imageSrc:
       'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/8c7c6a8d-06ad-4278-1c70-9d497b1cb200/1024',
