@@ -185,10 +185,10 @@ const createSession = async () => {
 
   setTimeout(async () => {
     loadingCheckout.value = false
-    // await navigateTo(url, {
-    //   redirectCode: 303,
-    //   external: true,
-    // })
+    await navigateTo(url, {
+      redirectCode: 303,
+      external: true,
+    })
   }, 1500)
 }
 </script>
