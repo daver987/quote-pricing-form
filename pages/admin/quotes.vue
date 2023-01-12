@@ -130,7 +130,7 @@ console.log('Quotes: ', quotes.value)
                     <span>{{ quote.destinationFormattedAddress }}</span>
                   </td>
                   <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
-                    ${{ quote.totalFare }}
+                    ${{ quote.totalFare.toFixed(2) }}
                   </td>
                   <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
                     <span
