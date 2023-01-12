@@ -1,19 +1,27 @@
 <script setup lang="ts">
 import { ShoppingBagIcon } from '@heroicons/vue/24/outline'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+import { useQuoteStore } from '~/stores/useQuoteStore'
+import { storeToRefs } from 'pinia'
+import { useCartStore } from '~/stores/useCartStore'
 
-const props = defineProps({
-  addedToCart: {
-    required: false,
-    type: Boolean,
-    default: false,
-  },
-  isRoundTrip: {
-    required: false,
-    type: Boolean,
-    default: false,
-  },
-})
+const cartStore = useCartStore()
+const { addedToCart } = storeToRefs(cartStore)
+const quoteStore = useQuoteStore()
+const { isRoundTrip } = storeToRefs(quoteStore)
+
+// const props = defineProps({
+//   addedToCart: {
+//     required: false,
+//     type: Boolean,
+//     default: false,
+//   },
+//   isRoundTrip: {
+//     required: false,
+//     type: Boolean,
+//     default: false,
+//   },
+// })
 const products = [
   {
     id: 1,
@@ -26,15 +34,15 @@ const products = [
   },
 ]
 
-const itemsInCart = computed(() => {
-  if (props.addedToCart && props.isRoundTrip) {
+const itemsInCart = () => {
+  if (addedToCart.value && isRoundTrip.value) {
     return 2
   }
-  if (props.addedToCart && !props.isRoundTrip) {
+  if (addedToCart.value && !isRoundTrip.value) {
     return 1
   }
   return 0
-})
+}
 </script>
 
 <template>
@@ -51,7 +59,7 @@ const itemsInCart = computed(() => {
             : 'text-brand-600 group-hover:text-brand-700',
         ]"
         class="ml-2 text-sm font-medium"
-        >{{ itemsInCart }}</span
+        >{{ itemsInCart() }}</span
       >
       <span class="sr-only">items in cart, view bag</span>
     </PopoverButton>
@@ -110,11 +118,12 @@ const itemsInCart = computed(() => {
           </button>
 
           <p v-if="addedToCart" class="mt-6 text-center">
-            <NuxtLink
-              to="/cart"
+            <button
+              @click="cartStore.removeFromCart()"
               class="text-sm font-medium font-sans text-brand-600 hover:text-brand"
-              >View Shopping Bag</NuxtLink
             >
+              Remove From Cart
+            </button>
           </p>
         </form>
       </PopoverPanel>

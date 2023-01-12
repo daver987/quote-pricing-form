@@ -65,6 +65,14 @@ const {
 
 isItAddedToCart.value = quoteData.value.addedToCart
 
+const addToCart = () => {
+  isItAddedToCart.value = !isItAddedToCart.value
+}
+
+const removeFromCart = () => {
+  isItAddedToCart.value = false
+}
+
 const returnServiceTypeLabel = computed(() => {
   if (isRoundTrip && serviceTypeLabel === 'To Airport') return 'From Airport'
   return isRoundTrip && serviceTypeLabel === 'From Airport'
@@ -134,22 +142,22 @@ const vehicleImageAlt = vehicleTypeLabel
 const router = useRouter()
 
 const loadingCart = ref(false)
-const addToCart = async () => {
-  loadingCart.value = true
-  const { data, error } = await supabase
-    .from('quotes')
-    .update({ addedToCart: true })
-    .eq('quote_number', quoteNumber.value)
-    .select()
-  if (error) {
-    console.log('Error adding to cart', error)
-    return
-  }
-  console.log('This is the add to cart data', data)
-  setTimeout(() => {
-    loadingCart.value = false
-  }, 1000)
-}
+// const addToCart = async () => {
+//   loadingCart.value = true
+//   const { data, error } = await supabase
+//     .from('quotes')
+//     .update({ addedToCart: true })
+//     .eq('quote_number', quoteNumber.value)
+//     .select()
+//   if (error) {
+//     console.log('Error adding to cart', error)
+//     return
+//   }
+//   console.log('This is the add to cart data', data)
+//   setTimeout(() => {
+//     loadingCart.value = false
+//   }, 1000)
+// }
 
 //checkout
 const loadingCheckout = ref(false)
@@ -200,12 +208,14 @@ const createSession = async () => {
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100"
     >
       <span class="mr-1">High Park Livery </span>-
-      <span class="ml-1">{{ !addedToCart ? ' Quote' : ' Order' }} Details</span>
+      <span class="ml-1"
+        >{{ !isItAddedToCart ? ' Quote' : ' Order' }} Details</span
+      >
     </h1>
     <div class="mt-2 text-sm sm:flex sm:justify-between">
       <dl class="flex">
         <dt class="text-gray-500 dark:text-gray-100">
-          {{ !addedToCart ? 'Quote' : 'Order' }} Number&nbsp;<span
+          {{ !isItAddedToCart ? 'Quote' : 'Order' }} Number&nbsp;<span
             class="mx-2 text-gray-400 dark:text-gray-100"
             aria-hidden="true"
             >&middot;</span
@@ -381,7 +391,7 @@ const createSession = async () => {
                 </div>
 
                 <div class="mt-4 sm:mt-0 sm:pr-9">
-                  <div class="absolute top-0 right-0">
+                  <div v-if="false" class="absolute top-0 right-0">
                     <button
                       type="button"
                       class="inline-flex p-2 -m-2 text-gray-400 hover:text-gray-500"
@@ -428,7 +438,7 @@ const createSession = async () => {
           id="summary-heading"
           class="text-lg font-medium text-gray-900 dark:text-gray-100"
         >
-          {{ !addedToCart ? 'Quote' : 'Order' }} Summary
+          {{ !isItAddedToCart ? 'Quote' : 'Order' }} Summary
         </h2>
 
         <dl class="mt-6 space-y-4">
@@ -542,7 +552,7 @@ const createSession = async () => {
             class="flex items-center justify-between pt-4 border-t border-gray-200"
           >
             <dt class="text-base font-medium text-gray-900 dark:text-gray-100">
-              {{ !addedToCart ? 'Quote' : 'Order' }} total
+              {{ !isItAddedToCart ? 'Quote' : 'Order' }} total
             </dt>
             <dd class="text-base font-medium text-gray-900 dark:text-gray-100">
               $
@@ -557,7 +567,7 @@ const createSession = async () => {
 
         <div class="mt-6">
           <button
-            v-if="!addedToCart"
+            v-if="!isItAddedToCart"
             @click="addToCart"
             type="button"
             class="w-full px-4 py-3 text-base font-medium text-white uppercase bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
@@ -577,7 +587,7 @@ const createSession = async () => {
         </div>
       </section>
       <section
-        v-if="addedToCart"
+        v-if="isItAddedToCart"
         class="px-4 py-6 sm:p-6 lg:col-start-8 lg:col-span-5 lg:mt-0 lg:p-6"
       >
         <div class="flex flex-col mb-2">

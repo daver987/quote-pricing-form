@@ -1,10 +1,11 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
+import { Quote } from '~/schema/quote'
 
 export const useQuoteStore = defineStore('useQuoteStore', {
   state: () => ({
     quoteNumber: 0 as number | null,
     isRoundTrip: false,
-    quoteData: '' as unknown,
+    quoteData: {} as Quote | null,
   }),
   getters: {
     //

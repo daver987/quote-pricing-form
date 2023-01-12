@@ -6,7 +6,12 @@ export const useCartStore = defineStore('useCartStore', {
     //
   },
   actions: {
-    //
+    addToCart() {
+      this.addedToCart = true
+    },
+    removeFromCart() {
+      this.addedToCart = false
+    },
   },
 })
 
