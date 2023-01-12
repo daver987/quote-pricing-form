@@ -5,6 +5,7 @@ import { Place } from '~/types/DirectionsResponse'
 import { Surcharges } from '~/schema/surcharges'
 import { serverSupabaseClient } from '#supabase/server'
 import { Database } from '~/types/supabase'
+import { ref } from 'vue'
 
 export default defineEventHandler(async (event) => {
   const supabase = serverSupabaseClient<Database>(event)
@@ -151,7 +152,7 @@ export default defineEventHandler(async (event) => {
     console.log(surchargeAmounts) // {surcharge1: "20.00", surcharge2: "10.00", tax: "10.00"}
     console.log(totalAmount) // "130.00"
 
-    let userId = ''
+    const hplUserId = ref('')
     // add a user to the database
     const addUser = async () => {
       const { data, error } = await supabase
@@ -171,8 +172,8 @@ export default defineEventHandler(async (event) => {
       }
       console.log('This is the User Data', data)
       //@ts-ignore
-      userId = data[0].id
-      console.log('This is the user id', userId)
+      hplUserId.value = data[0].id
+      console.log('This is the hplUserId', hplUserId.value)
     }
 
     //increment the quote number
@@ -248,7 +249,7 @@ export default defineEventHandler(async (event) => {
           quote_number: quoteNumber,
           firstName,
           lastName,
-          userId,
+          userId: hplUserId.value,
         })
         .select()
       if (error) {
@@ -295,6 +296,7 @@ export default defineEventHandler(async (event) => {
       durationText,
       durationValue,
       calculatedDistance,
+      hplUserId: hplUserId.value,
     }
   } catch (error) {
     console.log(error)

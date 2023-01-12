@@ -1,12 +1,24 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
 export const useUserStore = defineStore('useUserStore', {
-  state: () => ({ userId: '' }),
+  state: () => ({
+    hplUserId: null as string | null,
+    firstName: '',
+    lastName: '',
+    emailAddress: '',
+    phoneNumber: '',
+  }),
   getters: {
     //
   },
   actions: {
-    //
+    setUserData(userData: any) {
+      this.hplUserId = userData.id
+      this.firstName = userData.firstName
+      this.lastName = userData.lastName
+      this.emailAddress = userData.emailAddress
+      this.phoneNumber = userData.phoneNumber
+    },
   },
 })
 

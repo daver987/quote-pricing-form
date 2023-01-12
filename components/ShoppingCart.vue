@@ -4,15 +4,18 @@ import { ReturnType } from '~/types/ReturnType'
 import { Quote } from '~/schema/quote'
 import { useQuoteStore } from '~/stores/useQuoteStore'
 import { useCartStore } from '~/stores/useCartStore'
+import { useUserStore } from '~/stores/useUserStore'
 import { storeToRefs } from 'pinia'
 
 const supabase = useSupabaseClient<Database>()
 
 const cartStore = useCartStore()
-const { addedToCart: isItAddedToCart } = storeToRefs(cartStore)
 const quoteStore = useQuoteStore()
 const { quoteNumber, quoteData } = storeToRefs(quoteStore)
 console.log('Store Quote Number', quoteNumber.value)
+const userStore = useUserStore()
+const { hplUserId } = storeToRefs(userStore)
+console.log('Store User ID in cart:', hplUserId.value)
 
 //get the latest quote number
 const getQuoteNumber = async () => {

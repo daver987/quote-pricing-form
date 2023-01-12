@@ -2,20 +2,34 @@
 import { useUserStore } from '~/stores/useUserStore'
 import { storeToRefs } from 'pinia'
 
+const supabase = useSupabaseClient()
+
 const userStore = useUserStore()
-const { userId } = storeToRefs(userStore)
+const { hplUserId } = storeToRefs(userStore)
 
 onMounted(() => {
-  function getUserId() {
-    let userId = localStorage.getItem('userId')
-    if (!userId) {
-      userId = Math.random().toString(36).substring(2, 9)
-      localStorage.setItem('userId', userId)
+  async function getUserId() {
+    hplUserId.value = localStorage.getItem('hplUserId')
+    if (hplUserId.value === null || hplUserId.value === 'hpl_new_user') {
+      hplUserId.value = 'hpl_new_user'
+      localStorage.setItem('hplUserId', hplUserId.value)
+      console.log('hplUserId:', hplUserId.value)
+    } else {
+      const { data: userData } = await useAsyncData('user', async () => {
+        const { data } = await supabase
+          .from('user')
+          .select('*')
+          .eq('id', hplUserId.value)
+          .single()
+        return data
+      })
+      if (userData.value) {
+        userStore.setUserData(userData.value)
+        console.log('userData:', userData.value)
+      }
     }
-    return userId
   }
-  userId.value = getUserId()
-  console.log('User id', userId.value)
+  getUserId()
 })
 
 //npx supabase gen types typescript --project-id ssnrhskkuvkhgliiywdw --schema public > types/supabase.ts

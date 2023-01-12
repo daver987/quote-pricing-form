@@ -7,7 +7,10 @@ import { useForm, Field } from 'vee-validate'
 import { toFormValidator } from '@vee-validate/zod'
 import { Database } from '~/types/supabase'
 import { ReturnedQuote, returnedQuote } from '~/schema/returnedFormData'
+import { useUserStore } from '~/stores/useUserStore'
+import { storeToRefs } from 'pinia'
 
+const userStore = useUserStore()
 interface SelectFormData {
   label: string
   value: number
@@ -573,6 +576,7 @@ const loading = ref<boolean>(false)
 const router = useRouter()
 const returnedQuote = ref<ReturnedQuote | unknown>(null)
 const openAlert = ref<boolean>(false)
+const { hplUserId } = storeToRefs(userStore)
 
 const onSubmit = handleSubmit(async (formValues) => {
   loading.value = true
@@ -583,7 +587,9 @@ const onSubmit = handleSubmit(async (formValues) => {
     body: values,
   })
   returnedQuote.value = data.value as unknown as ReturnedQuote
-  console.log('Returned data is:', data.value)
+  userStore.setUserData(returnedQuote.value)
+  console.log('Returned data is:', returnedQuote.value)
+
   //@ts-ignore
   if (returnedQuote.value.statusCode === 200) {
     setTimeout(() => {
