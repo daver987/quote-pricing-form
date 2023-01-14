@@ -9,13 +9,19 @@ import { Database } from '~/types/supabase'
 import { ReturnedQuote } from '~/schema/returnedFormData'
 import { useUserStore } from '~/stores/useUserStore'
 import { storeToRefs } from 'pinia'
+import { z } from 'zod'
+
+const selectFormData = z.object({
+  label: z.string(),
+  value: z.number(),
+  isDisabled: z.boolean().optional(),
+})
+
+type SelectFormData = z.infer<typeof selectFormData>
 
 const userStore = useUserStore()
-interface SelectFormData {
-  label: string
-  value: number
-  isDisabled?: boolean | undefined
-}
+const { hplUserId } = storeToRefs(userStore)
+
 const supabase = useSupabaseClient<Database>()
 
 const passengerClasses = ref('text-gray-400')
@@ -137,8 +143,8 @@ const firstName = ref<string>('')
 const lastName = ref<string>('')
 const emailAddress = ref<string>('')
 const phoneNumber = ref<string>('')
-
 const disabled = ref<boolean>(true)
+
 watch(selectedServiceType, () => {
   if (selectedServiceType.value.value === 4) {
     isItHourly.value = true
@@ -230,6 +236,13 @@ watch(selectedServiceType, () => {
     selectedNumberOfHours.value.label,
     isItHourly.value
   )
+})
+watch(selectedServiceType, () => {
+  if (selectedServiceType.value.value === 0) {
+    serviceTypeClasses.value = 'text-gray-400' as string
+  } else {
+    serviceTypeClasses.value = 'text-gray-900' as string
+  }
 })
 watch(selectedVehicleType, () => {
   if (selectedVehicleType.value.value === 1 || 2) {
@@ -359,13 +372,6 @@ watch(selectedPassengers, () => {
     passengerClasses.value = 'text-gray-400' as string
   } else {
     passengerClasses.value = 'text-gray-900' as string
-  }
-})
-watch(selectedServiceType, () => {
-  if (selectedServiceType.value.value === 0) {
-    serviceTypeClasses.value = 'text-gray-400' as string
-  } else {
-    serviceTypeClasses.value = 'text-gray-900' as string
   }
 })
 watch(selectedNumberOfHours, () => {
@@ -571,7 +577,6 @@ const loading = ref<boolean>(false)
 const router = useRouter()
 const returnedQuote = ref<ReturnedQuote | unknown>(null)
 const openAlert = ref<boolean>(false)
-const { hplUserId } = storeToRefs(userStore)
 
 const onSubmit = handleSubmit(async (formValues) => {
   loading.value = true
