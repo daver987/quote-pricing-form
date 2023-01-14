@@ -117,7 +117,6 @@ const inputOptions = ref({
   name: 'phoneNumber',
   type: 'tel',
 })
-
 const dropdownOptions = ref({
   showDialCodeInSelection: false,
   showFlags: true,
@@ -594,9 +593,9 @@ const onSubmit = handleSubmit(async (formValues) => {
 
   //@ts-ignore
   if (returnedQuote.value.statusCode === 200) {
-    setTimeout(() => {
+    setTimeout(async () => {
       loading.value = false
-      router.push('/quoted')
+      await navigateTo('/quoted')
     }, 1500)
     return
   } else {
@@ -671,7 +670,7 @@ const onSubmit = handleSubmit(async (formValues) => {
       <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <div class="col-span-1">
           <Field
-            v-slot="{ field, errorMessage }"
+            v-slot="{ field, errors, errorMessage }"
             v-model="selectedServiceType"
             name="selectedServiceType"
           >

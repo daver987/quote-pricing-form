@@ -147,7 +147,7 @@ export default defineEventHandler(async (event) => {
     for (let key in surchargeAmounts) {
       surchargeAmounts[key] = surchargeAmounts[key].toFixed(2)
     }
-    // totalAmount = totalAmount.toFixed(2)
+    totalAmount = totalAmount.toFixed(2)
 
     console.log(surchargeAmounts) // {surcharge1: "20.00", surcharge2: "10.00", tax: "10.00"}
     console.log(totalAmount) // "130.00"
@@ -257,8 +257,36 @@ export default defineEventHandler(async (event) => {
       }
       console.log('This is the returned quote data', data)
     }
+
+    const sendEmail = async () => {
+      const data = await $fetch(
+        'https://hooks.zapier.com/hooks/catch/11745690/bjed8zw/',
+        {
+          method: 'POST',
+          body: {
+            firstName,
+            emailAddress,
+            totalFare: totalAmount as number,
+            vehicleTypeLabel: selectedVehicleType.label,
+            serviceTypeLabel: selectedServiceType.label,
+            isItRoundTrip: isRoundTrip,
+            destinationName: placeDataDestination.name,
+            originName: placeDataOrigin.name,
+            pickupDate,
+            pickupTime,
+            returnDate,
+            returnTime,
+            quoteNumber,
+            originFormattedAddress: placeDataOrigin.formatted_address,
+            destinationFormattedAddress: placeDataDestination.formatted_address,
+          },
+        }
+      )
+      console.log('This is the returned email data', data)
+    }
     await addUser()
     await addQuote()
+    await sendEmail()
 
     return {
       statusCode: 200,

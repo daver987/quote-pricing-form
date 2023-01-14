@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { Query } from '~/types/query'
 import { ReturnType } from '~/types/returnType'
 
 definePageMeta({
@@ -7,9 +6,8 @@ definePageMeta({
   layout: 'store',
 })
 
-const route = useRoute().query as unknown as Query
-console.log(route)
-const subtotal = parseFloat(route.amount)
+const route = useRoute().query
+console.log(route.quoteNumber)
 
 const createSession = async () => {
   const { data } = await useFetch(`/api/create-checkout-session`, {

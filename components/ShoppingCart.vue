@@ -8,6 +8,7 @@ import { useUserStore } from '~/stores/useUserStore'
 import { storeToRefs } from 'pinia'
 
 const supabase = useSupabaseClient<Database>()
+const route = useRoute()
 
 const cartStore = useCartStore()
 const quoteStore = useQuoteStore()
@@ -28,7 +29,7 @@ console.log(
 )
 
 //get the latest quote number
-const getQuoteNumber = async () => {
+const getLatestQuoteNumber = async () => {
   const { data } = await supabase
     .from('quote_number')
     .select('latest_quote_number')
@@ -37,8 +38,18 @@ const getQuoteNumber = async () => {
   // @ts-ignore
   return data.latest_quote_number
 }
+console.log('path:', route.path)
+const getQuoteNumber = async () => {
+  if (route.path === '/checkout') {
+    console.log('This is the path', route.path)
+    const { quotenumber } = route.query
+    console.log('This is the quote number', quotenumber)
+    return quotenumber as string
+  } else {
+    return await getLatestQuoteNumber()
+  }
+}
 quoteNumber.value = await getQuoteNumber()
-
 const { data: quoteFormData } = await useAsyncData('quotes', async () => {
   const { data } = await supabase
     .from('quotes')
@@ -561,7 +572,7 @@ const createSession = async () => {
             type="button"
             class="w-full px-4 py-3 text-base font-medium text-white uppercase bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
-            {{ loading ? 'Adding To Shopping Bag...' : 'Add To Shopping Bag' }}
+            {{ loading ? 'Adding To Cart...' : 'Add To Cart' }}
           </button>
           <button
             v-else

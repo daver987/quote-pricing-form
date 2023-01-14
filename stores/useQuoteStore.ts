@@ -3,7 +3,7 @@ import { Quote } from '~/schema/quote'
 
 export const useQuoteStore = defineStore('useQuoteStore', {
   state: () => ({
-    quoteNumber: 0 as number | null,
+    quoteNumber: 0 as number | string | null,
     isRoundTrip: false,
     quoteData: {} as Quote | null,
   }),
