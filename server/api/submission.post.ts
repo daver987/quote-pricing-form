@@ -8,6 +8,7 @@ import { Database } from '~/types/supabase'
 import { ref } from 'vue'
 
 export default defineEventHandler(async (event) => {
+  const ZAPIER_WEBHOOK_SECRET = useRuntimeConfig().ZAPIER_WEBHOOK_SECRET
   const supabase = serverSupabaseClient<Database>(event)
   try {
     const body = await readBody(event)
@@ -143,6 +144,33 @@ export default defineEventHandler(async (event) => {
       }
     }
 
+    const setPearsonAirportFee = () => {
+      if (isRoundTrip) {
+        if (
+          placeDataOrigin.isPearsonAirportOrigin ||
+          placeDataDestination.isPearsonAirportDestination
+        ) {
+          return 15
+        }
+      } else {
+        if (placeDataOrigin.isPearsonAirportOrigin) {
+          return 15
+        }
+      }
+      return 0
+    }
+
+    const pearsonFee = ref(0)
+    const roundTripAmount = () => {
+      if (isRoundTrip) {
+        pearsonFee.value = setPearsonAirportFee()
+        // @ts-ignore
+        return pearsonFee.value + totalAmount * 2
+      } else {
+        return totalAmount
+      }
+    }
+
     // convert values to strings with 2 decimal places
     for (let key in surchargeAmounts) {
       surchargeAmounts[key] = surchargeAmounts[key].toFixed(2)
@@ -250,6 +278,8 @@ export default defineEventHandler(async (event) => {
           firstName,
           lastName,
           userId: hplUserId.value,
+          roundTripTotal: roundTripAmount(),
+          airportFee: setPearsonAirportFee(),
         })
         .select()
       if (error) {
@@ -259,29 +289,28 @@ export default defineEventHandler(async (event) => {
     }
 
     const sendEmail = async () => {
-      const data = await $fetch(
-        'https://hooks.zapier.com/hooks/catch/11745690/bjed8zw/',
-        {
-          method: 'POST',
-          body: {
-            firstName,
-            emailAddress,
-            totalFare: totalAmount as number,
-            vehicleTypeLabel: selectedVehicleType.label,
-            serviceTypeLabel: selectedServiceType.label,
-            isItRoundTrip: isRoundTrip,
-            destinationName: placeDataDestination.name,
-            originName: placeDataOrigin.name,
-            pickupDate,
-            pickupTime,
-            returnDate,
-            returnTime,
-            quoteNumber,
-            originFormattedAddress: placeDataOrigin.formatted_address,
-            destinationFormattedAddress: placeDataDestination.formatted_address,
-          },
-        }
-      )
+      const data = await $fetch(ZAPIER_WEBHOOK_SECRET, {
+        method: 'POST',
+        body: {
+          firstName,
+          lastName,
+          emailAddress,
+          roundTripTotal: roundTripAmount(),
+          totalFare: totalAmount as number,
+          vehicleTypeLabel: selectedVehicleType.label,
+          serviceTypeLabel: selectedServiceType.label,
+          isItRoundTrip: isRoundTrip,
+          destinationName: placeDataDestination.name,
+          originName: placeDataOrigin.name,
+          pickupDate,
+          pickupTime,
+          returnDate,
+          returnTime,
+          quoteNumber,
+          originFormattedAddress: placeDataOrigin.formatted_address,
+          destinationFormattedAddress: placeDataDestination.formatted_address,
+        },
+      })
       console.log('This is the returned email data', data)
     }
     await addUser()
