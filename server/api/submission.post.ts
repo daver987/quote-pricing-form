@@ -8,7 +8,7 @@ import { Database } from '~/types/supabase'
 import { ref } from 'vue'
 
 export default defineEventHandler(async (event) => {
-  const ZAPIER_WEBHOOK_SECRET = useRuntimeConfig().ZAPIER_WEBHOOK_SECRET
+  const zapierSecret = useRuntimeConfig().ZAPIER_WEBHOOK_SECRET
   const supabase = serverSupabaseClient<Database>(event)
   try {
     const body = await readBody(event)
@@ -289,7 +289,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const sendEmail = async () => {
-      const data = await $fetch(ZAPIER_WEBHOOK_SECRET, {
+      const data = await $fetch(zapierSecret, {
         method: 'POST',
         body: {
           firstName,
