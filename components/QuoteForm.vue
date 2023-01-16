@@ -10,6 +10,21 @@ import { ReturnedQuote } from '~/schema/returnedFormData'
 import { useUserStore } from '~/stores/useUserStore'
 import { storeToRefs } from 'pinia'
 import { z } from 'zod'
+import { useGtm } from '@gtm-support/vue-gtm'
+
+const gtm = useGtm()
+
+function submitQuoteEvent() {
+  //@ts-ignore
+  gtm.trackEvent({
+    event: 'submitQuote',
+    category: 'Request quote',
+    action: 'click',
+    label: 'Request Quote',
+    value: 1,
+    noninteraction: false,
+  })
+}
 
 const selectFormData = z.object({
   label: z.string(),
@@ -594,6 +609,7 @@ const onSubmit = handleSubmit(async (formValues) => {
   //@ts-ignore
   if (returnedQuote.value.statusCode === 200) {
     setTimeout(async () => {
+      submitQuoteEvent()
       loading.value = false
       await navigateTo('/quoted')
     }, 1500)
