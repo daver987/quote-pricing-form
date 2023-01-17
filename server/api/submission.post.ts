@@ -118,16 +118,16 @@ export default defineEventHandler(async (event) => {
     }
     const surcharges = (await getSurcharges()) as Surcharges[]
 
-    let baseAmount = () => {
+    const baseAmount = () => {
       if (isItHourly) {
         return baseRateHourly()
       }
       return baseRateDistance()
     }
-    let surchargeAmounts = {} as any
+    const surchargeAmounts = {} as any
     let totalAmount: string | number = baseAmount()
 
-    for (let surcharge of surcharges) {
+    for (const surcharge of surcharges) {
       if (surcharge.is_active) {
         let amount = 0
         if (surcharge.is_percentage) {
@@ -152,10 +152,8 @@ export default defineEventHandler(async (event) => {
         ) {
           return 15
         }
-      } else {
-        if (placeDataOrigin.isPearsonAirportOrigin) {
-          return 15
-        }
+      } else if (placeDataOrigin.isPearsonAirportOrigin) {
+        return 15
       }
       return 0
     }
@@ -172,7 +170,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // convert values to strings with 2 decimal places
-    for (let key in surchargeAmounts) {
+    for (const key in surchargeAmounts) {
       surchargeAmounts[key] = surchargeAmounts[key].toFixed(2)
     }
     totalAmount = totalAmount.toFixed(2)
@@ -260,18 +258,18 @@ export default defineEventHandler(async (event) => {
           serviceTypeValue: selectedServiceType.value,
           passengersLabel: selectedPassengers.label,
           passengersValue: selectedPassengers.value,
-          isItHourly: isItHourly,
+          isItHourly,
           hoursLabel: selectedHoursLabel,
           hoursValue: selectedHours,
           distanceText: tripData.distanceText,
           distanceValue: tripData.distanceValue,
           durationText: tripData.durationText,
           durationValue: tripData.durationValue,
-          calculatedDistance: calculatedDistance,
+          calculatedDistance,
           baseRate: isItHourly ? baseRateHourly() : baseRateDistance(),
           fuelSurcharge: surchargeAmounts['Fuel Surcharge'],
-          gratuity: surchargeAmounts['Gratuity'],
-          HST: surchargeAmounts['HST'],
+          gratuity: surchargeAmounts.Gratuity,
+          HST: surchargeAmounts.HST,
           userEmail: emailAddress,
           totalFare: totalAmount as number,
           quote_number: quoteNumber,

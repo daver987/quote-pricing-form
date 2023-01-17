@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { services, Service } from '~/data/services'
+import { services } from '~/data/services'
 import { ourTours, Tour } from '~/data/tours'
 definePageMeta({
   title: 'Services',
@@ -8,7 +8,6 @@ definePageMeta({
 useHead({
   title: 'High Park Livery | Services',
 })
-// const service1 = services as Service[]
 const tours = ourTours as Tour[]
 const headerInfo = {
   aboveHeading: 'WHAT WE OFFER YOU',

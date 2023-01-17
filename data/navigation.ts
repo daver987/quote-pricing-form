@@ -2,6 +2,7 @@ export interface NavigationItem {
   name: string
   href: string
   id: number
+  categories?: string
 }
 
 export const navigation = <NavigationItem[]>[

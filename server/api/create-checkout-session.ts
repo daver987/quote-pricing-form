@@ -39,23 +39,22 @@ export default defineEventHandler(async (event) => {
         stripeCustomerId: customer.id,
         sessionId: session.id,
       }
-    } else {
-      const session = <Session>await stripe.checkout.sessions.create({
-        billing_address_collection: 'auto',
-        mode: 'setup',
-        payment_method_types: ['card'],
-        success_url: `${YOUR_DOMAIN}/success`,
-        cancel_url: `${YOUR_DOMAIN}/cancel`,
-        automatic_tax: { enabled: false },
-        customer: body.stripeCustomerId,
-      })
-      console.log('session info', session)
-      return {
-        statusCode: 200,
-        url: session.url,
-        stripeCustomerId: body.stripeCustomerId,
-        sessionId: session.id,
-      }
+    }
+    const session = <Session>await stripe.checkout.sessions.create({
+      billing_address_collection: 'auto',
+      mode: 'setup',
+      payment_method_types: ['card'],
+      success_url: `${YOUR_DOMAIN}/success`,
+      cancel_url: `${YOUR_DOMAIN}/cancel`,
+      automatic_tax: { enabled: false },
+      customer: body.stripeCustomerId,
+    })
+    console.log('session info', session)
+    return {
+      statusCode: 200,
+      url: session.url,
+      stripeCustomerId: body.stripeCustomerId,
+      sessionId: session.id,
     }
   } catch (error) {
     console.log('error', error)

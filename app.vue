@@ -17,10 +17,7 @@ const {
 
 async function getUserData() {
   hplUserId.value = localStorage.getItem('hplUserId')
-  if (!hplUserId.value) {
-    hplUserId.value = 'hpl_new_user'
-    localStorage.setItem('hplUserId', hplUserId.value)
-  } else {
+  if (hplUserId.value) {
     const { data: userData } = await useAsyncData('user', async () => {
       return await supabase
         .from('user')
@@ -42,7 +39,10 @@ async function getUserData() {
       console.log('stripeCustomerId:', stripeCustomerId.value)
     }
     console.log('hplUserId:', hplUserId.value)
+    return;
   }
+  hplUserId.value = 'hpl_new_user'
+  localStorage.setItem('hplUserId', hplUserId.value)
 }
 
 onMounted(async () => {

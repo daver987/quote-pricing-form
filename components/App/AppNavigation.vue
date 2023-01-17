@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useCartStore } from '~/stores/useCartStore'
 import { useQuoteStore } from '~/stores/useQuoteStore'
 import { storeToRefs } from 'pinia'
 import {
@@ -19,8 +18,6 @@ import {
 } from '@heroicons/vue/24/outline'
 import { navigation, NavigationItem } from '~/data/navigation'
 
-const cartStore = useCartStore()
-const { addedToCart } = storeToRefs(cartStore)
 const quoteStore = useQuoteStore()
 const { isRoundTrip } = storeToRefs(quoteStore)
 
