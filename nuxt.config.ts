@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'layout', mode: 'out-in' },
   },
   nitro: {
-    preset: 'netlify',
+    preset: 'digital-ocean',
   },
   // experimental: {
   //   writeEarlyHints: true,
