@@ -4,19 +4,25 @@
       <div class="flex justify-center col-span-1 md:col-span-2 lg:col-span-1">
         <NuxtPicture
           alt="CFIB"
-          class="object-contain w-full max-w-xs filter grayscale hover:grayscale-0"
           src="/images/logo-cloud-1.png"
           width="1920"
           height="931"
+          :img-attrs="{
+            class:
+              'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
+          }"
         />
       </div>
       <div class="flex justify-center col-span-1 md:col-span-2 lg:col-span-1">
         <NuxtPicture
           alt="JPL"
-          class="object-contain w-full max-w-xs filter grayscale hover:grayscale-0"
           src="/images/logo-cloud-5.png"
           width="400"
           height="152"
+          :img-attrs="{
+            class:
+              'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
+          }"
         />
       </div>
       <div class="flex justify-center col-span-1 md:col-span-2 lg:col-span-1">
@@ -26,15 +32,22 @@
           src="/images/logo-cloud-2.png"
           width="1464"
           height="816"
+          :img-attrs="{
+            class:
+              'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
+          }"
         />
       </div>
       <div class="flex justify-center col-span-1 md:col-span-3 lg:col-span-1">
         <NuxtPicture
           alt="Northbridge"
-          class="object-contain w-full max-w-xs filter grayscale hover:grayscale-0"
           src="/images/logo-cloud-3.png"
           width="370"
           height="133"
+          :img-attrs="{
+            class:
+              'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
+          }"
         />
       </div>
       <div
@@ -42,10 +55,13 @@
       >
         <NuxtPicture
           alt="OLOA"
-          class="object-contain w-full max-w-xs filter grayscale hover:grayscale-0"
           src="/images/logo-cloud-4.png"
           width="2579"
           height="903"
+          :img-attrs="{
+            class:
+              'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
+          }"
         />
       </div>
     </div>

@@ -14,25 +14,27 @@
             <NuxtPicture
               :alt="companyName"
               :src="companyLogo"
-              class="object-contain object-center w-full"
+              :img-attrs="{
+                class: 'object-contain object-center w-full',
+              }"
             />
           </NuxtLink>
 
           <div class="flex flex-row justify-items-center">
             <Icon class="mr-8 text-3xl text-primary" name="zmdi:phone" />
-            <a
+            <NuxtLink
               :href="`tel:${companyPhone}`"
               class="text-base tracking-wider text-white cursor-pointer font-body hover:text-primary"
               >{{ companyPhone }}
-            </a>
+            </NuxtLink>
           </div>
           <div class="flex flex-row justify-items-center">
             <Icon class="mr-8 text-4xl text-primary" name="ic:outline-mail" />
-            <a
+            <NuxtLink
               :href="`mailto:${companyEmail}`"
               class="text-base tracking-wider text-white cursor-pointer font-body hover:text-primary"
               >{{ companyEmail }}
-            </a>
+            </NuxtLink>
           </div>
         </div>
         <div class="my-8 space-y-4">

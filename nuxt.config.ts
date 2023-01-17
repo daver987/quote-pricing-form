@@ -26,6 +26,9 @@ export default defineNuxtConfig({
       },
     ],
   ],
+  image: {
+    internalUrl: 'https://highparklivery.com',
+  },
   build: {
     transpile: [
       '@googlemaps/js-api-loader',

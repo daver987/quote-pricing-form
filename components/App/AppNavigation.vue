@@ -98,7 +98,9 @@ const open = ref<boolean>(false)
                 <NuxtPicture
                   src="https://tailwindui.com/img/flags/flag-canada.svg"
                   alt="Canada flag"
-                  class="flex-shrink-0 block w-5 h-auto"
+                  :img-attrs="{
+                    class: 'flex-shrink-0 block w-5 h-auto',
+                  }"
                 />
                 <span class="block ml-3 text-base font-medium text-brand-600"
                   >CAD</span
@@ -137,7 +139,9 @@ const open = ref<boolean>(false)
             <NuxtLink to="/" class="self-center">
               <span class="sr-only">High Park Livery</span>
               <NuxtPicture
-                class="h-auto max-w-[125px] lg:max-w-[150px]"
+                :img-attrs="{
+                  class: 'w-auto h-12 lg:h-14',
+                }"
                 src="/images/hpl-logo-3.png"
                 alt="High Park Livery Logo"
                 width="960"
@@ -263,7 +267,9 @@ const open = ref<boolean>(false)
                 <NuxtPicture
                   src="https://tailwindui.com/img/flags/flag-canada.svg"
                   alt="Canada Flag"
-                  class="flex-shrink-0 block w-5 h-auto"
+                  :img-attrs="{
+                    class: 'flex-shrink-0 block w-5 h-auto',
+                  }"
                 />
                 <span class="block ml-3 text-sm font-medium">CAD</span>
                 <span class="sr-only">, change currency</span>

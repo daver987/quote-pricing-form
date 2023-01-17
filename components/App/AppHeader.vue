@@ -59,21 +59,22 @@ defineProps({
           <div
             class="tracking-wide md:transform md:-rotate-90 md:absolute md:-left-20 bottom-1/2"
           >
-            <a
+            <NuxtLink
               :href="`tel:${companyPhone}`"
               class="text-sm text-center text-gray-300 font-body"
-              ><span class="text-brand">CALL :</span> {{ companyPhone }}</a
+              ><span class="text-brand">CALL :</span>
+              {{ companyPhone }}</NuxtLink
             >
           </div>
           <div
             class="my-1 md:transform md:rotate-90 md:absolute md:-right-36 bottom-1/2"
           >
-            <a
+            <NuxtLink
               :href="`mailto:${companyEmail}`"
               class="text-sm tracking-wide text-center text-gray-300 uppercase font-body"
               ><span class="text-brand">EMAIL :</span>
               {{ companyEmail }}
-            </a>
+            </NuxtLink>
           </div>
         </div>
       </div>
