@@ -13,7 +13,7 @@ definePageMeta({
       <SignupForm />
     </div>
     <div class="relative hidden w-0 flex-1 lg:block">
-      <NuxtImg
+      <NuxtPicture
         class="absolute inset-0 h-full w-full object-cover"
         src="/images/toronto-6.jpeg"
         alt=""

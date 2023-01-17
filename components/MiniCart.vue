@@ -82,7 +82,7 @@ const itemsInCart = () => {
               :key="product.id"
               class="flex items-center py-6"
             >
-              <NuxtImg
+              <NuxtPicture
                 :src="product.imageSrc"
                 :alt="product.imageAlt"
                 class="h-16 w-16 flex-none rounded-md border object-contain border-gray-200"

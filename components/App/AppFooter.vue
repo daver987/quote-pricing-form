@@ -11,7 +11,7 @@
       >
         <div class="my-8 space-y-10">
           <NuxtLink to="/" class="max-w-[125px] block">
-            <NuxtImg
+            <NuxtPicture
               :alt="companyName"
               :src="companyLogo"
               class="object-contain object-center w-full"

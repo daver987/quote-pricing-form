@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div>
-        <NuxtImg
+        <NuxtPicture
           src="/images/lincoln-continental-1.png"
           alt="Lincoln Continental Sedan"
           width="1011"
@@ -33,7 +33,7 @@
         </p>
       </BaseCard>
       <div>
-        <NuxtImg
+        <NuxtPicture
           src="/images/lincoln-continental-2.jpg"
           alt="Lincoln Continental Interior"
           class="h-full object-cover object-center w-full"

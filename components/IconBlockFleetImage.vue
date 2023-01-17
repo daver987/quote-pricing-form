@@ -12,5 +12,9 @@ defineProps({
 </script>
 
 <template>
-  <img :alt="altText" :src="image" class="md:object-center md:object-cover" />
+  <NuxtPicture
+    :alt="altText"
+    :src="image"
+    class="md:object-center md:object-cover"
+  />
 </template>

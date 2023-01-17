@@ -881,10 +881,10 @@ const onSubmit = handleSubmit(async (formValues) => {
         </button>
       </div>
     </form>
-    <Alert
-      alertMessage="Please refresh your browser and try again"
-      alertTitle="Oops Something went wrong"
-      :open="openAlert"
-    />
+    <!--    <Alert-->
+    <!--      alertMessage="Please refresh your browser and try again"-->
+    <!--      alertTitle="Oops Something went wrong"-->
+    <!--      :open="openAlert"-->
+    <!--    />-->
   </div>
 </template>

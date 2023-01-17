@@ -106,7 +106,11 @@ const tabs = [
             ]"
             class="flex flex-col items-center justify-center w-full col-span-1 py-16 space-y-4 border-white hover:bg-primary hover:text-white"
           >
-            <NuxtImg :src="`/icons/${tab.icon}.svg`" alt="icon" class="w-16" />
+            <NuxtPicture
+              :src="`/icons/${tab.icon}.svg`"
+              alt="icon"
+              class="w-16"
+            />
             <span
               class="text-sm tracking-widest text-center uppercase hover:text-white"
               :class="[selected ? 'bg-primary text-white' : 'text-gray-500']"

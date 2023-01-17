@@ -7,7 +7,7 @@ const color = colorMode.value
   <div class="w-full max-w-sm mx-auto lg:w-96">
     <div v-if="color === 'dark'">
       <NuxtLink to="/">
-        <NuxtImg
+        <NuxtPicture
           class="w-auto h-16"
           src="/images/hpl-logo-3.png"
           alt="Your Company"
@@ -31,7 +31,7 @@ const color = colorMode.value
 
     <div v-if="color !== 'dark'">
       <NuxtLink to="/">
-        <NuxtImg
+        <NuxtPicture
           class="w-auto h-16"
           src="/images/hpl-logo-2.png"
           alt="High Park Livery"

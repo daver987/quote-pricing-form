@@ -3,7 +3,7 @@
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <div><h2 class="text-center pt-8 heading">Cadillac XTS Sedan</h2></div>
       <div>
-        <NuxtImg
+        <NuxtPicture
           src="/images/cadillac-xts-9.png"
           alt="XTS"
           width="1242"
@@ -26,7 +26,7 @@
         </p>
       </BaseCard>
       <div>
-        <NuxtImg
+        <NuxtPicture
           src="/images/cadillac-xts-2.jpg"
           alt="XTS"
           class="h-full object-cover object-center w-full"
@@ -40,7 +40,7 @@
       class="mb-12 auto-cols-auto grid grid-cols-1 place-items-center md:gap-4 md:grid-cols-12"
     >
       <div class="mb-6 col-span-2 md:mb-0 md:col-span-4">
-        <NuxtImg
+        <NuxtPicture
           src="/images/cadillac-xts-5.jpg"
           alt="XTS"
           class="h-full object-cover object-center w-full"
@@ -50,7 +50,7 @@
         />
       </div>
       <div class="col-span-6">
-        <NuxtImg
+        <NuxtPicture
           src="/images/cadillac-xts-7.jpg"
           alt="XTS"
           class="h-full object-cover object-center w-full"

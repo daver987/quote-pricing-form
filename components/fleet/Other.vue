@@ -19,7 +19,7 @@
           </BaseCard>
         </div>
         <div class="md:w-full md:col-span-4">
-          <NuxtImg
+          <NuxtPicture
             src="/images/sprinter-van-1.png"
             alt="11 Passenger Van"
             class="object-cover object-center w-full max-w-2xl md:w-5xl md:-ml-40 md:-mt-32"
@@ -33,7 +33,7 @@
     <section class="w-full mb-16 md:mb-32">
       <div class="flex flex-col md:grid md:grid-cols-10">
         <div class="w-full md:col-span-4 md:relative">
-          <NuxtImg
+          <NuxtPicture
             src="/images/chevy-surburban-1.png"
             alt="GMC Yukon XL"
             class="object-cover object-center w-full md:w-5xl w-2xl md:right-0 md:bottom-[55%] md:left-0"

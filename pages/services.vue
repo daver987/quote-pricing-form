@@ -59,7 +59,7 @@ const headerInfo = {
           :key="service.title"
         >
           <div :class="service.imagePosition">
-            <NuxtImg
+            <NuxtPicture
               :alt="service.altText"
               :src="service.image"
               class="object-cover object-center"

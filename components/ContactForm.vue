@@ -2,7 +2,7 @@
   <div class="relative bg-white">
     <div class="lg:absolute lg:inset-0">
       <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-        <NuxtImg
+        <NuxtPicture
           class="h-56 w-full object-cover object-center lg:absolute lg:h-full"
           src="/images/toronto-6.jpeg"
           alt="Toronto skyline"

@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div>
-        <NuxtImg
+        <NuxtPicture
           src="/images/cadillac-escalade-1.png"
           alt="Cadillac-Escalade"
           class="object-cover object-center w-full"
@@ -32,7 +32,7 @@
         </p>
       </BaseCard>
       <div>
-        <NuxtImg
+        <NuxtPicture
           src="/images/cadillac-escalade-2.jpg"
           alt="Cadillac-Escalade"
           class="object-cover object-center w-full"
@@ -44,7 +44,7 @@
     </div>
     <div class="mb-12 grid gap-4 grid-cols-1">
       <div class="col-span-1">
-        <NuxtImg
+        <NuxtPicture
           src="/images/cadillac-escalade-5.jpg"
           alt="Cadillac-Escalade"
           class="object-cover object-center w-full md:max-w-5xl"

@@ -32,7 +32,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
                   <p class="text-center subheading md:text-left">
                     High Park Livery
                   </p>
-                  <NuxtImg
+                  <NuxtPicture
                     alt="Lincoln Continental"
                     src="/images/lincoln-continental-1.png"
                     class="self-center object-cover object-center max-w-sm mt-8 md:max-w-lg md:self-start"
@@ -118,7 +118,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         <div
           class="col-span-2 p-6 w-full flex justify-center place-items-center"
         >
-          <NuxtImg
+          <NuxtPicture
             class="w-96 self-center"
             src="/icons/24-hours.svg"
             alt="24 hours icon"
@@ -164,7 +164,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
       </BaseContainer>
     </BaseSection>
     <BaseSection class="pb-0">
-      <NuxtImg
+      <NuxtPicture
         alt="Toronto Skyline"
         class="object-cover object-center lg:mx-auto lg:max-w-6xl"
         src="/images/toronto-3.jpg"

@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'layout', mode: 'out-in' },
   },
   nitro: {
-    preset: 'vercel',
+    preset: 'netlify',
   },
   // experimental: {
   //   writeEarlyHints: true,

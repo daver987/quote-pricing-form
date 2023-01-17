@@ -26,7 +26,7 @@
         </p>
       </BaseCard>
       <div>
-        <NuxtImg
+        <NuxtPicture
           src="/images/tesla-s-3.jpg"
           alt="Tesla S"
           class="object-cover object-center w-full"
@@ -37,7 +37,7 @@
     </div>
     <div class="mb-12 grid gap-4 grid-cols-1">
       <div class="col-span-1">
-        <NuxtImg
+        <NuxtPicture
           src="/images/tesla-s-2.jpg"
           alt="Tesla S"
           class="object-cover object-center w-full md:max-w-5xl"

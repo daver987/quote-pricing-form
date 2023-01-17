@@ -58,7 +58,7 @@ definePageMeta({
           </div>
         </div>
         <div class="md:self-center">
-          <NuxtImg
+          <NuxtPicture
             alt="Chauffeur Service"
             class="object-center object-cover h-64 w-full md:object-left md:min-h-[18rem]"
             src="/images/chauffeur-3.jpg"
@@ -72,7 +72,7 @@ definePageMeta({
     <section class="bg-background mb-8 px-4 sm:px-6">
       <div class="container place-items-center md:grid md:grid-cols-2">
         <div class="flex">
-          <NuxtImg
+          <NuxtPicture
             alt="Tesla-S-Back-Seat"
             class="object-center object-cover w-full min-h-[18rem] self-center md:object-left"
             src="/images/tesla-s-4.jpg"
@@ -95,7 +95,7 @@ definePageMeta({
     </section>
     <section class="mb-8 background-bg">
       <div>
-        <NuxtImg
+        <NuxtPicture
           alt="Toronto-evening-skyline"
           class="object-cover object-center w-full min-h-[16rem]"
           src="/images/toronto-6.jpeg"
