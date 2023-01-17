@@ -3,7 +3,7 @@ useHead({
   title: 'High Park Livery | Reservations',
   script: [
     {
-      src: 'https://book.mylimobiz.com/v4/luxridesvc/widget/reservation',
+      src: 'https://book.mylimobiz.com/v4/widgets/widget-loader.js',
       type: 'text/javascript',
     },
   ],
@@ -33,9 +33,9 @@ definePageMeta({
         class="container mx-auto h-[125vh] -mt-16 mb-16 w-full max-w-7xl z-20 relative md:-mt-20"
       >
         <NuxtLink
-          href="https://book.mylimobiz.com/v4/luxridesvc"
+          href="https://book.mylimobiz.com/v4/highpark"
           data-ores-widget="website"
-          data-ores-alias="luxridesvc"
+          data-ores-alias="highpark"
           >Online Reservations
         </NuxtLink>
       </div>

@@ -4,7 +4,7 @@ definePageMeta({
 })
 </script>
 <template>
-  <div style="max-width: 750px; margin: auto">
+  <div style="max-width: 650px; margin: auto">
     <div style="background: black">
       <img
         src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/ec6dca30-3187-4694-7605-de32caf23100/1024"
@@ -57,7 +57,7 @@ definePageMeta({
           color: white;
           border: none;
           width: 100%;
-          padding: 1rem 8rem;
+          padding: 1rem 1rem;
           font-size: 1.5rem;
           font-weight: bold;
           border-radius: 5px;

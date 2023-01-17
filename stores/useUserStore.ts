@@ -1,8 +1,9 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
+import { useStorage } from '@vueuse/core'
 
 export const useUserStore = defineStore('useUserStore', {
   state: () => ({
-    hplUserId: null as string | null,
+    hplUserId: '' as string | null,
     firstName: '',
     lastName: '',
     emailAddress: '',
