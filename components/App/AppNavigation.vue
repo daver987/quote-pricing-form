@@ -140,7 +140,7 @@ const open = ref<boolean>(false)
               <span class="sr-only">High Park Livery</span>
               <NuxtPicture
                 :img-attrs="{
-                  class: 'max-w-[150px] lg:max-w-[175px]',
+                  class: 'w-auto h-12 lg:h-14',
                 }"
                 src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/c6c7415a-d52d-46fa-a85e-1ba5153b2000/1920"
                 alt="High Park Livery Logo"
