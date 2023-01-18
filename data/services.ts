@@ -14,12 +14,7 @@ export const services = [
   {
     title: 'Airport Services',
     aboveHeading: 'TRAVEL IN COMFORT',
-    body:
-      "Spending hours at the airport can be a hassle, but with High Park Livery's limousine service, it doesn't\" +\n" +
-      "      ' have to be. Our drivers are available 24/7 to pick you up at any terminal and drop you off for your' +\n" +
-      "      '  departure flight. We also track your flight for arrivals, so you can be assured that we will be there for' +\n" +
-      "      ' you no matter if your flight is delayed or early. This makes the process of flying internationally less' +\n" +
-      "      ' daunting, as you wont have to worry about security checks and long wait times. Book with High Park Livery for a seamless airport experience.",
+    body: "Spending hours at the airport can be a hassle, but with High Park Livery's limousine service, it doesn't haveto be. Our drivers are available 24/7 to pick you up at any terminal and drop you off for your departure flight. We also track your flight for arrivals, so you can be assured that we will be there for you no matter if your flight is delayed or early. This makes the process of flying internationally less daunting, as you wont have to worry about security checks and long wait times. Book with High Park Livery for a seamless airport experience.",
     image:
       'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/11372c60-0fbb-4ed7-3984-b509397a4300/1920',
     altText: 'Airport-Service',
