@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DirectionsResponse, Place } from '~/types/DirectionsResponse'
+import { Place } from '~/types/DirectionsResponse'
 import { formSchema } from '~/schema/quoteFormValues'
 import { VueTelInput } from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
@@ -10,11 +10,18 @@ import { ReturnedQuote } from '~/schema/returnedFormData'
 import { useUserStore } from '~/stores/useUserStore'
 import { storeToRefs } from 'pinia'
 import { z } from 'zod'
+import { DirectionsSchema } from '~/server/api/get-distance.get'
+import {
+  tripDataSchema,
+  placeDataSchema,
+  PlaceData,
+  TripData,
+} from '~~/types/data'
 import { useGtm } from '@gtm-support/vue-gtm'
 
 const gtm = useGtm()
 
-function submitQuoteEvent() {
+function triggerEvent() {
   //@ts-ignore
   gtm.trackEvent({
     event: 'submitQuote',
@@ -139,17 +146,13 @@ const dropdownOptions = ref({
   showDialCodeInList: true,
 })
 
-const origin = ref<Place | null>(null)
-const originPlaceId = ref<string>('')
-const destination = ref<Place | null>(null)
-const destinationPlaceId = ref<string>('')
 const calculatedDistance = ref<number>(0)
 const pickupDate = ref<string>('')
 const pickupTime = ref<string>('')
 const returnDate = ref<string>('')
 const returnTime = ref<string>('')
 const isItHourly = ref<boolean>(false)
-const tripData = ref<DirectionsResponse | null>(null)
+const tripData = ref<DirectionsSchema | null>(null)
 const placeDataOrigin = ref<Place | null>(null)
 const placeDataDestination = ref<Place | null>(null)
 const isRoundTrip = ref<boolean>(false)
@@ -394,40 +397,38 @@ watch(selectedNumberOfHours, () => {
   }
 })
 
-const originType = ref<string[]>([])
 const isPearsonAirportOrigin = ref<boolean>(false)
-const onOriginChange = async (evt: Place) => {
-  origin.value = evt
+const origin = ref<PlaceData>()
+const destination = ref<PlaceData>()
+const originPlaceId = ref<string>()
+const destinationPlaceId = ref<string>()
+
+async function onOriginChange(evt: PlaceData) {
+  origin.value = placeDataSchema.parse(evt)
   console.log('Origin:', origin.value)
-  const { place_id, types, name } = origin.value
-  originType.value = types
-  name === 'Toronto Pearson International Airport'
+  origin.value.name === 'Toronto Pearson International Airport'
     ? (isPearsonAirportOrigin.value = true)
     : (isPearsonAirportOrigin.value = false)
   console.log('Is it PearsonAirport:', isPearsonAirportOrigin.value)
-  console.log('Origin Type:', originType.value)
+  console.log('Origin Type:', origin.value.types)
   origin.value.isPearsonAirportOrigin = isPearsonAirportOrigin.value
   if (origin.value && destination.value) {
     console.log('origin and destination are both set')
-    const { data } = await useFetch<DirectionsResponse>('/api/get-distance', {
+    const { data } = await useFetch('/api/get-distance', {
+      //@ts-ignore
       query: {
-        origin: originPlaceId.value,
-        destination: place_id,
+        origin: origin.value.place_id,
+        destination: destinationPlaceId.value,
       },
     })
     console.log('query', {
-      origin: originPlaceId.value,
-      destination: place_id,
+      origin: origin.value.place_id,
+      destination: destination.value?.place_id,
     })
-    console.log('data is', data.value)
-    tripData.value = JSON.stringify(data.value) as unknown as DirectionsResponse
-    placeDataOrigin.value = JSON.stringify(origin.value) as unknown as Place
-    placeDataDestination.value = JSON.stringify(
-      destination.value
-    ) as unknown as Place
-    console.log('Trip data:', tripData)
-    console.log('Origin data:', placeDataOrigin.value)
-    console.log('Destination data:', placeDataDestination.value)
+    const tripData = data as unknown as TripData
+    console.log('Origin Trip data:', tripData)
+    console.log('Origin data:', origin.value)
+    console.log('Destination data:', destination.value)
     const {
       distanceText,
       distanceValue,
@@ -437,17 +438,17 @@ const onOriginChange = async (evt: Place) => {
       endLng,
       startLat,
       startLng,
-    } = tripData.value as DirectionsResponse
+    } = tripData
     const {
       place_id: originPlaceIdValue,
       formatted_address: originFormattedAddress,
       name: originName,
-    } = placeDataOrigin.value as Place
+    } = origin.value
     const {
       place_id: destinationPlaceId,
       formatted_address: destinationFormattedAddress,
       name: destinationName,
-    } = placeDataDestination.value as Place
+    } = destination.value
     calculatedDistance.value = distanceValue / 1000
     console.log('calculated distance is:', calculatedDistance.value)
     return {
@@ -468,42 +469,38 @@ const onOriginChange = async (evt: Place) => {
       calculatedDistance,
     }
   } else {
-    const { place_id } = origin.value
     console.log('only origin is set')
-    console.log('place id is:', place_id)
-    return (originPlaceId.value = place_id)
+    console.log('Origin place id is:', origin.value.place_id)
+    originPlaceId.value = origin.value.place_id
   }
 }
 
-const destinationType = ref<string[]>([])
 const isPearsonAirportDestination = ref<boolean>(false)
-const onDestinationChange = async (evt: Place) => {
-  destination.value = evt
-  const { place_id, types, name } = destination.value
-  destinationType.value = types
-  name === 'Toronto Pearson International Airport'
+
+async function onDestinationChange(evt: PlaceData) {
+  destination.value = placeDataSchema.parse(evt)
+  destination.value.name === 'Toronto Pearson International Airport'
     ? (isPearsonAirportDestination.value = true)
     : (isPearsonAirportDestination.value = false)
   console.log('Is it PearsonAirport:', isPearsonAirportDestination.value)
   destination.value.isPearsonAirportDestination =
     isPearsonAirportDestination.value
-  console.log('Destination Type:', destinationType.value)
+  console.log('Destination Type:', destination.value.types)
   console.log('Destination:', destination.value)
   if (origin.value && destination.value) {
     console.log('origin and destination are both set')
     const { data } = await useFetch('/api/get-distance', {
+      //@ts-ignore
       query: {
         origin: originPlaceId.value,
-        destination: place_id,
+        destination: destination.value.place_id,
       },
     })
 
-    tripData.value = data.value
-    placeDataOrigin.value = origin.value
-    placeDataDestination.value = destination.value
-    console.log('Trip data:', tripData.value)
-    console.log('Origin data:', placeDataOrigin.value)
-    console.log('Destination data:', placeDataDestination.value)
+    const destinationTripData = data.value as unknown as TripData
+    console.log('Destination Trip data:', destinationTripData)
+    console.log('Origin data:', origin.value)
+    console.log('Destination data:', destination.value)
     const {
       distanceText,
       distanceValue,
@@ -513,17 +510,17 @@ const onDestinationChange = async (evt: Place) => {
       endLng,
       startLat,
       startLng,
-    } = tripData.value as DirectionsResponse
+    } = destinationTripData
     const {
       place_id: originPlaceIdValue,
       formatted_address: originFormattedAddress,
       name: originName,
-    } = placeDataOrigin.value as Place
+    } = origin.value
     const {
       place_id: destinationPlaceId,
       formatted_address: destinationFormattedAddress,
       name: destinationName,
-    } = placeDataDestination.value as Place
+    } = destination.value
     calculatedDistance.value = distanceValue / 1000
     console.log('calculated distance is:', calculatedDistance.value)
     return {
@@ -546,41 +543,46 @@ const onDestinationChange = async (evt: Place) => {
     }
   } else {
     console.log('only destination is set')
-    const { place_id } = destination.value
-    console.log('destination place id is:', place_id)
-    return (destinationPlaceId.value = place_id)
+    console.log('destination place id is:', destination.value.place_id)
+    destinationPlaceId.value = destination.value.place_id
   }
 }
 
-watch(originType, () => {
-  if (originType.value.includes('airport')) {
-    selectedServiceType.value = serviceTypeOptions.value[3]
+watch(
+  () => origin.value?.types,
+  () => {
+    if (origin.value?.types.includes('airport')) {
+      selectedServiceType.value = serviceTypeOptions.value[3]
+    }
+    if (destination.value?.types.includes('airport')) {
+      selectedServiceType.value = serviceTypeOptions.value[2]
+    }
+    if (
+      origin.value?.types.includes('airport') &&
+      destination.value?.types.includes('airport')
+    ) {
+      selectedServiceType.value = serviceTypeOptions.value[3]
+    }
   }
-  if (destinationType.value.includes('airport')) {
-    selectedServiceType.value = serviceTypeOptions.value[2]
-  }
-  if (
-    originType.value.includes('airport') &&
-    destinationType.value.includes('airport')
-  ) {
-    selectedServiceType.value = serviceTypeOptions.value[3]
-  }
-})
+)
 
-watch(destinationType, () => {
-  if (originType.value.includes('airport')) {
-    selectedServiceType.value = serviceTypeOptions.value[3]
+watch(
+  () => destination.value?.types,
+  () => {
+    if (origin.value?.types.includes('airport')) {
+      selectedServiceType.value = serviceTypeOptions.value[3]
+    }
+    if (destination.value?.types.includes('airport')) {
+      selectedServiceType.value = serviceTypeOptions.value[2]
+    }
+    if (
+      origin.value?.types.includes('airport') &&
+      destination.value?.types.includes('airport')
+    ) {
+      selectedServiceType.value = serviceTypeOptions.value[3]
+    }
   }
-  if (destinationType.value.includes('airport')) {
-    selectedServiceType.value = serviceTypeOptions.value[2]
-  }
-  if (
-    originType.value.includes('airport') &&
-    destinationType.value.includes('airport')
-  ) {
-    selectedServiceType.value = serviceTypeOptions.value[3]
-  }
-})
+)
 
 const validationSchema = toFormValidator(formSchema)
 const { handleSubmit, errors } = useForm({
@@ -588,15 +590,15 @@ const { handleSubmit, errors } = useForm({
 })
 
 const loading = ref<boolean>(false)
-const router = useRouter()
 const returnedQuote = ref<ReturnedQuote | unknown>(null)
 const openAlert = ref<boolean>(false)
 
 const onSubmit = handleSubmit(async (formValues) => {
   loading.value = true
-  const values = formSchema.safeParse(formValues)
+  const values = formSchema.parse(formValues)
   console.log('values are:', values)
   const { data } = await useFetch('/api/submission', {
+    //@ts-ignore
     method: 'POST',
     body: values,
   })
@@ -609,7 +611,7 @@ const onSubmit = handleSubmit(async (formValues) => {
   //@ts-ignore
   if (returnedQuote.value.statusCode === 200) {
     setTimeout(async () => {
-      submitQuoteEvent()
+      triggerEvent()
       loading.value = false
       await navigateTo('/quoted')
     }, 1500)
@@ -881,10 +883,5 @@ const onSubmit = handleSubmit(async (formValues) => {
         </button>
       </div>
     </form>
-    <!--    <Alert-->
-    <!--      alertMessage="Please refresh your browser and try again"-->
-    <!--      alertTitle="Oops Something went wrong"-->
-    <!--      :open="openAlert"-->
-    <!--    />-->
   </div>
 </template>

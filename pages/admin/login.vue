@@ -1,13 +1,14 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'auth',
+  title: 'Admin Login',
+})
+
 const email = ref('')
 const password = ref('')
 const supabase = useSupabaseAuthClient()
 const router = useRouter()
 const loading = ref(false)
-
-definePageMeta({
-  layout: 'auth',
-})
 
 // Login method using email and password
 const login = async () => {
@@ -31,10 +32,11 @@ const login = async () => {
 <template>
   <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <NuxtImg
-        class="mx-auto h-20 w-auto"
-        src="/images/hpl-logo-2.png"
-        alt="Your Company"
+      <NuxtPicture
+        :img-attrs="{ class: 'mx-auto h-32 w-auto' }"
+        src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/9dca5b1c-2dd0-47ec-b93e-30e7331b5d00/1920"
+        alt="High Park Livery"
+        width="1920"
       />
       <h2
         class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"

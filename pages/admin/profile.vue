@@ -9,5 +9,3 @@ definePageMeta({
 <template>
   <div>Page: foo</div>
 </template>
-
-<style scoped></style>

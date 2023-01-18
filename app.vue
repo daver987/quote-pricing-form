@@ -19,11 +19,12 @@ async function getUserData() {
   hplUserId.value = localStorage.getItem('hplUserId')
   if (hplUserId.value) {
     const { data: userData } = await useAsyncData('user', async () => {
-      return await supabase
+      const { data } = await supabase
         .from('user')
         .select('*')
         .eq('id', hplUserId.value)
         .single()
+      return data
     })
     console.log('userData:', userData.value?.data)
     if (userData.value?.data) {

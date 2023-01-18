@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import { PlusIcon as PlusIconMini } from '@heroicons/vue/20/solid'
 
@@ -7,7 +7,6 @@ definePageMeta({
   layout: 'admin',
   middleware: ['auth'],
 })
-
 
 const openSurcharges = ref(false)
 const toggleSurcharges = () => {
