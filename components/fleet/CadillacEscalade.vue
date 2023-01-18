@@ -8,12 +8,9 @@
       </div>
       <div>
         <NuxtPicture
-          src="/images/cadillac-escalade-1.png"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/6371d7ad-ac92-4081-2fde-5e243dd2d500/1920"
           alt="Cadillac-Escalade"
-          class="object-cover object-center w-full"
-          width="1084"
-          height="720"
-          quality="80"
+          width="1920"
         />
       </div>
     </div>
@@ -33,23 +30,20 @@
       </BaseCard>
       <div>
         <NuxtPicture
-          src="/images/cadillac-escalade-2.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/cbb0b6b5-eb8c-4557-5144-65f59654be00/1920"
           alt="Cadillac-Escalade"
-          class="object-cover object-center w-full"
-          width="828"
-          height="591"
-          quality="80"
+          :img-attrs="{ class: 'object-cover object-center w-full' }"
+          width="1980"
         />
       </div>
     </div>
     <div class="mb-12 grid gap-4 grid-cols-1">
-      <div class="col-span-1">
+      <div class="col-span-1 w-full lg:w-[80%]">
         <NuxtPicture
-          src="/images/cadillac-escalade-5.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/f205c48a-d881-48e0-79d4-bec0a20caf00/4200"
           alt="Cadillac-Escalade"
-          class="object-cover object-center w-full md:max-w-5xl"
-          width="1624"
-          height="1048"
+          width="4200"
+          :img-attrs="{ class: 'object-cover object-center w-full' }"
         />
       </div>
     </div>

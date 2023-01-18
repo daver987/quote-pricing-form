@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'layout', mode: 'out-in' },
   },
   nitro: {
-    preset: 'digital-ocean',
+    preset: 'netlify',
   },
   // experimental: {
   //   writeEarlyHints: true,
@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     ],
   ],
   image: {
-    internalUrl: 'https://highparklivery.com',
+    baseURL: 'http://localhost:3000',
   },
   build: {
     transpile: [

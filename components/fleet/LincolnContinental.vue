@@ -8,12 +8,10 @@
       </div>
       <div>
         <NuxtPicture
-          src="/images/lincoln-continental-1.png"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/58d16f60-282e-4e29-1805-ebfee9794f00/1920"
           alt="Lincoln Continental Sedan"
-          width="1011"
-          height="506"
-          class="h-full object-cover object-center w-full"
-          quality="80"
+          :img-attrs="{ class: 'h-full object-cover object-center w-full' }"
+          width="1920"
         />
       </div>
     </div>
@@ -34,23 +32,21 @@
       </BaseCard>
       <div>
         <NuxtPicture
-          src="/images/lincoln-continental-2.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/9b996a38-002e-4bef-5269-f8fa60b11c00/1920"
           alt="Lincoln Continental Interior"
-          class="h-full object-cover object-center w-full"
-          width="828"
-          height="591"
-          quality="80"
+          width="1920"
         />
       </div>
     </div>
     <div class="mb-12 grid gap-4 grid-cols-1">
       <div class="col-span-1">
-        <img
-          src="/images/lincoln-continental-6.jpg"
+        <NuxtPicture
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5736467c-b928-4091-e3aa-e1f1524a3f00/1920"
           alt="Lincoln Continental Interior"
-          class="object-cover object-center w-full md:max-w-5xl"
-          width="1380"
-          height="619"
+          :img-attrs="{
+            class: 'object-cover object-center w-full md:max-w-5xl',
+          }"
+          width="1920"
         />
       </div>
     </div>

@@ -4,11 +4,9 @@
       <div><h2 class="text-center pt-8 heading">Cadillac XTS Sedan</h2></div>
       <div>
         <NuxtPicture
-          src="/images/cadillac-xts-9.png"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/12f57e26-99ae-4fe0-9579-fa3129277800/1920"
           alt="XTS"
-          width="1242"
-          height="543"
-          quality="80"
+          width="1920"
         />
       </div>
     </div>
@@ -27,12 +25,10 @@
       </BaseCard>
       <div>
         <NuxtPicture
-          src="/images/cadillac-xts-2.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/f0204aa2-4cb2-4204-10e5-5c3bed0d3500/1920"
           alt="XTS"
-          class="h-full object-cover object-center w-full"
-          width="828"
-          height="591"
-          quality="80"
+          :img-attrs="{ class: 'h-full object-cover object-center w-full' }"
+          width="1920"
         />
       </div>
     </div>
@@ -41,22 +37,18 @@
     >
       <div class="mb-6 col-span-2 md:mb-0 md:col-span-4">
         <NuxtPicture
-          src="/images/cadillac-xts-5.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/b5750bfa-1cbf-4655-76b5-39214202e000/1920"
           alt="XTS"
-          class="h-full object-cover object-center w-full"
-          width="536"
-          height="619"
-          quality="80"
+          :img-attrs="{ class: 'h-full object-cover object-center w-full' }"
+          width="1920"
         />
       </div>
       <div class="col-span-6">
         <NuxtPicture
-          src="/images/cadillac-xts-7.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/65d84ca4-1cc0-428e-fde8-5aca205b4200/1920"
           alt="XTS"
-          class="h-full object-cover object-center w-full"
-          width="828"
-          height="619"
-          quality="80"
+          :img-attrs="{ class: 'h-full object-cover object-center w-full' }"
+          width="1920"
         />
       </div>
     </div>

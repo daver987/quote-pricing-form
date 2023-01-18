@@ -3,7 +3,7 @@ import { Ref } from 'vue'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 
 useHead({
-  title: 'Luxury Ride Service | Fleet',
+  title: 'High Park Livery | Fleet',
 })
 definePageMeta({
   layout: 'default',
@@ -12,7 +12,8 @@ const headerInfo = {
   aboveHeading: 'Discover Our Luxury Vehicles',
   heading: 'OUR FLEET',
   body: "High Park Livery is here to help you get from place to place. It's our job to provide you with the means of transportation, and we won't stop until it's done right.",
-  image: 'background-image: url("/images/lincoln-navigator-1.jpg")',
+  image:
+    'background-image: url("https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/8027755f-611b-4470-96bf-4b845c9f5600/4200")',
 }
 
 interface Vehicles {

@@ -142,10 +142,9 @@ const open = ref<boolean>(false)
                 :img-attrs="{
                   class: 'w-auto h-12 lg:h-14',
                 }"
-                src="/images/hpl-logo-3.png"
+                src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/c6c7415a-d52d-46fa-a85e-1ba5153b2000/1920"
                 alt="High Park Livery Logo"
-                width="960"
-                height="568"
+                width="1920"
               />
             </NuxtLink>
           </div>

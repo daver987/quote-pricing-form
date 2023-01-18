@@ -4,9 +4,8 @@
       <div class="flex justify-center col-span-1 md:col-span-2 lg:col-span-1">
         <NuxtPicture
           alt="CFIB"
-          src="/images/logo-cloud-1.png"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/f75b4487-f4f2-4882-3d54-7f7c3db23000/1920"
           width="1920"
-          height="931"
           :img-attrs="{
             class:
               'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
@@ -16,9 +15,8 @@
       <div class="flex justify-center col-span-1 md:col-span-2 lg:col-span-1">
         <NuxtPicture
           alt="JPL"
-          src="/images/logo-cloud-5.png"
-          width="400"
-          height="152"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/e08d344f-09cb-4318-30b4-7443dc0d7200/1920"
+          width="1920"
           :img-attrs="{
             class:
               'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
@@ -28,10 +26,8 @@
       <div class="flex justify-center col-span-1 md:col-span-2 lg:col-span-1">
         <NuxtPicture
           alt="NLA"
-          class="object-contain w-full max-w-xs filter grayscale hover:grayscale-0"
-          src="/images/logo-cloud-2.png"
-          width="1464"
-          height="816"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/f5672281-3d76-480e-22fd-8ed64f42df00/1920"
+          width="1920"
           :img-attrs="{
             class:
               'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
@@ -41,9 +37,8 @@
       <div class="flex justify-center col-span-1 md:col-span-3 lg:col-span-1">
         <NuxtPicture
           alt="Northbridge"
-          src="/images/logo-cloud-3.png"
-          width="370"
-          height="133"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/82aa4c61-e0c2-45cc-1f99-c7c244cc6500/1920"
+          width="1920"
           :img-attrs="{
             class:
               'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
@@ -55,9 +50,8 @@
       >
         <NuxtPicture
           alt="OLOA"
-          src="/images/logo-cloud-4.png"
-          width="2579"
-          height="903"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/3271ba61-735f-4034-a9c4-68af64496c00/1920"
+          width="1920"
           :img-attrs="{
             class:
               'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',

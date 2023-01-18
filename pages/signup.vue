@@ -14,9 +14,9 @@ definePageMeta({
     </div>
     <div class="relative hidden w-0 flex-1 lg:block">
       <NuxtPicture
-        class="absolute inset-0 h-full w-full object-cover"
-        src="/images/toronto-6.jpeg"
-        alt=""
+        :img-attrs="{ class: 'absolute inset-0 h-full w-full object-cover' }"
+        src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/d0f63a6f-1d68-49fe-b643-224003dd5f00/1920"
+        alt="Toronto skyline"
       />
     </div>
   </div>

@@ -85,7 +85,10 @@ const itemsInCart = () => {
               <NuxtPicture
                 :src="product.imageSrc"
                 :alt="product.imageAlt"
-                class="h-16 w-16 flex-none rounded-md border object-contain border-gray-200"
+                :img-attrs="{
+                  class:
+                    'h-16 w-16 flex-none rounded-md border object-contain border-gray-200',
+                }"
               />
               <div class="ml-4 flex-auto">
                 <h3 class="font-medium font-sans text-gray-900">

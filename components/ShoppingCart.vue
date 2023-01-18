@@ -255,7 +255,10 @@ const createSession = async () => {
               <NuxtPicture
                 :src="vehicleImageSrc"
                 :alt="vehicleImageSrc"
-                class="object-contain object-center w-24 h-24 rounded-md sm:h-48 sm:w-48"
+                :img-attrs="{
+                  class:
+                    'object-contain object-center w-24 h-24 rounded-md sm:h-48 sm:w-48',
+                }"
               />
             </div>
 
@@ -343,7 +346,11 @@ const createSession = async () => {
               <NuxtPicture
                 :src="vehicleImageSrc"
                 :alt="vehicleImageAlt"
-                class="object-contain object-center w-24 h-24 rounded-md sm:h-48 sm:w-48"
+                :img-attrs="{
+                  class:
+                    'object-contain object-center w-24 h-24 rounded-md sm:h-48 sm:w-48',
+                }"
+                width="1920"
               />
             </div>
 

@@ -6,7 +6,8 @@ definePageMeta({
   layout: 'default',
 })
 
-const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
+const fleetImage =
+  'background-image: url("https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/5d10059a-b5c4-44cc-ef3f-6ef867396000/1920")'
 </script>
 
 <template>
@@ -38,7 +39,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
                         'self-center object-cover object-center max-w-sm mt-8 md:max-w-lg md:self-start',
                     }"
                     alt="Lincoln Continental"
-                    src="/images/lincoln-continental-1.png"
+                    src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/58d16f60-282e-4e29-1805-ebfee9794f00/1920"
                   />
                 </div>
               </div>
@@ -139,7 +140,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         />
         <IconBlockFleetImage
           altText="XTS Interior"
-          image="/images/cadillac-xts-2.jpg"
+          image="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/f0204aa2-4cb2-4204-10e5-5c3bed0d3500/1920"
           class="md:col-span-1 md:col-start-2"
         />
       </BaseContainer>
@@ -153,7 +154,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         <IconBlockFleetImage
           altText="Escalade Interior"
           class="order-1 md:mb-0 md:col-span-1 md:col-start-1 md:row-start-1 md:row-end-2 md:self-end"
-          image="/images/cadillac-escalade-5.jpg"
+          image="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/180e12f4-a0c1-4c70-b5af-5f05bbfa4700/1920"
         />
         <IconBlockFleet
           class="order-4 w-full md:order-first md:max-w-[80%] md:pb-8 md:place-self-end md:justify-self-end"
@@ -162,7 +163,7 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         <IconBlockFleetImage
           altText="Continental Interior"
           class="order-3 md:-mt-8 md:col-start-2 md:row-start-2"
-          image="/images/lincoln-continental-3.jpg"
+          image="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/7968b80b-ad94-4501-02ca-43e552c67100/1920"
         />
       </BaseContainer>
     </BaseSection>
@@ -172,11 +173,8 @@ const fleetImage = 'background-image: url("/images/cadillac-xts-8.jpg")'
         :img-attrs="{
           class: 'object-cover object-center lg:mx-auto lg:max-w-6xl',
         }"
-        src="/images/toronto-3.jpg"
-        width="1364"
-        height="459"
-        format="webp"
-        quality="80"
+        src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/d7e1f6bc-c349-4e62-48c4-642bbfcb3c00/1920"
+        width="4200"
       />
     </BaseSection>
     <BaseSection class="px-4 pt-0 sm:px-6 lg:px-8">

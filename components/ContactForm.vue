@@ -3,9 +3,13 @@
     <div class="lg:absolute lg:inset-0">
       <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <NuxtPicture
-          class="h-56 w-full object-cover object-center lg:absolute lg:h-full"
-          src="/images/toronto-6.jpeg"
+          :img-attrs="{
+            class:
+              'h-56 w-full object-cover object-center lg:absolute lg:h-full',
+          }"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/d0f63a6f-1d68-49fe-b643-224003dd5f00/4200"
           alt="Toronto skyline"
+          width="4200"
         />
       </div>
     </div>

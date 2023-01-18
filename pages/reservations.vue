@@ -12,7 +12,8 @@ const headerInfo = {
   aboveHeading: 'Reserve Your Ride',
   heading: 'BOOK BELOW',
   body: "Your chauffeur is just a phone call away! Don't hesitate to contact us or get an online quote for rates and availability.",
-  image: 'background-image: url("/images/Waiting-For-Car-Service.jpg");',
+  image:
+    'background-image: url("https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/531a6f45-89f1-4d09-8d75-4a9edf034100/1920");',
 }
 definePageMeta({
   title: 'Reservations',

@@ -7,7 +7,8 @@ const headerInfo = {
   aboveHeading: 'DISCOVER High Park Livery',
   heading: 'ABOUT US',
   body: "High Park Livery is here to help you get from place to place. It's our job to provide you with the means of transportation, and we won't stop until it's done right.",
-  image: 'background-image: url("/images/chauffeur-4.jpg")',
+  image:
+    'background-image: url("https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/33276e69-8f27-493e-57ee-7e63d9819700/1920")',
 }
 
 const quality = qualities
@@ -64,10 +65,8 @@ definePageMeta({
                 'object-center object-cover h-64 w-full md:object-left md:min-h-[18rem]',
             }"
             alt="Chauffeur Service"
-            src="/images/chauffeur-3.jpg"
-            width="919"
-            height="429"
-            quality="80"
+            src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/81877055-3d82-4ba5-cef9-ba7f0148dc00/1920"
+            width="1920"
           />
         </div>
       </div>
@@ -81,10 +80,8 @@ definePageMeta({
               class:
                 'object-center object-cover w-full min-h-[18rem] self-center md:object-left',
             }"
-            src="/images/tesla-s-4.jpg"
-            width="814"
-            height="973"
-            quality="80"
+            src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/f56d5571-1af0-4986-7db7-bd29dc818200/4200"
+            width="1920"
           />
         </div>
         <div class="bg-white shadow-xl">
@@ -106,10 +103,8 @@ definePageMeta({
           :img-attrs="{
             class: 'object-cover object-center w-full min-h-[16rem]',
           }"
-          src="/images/toronto-6.jpeg"
-          width="6000"
-          height="1890"
-          quality="50"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/d0f63a6f-1d68-49fe-b643-224003dd5f00/4200"
+          width="4200"
         />
       </div>
       <div class="px-6">

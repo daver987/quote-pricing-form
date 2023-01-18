@@ -3,12 +3,10 @@
     <div class="mb-12 grid grid-cols-1 place-items-center md:grid-cols-2">
       <div><h2 class="md:text-left text-center pt-8 heading">Tesla S</h2></div>
       <div>
-        <img
-          src="/images/tesla-s-1.png"
+        <NuxtPicture
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/966d3175-0900-4b44-8330-ccfeb264ed00/1920"
           alt="Tesla S"
-          class="object-cover object-center w-full"
-          width="1083"
-          height="555"
+          width="1920"
         />
       </div>
     </div>
@@ -27,22 +25,21 @@
       </BaseCard>
       <div>
         <NuxtPicture
-          src="/images/tesla-s-3.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/c5cff062-42f1-4edb-c895-4bf428bd8c00/1920"
           alt="Tesla S"
-          class="object-cover object-center w-full"
-          width="828"
-          height="591"
+          width="1920"
         />
       </div>
     </div>
     <div class="mb-12 grid gap-4 grid-cols-1">
       <div class="col-span-1">
         <NuxtPicture
-          src="/images/tesla-s-2.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/3cfdbe3b-4b0f-4821-d6dd-b4cae64dc000/1920"
           alt="Tesla S"
-          class="object-cover object-center w-full md:max-w-5xl"
-          width="1380"
-          height="619"
+          :img-attrs="{
+            class: 'object-cover object-center w-full md:max-w-5xl',
+          }"
+          width="1920"
         />
       </div>
     </div>

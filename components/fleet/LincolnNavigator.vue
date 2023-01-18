@@ -8,11 +8,9 @@
       </div>
       <div>
         <NuxtPicture
-          src="/images/lincoln-navigator-6.png"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/01086df1-1b19-4ba6-af64-1992da97d600/1920"
           alt="Lincoln Navigator"
-          class="object-cover object-center w-full"
-          width="1048"
-          height="696"
+          width="1920"
         />
       </div>
     </div>
@@ -31,11 +29,9 @@
       </BaseCard>
       <div>
         <NuxtPicture
-          src="/images/lincoln-navigator-5.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/7478bff4-9a97-4165-c6a6-d9c9f040b300/1920"
           alt="Lincoln Navigator"
-          class="object-cover object-center w-full"
-          width="828"
-          height="591"
+          width="1920"
         />
       </div>
     </div>
@@ -44,20 +40,16 @@
     >
       <div class="mb-6 col-span-1 md:mb-0 md:col-span-4">
         <NuxtPicture
-          src="/images/lincoln-navigator-3.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/7ab09c99-a398-4c97-6813-5691753f0400/1920"
           alt="Lincoln Navigator"
-          class="h-full object-cover object-center w-full"
-          width="536"
-          height="619"
+          width="1920"
         />
       </div>
       <div class="col-span-6">
         <NuxtPicture
-          src="/images/lincoln-navigator-2.jpg"
+          src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/043be3f9-3ac5-4957-c1b0-469554bdc600/1920"
           alt="Lincoln Navigator"
-          class="h-full object-cover object-center w-full"
-          width="828"
-          height="619"
+          width="1920"
         />
       </div>
     </div>

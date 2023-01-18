@@ -28,7 +28,6 @@ defineProps({
             :alt="altText"
             :src="`icons/${image}.svg`"
             width="5rem"
-            class="w-20"
           />
         </div>
         <div>

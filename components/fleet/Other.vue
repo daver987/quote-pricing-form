@@ -20,11 +20,13 @@
         </div>
         <div class="md:w-full md:col-span-4">
           <NuxtPicture
-            src="/images/sprinter-van-1.png"
+            src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/263d0341-f195-4b04-fc88-aad794b34b00/1920"
             alt="11 Passenger Van"
-            class="object-cover object-center w-full max-w-2xl md:w-5xl md:-ml-40 md:-mt-32"
-            width="1049"
-            height="696"
+            :img-attrs="{
+              class:
+                'object-cover object-center w-full max-w-2xl md:w-5xl md:-ml-40 md:-mt-32',
+            }"
+            width="1920"
           />
         </div>
       </div>
@@ -34,11 +36,13 @@
       <div class="flex flex-col md:grid md:grid-cols-10">
         <div class="w-full md:col-span-4 md:relative">
           <NuxtPicture
-            src="/images/chevy-surburban-1.png"
+            src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/b36a1164-6e42-4224-432c-a1db5fb3f200/1920"
             alt="GMC Yukon XL"
-            class="object-cover object-center w-full md:w-5xl w-2xl md:right-0 md:bottom-[55%] md:left-0"
-            width="1079"
-            height="570"
+            :img-attrs="{
+              class:
+                'object-cover object-center w-full md:w-5xl w-2xl md:right-0 md:bottom-[55%] md:left-0',
+            }"
+            width="1920"
           />
         </div>
         <div class="mb-8 md:col-span-6">
@@ -77,10 +81,14 @@
           </BaseCard>
         </div>
         <div class="w-full md:col-span-4 md:relative">
-          <img
-            src="/images/gmc-yukon-xl-2.png"
+          <NuxtPicture
+            src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/079c0cd1-e495-483c-1dbe-5ccc6fd47a00/1920"
             alt="GMC Yukon XL"
-            class="object-cover object-center w-full md:max-w-3xl md:right-0 md:-bottom-12 md:absolute"
+            :img-attrs="{
+              class:
+                'object-cover object-center w-full md:max-w-3xl md:right-0 md:-bottom-12 md:absolute',
+            }"
+            width="1920"
           />
         </div>
       </div>
