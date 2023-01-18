@@ -26,9 +26,6 @@ export default defineNuxtConfig({
       },
     ],
   ],
-  image: {
-    baseURL: 'http://localhost:3000',
-  },
   build: {
     transpile: [
       '@googlemaps/js-api-loader',
