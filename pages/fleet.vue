@@ -6,6 +6,7 @@ useHead({
   title: 'High Park Livery | Fleet',
 })
 definePageMeta({
+  title: 'High Park Livery | Luxury Fleet',
   layout: 'default',
 })
 const headerInfo = {

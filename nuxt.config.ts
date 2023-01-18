@@ -9,12 +9,10 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'netlify',
   },
-  // experimental: {
-  //   writeEarlyHints: true,
-  // },
-
   modules: [
     '@vueuse/nuxt',
+    '@nuxtjs/fontaine',
+    '@nuxtjs/robots',
     '@nuxtjs/tailwindcss',
     '@nuxt/image-edge',
     'nuxt-icon',
@@ -26,6 +24,7 @@ export default defineNuxtConfig({
       },
     ],
   ],
+  extends: ['nuxt-seo-kit'],
   build: {
     transpile: [
       '@googlemaps/js-api-loader',
@@ -45,6 +44,12 @@ export default defineNuxtConfig({
     public: {
       GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
       WEBSITE_URL: process.env.WEBSITE_URL,
+      siteUrl: 'https://highparklivery.com/',
+      siteName: 'Toronto Car Service | High Park Livery',
+      siteDescription:
+        'A top-rated Toronto car service, High Park Livery provides luxury transportation to and from Toronto Pearson Airport, Billy Bishop Airport, and more.',
+      language: 'en-CA',
+      titleSeparator: '|',
     },
   },
 })

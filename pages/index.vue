@@ -2,6 +2,7 @@
 import { servicesHome } from '~/data/servicesHome'
 import { features } from '~/data/features'
 definePageMeta({
+  title: 'Toronto Car Service | High Park Livery',
   name: 'Home',
   layout: 'default',
 })

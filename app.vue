@@ -39,7 +39,7 @@ async function getUserData() {
       console.log('stripeCustomerId:', stripeCustomerId.value)
     }
     console.log('hplUserId:', hplUserId.value)
-    return;
+    return
   }
   hplUserId.value = 'hpl_new_user'
   localStorage.setItem('hplUserId', hplUserId.value)
@@ -56,6 +56,7 @@ onMounted(async () => {
 
 <template>
   <NuxtLayout>
+    <SeoKit />
     <NuxtPage />
   </NuxtLayout>
 </template>
