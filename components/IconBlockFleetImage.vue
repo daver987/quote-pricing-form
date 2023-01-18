@@ -18,5 +18,7 @@ defineProps({
     :img-attrs="{
       class: 'md:object-center md:object-cover',
     }"
+    width="1920"
+    loading="lazy"
   />
 </template>

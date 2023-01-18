@@ -10,6 +10,7 @@
             class:
               'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
           }"
+          loading="lazy"
         />
       </div>
       <div class="flex justify-center col-span-1 md:col-span-2 lg:col-span-1">
@@ -21,6 +22,7 @@
             class:
               'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
           }"
+          loading="lazy"
         />
       </div>
       <div class="flex justify-center col-span-1 md:col-span-2 lg:col-span-1">
@@ -32,6 +34,7 @@
             class:
               'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
           }"
+          loading="lazy"
         />
       </div>
       <div class="flex justify-center col-span-1 md:col-span-3 lg:col-span-1">
@@ -43,6 +46,7 @@
             class:
               'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
           }"
+          loading="lazy"
         />
       </div>
       <div
@@ -56,6 +60,7 @@
             class:
               'object-contain w-full max-w-xs filter grayscale hover:grayscale-0',
           }"
+          loading="lazy"
         />
       </div>
     </div>

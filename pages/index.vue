@@ -40,6 +40,7 @@ const fleetImage =
                     }"
                     alt="Lincoln Continental"
                     src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/58d16f60-282e-4e29-1805-ebfee9794f00/1920"
+                    width="1920"
                   />
                 </div>
               </div>
@@ -174,7 +175,8 @@ const fleetImage =
           class: 'object-cover object-center lg:mx-auto lg:max-w-6xl',
         }"
         src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/d7e1f6bc-c349-4e62-48c4-642bbfcb3c00/1920"
-        width="4200"
+        width="1920"
+        loading="lazy"
       />
     </BaseSection>
     <BaseSection class="px-4 pt-0 sm:px-6 lg:px-8">
