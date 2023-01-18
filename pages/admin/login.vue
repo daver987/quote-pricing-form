@@ -7,7 +7,6 @@ definePageMeta({
 const email = ref('')
 const password = ref('')
 const supabase = useSupabaseAuthClient()
-const router = useRouter()
 const loading = ref(false)
 
 // Login method using email and password
@@ -21,9 +20,9 @@ const login = async () => {
     console.log(error)
     return alert('Please check that your email and password are correct !')
   }
-  setTimeout(() => {
+  setTimeout(async () => {
     loading.value = false
-    router.push('/admin')
+    await navigateTo('/admin')
   }, 1000)
   console.log(data)
 }
