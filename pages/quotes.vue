@@ -151,12 +151,18 @@ console.log('Quotes: ', quotes.value)
                     </div>
                   </td>
                   <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
-                    ${{ quote.totalFare.toFixed(2) }}
+                    ${{ quote.roundTripTotal.toFixed(2) }}
                   </td>
                   <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
                     <span
-                      class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full"
+                      v-if="!quote.isBooked"
+                      class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full"
                       >Quoted</span
+                    >
+                    <span
+                      v-else
+                      class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full"
+                      >Booked</span
                     >
                   </td>
                   <td
