@@ -24,7 +24,7 @@ async function signOutUser() {
   } finally {
     setTimeout(() => {
       loading.value = false
-      router.push('/admin/login')
+      router.push('/login')
     }, 1000)
   }
 }
@@ -44,14 +44,14 @@ const navigation = [
 ]
 
 const profile = () => {
-  router.push('/admin/profile')
+  router.push('/profile')
 }
 const settings = () => {
-  router.push('/admin/settings')
+  router.push('/settings')
 }
 const userNavigation = [
-  { id: 0, name: 'Profile', href: '/admin/profile', onClick: profile },
-  { id: 1, name: 'Settings', href: '/admin/settings', onClick: settings },
+  { id: 0, name: 'Profile', href: '/profile', onClick: profile },
+  { id: 1, name: 'Settings', href: '/settings', onClick: settings },
   { id: 2, name: 'Logout', href: '#', onClick: signOutUser },
 ]
 </script>
@@ -63,7 +63,7 @@ const userNavigation = [
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center">
             <div class="flex-shrink-0">
-              <NuxtLink to="/admin">
+              <NuxtLink to="/">
                 <img
                   class="block w-auto h-8 lg:hidden"
                   src="/images/hpl-logo-3.png"

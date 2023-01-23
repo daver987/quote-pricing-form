@@ -1,19 +1,41 @@
-<script setup>
+<script setup lang="ts">
+import { Database } from '~/types/supabase'
+
 definePageMeta({
   name: 'Quotes',
   layout: 'default',
   middleware: ['auth'],
 })
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 const quoteData = ref({})
 
 const { data: quotes } = await useAsyncData('quotes', async () => {
   const { data } = await supabase.from('quotes').select()
   return data
 })
-quoteData.value = [...quotes.value].sort(
-  (a, b) => a.quote_number - b.quote_number
-)
+const sortedQuotes = async () =>
+  (quoteData.value = [...quotes.value].sort(
+    (a, b) => a.quote_number - b.quote_number
+  ))
+await sortedQuotes()
+
+// quoteData.value = [...quotes.value].sort(
+//   (a, b) => a.quote_number - b.quote_number
+// )
+
+const refresh = () => refreshNuxtData('quotes')
+
+const bookingPending = ref(false)
+const bookOrder = async (quoteInfo: any) => {
+  console.log(quoteInfo)
+  const { data, pending } = await useFetch('/api/book-order', {
+    method: 'POST',
+    body: quoteInfo,
+  })
+  await console.log(data.value)
+  bookingPending.value = pending.value
+  await refresh()
+}
 
 console.log('Quote Data: ', quoteData.value)
 console.log('Quotes: ', quotes.value)
@@ -96,6 +118,7 @@ console.log('Quotes: ', quotes.value)
               <tbody class="bg-white divide-y divide-gray-200">
                 <tr v-for="quote in quoteData" :key="quote.quote_number">
                   <td
+                    ref="tableRow"
                     class="py-4 pl-4 pr-3 text-sm text-red-500 whitespace-nowrap sm:pl-6 lg:pl-8"
                   >
                     HPL-{{ quote.quote_number }}
@@ -157,19 +180,21 @@ console.log('Quotes: ', quotes.value)
                     <span
                       v-if="!quote.isBooked"
                       class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full"
-                      >Quoted</span
+                      >{{ bookingPending ? 'loading...' : 'Quoted' }}</span
                     >
                     <span
                       v-else
                       class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full"
-                      >Booked</span
+                      >{{ bookingPending ? 'loading...' : 'Booked' }}</span
                     >
                   </td>
                   <td
                     class="relative py-4 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap sm:pr-6 lg:pr-8"
                   >
-                    <a href="#" class="text-brand-600 hover:text-brand-900"
-                      >Book<span class="sr-only">, {{ quote.name }}</span></a
+                    <span
+                      @click="bookOrder(quote)"
+                      class="text-brand-600 hover:text-brand-900 cursor-pointer"
+                      >Book</span
                     >
                   </td>
                 </tr>
