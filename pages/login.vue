@@ -22,7 +22,7 @@ const login = async () => {
   }
   setTimeout(async () => {
     loading.value = false
-    await navigateTo('/admin')
+    await navigateTo('/')
   }, 1000)
   console.log(data)
 }

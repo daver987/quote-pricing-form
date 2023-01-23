@@ -23,7 +23,7 @@ const signup = async () => {
   console.log(data)
   setTimeout(() => {
     loading.value = false
-    router.push('/admin/login')
+    router.push('/login')
     password.value = ''
     email.value = ''
   }, 2000)
