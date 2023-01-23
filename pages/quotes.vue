@@ -2,7 +2,6 @@
 import { Database } from '~/types/supabase'
 import 'ag-grid-community/styles/ag-grid.css' // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css' // Optional theme CSS
-import 'ag-grid-enterprise'
 import { AgGridVue } from 'ag-grid-vue3'
 import PillButton from '~/components/PillButton.vue'
 import Badge from '~/components/Badge.vue'
