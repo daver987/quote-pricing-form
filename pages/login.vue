@@ -1,54 +1,61 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'auth',
-  title: 'Admin Signup',
+  title: 'Admin Login',
 })
 
-const supabase = useSupabaseClient()
 const email = ref('')
 const password = ref('')
-const router = useRouter()
+const supabase = useSupabaseAuthClient()
 const loading = ref(false)
 
-const signup = async () => {
+// Login method using email and password
+const login = async () => {
   loading.value = true
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: email.value,
     password: password.value,
   })
   if (error) {
     console.log(error)
-    return alert('Please check your email and password !')
+    return alert('Please check that your email and password are correct !')
   }
-  console.log(data)
-  setTimeout(() => {
+  setTimeout(async () => {
     loading.value = false
-    router.push('/admin/login')
-    password.value = ''
-    email.value = ''
-  }, 2000)
+    await navigateTo('/admin')
+  }, 1000)
+  console.log(data)
 }
 </script>
 
 <template>
-  <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="flex flex-col justify-center min-h-full py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <NuxtPicture
-        :img-attrs="{ class: 'mx-auto h-32 w-auto' }"
+      <img
+        class="mx-auto h-24 w-auto"
         src="https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/9dca5b1c-2dd0-47ec-b93e-30e7331b5d00/1920"
         alt="High Park Livery"
         width="1920"
       />
       <h2
-        class="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900"
+        class="mt-6 text-3xl font-bold tracking-tight text-center text-gray-900"
       >
-        Create Admin Account
+        Sign in to your account
       </h2>
+      <p class="mt-2 font-sans text-sm text-center text-gray-600">
+        Or
+        {{ ' ' }}
+        <NuxtLink
+          to="/signup"
+          class="font-sans font-medium text-brand-600 hover:text-brand"
+          >Create Admin Account</NuxtLink
+        >
+      </p>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <form class="space-y-6" @submit.prevent="signup">
+      <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
+        <form class="space-y-6" @submit.prevent="login">
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700"
               >Email address</label
@@ -59,10 +66,7 @@ const signup = async () => {
                 id="email"
                 name="email"
                 type="email"
-                autocomplete="email"
-                :disabled="loading"
-                required
-                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-brand focus:outline-none focus:ring-brand sm:text-sm"
+                class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:border-brand focus:outline-none focus:ring-brand sm:text-sm"
               />
             </div>
           </div>
@@ -79,10 +83,7 @@ const signup = async () => {
                 id="password"
                 name="password"
                 type="password"
-                autocomplete="new-password"
-                required
-                :disabled="loading"
-                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-brand focus:outline-none focus:ring-brand sm:text-sm"
+                class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:border-brand focus:outline-none focus:ring-brand sm:text-sm"
               />
             </div>
           </div>
@@ -93,18 +94,16 @@ const signup = async () => {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand"
+                class="w-4 h-4 border-gray-300 rounded text-brand-600 focus:ring-brand"
               />
-              <label for="remember-me" class="ml-2 block text-sm text-gray-900"
+              <label for="remember-me" class="block ml-2 text-sm text-gray-900"
                 >Remember me</label
               >
             </div>
 
             <div class="text-sm">
-              <NuxtLink
-                to="/admin/login"
-                class="font-medium text-brand-600 hover:text-brand"
-                >Back to Login</NuxtLink
+              <a href="#" class="font-medium text-brand-600 hover:text-brand"
+                >Forgot your password?</a
               >
             </div>
           </div>
@@ -112,9 +111,9 @@ const signup = async () => {
           <div>
             <button
               type="submit"
-              class="flex w-full justify-center rounded-md border border-transparent bg-brand-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+              class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
             >
-              {{ loading ? 'Processing...' : 'Create Account' }}
+              {{ loading ? 'Processing...' : 'Login' }}
             </button>
           </div>
         </form>
@@ -125,19 +124,19 @@ const signup = async () => {
               <div class="w-full border-t border-gray-300" />
             </div>
             <div class="relative flex justify-center text-sm">
-              <span class="bg-white px-2 text-gray-500">Or continue with</span>
+              <span class="px-2 text-gray-500 bg-white">Or continue with</span>
             </div>
           </div>
 
-          <div class="mt-6 grid grid-cols-3 gap-3">
+          <div class="grid grid-cols-3 gap-3 mt-6">
             <div>
               <a
                 href="#"
-                class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
+                class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
               >
                 <span class="sr-only">Sign in with Facebook</span>
                 <svg
-                  class="h-5 w-5"
+                  class="w-5 h-5"
                   aria-hidden="true"
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -154,11 +153,11 @@ const signup = async () => {
             <div>
               <a
                 href="#"
-                class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
+                class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
               >
                 <span class="sr-only">Sign in with Twitter</span>
                 <svg
-                  class="h-5 w-5"
+                  class="w-5 h-5"
                   aria-hidden="true"
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -173,11 +172,11 @@ const signup = async () => {
             <div>
               <a
                 href="#"
-                class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
+                class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
               >
                 <span class="sr-only">Sign in with GitHub</span>
                 <svg
-                  class="h-5 w-5"
+                  class="w-5 h-5"
                   aria-hidden="true"
                   fill="currentColor"
                   viewBox="0 0 20 20"

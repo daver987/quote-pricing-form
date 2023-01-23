@@ -4,7 +4,7 @@ import { PlusIcon as PlusIconMini } from '@heroicons/vue/20/solid'
 
 definePageMeta({
   name: 'Rates',
-  layout: 'admin',
+  layout: 'default',
   middleware: ['auth'],
 })
 

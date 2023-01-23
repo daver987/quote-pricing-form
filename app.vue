@@ -57,7 +57,6 @@ onMounted(async () => {
 
 <template>
   <NuxtLayout>
-    <SeoKit />
     <NuxtPage />
   </NuxtLayout>
 </template>

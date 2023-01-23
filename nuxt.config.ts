@@ -7,14 +7,11 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'layout', mode: 'out-in' },
   },
   nitro: {
-    preset: 'netlify',
+    preset: 'vercel',
   },
   modules: [
     '@vueuse/nuxt',
-    '@nuxtjs/fontaine',
-    '@nuxtjs/robots',
     '@nuxtjs/tailwindcss',
-    '@nuxt/image-edge',
     'nuxt-icon',
     '@nuxtjs/supabase',
     [
@@ -24,7 +21,6 @@ export default defineNuxtConfig({
       },
     ],
   ],
-  extends: ['nuxt-seo-kit'],
   build: {
     transpile: [
       '@googlemaps/js-api-loader',

@@ -1,7 +1,7 @@
 <script setup>
 definePageMeta({
   name: 'Quotes',
-  layout: 'admin',
+  layout: 'default',
   middleware: ['auth'],
 })
 const supabase = useSupabaseClient()
@@ -21,7 +21,7 @@ console.log('Quotes: ', quotes.value)
 
 <template>
   <div class="px-4 sm:px-6 lg:px-8">
-    <div class="-mt-20 sm:flex sm:items-center">
+    <div class="-mt-12 sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-xl font-semibold text-gray-900"></h1>
       </div>
@@ -65,13 +65,13 @@ console.log('Quotes: ', quotes.value)
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Pickup
+                    Trip Routing
                   </th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Drop Off
+                    Return Trip Routing
                   </th>
                   <th
                     scope="col"
@@ -105,7 +105,16 @@ console.log('Quotes: ', quotes.value)
                   >
                     <span>{{ quote.firstName }} {{ quote.lastName }}</span
                     ><br />
-                    <span>{{ quote.userEmail }}</span>
+                    <a
+                      class="text-indigo-600"
+                      :href="`mailto:${quote.userEmail}`"
+                      >{{ quote.userEmail }}</a
+                    ><br />
+                    <a
+                      class="text-indigo-600"
+                      :href="`tel:${quote.phone_number}`"
+                      >{{ quote.phone_number }}</a
+                    ><br />
                   </td>
                   <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
                     <span>{{ quote.vehicleTypeLabel }}</span
@@ -120,14 +129,26 @@ console.log('Quotes: ', quotes.value)
                     ><br />
                     <span>{{ quote.originName }}</span
                     ><br />
-                    <span>{{ quote.originFormattedAddress }}</span>
+                    <span>{{ quote.destinationName }}</span>
                   </td>
                   <td
                     class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-ellipsis overflow-hidden max-w-[24ch]"
                   >
-                    <span>{{ quote.destinationName }}</span
-                    ><br />
-                    <span>{{ quote.destinationFormattedAddress }}</span>
+                    <div v-if="quote.isRoundTrip">
+                      <span
+                        class="font-sans font-semibold text-gray-600 text-ellipsis overflow-hidden max-w-[24ch]"
+                        >{{ quote.returnDate }} {{ quote.returnTime }}</span
+                      ><br />
+                      <span
+                        class="text-ellipsis overflow-hidden max-w-[24ch]"
+                        >{{ quote.destinationName }}</span
+                      >
+                      <br />
+                      <span
+                        class="text-ellipsis overflow-hidden max-w-[24ch]"
+                        >{{ quote.originName }}</span
+                      >
+                    </div>
                   </td>
                   <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
                     ${{ quote.totalFare.toFixed(2) }}

@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { navigation, NavigationItem } from '~/data/navigation'
+
+const companyName = 'High Park Livery'
+const companyEmail = 'info@highparklivery.com'
+const companyPhone = '647.360.9631'
+const companyLogo =
+  'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/c6c7415a-d52d-46fa-a85e-1ba5153b2000/1920'
+
+const nav = navigation as NavigationItem[]
+</script>
+
 <template>
   <footer>
     <div class="px-6 lg:px-10">
@@ -11,7 +23,7 @@
       >
         <div class="my-8 space-y-10">
           <NuxtLink to="/" class="max-w-[125px] block">
-            <NuxtPicture
+            <img
               :alt="companyName"
               :src="companyLogo"
               :img-attrs="{
@@ -81,15 +93,3 @@
     <SubFooter />
   </footer>
 </template>
-
-<script setup lang="ts">
-import { navigation, NavigationItem } from '~/data/navigation'
-
-const companyName = 'High Park Livery'
-const companyEmail = 'info@highparklivery.com'
-const companyPhone = '647.360.9631'
-const companyLogo =
-  'https://imagedelivery.net/9mQjskQ9vgwm3kCilycqww/c6c7415a-d52d-46fa-a85e-1ba5153b2000/1920'
-
-const nav = navigation as NavigationItem[]
-</script>

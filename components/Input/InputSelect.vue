@@ -6,7 +6,7 @@
     <select
       :id="id"
       :name="name"
-      class="mt-1 block w-full rounded border-gray-300 py-2 pl-3 pr-10 text-base focus:border-brand focus:outline-none focus:ring-brand sm:text-sm"
+      class="block w-full py-2 pl-3 pr-10 mt-1 text-base border-gray-300 rounded focus:border-brand focus:outline-none focus:ring-brand sm:text-sm"
       :value="modelValue"
       @input="$emit('update:modelValue', handleInputChange($event))"
       :required="required"

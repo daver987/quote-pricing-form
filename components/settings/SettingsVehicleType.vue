@@ -68,7 +68,7 @@ defineProps({
       <div class="fixed inset-0 overflow-hidden">
         <div class="absolute inset-0 overflow-hidden">
           <div
-            class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16"
+            class="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none sm:pl-16"
           >
             <TransitionChild
               as="template"
@@ -79,24 +79,24 @@ defineProps({
               leave-from="translate-x-0"
               leave-to="translate-x-full"
             >
-              <DialogPanel class="pointer-events-auto w-screen max-w-md">
+              <DialogPanel class="w-screen max-w-md pointer-events-auto">
                 <form
-                  class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
+                  class="flex flex-col h-full bg-white divide-y divide-gray-200 shadow-xl"
                 >
-                  <div class="h-0 flex-1 overflow-y-auto">
-                    <div class="bg-brand-700 py-6 px-4 sm:px-6">
+                  <div class="flex-1 h-0 overflow-y-auto">
+                    <div class="px-4 py-6 bg-brand-700 sm:px-6">
                       <div class="flex items-center justify-between">
                         <DialogTitle class="text-lg font-medium text-white"
                           >New Vehicle Type</DialogTitle
                         >
-                        <div class="ml-3 flex h-7 items-center">
+                        <div class="flex items-center ml-3 h-7">
                           <button
                             type="button"
                             class="rounded-md bg-brand-700 text-brand-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
                             @click="open = false"
                           >
                             <span class="sr-only">Close panel</span>
-                            <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                            <XMarkIcon class="w-6 h-6" aria-hidden="true" />
                           </button>
                         </div>
                       </div>
@@ -107,9 +107,9 @@ defineProps({
                         </p>
                       </div>
                     </div>
-                    <div class="flex flex-1 flex-col justify-between">
-                      <div class="divide-y divide-gray-200 px-4 sm:px-6">
-                        <div class="space-y-6 pt-6 pb-5">
+                    <div class="flex flex-col justify-between flex-1">
+                      <div class="px-4 divide-y divide-gray-200 sm:px-6">
+                        <div class="pt-6 pb-5 space-y-6">
                           <div>
                             <label
                               for="project-name"
@@ -121,7 +121,7 @@ defineProps({
                                 type="text"
                                 name="project-name"
                                 id="project-name"
-                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
+                                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
                               />
                             </div>
                           </div>
@@ -136,7 +136,7 @@ defineProps({
                                 id="description"
                                 name="description"
                                 rows="4"
-                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
+                                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
                               />
                             </div>
                           </div>
@@ -153,18 +153,18 @@ defineProps({
                                   class="rounded-full hover:opacity-75"
                                 >
                                   <img
-                                    class="inline-block h-8 w-8 rounded-full"
+                                    class="inline-block w-8 h-8 rounded-full"
                                     :src="person.imageUrl"
                                     :alt="person.name"
                                   />
                                 </a>
                                 <button
                                   type="button"
-                                  class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                                  class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-gray-400 bg-white border-2 border-gray-200 border-dashed rounded-full hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                                 >
                                   <span class="sr-only">Add team member</span>
                                   <PlusIcon
-                                    class="h-5 w-5"
+                                    class="w-5 h-5"
                                     aria-hidden="true"
                                   />
                                 </button>
@@ -177,17 +177,17 @@ defineProps({
                             </legend>
                             <div class="mt-2 space-y-5">
                               <div class="relative flex items-start">
-                                <div class="absolute flex h-5 items-center">
+                                <div class="absolute flex items-center h-5">
                                   <input
                                     id="privacy-public"
                                     name="privacy"
                                     aria-describedby="privacy-public-description"
                                     type="radio"
-                                    class="h-4 w-4 border-gray-300 text-brand-600 focus:ring-brand"
+                                    class="w-4 h-4 border-gray-300 text-brand-600 focus:ring-brand"
                                     checked=""
                                   />
                                 </div>
-                                <div class="pl-7 text-sm">
+                                <div class="text-sm pl-7">
                                   <label
                                     for="privacy-public"
                                     class="font-medium text-gray-900"
@@ -204,16 +204,16 @@ defineProps({
                               </div>
                               <div>
                                 <div class="relative flex items-start">
-                                  <div class="absolute flex h-5 items-center">
+                                  <div class="absolute flex items-center h-5">
                                     <input
                                       id="privacy-private-to-project"
                                       name="privacy"
                                       aria-describedby="privacy-private-to-project-description"
                                       type="radio"
-                                      class="h-4 w-4 border-gray-300 text-brand-600 focus:ring-brand"
+                                      class="w-4 h-4 border-gray-300 text-brand-600 focus:ring-brand"
                                     />
                                   </div>
-                                  <div class="pl-7 text-sm">
+                                  <div class="text-sm pl-7">
                                     <label
                                       for="privacy-private-to-project"
                                       class="font-medium text-gray-900"
@@ -231,16 +231,16 @@ defineProps({
                               </div>
                               <div>
                                 <div class="relative flex items-start">
-                                  <div class="absolute flex h-5 items-center">
+                                  <div class="absolute flex items-center h-5">
                                     <input
                                       id="privacy-private"
                                       name="privacy"
                                       aria-describedby="privacy-private-to-project-description"
                                       type="radio"
-                                      class="h-4 w-4 border-gray-300 text-brand-600 focus:ring-brand"
+                                      class="w-4 h-4 border-gray-300 text-brand-600 focus:ring-brand"
                                     />
                                   </div>
-                                  <div class="pl-7 text-sm">
+                                  <div class="text-sm pl-7">
                                     <label
                                       for="privacy-private"
                                       class="font-medium text-gray-900"
@@ -263,22 +263,22 @@ defineProps({
                           <div class="flex text-sm">
                             <a
                               href="#"
-                              class="group inline-flex items-center font-medium text-brand-600 hover:text-brand-900"
+                              class="inline-flex items-center font-medium group text-brand-600 hover:text-brand-900"
                             >
                               <LinkIcon
-                                class="h-5 w-5 text-brand group-hover:text-brand-900"
+                                class="w-5 h-5 text-brand group-hover:text-brand-900"
                                 aria-hidden="true"
                               />
                               <span class="ml-2">Copy link</span>
                             </a>
                           </div>
-                          <div class="mt-4 flex text-sm">
+                          <div class="flex mt-4 text-sm">
                             <a
                               href="#"
-                              class="group inline-flex items-center text-gray-500 hover:text-gray-900"
+                              class="inline-flex items-center text-gray-500 group hover:text-gray-900"
                             >
                               <QuestionMarkCircleIcon
-                                class="h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                class="w-5 h-5 text-gray-400 group-hover:text-gray-500"
                                 aria-hidden="true"
                               />
                               <span class="ml-2">Learn more about sharing</span>
@@ -288,17 +288,17 @@ defineProps({
                       </div>
                     </div>
                   </div>
-                  <div class="flex flex-shrink-0 justify-end px-4 py-4">
+                  <div class="flex justify-end flex-shrink-0 px-4 py-4">
                     <button
                       type="button"
-                      class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                      class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                       @click="open = false"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      class="ml-4 inline-flex justify-center rounded-md border border-transparent bg-brand-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                      class="inline-flex justify-center px-4 py-2 ml-4 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                     >
                       Save
                     </button>

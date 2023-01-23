@@ -83,7 +83,7 @@ const emitDate = () => {
 }
 </script>
 <template>
-  <div class="max-w-xs text-center border-black rounded-md border-1 px-4">
+  <div class="max-w-xs px-4 text-center border-black rounded-md border-1">
     <div class="flex items-center text-gray-900">
       <button
         @click="onLeftArrowClick"
@@ -137,16 +137,16 @@ const emitDate = () => {
           (day.isSelected || day.isToday) && 'font-semibold',
           day.isSelected && 'text-white',
           !day.isSelected &&
-            day.isCurrentMonth &&
-            !day.isToday &&
-            'text-gray-900',
+          day.isCurrentMonth &&
+          !day.isToday &&
+          'text-gray-900',
           !day.isSelected &&
-            !day.isCurrentMonth &&
-            !day.isToday &&
-            'text-gray-400',
+          !day.isCurrentMonth &&
+          !day.isToday &&
+          'text-gray-400',
           day.isToday &&
-            !day.isSelected &&
-            'text-brand bg-gray-100 hover:bg-gray-300 hover:text-brand-700',
+          !day.isSelected &&
+          'text-brand bg-gray-100 hover:bg-gray-300 hover:text-brand-700',
           dayIdx === 0 && 'rounded-tl-lg',
           dayIdx === 6 && 'rounded-tr-lg',
           dayIdx === calendarDates.length - 7 && 'rounded-bl-lg',

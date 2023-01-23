@@ -146,13 +146,17 @@ const dropdownOptions = ref({
   showDialCodeInList: true,
 })
 
+const origin = ref<Place | null>(null)
+const originPlaceId = ref<string>('')
+const destination = ref<Place | null>(null)
+const destinationPlaceId = ref<string>('')
 const calculatedDistance = ref<number>(0)
 const pickupDate = ref<string>('')
 const pickupTime = ref<string>('')
 const returnDate = ref<string>('')
 const returnTime = ref<string>('')
 const isItHourly = ref<boolean>(false)
-const tripData = ref<DirectionsSchema | null>(null)
+const tripData = ref<TripData | null>(null)
 const placeDataOrigin = ref<Place | null>(null)
 const placeDataDestination = ref<Place | null>(null)
 const isRoundTrip = ref<boolean>(false)
@@ -397,38 +401,41 @@ watch(selectedNumberOfHours, () => {
   }
 })
 
+const originType = ref<string[]>([])
 const isPearsonAirportOrigin = ref<boolean>(false)
-const origin = ref<PlaceData>()
-const destination = ref<PlaceData>()
-const originPlaceId = ref<string>()
-const destinationPlaceId = ref<string>()
-
-async function onOriginChange(evt: PlaceData) {
-  origin.value = placeDataSchema.parse(evt)
+const onOriginChange = async (evt: Place) => {
+  origin.value = evt
   console.log('Origin:', origin.value)
-  origin.value.name === 'Toronto Pearson International Airport'
+  const { place_id, types, name } = origin.value
+  originType.value = types
+  name === 'Toronto Pearson International Airport'
     ? (isPearsonAirportOrigin.value = true)
     : (isPearsonAirportOrigin.value = false)
   console.log('Is it PearsonAirport:', isPearsonAirportOrigin.value)
-  console.log('Origin Type:', origin.value.types)
+  console.log('Origin Type:', originType.value)
   origin.value.isPearsonAirportOrigin = isPearsonAirportOrigin.value
   if (origin.value && destination.value) {
     console.log('origin and destination are both set')
-    const { data } = await useFetch('/api/get-distance', {
+    const { data } = await useFetch<TripData>('/api/get-distance', {
       //@ts-ignore
       query: {
-        origin: origin.value.place_id,
-        destination: destinationPlaceId.value,
+        origin: originPlaceId.value,
+        destination: place_id,
       },
     })
     console.log('query', {
-      origin: origin.value.place_id,
-      destination: destination.value?.place_id,
+      origin: originPlaceId.value,
+      destination: place_id,
     })
-    const tripData = data as unknown as TripData
-    console.log('Origin Trip data:', tripData)
-    console.log('Origin data:', origin.value)
-    console.log('Destination data:', destination.value)
+    console.log('data is', data.value)
+    //@ts-ignore
+    tripData.value = data.value
+    placeDataOrigin.value = origin.value
+    placeDataDestination.value = destination.value
+
+    console.log('Trip data:', tripData)
+    console.log('Origin data:', placeDataOrigin.value)
+    console.log('Destination data:', placeDataDestination.value)
     const {
       distanceText,
       distanceValue,
@@ -438,17 +445,17 @@ async function onOriginChange(evt: PlaceData) {
       endLng,
       startLat,
       startLng,
-    } = tripData
+    } = tripData.value as TripData
     const {
       place_id: originPlaceIdValue,
       formatted_address: originFormattedAddress,
       name: originName,
-    } = origin.value
+    } = placeDataOrigin.value as Place
     const {
       place_id: destinationPlaceId,
       formatted_address: destinationFormattedAddress,
       name: destinationName,
-    } = destination.value
+    } = placeDataDestination.value as Place
     calculatedDistance.value = distanceValue / 1000
     console.log('calculated distance is:', calculatedDistance.value)
     return {
@@ -469,23 +476,26 @@ async function onOriginChange(evt: PlaceData) {
       calculatedDistance,
     }
   } else {
+    const { place_id } = origin.value
     console.log('only origin is set')
-    console.log('Origin place id is:', origin.value.place_id)
-    originPlaceId.value = origin.value.place_id
+    console.log('place id is:', place_id)
+    return (originPlaceId.value = place_id)
   }
 }
 
+const destinationType = ref<string[]>([])
 const isPearsonAirportDestination = ref<boolean>(false)
-
-async function onDestinationChange(evt: PlaceData) {
-  destination.value = placeDataSchema.parse(evt)
-  destination.value.name === 'Toronto Pearson International Airport'
+const onDestinationChange = async (evt: Place) => {
+  destination.value = evt
+  const { place_id, types, name } = destination.value
+  destinationType.value = types
+  name === 'Toronto Pearson International Airport'
     ? (isPearsonAirportDestination.value = true)
     : (isPearsonAirportDestination.value = false)
   console.log('Is it PearsonAirport:', isPearsonAirportDestination.value)
   destination.value.isPearsonAirportDestination =
     isPearsonAirportDestination.value
-  console.log('Destination Type:', destination.value.types)
+  console.log('Destination Type:', destinationType.value)
   console.log('Destination:', destination.value)
   if (origin.value && destination.value) {
     console.log('origin and destination are both set')
@@ -493,14 +503,16 @@ async function onDestinationChange(evt: PlaceData) {
       //@ts-ignore
       query: {
         origin: originPlaceId.value,
-        destination: destination.value.place_id,
+        destination: place_id,
       },
     })
 
-    const destinationTripData = data.value as unknown as TripData
-    console.log('Destination Trip data:', destinationTripData)
-    console.log('Origin data:', origin.value)
-    console.log('Destination data:', destination.value)
+    tripData.value = data.value
+    placeDataOrigin.value = origin.value
+    placeDataDestination.value = destination.value
+    console.log('Trip data:', tripData.value)
+    console.log('Origin data:', placeDataOrigin.value)
+    console.log('Destination data:', placeDataDestination.value)
     const {
       distanceText,
       distanceValue,
@@ -510,17 +522,17 @@ async function onDestinationChange(evt: PlaceData) {
       endLng,
       startLat,
       startLng,
-    } = destinationTripData
+    } = tripData.value as TripData
     const {
       place_id: originPlaceIdValue,
       formatted_address: originFormattedAddress,
       name: originName,
-    } = origin.value
+    } = placeDataOrigin.value as Place
     const {
       place_id: destinationPlaceId,
       formatted_address: destinationFormattedAddress,
       name: destinationName,
-    } = destination.value
+    } = placeDataDestination.value as Place
     calculatedDistance.value = distanceValue / 1000
     console.log('calculated distance is:', calculatedDistance.value)
     return {
@@ -543,46 +555,41 @@ async function onDestinationChange(evt: PlaceData) {
     }
   } else {
     console.log('only destination is set')
-    console.log('destination place id is:', destination.value.place_id)
-    destinationPlaceId.value = destination.value.place_id
+    const { place_id } = destination.value
+    console.log('destination place id is:', place_id)
+    return (destinationPlaceId.value = place_id)
   }
 }
 
-watch(
-  () => origin.value?.types,
-  () => {
-    if (origin.value?.types.includes('airport')) {
-      selectedServiceType.value = serviceTypeOptions.value[3]
-    }
-    if (destination.value?.types.includes('airport')) {
-      selectedServiceType.value = serviceTypeOptions.value[2]
-    }
-    if (
-      origin.value?.types.includes('airport') &&
-      destination.value?.types.includes('airport')
-    ) {
-      selectedServiceType.value = serviceTypeOptions.value[3]
-    }
+watch(originType, () => {
+  if (originType.value.includes('airport')) {
+    selectedServiceType.value = serviceTypeOptions.value[3]
   }
-)
+  if (destinationType.value.includes('airport')) {
+    selectedServiceType.value = serviceTypeOptions.value[2]
+  }
+  if (
+    originType.value.includes('airport') &&
+    destinationType.value.includes('airport')
+  ) {
+    selectedServiceType.value = serviceTypeOptions.value[3]
+  }
+})
 
-watch(
-  () => destination.value?.types,
-  () => {
-    if (origin.value?.types.includes('airport')) {
-      selectedServiceType.value = serviceTypeOptions.value[3]
-    }
-    if (destination.value?.types.includes('airport')) {
-      selectedServiceType.value = serviceTypeOptions.value[2]
-    }
-    if (
-      origin.value?.types.includes('airport') &&
-      destination.value?.types.includes('airport')
-    ) {
-      selectedServiceType.value = serviceTypeOptions.value[3]
-    }
+watch(destinationType, () => {
+  if (originType.value.includes('airport')) {
+    selectedServiceType.value = serviceTypeOptions.value[3]
   }
-)
+  if (destinationType.value.includes('airport')) {
+    selectedServiceType.value = serviceTypeOptions.value[2]
+  }
+  if (
+    originType.value.includes('airport') &&
+    destinationType.value.includes('airport')
+  ) {
+    selectedServiceType.value = serviceTypeOptions.value[3]
+  }
+})
 
 const validationSchema = toFormValidator(formSchema)
 const { handleSubmit, errors } = useForm({
@@ -590,12 +597,13 @@ const { handleSubmit, errors } = useForm({
 })
 
 const loading = ref<boolean>(false)
+const router = useRouter()
 const returnedQuote = ref<ReturnedQuote | unknown>(null)
 const openAlert = ref<boolean>(false)
 
 const onSubmit = handleSubmit(async (formValues) => {
   loading.value = true
-  const values = formSchema.parse(formValues)
+  const values = formSchema.safeParse(formValues)
   console.log('values are:', values)
   const { data } = await useFetch('/api/submission', {
     //@ts-ignore
@@ -633,7 +641,7 @@ const onSubmit = handleSubmit(async (formValues) => {
     <h3 class="pt-5 text-3xl text-center text-white uppercase">
       Instant Quote
     </h3>
-    <form id="lead_form" class="p-5 space-y-3" @submit="onSubmit">
+    <form id="lead_form" class="p-5 space-y-3" @submit.prevent="onSubmit">
       <div class="grid w-full grid-cols-1 gap-3">
         <InputPlacesAutocomplete
           label="Pick Up Location:"

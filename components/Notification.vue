@@ -19,28 +19,28 @@ defineProps({
   <!-- Global notification live region, render this permanently at the end of the document -->
   <div
     aria-live="assertive"
-    class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
+    class="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:items-start sm:p-6"
   >
-    <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+    <div class="flex flex-col items-center w-full space-y-4 sm:items-end">
       <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
       <transition
-        enter-active-class="transform ease-out duration-300 transition"
+        enter-active-class="transition duration-300 ease-out transform"
         enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
         enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
-        leave-active-class="transition ease-in duration-100"
+        leave-active-class="transition duration-100 ease-in"
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
         <div
           v-if="show"
-          class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+          class="w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-lg pointer-events-auto ring-1 ring-black ring-opacity-5"
         >
           <div class="p-4">
             <div class="flex items-start">
               <div class="flex-shrink-0">
                 <Icon
                   name="heroicons-outline:check-circle"
-                  class="h-6 w-6 text-green-400"
+                  class="w-6 h-6 text-green-400"
                   aria-hidden="true"
                 />
               </div>
@@ -52,16 +52,16 @@ defineProps({
                   {{ message2 }}
                 </p>
               </div>
-              <div class="ml-4 flex flex-shrink-0">
+              <div class="flex flex-shrink-0 ml-4">
                 <button
                   type="button"
                   @click="show = false"
-                  class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  class="inline-flex text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <span class="sr-only">Close</span>
                   <Icon
                     name="heroicons:x-circle-20-solid"
-                    class="h-5 w-5"
+                    class="w-5 h-5"
                     aria-hidden="true"
                   />
                 </button>

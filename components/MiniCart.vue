@@ -33,10 +33,10 @@ const itemsInCart = () => {
 </script>
 
 <template>
-  <Popover class="ml-4 flow-root text-sm lg:relative lg:ml-8">
-    <PopoverButton class="group -m-2 flex items-center p-2">
+  <Popover class="flow-root ml-4 text-sm lg:relative lg:ml-8">
+    <PopoverButton class="flex items-center p-2 -m-2 group">
       <ShoppingBagIcon
-        class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+        class="flex-shrink-0 w-6 h-6 text-gray-400 group-hover:text-gray-500"
         aria-hidden="true"
       />
       <span
@@ -51,10 +51,10 @@ const itemsInCart = () => {
       <span class="sr-only">items in cart, view bag</span>
     </PopoverButton>
     <transition
-      enter-active-class="transition ease-out duration-200"
+      enter-active-class="transition duration-200 ease-out"
       enter-from-class="opacity-0"
       enter-to-class="opacity-100"
-      leave-active-class="transition ease-in duration-150"
+      leave-active-class="transition duration-150 ease-in"
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
@@ -63,15 +63,15 @@ const itemsInCart = () => {
       >
         <h2 class="sr-only">Shopping Cart</h2>
 
-        <form class="mx-auto max-w-2xl px-4" @submit.prevent>
+        <form class="max-w-2xl px-4 mx-auto" @submit.prevent>
           <ul role="list" class="divide-y divide-gray-200">
             <li class="flex items-center py-6" v-if="!addedToCart">
               <Icon
                 name="teenyicons:mood-sad-outline"
-                class="h-16 w-16 flex-none rounded-md"
+                class="flex-none w-16 h-16 rounded-md"
               />
-              <div class="ml-4 flex-auto">
-                <h3 class="font-medium text-lg font-sans text-gray-900">
+              <div class="flex-auto ml-4">
+                <h3 class="font-sans text-lg font-medium text-gray-900">
                   Cart is Empty
                 </h3>
               </div>
@@ -90,11 +90,11 @@ const itemsInCart = () => {
                     'h-16 w-16 flex-none rounded-md border object-contain border-gray-200',
                 }"
               />
-              <div class="ml-4 flex-auto">
-                <h3 class="font-medium font-sans text-gray-900">
+              <div class="flex-auto ml-4">
+                <h3 class="font-sans font-medium text-gray-900">
                   <NuxtLink :to="product.href">{{ product.name }}</NuxtLink>
                 </h3>
-                <p class="text-gray-500 font-sans">{{ product.color }}</p>
+                <p class="font-sans text-gray-500">{{ product.color }}</p>
               </div>
             </li>
           </ul>
@@ -102,7 +102,7 @@ const itemsInCart = () => {
           <button
             v-if="addedToCart"
             type="submit"
-            class="w-full uppercase font-sans tracking-wider rounded-md border border-transparent bg-brand-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
+            class="w-full px-4 py-2 font-sans text-sm font-medium tracking-wider text-white uppercase border border-transparent rounded-md shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-gray-50"
           >
             Book Now
           </button>
@@ -110,7 +110,7 @@ const itemsInCart = () => {
           <p v-if="addedToCart" class="mt-6 text-center">
             <button
               @click="cartStore.removeFromCart()"
-              class="text-sm font-medium font-sans text-brand-600 hover:text-brand"
+              class="font-sans text-sm font-medium text-brand-600 hover:text-brand"
             >
               Remove From Cart
             </button>

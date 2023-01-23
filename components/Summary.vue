@@ -67,32 +67,32 @@ const space = ' '
 </script>
 
 <template>
-  <BaseContainer class="rounded bg-gray-100">
+  <BaseContainer class="bg-gray-100 rounded">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
-        <h1 class="text-xl font-semibold font-sans text-gray-900">
+        <h1 class="font-sans text-xl font-semibold text-gray-900">
           Order Summary
         </h1>
         <p class="mt-2 text-sm font-bold text-gray-700">
           <span
-            class="text-base font-bold leading-relaxed font-sans text-gray-900"
+            class="font-sans text-base font-bold leading-relaxed text-gray-900"
             >Quote Number: </span
           ><span
-            class="text-base font-sans font-bold leading-relaxed text-red-600"
+            class="font-sans text-base font-bold leading-relaxed text-red-600"
           >
             HPL-2{{ quoteNumber }}</span
           ><br />
           For:
-          <span class="font-normal font-sans">{{ firstname }} {{ space }}</span>
-          <span class="font-normal font-sans"> {{ lastname }}</span
+          <span class="font-sans font-normal">{{ firstname }} {{ space }}</span>
+          <span class="font-sans font-normal"> {{ lastname }}</span
           ><br />
           Pick up Date:
-          <time class="font-normal font-sans" :datetime="pickupDate">{{
+          <time class="font-sans font-normal" :datetime="pickupDate">{{
             pickupDate
           }}</time>
           <br />
           Pick up Time:
-          <time class="font-normal font-sans" :datetime="pickupTime">{{
+          <time class="font-sans font-normal" :datetime="pickupTime">{{
             pickupTime
           }}</time>
         </p>
@@ -101,7 +101,7 @@ const space = ' '
         <button
           @click="printSummary"
           type="button"
-          class="inline-flex items-center font-sans justify-center px-4 py-2 text-sm font-medium tracking-wider text-white uppercase border border-transparent rounded-md shadow-sm bg-primary hover:bg-primary focus:ring-primary focus:outline-none focus:ring-2 focus:ring-offset-2 sm:w-auto"
+          class="inline-flex items-center justify-center px-4 py-2 font-sans text-sm font-medium tracking-wider text-white uppercase border border-transparent rounded-md shadow-sm bg-primary hover:bg-primary focus:ring-primary focus:outline-none focus:ring-2 focus:ring-offset-2 sm:w-auto"
         >
           Print
         </button>
@@ -115,7 +115,7 @@ const space = ' '
               scope="col"
               class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 md:pl-0"
             >
-              <span class="sm:hidden font-sans">Details</span>
+              <span class="font-sans sm:hidden">Details</span>
               <span class="invisible font-sans sm:visible">Routing</span>
             </th>
 
@@ -143,18 +143,18 @@ const space = ' '
           <tr class="border-b border-gray-200">
             <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
               <div class="mt-0.5 text-gray-500 sm:hidden">
-                <span class="font-bold text-gray-900 font-sans">Routing </span>
+                <span class="font-sans font-bold text-gray-900">Routing </span>
               </div>
               <div class="font-normal text-gray-500">
-                <span class="font-bold text-gray-900 font-sans">PU: </span
+                <span class="font-sans font-bold text-gray-900">PU: </span
                 >{{ origin }}
               </div>
               <div class="font-normal text-gray-500">
-                <span class="font-bold text-gray-900 font-sans">DO: </span>
+                <span class="font-sans font-bold text-gray-900">DO: </span>
                 {{ destination }}
               </div>
               <div class="mt-0.5 text-gray-500 sm:hidden">
-                <span class="font-bold text-gray-900 font-sans"
+                <span class="font-sans font-bold text-gray-900"
                   >Vehicle Type:
                 </span>
                 {{ service }}<br /><span class="font-bold text-gray-900"
@@ -163,17 +163,17 @@ const space = ' '
               </div>
             </td>
             <td
-              class="hidden px-3 py-4 text-sm font-sans text-right text-gray-500 sm:table-cell"
+              class="hidden px-3 py-4 font-sans text-sm text-right text-gray-500 sm:table-cell"
             >
               {{ service }}
             </td>
             <td
-              class="hidden px-3 py-4 text-sm font-sans text-right text-gray-500 sm:table-cell"
+              class="hidden px-3 py-4 font-sans text-sm text-right text-gray-500 sm:table-cell"
             >
               {{ vehicle }}
             </td>
             <td
-              class="py-4 pl-3 pr-4 text-sm font-sans text-right text-gray-500 sm:pr-6 md:pr-0"
+              class="py-4 pl-3 pr-4 font-sans text-sm text-right text-gray-500 sm:pr-6 md:pr-0"
             >
               ${{ subtotalWithoutTax }}
             </td>
@@ -181,38 +181,38 @@ const space = ' '
           <tr v-if="isRoundTrip === 'Yes'" class="border-b border-gray-200">
             <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
               <div class="mt-0.5 text-gray-500 sm:hidden">
-                <span class="font-bold font-sans text-gray-900">Routing </span>
+                <span class="font-sans font-bold text-gray-900">Routing </span>
               </div>
               <div class="font-normal text-gray-500">
-                <span class="font-bold font-sans text-gray-900">PU: </span
+                <span class="font-sans font-bold text-gray-900">PU: </span
                 >{{ destination }}
               </div>
               <div class="font-normal text-gray-500">
-                <span class="font-bold font-sans text-gray-900">DO: </span>
+                <span class="font-sans font-bold text-gray-900">DO: </span>
                 {{ origin }}
               </div>
               <div class="mt-0.5 text-gray-500 sm:hidden">
-                <span class="font-bold font-sans text-gray-900"
+                <span class="font-sans font-bold text-gray-900"
                   >Vehicle Type:
                 </span>
                 {{ service }}<br /><span
-                  class="font-bold font-sans text-gray-900"
+                  class="font-sans font-bold text-gray-900"
                   >Service Type: </span
                 >{{ vehicle }}
               </div>
             </td>
             <td
-              class="hidden px-3 py-4 text-sm text-right font-sans text-gray-500 sm:table-cell"
+              class="hidden px-3 py-4 font-sans text-sm text-right text-gray-500 sm:table-cell"
             >
               {{ service }}
             </td>
             <td
-              class="hidden px-3 py-4 text-sm text-right font-sans text-gray-500 sm:table-cell"
+              class="hidden px-3 py-4 font-sans text-sm text-right text-gray-500 sm:table-cell"
             >
               {{ vehicle }}
             </td>
             <td
-              class="py-4 pl-3 pr-4 text-sm text-right font-sans text-gray-500 sm:pr-6 md:pr-0"
+              class="py-4 pl-3 pr-4 font-sans text-sm text-right text-gray-500 sm:pr-6 md:pr-0"
             >
               ${{ subtotalWithoutTax }}
             </td>
@@ -223,18 +223,18 @@ const space = ' '
             <th
               scope="row"
               colspan="3"
-              class="hidden pt-6 pl-6 pr-3 text-sm font-normal font-sans text-right text-gray-500 sm:table-cell md:pl-0"
+              class="hidden pt-6 pl-6 pr-3 font-sans text-sm font-normal text-right text-gray-500 sm:table-cell md:pl-0"
             >
               Subtotal
             </th>
             <th
               scope="row"
-              class="pt-6 pl-4 pr-3 text-sm font-normal font-sans text-left text-gray-500 sm:hidden"
+              class="pt-6 pl-4 pr-3 font-sans text-sm font-normal text-left text-gray-500 sm:hidden"
             >
               Subtotal
             </th>
             <td
-              class="pt-6 pl-3 pr-4 text-sm text-right font-sans text-gray-500 sm:pr-6 md:pr-0"
+              class="pt-6 pl-3 pr-4 font-sans text-sm text-right text-gray-500 sm:pr-6 md:pr-0"
             >
               ${{ roundTripSubtotalWithoutTax }}
             </td>
@@ -243,18 +243,18 @@ const space = ' '
             <th
               scope="row"
               colspan="3"
-              class="hidden pt-4 pl-6 pr-3 text-sm font-sans font-normal text-right text-gray-500 sm:table-cell md:pl-0"
+              class="hidden pt-4 pl-6 pr-3 font-sans text-sm font-normal text-right text-gray-500 sm:table-cell md:pl-0"
             >
               HST
             </th>
             <th
               scope="row"
-              class="pt-4 pl-4 pr-3 text-sm font-sans font-normal text-left text-gray-500 sm:hidden"
+              class="pt-4 pl-4 pr-3 font-sans text-sm font-normal text-left text-gray-500 sm:hidden"
             >
               HST
             </th>
             <td
-              class="pt-4 pl-3 pr-4 text-sm font-sans text-right text-gray-500 sm:pr-6 md:pr-0"
+              class="pt-4 pl-3 pr-4 font-sans text-sm text-right text-gray-500 sm:pr-6 md:pr-0"
             >
               ${{ tax }}
             </td>
@@ -269,12 +269,12 @@ const space = ' '
             </th>
             <th
               scope="row"
-              class="pt-3 pl-4 pr-3 text-sm font-sans font-semibold text-left text-gray-900 sm:hidden"
+              class="pt-3 pl-4 pr-3 font-sans text-sm font-semibold text-left text-gray-900 sm:hidden"
             >
               Total
             </th>
             <td
-              class="pt-3 pl-3 pr-4 text-sm font-sans font-semibold text-right text-gray-900 sm:pr-6 md:pr-0"
+              class="pt-3 pl-3 pr-4 font-sans text-sm font-semibold text-right text-gray-900 sm:pr-6 md:pr-0"
             >
               ${{ totalAmount }}
             </td>
@@ -289,7 +289,7 @@ const space = ' '
                 class="flex flex-col items-start gap-4 mt-4 mb-6 med:justify-between md:flex-row"
               >
                 <div class="flex flex-col mb-2">
-                  <p class="text-base font-sans font-bold text-black">
+                  <p class="font-sans text-base font-bold text-black">
                     We require a credit card to hold your reservation
                   </p>
                   <p class="text-sm font-sans text-red-700 max-w-[65ch]">
@@ -299,13 +299,13 @@ const space = ' '
                   </p>
                 </div>
                 <div class="flex flex-col">
-                  <p class="text-base font-sans font-bold text-black">
+                  <p class="font-sans text-base font-bold text-black">
                     Card is not charged until the completion of your trip
                   </p>
-                  <p class="text-sm font-sans text-red-700">
+                  <p class="font-sans text-sm text-red-700">
                     All prices include taxes, surcharges and gratuity
                   </p>
-                  <p class="text-sm font-sans text-red-700">
+                  <p class="font-sans text-sm text-red-700">
                     **Does not include hwy tolls, parking fees, or any extra
                     fees incurred during the trip
                   </p>
