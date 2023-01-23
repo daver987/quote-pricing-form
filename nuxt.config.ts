@@ -30,7 +30,11 @@ export default defineNuxtConfig({
       'vue-tel-input',
     ],
   },
-  css: ['vue-tel-input/dist/vue-tel-input.css'],
+  css: [
+    'vue-tel-input/dist/vue-tel-input.css',
+    'ag-grid-community/styles/ag-grid.css',
+    'ag-grid-community/styles/ag-theme-alpine.css',
+  ],
   runtimeConfig: {
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,

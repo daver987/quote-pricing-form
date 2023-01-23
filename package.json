@@ -27,6 +27,9 @@
     "@vee-validate/zod": "^4.7.3",
     "@vueuse/math": "^9.11.1",
     "@vueuse/nuxt": "^9.11.1",
+    "ag-grid-community": "^29.0.0",
+    "ag-grid-enterprise": "^29.0.0",
+    "ag-grid-vue3": "^29.0.0",
     "ip": "^1.1.8",
     "nuxt": "npm:nuxt3@latest",
     "nuxt-icon": "^0.2.6",
@@ -38,7 +41,6 @@
     "vue-tel-input": "^6.0.5",
     "zod": "^3.20.2"
   },
-
   "overrides": {
     "vue": "latest"
   }
