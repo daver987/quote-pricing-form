@@ -5,17 +5,6 @@ const props = defineProps({
   }>,
 })
 let { text } = props.params
-
-const bookingPending = ref(false)
-const bookOrder = async (quoteInfo: any) => {
-  console.log(quoteInfo)
-  const { data, pending } = await useFetch('/api/book-order', {
-    method: 'POST',
-    body: quoteInfo,
-  })
-  await console.log(data.value)
-  bookingPending.value = pending.value
-}
 </script>
 
 <template>

@@ -35,6 +35,7 @@ export default defineNuxtConfig({
     'ag-grid-community/styles/ag-grid.css',
     'ag-grid-community/styles/ag-theme-alpine.css',
   ],
+  debug: true,
   runtimeConfig: {
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,

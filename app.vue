@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { Database } from '~/types/supabase'
-
-const supabase = useSupabaseClient<Database>()
-
 //npx supabase gen types typescript --project-id ssnrhskkuvkhgliiywdw --schema public > types/supabase.ts
 </script>
 

@@ -37,10 +37,10 @@ export default defineEventHandler(async (event) => {
     const { data, error } = await supabase
       .from('quotes')
       .update({ isBooked: true })
-      .eq('quote_number', body.quote_number)
+      .eq('id', body.id)
+      .select()
     await console.log('This is the data', data, 'This is the error', error)
   }
-
   await setIsBooked()
 
   await console.log('This is the body', body)

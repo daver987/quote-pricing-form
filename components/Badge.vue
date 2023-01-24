@@ -1,20 +1,21 @@
 <script lang="ts" setup>
 const props = defineProps({
-  isBooked: {
-    type: Boolean,
-    required: true,
-  },
+  params: Object as PropType<{
+    isBooked: boolean
+  }>,
 })
-let { isBooked } = props.params
+const isBooked = props.params.valueFormatted
+  ? props.params.valueFormatted
+  : props.params.value
 </script>
 
 <template>
   <span
     :class="[
-      isBooked ? 'bg-pink-100 text-pink-800' : 'bg-green-100 text-green-800',
+      isBooked ? 'bg-green-100 text-green-800' : 'bg-pink-100 text-pink-800',
     ]"
     class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium uppercase"
-    >{{ isBooked ? 'Quoted' : 'Booked' }}</span
+    >{{ isBooked ? 'Booked' : 'Quoted' }}</span
   >
 </template>
 

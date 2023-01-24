@@ -10,28 +10,7 @@ import { ReturnedQuote } from '~/schema/returnedFormData'
 import { useUserStore } from '~/stores/useUserStore'
 import { storeToRefs } from 'pinia'
 import { z } from 'zod'
-import { DirectionsSchema } from '~/server/api/get-distance.get'
-import {
-  tripDataSchema,
-  placeDataSchema,
-  PlaceData,
-  TripData,
-} from '~~/types/data'
-import { useGtm } from '@gtm-support/vue-gtm'
-
-const gtm = useGtm()
-
-function triggerEvent() {
-  //@ts-ignore
-  gtm.trackEvent({
-    event: 'submitQuote',
-    category: 'Request quote',
-    action: 'click',
-    label: 'Request Quote',
-    value: 1,
-    noninteraction: false,
-  })
-}
+import { TripData } from '~~/types/data'
 
 const selectFormData = z.object({
   label: z.string(),
