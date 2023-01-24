@@ -46,8 +46,9 @@ const columnDefs = reactive({
       field: 'quote_number',
       filter: 'agNumberColumnFilter',
       sort: 'desc',
-      maxWidth: 100,
+      maxWidth: 120,
       resizeable: false,
+      cellRenderer: (params: any) => 'HPL-' + `${params.value}`,
       cellStyle: { color: 'red', 'font-weight': 'bold' },
     },
     {
