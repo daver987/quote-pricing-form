@@ -4,5 +4,5 @@ export default defineNuxtPlugin((nuxtApp) => {
   const VueTelInputOptions = {
     mode: 'international',
   }
-  nuxtApp.vueApp.use(VueTelInput, VueTelInputOptions)
+  nuxtApp.vueApp.component('VueTelInput', VueTelInputOptions)
 })

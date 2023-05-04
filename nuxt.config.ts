@@ -6,14 +6,18 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' },
     layoutTransition: { name: 'layout', mode: 'out-in' },
   },
+
   nitro: {
     preset: 'vercel',
   },
+
   modules: [
+    '@nuxt/devtools',
     '@vueuse/nuxt',
     '@nuxtjs/tailwindcss',
     'nuxt-icon',
     '@nuxtjs/supabase',
+    '@formkit/nuxt',
     [
       '@pinia/nuxt',
       {
@@ -21,21 +25,19 @@ export default defineNuxtConfig({
       },
     ],
   ],
+
   build: {
     transpile: [
       '@googlemaps/js-api-loader',
-      '@heroicons/vue',
       '@headlessui/vue',
       'libphonenumber-js',
       'vue-tel-input',
+      '@vee-validate/nuxt',
     ],
   },
-  css: [
-    'vue-tel-input/dist/vue-tel-input.css',
-    'ag-grid-community/styles/ag-grid.css',
-    'ag-grid-community/styles/ag-theme-alpine.css',
-  ],
-  debug: true,
+
+  css: ['vue-tel-input/vue-tel-input.css', '~/assets/css/main.css'],
+
   runtimeConfig: {
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,

@@ -1,3 +1,4 @@
+navigation.ts
 function useFareCalculator(baseAmount: number, roundTrip: boolean) {
   // Calculate the fuel surcharge as 8% of the base amount
   const fuelSurcharge = baseAmount * 0.08

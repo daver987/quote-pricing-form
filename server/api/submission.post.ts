@@ -179,7 +179,7 @@ export default defineEventHandler(async (event) => {
     console.log(totalAmount) // "130.00"
 
     const hplUserId = ref('')
-    // add a user to the database
+    // add a user-[group] to the database
     const addUser = async () => {
       const { data, error } = await supabase
         .from('user')
@@ -276,7 +276,7 @@ export default defineEventHandler(async (event) => {
           firstName,
           lastName,
           userId: hplUserId.value,
-          roundTripTotal: roundTripAmount(),
+          roundTripTotal: roundTripAmount() as number,
           airportFee: setPearsonAirportFee(),
         })
         .select()

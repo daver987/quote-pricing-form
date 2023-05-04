@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { CalendarIcon, XMarkIcon } from '@heroicons/vue/20/solid'
 import {
   DialogPanel,
   TransitionChild,
@@ -7,9 +6,10 @@ import {
   Dialog,
 } from '@headlessui/vue'
 import { useField } from 'vee-validate'
+import { Ref } from 'vue'
 
-const open = ref<boolean>(false)
-const selectedDate = ref('')
+const open: Ref<boolean> = ref(false)
+const selectedDate: Ref<string> = ref('')
 
 const props = defineProps({
   value: {
@@ -67,13 +67,13 @@ const updateDate = (date: string, isOpen: boolean) => {
           leave-to="opacity-0"
         >
           <div
-            class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
+            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
           />
         </TransitionChild>
 
         <div class="fixed inset-0 z-10 overflow-y-auto">
           <div
-            class="flex items-end justify-center min-h-full text-center sm:items-center sm:p-0"
+            class="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0"
           >
             <TransitionChild
               as="template"
@@ -85,22 +85,30 @@ const updateDate = (date: string, isOpen: boolean) => {
               leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <DialogPanel
-                class="relative max-w-xs pt-2 pb-8 overflow-hidden transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full"
+                class="relative max-w-xs transform overflow-hidden rounded-lg bg-white pb-8 pt-2 shadow-xl transition-all sm:my-8 sm:w-full"
               >
                 <div
-                  class="absolute bottom-0 right-0 hidden pt-4 pr-4 sm:block"
+                  class="absolute bottom-0 right-0 hidden pr-4 pt-4 sm:block"
                 >
                   <button
                     v-if="false"
                     type="button"
-                    class="text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                    class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                     @click="open = false"
                   >
                     <span class="sr-only">Close</span>
-                    <XMarkIcon class="w-6 h-6" aria-hidden="true" />
+                    <Icon
+                      name="heroicons:x-mark"
+                      class="h-6 w-6"
+                      aria-hidden="true"
+                    />
                   </button>
                 </div>
-                <Calendar class="mx-auto mt-4" @date="updateDate" />
+                <Icon
+                  name="heroicons:calendar-days"
+                  class="mx-auto mt-4"
+                  @date="updateDate"
+                />
               </DialogPanel>
             </TransitionChild>
           </div>
@@ -115,7 +123,7 @@ const updateDate = (date: string, isOpen: boolean) => {
         <div class="absolute inset-y-0 left-0 flex items-center pl-3">
           <CalendarIcon
             @click="toggleCalendar"
-            class="w-5 h-5 text-gray-400 cursor-pointer"
+            class="h-5 w-5 cursor-pointer text-gray-400"
             aria-hidden="true"
             role="button"
           />
@@ -128,7 +136,7 @@ const updateDate = (date: string, isOpen: boolean) => {
           @input="handleChange"
           :value="inputValue"
           type="text"
-          class="block w-full pl-10 placeholder-gray-400 border-gray-300 rounded focus:border-brand focus:ring-brand sm:text-sm"
+          class="block w-full rounded border-gray-300 pl-10 placeholder-gray-400 focus:border-brand focus:ring-brand sm:text-sm"
         />
       </div>
       <div v-if="!showError" class="flex">

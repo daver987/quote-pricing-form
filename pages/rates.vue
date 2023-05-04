@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
-import { PlusIcon as PlusIconMini } from '@heroicons/vue/20/solid'
 
 definePageMeta({
   name: 'Rates',
@@ -25,13 +24,11 @@ const { data: vehicleType } = await useAsyncData('vehicle_type', async () => {
   const { data } = await supabase.from('vehicle_type').select()
   return data
 })
-console.log(vehicleType.value)
 
 const { data: surcharges } = await useAsyncData('surcharges', async () => {
   const { data } = await supabase.from('surcharges').select()
   return data
 })
-console.log(surcharges.value)
 </script>
 
 <template>
@@ -53,9 +50,13 @@ console.log(surcharges.value)
                 <button
                   @click="toggleVehicleType"
                   type="button"
-                  class="inline-flex items-center p-1 text-white border border-transparent rounded-full shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                  class="inline-flex items-center rounded-full border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                 >
-                  <PlusIconMini class="w-5 h-5" aria-hidden="true" />
+                  <Icon
+                    name="heroicons:plus-small"
+                    class="h-5 w-5"
+                    aria-hidden="true"
+                  />
                 </button>
               </div>
             </div>
@@ -66,13 +67,13 @@ console.log(surcharges.value)
                     <div class="px-4 py-4 sm:px-6">
                       <div class="flex items-center justify-between">
                         <p
-                          class="font-sans text-sm font-medium truncate text-brand-600"
+                          class="truncate font-sans text-sm font-medium text-brand-600"
                         >
                           {{ rate.name }}
                         </p>
-                        <div class="flex flex-shrink-0 ml-2">
+                        <div class="ml-2 flex flex-shrink-0">
                           <p
-                            class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full"
+                            class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
                           >
                             {{ rate.is_active ? 'Active' : 'Inactive' }}
                           </p>
@@ -159,7 +160,7 @@ console.log(surcharges.value)
                         </div>
 
                         <div
-                          class="flex items-center mt-2 text-sm text-gray-500 sm:mt-0"
+                          class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0"
                         >
                           <Icon
                             name="heroicons:pencil"
@@ -196,9 +197,9 @@ console.log(surcharges.value)
                 <button
                   @click="openSurcharges = !openSurcharges"
                   type="button"
-                  class="inline-flex items-center p-1 text-white border border-transparent rounded-full shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                  class="inline-flex items-center rounded-full border border-transparent bg-brand-600 p-1 text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                 >
-                  <PlusIconMini class="w-5 h-5" aria-hidden="true" />
+                  <PlusIconMini class="h-5 w-5" aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -209,13 +210,13 @@ console.log(surcharges.value)
                     <div class="px-4 py-4 sm:px-6">
                       <div class="flex items-center justify-between">
                         <p
-                          class="font-sans text-sm font-medium truncate text-brand-600"
+                          class="truncate font-sans text-sm font-medium text-brand-600"
                         >
                           {{ surcharge.name }}
                         </p>
-                        <div class="flex flex-shrink-0 ml-2">
+                        <div class="ml-2 flex flex-shrink-0">
                           <p
-                            class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full"
+                            class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
                           >
                             {{ surcharge.is_active ? 'Active' : 'Inactive' }}
                           </p>
@@ -319,7 +320,7 @@ console.log(surcharges.value)
                         </div>
 
                         <div
-                          class="flex items-center mt-2 text-sm text-gray-500 sm:mt-0"
+                          class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0"
                         >
                           <Icon
                             name="heroicons:pencil"

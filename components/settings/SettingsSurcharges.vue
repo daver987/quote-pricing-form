@@ -6,7 +6,6 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
   isOpen: {
@@ -15,7 +14,6 @@ const props = defineProps({
     default: false,
   },
 })
-
 
 const surchargeName = ref('')
 const surchargeAmount = ref(0)
@@ -51,13 +49,13 @@ const createSurcharge = async () => {
 
 <template>
   <TransitionRoot as="template" :show="isOpen">
-    <Dialog as="div" class="relative z-10" @close="isOpen = false">
+    <Dialog as="div" class="z-100 relative" @close="isOpen = false">
       <div class="fixed inset-0" />
 
       <div class="fixed inset-0 overflow-hidden">
         <div class="absolute inset-0 overflow-hidden">
           <div
-            class="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none sm:pl-16"
+            class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16"
           >
             <TransitionChild
               as="template"
@@ -68,24 +66,28 @@ const createSurcharge = async () => {
               leave-from="translate-x-0"
               leave-to="translate-x-full"
             >
-              <DialogPanel class="w-screen max-w-md pointer-events-auto">
+              <DialogPanel class="pointer-events-auto w-screen max-w-md">
                 <form
-                  class="flex flex-col h-full bg-white divide-y divide-gray-200 shadow-xl"
+                  class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
                 >
-                  <div class="flex-1 h-0 overflow-y-auto">
-                    <div class="px-4 py-6 bg-brand-700 sm:px-6">
+                  <div class="h-0 flex-1 overflow-y-auto">
+                    <div class="bg-brand-700 px-4 py-6 sm:px-6">
                       <div class="flex items-center justify-between">
                         <DialogTitle class="text-lg font-medium text-white"
                           >New Surcharge
                         </DialogTitle>
-                        <div class="flex items-center ml-3 h-7">
+                        <div class="ml-3 flex h-7 items-center">
                           <button
                             type="button"
                             class="rounded-md bg-brand-700 text-brand-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
                             @click="isOpen = false"
                           >
                             <span class="sr-only">Close panel</span>
-                            <XMarkIcon class="w-6 h-6" aria-hidden="true" />
+                            <Icon
+                              name="heroicons:x-mark"
+                              class="h-6 w-6"
+                              aria-hidden="true"
+                            />
                           </button>
                         </div>
                       </div>
@@ -96,9 +98,9 @@ const createSurcharge = async () => {
                         </p>
                       </div>
                     </div>
-                    <div class="flex flex-col justify-between flex-1">
-                      <div class="px-4 divide-y divide-gray-200 sm:px-6">
-                        <div class="pt-6 pb-5 space-y-6">
+                    <div class="flex flex-1 flex-col justify-between">
+                      <div class="divide-y divide-gray-200 px-4 sm:px-6">
+                        <div class="space-y-6 pb-5 pt-6">
                           <div>
                             <label
                               for="surcharge-name"
@@ -111,7 +113,7 @@ const createSurcharge = async () => {
                                 type="text"
                                 name="surcharge-name"
                                 id="surcharge-name"
-                                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
                               />
                             </div>
                           </div>
@@ -127,21 +129,21 @@ const createSurcharge = async () => {
                                 type="number"
                                 name="surcharge-amount"
                                 id="surcharge-amount"
-                                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
                               />
                             </div>
                           </div>
                           <fieldset class="space-y-5">
                             <legend class="sr-only">Surcharges</legend>
                             <div class="relative flex items-start">
-                              <div class="flex items-center h-5">
+                              <div class="flex h-5 items-center">
                                 <input
                                   v-model="isPercentage"
                                   id="percentage"
                                   aria-describedby="percentage-description"
                                   name="percentage"
                                   type="checkbox"
-                                  class="w-4 h-4 border-gray-300 rounded text-brand-600 focus:ring-brand"
+                                  class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand"
                                 />
                               </div>
                               <div class="ml-3 text-sm">
@@ -160,14 +162,14 @@ const createSurcharge = async () => {
                               </div>
                             </div>
                             <div class="relative flex items-start">
-                              <div class="flex items-center h-5">
+                              <div class="flex h-5 items-center">
                                 <input
                                   v-model="isFlat"
                                   id="flat-rate"
                                   aria-describedby="rate-description"
                                   name="flat-rate"
                                   type="checkbox"
-                                  class="w-4 h-4 border-gray-300 rounded text-brand-600 focus:ring-brand"
+                                  class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand"
                                 />
                               </div>
                               <div class="ml-3 text-sm">
@@ -185,14 +187,14 @@ const createSurcharge = async () => {
                               </div>
                             </div>
                             <div class="relative flex items-start">
-                              <div class="flex items-center h-5">
+                              <div class="flex h-5 items-center">
                                 <input
                                   v-model="isTaxable"
                                   id="taxable"
                                   aria-describedby="taxable-description"
                                   name="taxable"
                                   type="checkbox"
-                                  class="w-4 h-4 border-gray-300 rounded text-brand-600 focus:ring-brand"
+                                  class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand"
                                 />
                               </div>
                               <div class="ml-3 text-sm">
@@ -222,7 +224,7 @@ const createSurcharge = async () => {
                                 id="description"
                                 name="description"
                                 rows="4"
-                                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
                               />
                             </div>
                           </div>
@@ -234,10 +236,10 @@ const createSurcharge = async () => {
                       </div>
                     </div>
                   </div>
-                  <div class="flex justify-end flex-shrink-0 px-4 py-4">
+                  <div class="flex flex-shrink-0 justify-end px-4 py-4">
                     <button
                       type="button"
-                      class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                      class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                       @click="isOpen = false"
                     >
                       Cancel
@@ -245,7 +247,7 @@ const createSurcharge = async () => {
                     <button
                       @click="isOpen = false"
                       type="button"
-                      class="inline-flex justify-center px-4 py-2 ml-4 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                      class="ml-4 inline-flex justify-center rounded-md border border-transparent bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
                     >
                       Save
                     </button>

@@ -1,5 +1,4 @@
 <script setup>
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import {
   Listbox,
   ListboxButton,
@@ -71,13 +70,17 @@ defineEmits(['update:modelValue'])
     <div class="relative mt-1">
       <ListboxButton
         :class="classes"
-        class="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded shadow-sm cursor-default focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand sm:text-sm"
+        class="relative w-full cursor-default rounded border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand sm:text-sm"
       >
-        <span class="block capitalize truncate">{{ modelValue.label }}</span>
+        <span class="block truncate capitalize">{{ modelValue.label }}</span>
         <span
-          class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
-          <ChevronUpDownIcon class="w-5 h-5 text-gray-400" aria-hidden="true" />
+          <Icon
+            name="heroicons:chevron-up-down"
+            class="h-5 w-5 text-gray-400"
+            aria-hidden="true"
+          />
         </span>
       </ListboxButton>
 
@@ -90,7 +93,7 @@ defineEmits(['update:modelValue'])
         leave-to-class="transform scale-95 opacity-0"
       >
         <ListboxOptions
-          class="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded shadow-lg max-h-48 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+          class="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         >
           <ListboxOption
             as="template"
@@ -102,7 +105,7 @@ defineEmits(['update:modelValue'])
           >
             <li
               :class="[
-                active ? 'text-white bg-brand-600' : 'text-gray-900',
+                active ? 'bg-brand-600 text-white' : 'text-gray-900',
                 'relative cursor-default select-none py-2 pl-8 pr-4',
               ]"
             >
@@ -124,7 +127,11 @@ defineEmits(['update:modelValue'])
                   'absolute inset-y-0 left-0 flex items-center pl-1.5',
                 ]"
               >
-                <CheckIcon class="w-5 h-5" aria-hidden="true" />
+                <Icon
+                  name="heroicons:check"
+                  class="h-5 w-5"
+                  aria-hidden="true"
+                />
               </span>
             </li>
           </ListboxOption>

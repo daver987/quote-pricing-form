@@ -1,6 +1,4 @@
-<script setup lang="ts">
-//npx supabase gen types typescript --project-id ssnrhskkuvkhgliiywdw --schema public > types/supabase.ts
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <NuxtLayout>

@@ -19,10 +19,6 @@ const sortedQuotes = async () =>
   ))
 await sortedQuotes()
 
-// quoteData.value = [...quotes.value].sort(
-//   (a, b) => a.quote_number - b.quote_number
-// )
-
 const refresh = () => refreshNuxtData('quotes')
 
 const bookingPending = ref(false)
@@ -47,16 +43,16 @@ console.log('Quotes: ', quotes.value)
       <div class="sm:flex-auto">
         <h1 class="text-xl font-semibold text-gray-900"></h1>
       </div>
-      <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
         <button
           type="button"
-          class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 sm:w-auto"
+          class="inline-flex items-center justify-center rounded-md border border-transparent bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 sm:w-auto"
         >
           Add Quote
         </button>
       </div>
     </div>
-    <div class="flex flex-col mt-8">
+    <div class="mt-8 flex flex-col">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle">
           <div
@@ -115,16 +111,16 @@ console.log('Quotes: ', quotes.value)
                   </th>
                 </tr>
               </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
+              <tbody class="divide-y divide-gray-200 bg-white">
                 <tr v-for="quote in quoteData" :key="quote.quote_number">
                   <td
                     ref="tableRow"
-                    class="py-4 pl-4 pr-3 text-sm text-red-500 whitespace-nowrap sm:pl-6 lg:pl-8"
+                    class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-red-500 sm:pl-6 lg:pl-8"
                   >
                     HPL-{{ quote.quote_number }}
                   </td>
                   <td
-                    class="px-3 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"
+                    class="whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900"
                   >
                     <span>{{ quote.firstName }} {{ quote.lastName }}</span
                     ><br />
@@ -139,13 +135,13 @@ console.log('Quotes: ', quotes.value)
                       >{{ quote.phone_number }}</a
                     ><br />
                   </td>
-                  <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <span>{{ quote.vehicleTypeLabel }}</span
                     ><br />
                     <span>{{ quote.serviceTypeLabel }}</span>
                   </td>
                   <td
-                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-ellipsis overflow-hidden max-w-[24ch]"
+                    class="max-w-[24ch] overflow-hidden text-ellipsis whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                   >
                     <span class="font-sans font-semibold text-gray-600"
                       >{{ quote.pickupDate }} {{ quote.pickupTime }}</span
@@ -155,45 +151,45 @@ console.log('Quotes: ', quotes.value)
                     <span>{{ quote.destinationName }}</span>
                   </td>
                   <td
-                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-ellipsis overflow-hidden max-w-[24ch]"
+                    class="max-w-[24ch] overflow-hidden text-ellipsis whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                   >
                     <div v-if="quote.isRoundTrip">
                       <span
-                        class="font-sans font-semibold text-gray-600 text-ellipsis overflow-hidden max-w-[24ch]"
+                        class="max-w-[24ch] overflow-hidden text-ellipsis font-sans font-semibold text-gray-600"
                         >{{ quote.returnDate }} {{ quote.returnTime }}</span
                       ><br />
                       <span
-                        class="text-ellipsis overflow-hidden max-w-[24ch]"
+                        class="max-w-[24ch] overflow-hidden text-ellipsis"
                         >{{ quote.destinationName }}</span
                       >
                       <br />
                       <span
-                        class="text-ellipsis overflow-hidden max-w-[24ch]"
+                        class="max-w-[24ch] overflow-hidden text-ellipsis"
                         >{{ quote.originName }}</span
                       >
                     </div>
                   </td>
-                  <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     ${{ quote.roundTripTotal.toFixed(2) }}
                   </td>
-                  <td class="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <span
                       v-if="!quote.isBooked"
-                      class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full"
+                      class="inline-flex rounded-full bg-red-100 px-2 text-xs font-semibold leading-5 text-red-800"
                       >{{ bookingPending ? 'loading...' : 'Quoted' }}</span
                     >
                     <span
                       v-else
-                      class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full"
+                      class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
                       >{{ bookingPending ? 'loading...' : 'Booked' }}</span
                     >
                   </td>
                   <td
-                    class="relative py-4 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap sm:pr-6 lg:pr-8"
+                    class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 lg:pr-8"
                   >
                     <span
                       @click="bookOrder(quote)"
-                      class="text-brand-600 hover:text-brand-900 cursor-pointer"
+                      class="cursor-pointer text-brand-600 hover:text-brand-900"
                       >Book</span
                     >
                   </td>

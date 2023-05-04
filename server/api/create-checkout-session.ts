@@ -1,5 +1,4 @@
 import { Stripe } from 'stripe'
-import { Session } from '~/types/session'
 
 const YOUR_DOMAIN = useRuntimeConfig().public.WEBSITE_URL
 const STRIPE_SECRET_KEY = useRuntimeConfig().STRIPE_SECRET_KEY
@@ -22,7 +21,7 @@ export default defineEventHandler(async (event) => {
       })
       console.log('customer info', customer)
 
-      const session = <Session>await stripe.checkout.sessions.create({
+      const session = await stripe.checkout.sessions.create({
         billing_address_collection: 'auto',
         mode: 'setup',
         payment_method_types: ['card'],
@@ -40,7 +39,7 @@ export default defineEventHandler(async (event) => {
         sessionId: session.id,
       }
     }
-    const session = <Session>await stripe.checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
       billing_address_collection: 'auto',
       mode: 'setup',
       payment_method_types: ['card'],

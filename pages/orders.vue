@@ -4,12 +4,12 @@ definePageMeta({
   layout: 'default',
   middleware: ['auth'],
 })
+
+const { data: quotes } = useFetch('/api/quotes.get')
 </script>
 
 <template>
-  <div class="bg-gray-100">
-    <h1>Orders</h1>
-  </div>
+  <div class="bg-gray-100"></div>
 </template>
 
 <style scoped></style>
